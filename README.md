@@ -6,6 +6,20 @@
 
 Introductory information for getting started is located at [CONTRIBUTING.md](CONTRIBUTING.md)
 
+## About Our Team:
+
+### Team: KGB (Kuhn the General Boss)
+
+Project Manager: Yejin Shin - yejin.shin@stonybrook.edu
+Lead Programmer: Zhanarbek Osmonaliev - zhanarbek.osmonaliev@stonybrook.edu
+Product Owner: Hasung Jun - hasung.jun@stonybrook.edu
+Designer: Fabio Calero - fabio.calero@stonybrook.edu
+
+## Tentative Target User:
+
+An individual user who wants to organize or customize own Homepage. 
+A company or organization that wants to share the Homepage to increase the efficiency of a work. 
+
 ## Problem Statement:
 
 Safari and Chrome have very limited options for managing and organizing bookmarks. When a user adds bookmarks, they usually appear unorganized and spread without any meaningful layout. We propose a web application that will serve as a replacement for Safari and Chrome homepages and will allow the user to “pretty up” their startup page and organize their bookmarks, make to-do lists, add customizable widgets, and take notes all in one place.
@@ -14,9 +28,5 @@ Safari and Chrome have very limited options for managing and organizing bookmark
 
 Our solution is to create a webpage that serves as a startup page on any internet browser. This webpage will allow users to manage their bookmarks by categorizing them into folders. The webpage will also contain widgets for notes, to-do lists, and weather. Users need to sign up to save their bookmarks, notes, and settings. Users will be able to share their to-do lists with other users.
 
-## Team Members:
 
-- Project Manager: Yejin Shin
-- Lead Programmer: Zhanarbek Osmonaliev
-- Product Owner: Hasung Jun
-- Designer: Fabio Calero
+
