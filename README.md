@@ -12,7 +12,7 @@ Safari and Chrome have very limited options for managing and organizing bookmark
 
 ## Solution:
 
-Our solution is to create a webpage that serves as a startup page on any internet browser. This webpage will allow users to manage their bookmarks by categorizing them into folders. The webpage will also contain widgets for notes, to-do lists, and weather. Users need to sign up to save their bookmarks, notes and settings. Users will be able to share their to-do lists with other users.
+Our solution is to create a webpage that serves as a startup page on any internet browser. This webpage will allow users to manage their bookmarks by categorizing them into folders. The webpage will also contain widgets for notes, to-do lists, and weather. Users need to sign up to save their bookmarks, notes, and settings. Users will be able to share their to-do lists with other users.
 
 ## Team Members:
 
