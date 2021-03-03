@@ -10,10 +10,10 @@ Introductory information for getting started is located at [CONTRIBUTING.md](CON
 
 ### Team: KGB (Kuhn the General Boss)
 
-Project Manager: Yejin Shin - yejin.shin@stonybrook.edu
-Lead Programmer: Zhanarbek Osmonaliev - zhanarbek.osmonaliev@stonybrook.edu
-Product Owner: Hasung Jun - hasung.jun@stonybrook.edu
-Designer: Fabio Calero - fabio.calero@stonybrook.edu
+Project Manager: Yejin Shin - yejin.shin@stonybrook.edu <br />
+Lead Programmer: Zhanarbek Osmonaliev - zhanarbek.osmonaliev@stonybrook.edu <br />
+Product Owner: Hasung Jun - hasung.jun@stonybrook.edu <br />
+Designer: Fabio Calero - fabio.calero@stonybrook.edu <br />
 
 ## Tentative Target User:
 
@@ -28,5 +28,5 @@ Safari and Chrome have very limited options for managing and organizing bookmark
 
 Our solution is to create a webpage that serves as a startup page on any internet browser. This webpage will allow users to manage their bookmarks by categorizing them into folders. The webpage will also contain widgets for notes, to-do lists, and weather. Users need to sign up to save their bookmarks, notes, and settings. Users will be able to share their to-do lists with other users.
 
-
+Last Modified: 03/03/2021 11:58 PM
 
