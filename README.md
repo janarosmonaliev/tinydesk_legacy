@@ -17,7 +17,7 @@ Designer: Fabio Calero - fabio.calero@stonybrook.edu
 
 ## Tentative Target User:
 
-An individual user who wants to organize or customize own Homepage. 
+An individual user who wants to organize or customize own Homepage. <br />
 A company or organization that wants to share the Homepage to increase the efficiency of a work. 
 
 ## Problem Statement:
