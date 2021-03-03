@@ -1,6 +1,6 @@
 # project-416
 
-![Figma Prototype](https://github.com/janarosmonaliev/project-416/raw/master/src/images/figma-prototype.jpg)
+![Figma Prototype](src/images/figma-prototype.jpg?raw=true)
 
 ### Development
 
