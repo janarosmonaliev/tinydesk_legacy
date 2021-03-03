@@ -1,4 +1,4 @@
-# project-416
+# CSE416 Software Engineering Project (Temporary until website official name is decided)
 
 ![Figma Prototype](src/images/figma-prototype.jpg?raw=true)
 
@@ -28,5 +28,5 @@ Safari and Chrome have very limited options for managing and organizing bookmark
 
 Our solution is to create a webpage that serves as a startup page on any internet browser. This webpage will allow users to manage their bookmarks by categorizing them into folders. The webpage will also contain widgets for notes, to-do lists, and weather. Users need to sign up to save their bookmarks, notes, and settings. Users will be able to share their to-do lists with other users.
 
-Last Modified: 03/03/2021 11:58 PM
+Last Modified: 03/03/2021 11:59 PM
 
