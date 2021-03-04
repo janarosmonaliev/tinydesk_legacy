@@ -1,6 +1,6 @@
-# CSE416 Software Engineering Project (Temporary until website official name is decided)
+# CSE416 Software Engineering Project
 
-![Figma Prototype](src/images/figma-prototype.jpg?raw=true)
+[![Gatsby Build Test](https://github.com/janarosmonaliev/project-416/actions/workflows/gatsby-test.yml/badge.svg?branch=master)](https://github.com/janarosmonaliev/project-416/actions/workflows/gatsby-test.yml)
 
 ### Development
 
@@ -27,6 +27,8 @@ Safari and Chrome have very limited options for managing and organizing bookmark
 ## Solution:
 
 Our solution is to create a webpage that serves as a startup page on any internet browser. This webpage will allow users to manage their bookmarks by categorizing them into folders. The webpage will also contain widgets for notes, to-do lists, and weather. Users need to sign up to save their bookmarks, notes, and settings. Users will be able to share their to-do lists with other users.
+
+![Figma Prototype](src/images/figma-prototype.jpg?raw=true)
 
 Last Modified: 03/03/2021 11:59 PM
 
