@@ -1,0 +1,16 @@
+name: Gatsby Build Test
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: enriikke/gatsby-gh-pages-action@v2
+        with:
+          access-token: ${{ secrets.PROJECT_416_SECRET }}
+          skip-publish: true
