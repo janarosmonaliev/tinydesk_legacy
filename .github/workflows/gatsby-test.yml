@@ -13,4 +13,6 @@ jobs:
       - uses: enriikke/gatsby-gh-pages-action@v2
         with:
           access-token: ${{ secrets.PROJECT_416_SECRET }}
+          deploy-branch: gh-pages
+          gatsby-args: --prefix-paths
           skip-publish: true

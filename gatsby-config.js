@@ -1,4 +1,5 @@
 module.exports = {
+  pathPrefix: "/project-416",
   siteMetadata: {
     title: `Project 416`,
     description: `Personal homepage that replaces the default startuppage. It lets the user manage bookmarks, create to-do lists, and write notes`,
