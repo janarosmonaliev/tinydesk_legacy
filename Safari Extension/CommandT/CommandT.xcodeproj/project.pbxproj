@@ -1,0 +1,519 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		76F6E35825F7A07F00738F6C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F6E35725F7A07F00738F6C /* AppDelegate.swift */; };
+		76F6E35B25F7A07F00738F6C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76F6E35925F7A07F00738F6C /* Main.storyboard */; };
+		76F6E35D25F7A07F00738F6C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F6E35C25F7A07F00738F6C /* ViewController.swift */; };
+		76F6E35F25F7A08000738F6C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76F6E35E25F7A08000738F6C /* Assets.xcassets */; };
+		76F6E36625F7A08000738F6C /* CommandT Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 76F6E36525F7A08000738F6C /* CommandT Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		76F6E36B25F7A08000738F6C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76F6E36A25F7A08000738F6C /* Cocoa.framework */; };
+		76F6E36E25F7A08000738F6C /* SafariExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F6E36D25F7A08000738F6C /* SafariExtensionHandler.swift */; };
+		76F6E37325F7A08000738F6C /* script.js in Resources */ = {isa = PBXBuildFile; fileRef = 76F6E37225F7A08000738F6C /* script.js */; };
+		76F6E37525F7A08000738F6C /* ToolbarItemIcon.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 76F6E37425F7A08000738F6C /* ToolbarItemIcon.pdf */; };
+		76F6E38A25F7A09C00738F6C /* SafariExtensionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76F6E38825F7A09C00738F6C /* SafariExtensionViewController.xib */; };
+		76F6E38B25F7A09C00738F6C /* SafariExtensionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F6E38925F7A09C00738F6C /* SafariExtensionViewController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		76F6E36725F7A08000738F6C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 76F6E34B25F7A07F00738F6C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 76F6E36425F7A08000738F6C;
+			remoteInfo = "CommandT Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		76F6E38025F7A08000738F6C /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				76F6E36625F7A08000738F6C /* CommandT Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		76F6E35325F7A07F00738F6C /* CommandT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CommandT.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		76F6E35625F7A07F00738F6C /* CommandT.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CommandT.entitlements; sourceTree = "<group>"; };
+		76F6E35725F7A07F00738F6C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		76F6E35A25F7A07F00738F6C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		76F6E35C25F7A07F00738F6C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		76F6E35E25F7A08000738F6C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		76F6E36025F7A08000738F6C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		76F6E36525F7A08000738F6C /* CommandT Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "CommandT Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		76F6E36A25F7A08000738F6C /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		76F6E36D25F7A08000738F6C /* SafariExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariExtensionHandler.swift; sourceTree = "<group>"; };
+		76F6E37225F7A08000738F6C /* script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = script.js; sourceTree = "<group>"; };
+		76F6E37425F7A08000738F6C /* ToolbarItemIcon.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = ToolbarItemIcon.pdf; sourceTree = "<group>"; };
+		76F6E37925F7A08000738F6C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		76F6E37A25F7A08000738F6C /* CommandT_Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CommandT_Extension.entitlements; sourceTree = "<group>"; };
+		76F6E38825F7A09C00738F6C /* SafariExtensionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SafariExtensionViewController.xib; sourceTree = "<group>"; };
+		76F6E38925F7A09C00738F6C /* SafariExtensionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafariExtensionViewController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		76F6E35025F7A07F00738F6C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76F6E36225F7A08000738F6C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76F6E36B25F7A08000738F6C /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		76F6E34A25F7A07F00738F6C = {
+			isa = PBXGroup;
+			children = (
+				76F6E35525F7A07F00738F6C /* CommandT */,
+				76F6E36C25F7A08000738F6C /* CommandT Extension */,
+				76F6E36925F7A08000738F6C /* Frameworks */,
+				76F6E35425F7A07F00738F6C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		76F6E35425F7A07F00738F6C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				76F6E35325F7A07F00738F6C /* CommandT.app */,
+				76F6E36525F7A08000738F6C /* CommandT Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		76F6E35525F7A07F00738F6C /* CommandT */ = {
+			isa = PBXGroup;
+			children = (
+				76F6E35625F7A07F00738F6C /* CommandT.entitlements */,
+				76F6E35725F7A07F00738F6C /* AppDelegate.swift */,
+				76F6E35925F7A07F00738F6C /* Main.storyboard */,
+				76F6E35C25F7A07F00738F6C /* ViewController.swift */,
+				76F6E35E25F7A08000738F6C /* Assets.xcassets */,
+				76F6E36025F7A08000738F6C /* Info.plist */,
+			);
+			path = CommandT;
+			sourceTree = "<group>";
+		};
+		76F6E36925F7A08000738F6C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				76F6E36A25F7A08000738F6C /* Cocoa.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		76F6E36C25F7A08000738F6C /* CommandT Extension */ = {
+			isa = PBXGroup;
+			children = (
+				76F6E36D25F7A08000738F6C /* SafariExtensionHandler.swift */,
+				76F6E38925F7A09C00738F6C /* SafariExtensionViewController.swift */,
+				76F6E38825F7A09C00738F6C /* SafariExtensionViewController.xib */,
+				76F6E37925F7A08000738F6C /* Info.plist */,
+				76F6E37A25F7A08000738F6C /* CommandT_Extension.entitlements */,
+				76F6E37125F7A08000738F6C /* Resources */,
+			);
+			path = "CommandT Extension";
+			sourceTree = "<group>";
+		};
+		76F6E37125F7A08000738F6C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				76F6E37225F7A08000738F6C /* script.js */,
+				76F6E37425F7A08000738F6C /* ToolbarItemIcon.pdf */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		76F6E35225F7A07F00738F6C /* CommandT */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 76F6E38125F7A08000738F6C /* Build configuration list for PBXNativeTarget "CommandT" */;
+			buildPhases = (
+				76F6E34F25F7A07F00738F6C /* Sources */,
+				76F6E35025F7A07F00738F6C /* Frameworks */,
+				76F6E35125F7A07F00738F6C /* Resources */,
+				76F6E38025F7A08000738F6C /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				76F6E36825F7A08000738F6C /* PBXTargetDependency */,
+			);
+			name = CommandT;
+			productName = CommandT;
+			productReference = 76F6E35325F7A07F00738F6C /* CommandT.app */;
+			productType = "com.apple.product-type.application";
+		};
+		76F6E36425F7A08000738F6C /* CommandT Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 76F6E37D25F7A08000738F6C /* Build configuration list for PBXNativeTarget "CommandT Extension" */;
+			buildPhases = (
+				76F6E36125F7A08000738F6C /* Sources */,
+				76F6E36225F7A08000738F6C /* Frameworks */,
+				76F6E36325F7A08000738F6C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "CommandT Extension";
+			productName = "CommandT Extension";
+			productReference = 76F6E36525F7A08000738F6C /* CommandT Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		76F6E34B25F7A07F00738F6C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1240;
+				LastUpgradeCheck = 1240;
+				TargetAttributes = {
+					76F6E35225F7A07F00738F6C = {
+						CreatedOnToolsVersion = 12.4;
+					};
+					76F6E36425F7A08000738F6C = {
+						CreatedOnToolsVersion = 12.4;
+					};
+				};
+			};
+			buildConfigurationList = 76F6E34E25F7A07F00738F6C /* Build configuration list for PBXProject "CommandT" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 76F6E34A25F7A07F00738F6C;
+			productRefGroup = 76F6E35425F7A07F00738F6C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				76F6E35225F7A07F00738F6C /* CommandT */,
+				76F6E36425F7A08000738F6C /* CommandT Extension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		76F6E35125F7A07F00738F6C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76F6E35F25F7A08000738F6C /* Assets.xcassets in Resources */,
+				76F6E35B25F7A07F00738F6C /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76F6E36325F7A08000738F6C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76F6E38A25F7A09C00738F6C /* SafariExtensionViewController.xib in Resources */,
+				76F6E37525F7A08000738F6C /* ToolbarItemIcon.pdf in Resources */,
+				76F6E37325F7A08000738F6C /* script.js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		76F6E34F25F7A07F00738F6C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76F6E35D25F7A07F00738F6C /* ViewController.swift in Sources */,
+				76F6E35825F7A07F00738F6C /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76F6E36125F7A08000738F6C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76F6E38B25F7A09C00738F6C /* SafariExtensionViewController.swift in Sources */,
+				76F6E36E25F7A08000738F6C /* SafariExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		76F6E36825F7A08000738F6C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 76F6E36425F7A08000738F6C /* CommandT Extension */;
+			targetProxy = 76F6E36725F7A08000738F6C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		76F6E35925F7A07F00738F6C /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				76F6E35A25F7A07F00738F6C /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		76F6E37B25F7A08000738F6C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		76F6E37C25F7A08000738F6C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		76F6E37E25F7A08000738F6C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "CommandT Extension/CommandT_Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JF6ZPA8QG5;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "CommandT Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = hasung.CommandT.Extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		76F6E37F25F7A08000738F6C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "CommandT Extension/CommandT_Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JF6ZPA8QG5;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "CommandT Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = hasung.CommandT.Extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		76F6E38225F7A08000738F6C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CommandT/CommandT.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = JF6ZPA8QG5;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = CommandT/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				PRODUCT_BUNDLE_IDENTIFIER = hasung.CommandT;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		76F6E38325F7A08000738F6C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CommandT/CommandT.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = JF6ZPA8QG5;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = CommandT/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				PRODUCT_BUNDLE_IDENTIFIER = hasung.CommandT;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		76F6E34E25F7A07F00738F6C /* Build configuration list for PBXProject "CommandT" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76F6E37B25F7A08000738F6C /* Debug */,
+				76F6E37C25F7A08000738F6C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		76F6E37D25F7A08000738F6C /* Build configuration list for PBXNativeTarget "CommandT Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76F6E37E25F7A08000738F6C /* Debug */,
+				76F6E37F25F7A08000738F6C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		76F6E38125F7A08000738F6C /* Build configuration list for PBXNativeTarget "CommandT" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76F6E38225F7A08000738F6C /* Debug */,
+				76F6E38325F7A08000738F6C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 76F6E34B25F7A07F00738F6C /* Project object */;
+}
