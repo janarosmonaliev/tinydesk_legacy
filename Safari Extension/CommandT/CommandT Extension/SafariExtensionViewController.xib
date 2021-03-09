@@ -5,7 +5,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="SafariExtensionViewController" customModule="Hello_Extension" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="SafariExtensionViewController" customModule="CommandT_Extension" customModuleProvider="target">
             <connections>
                 <outlet property="colorLabel" destination="PAs-v5-YsT" id="Q5w-7r-bs4"/>
                 <outlet property="colorPicker" destination="YGt-vt-Zoe" id="7Xv-Rp-vQi"/>
@@ -76,12 +76,12 @@
                     <constraints>
                         <constraint firstAttribute="width" constant="50" id="9G5-D2-CI3"/>
                     </constraints>
-                    <popUpButtonCell key="cell" type="push" title="red" bezelStyle="rounded" imagePosition="only" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" selectedItem="EJZ-C5-sJv" id="GE7-qY-RIB">
+                    <popUpButtonCell key="cell" type="push" title="red" bezelStyle="rounded" imagePosition="only" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" selectedItem="EJZ-C5-sJv" id="GE7-qY-RIB">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
                         <menu key="menu" autoenablesItems="NO" id="4gd-nl-pUx">
                             <items>
-                                <menuItem title="red" image="red" onStateImage="red" offStateImage="red" mixedStateImage="red" id="EJZ-C5-sJv">
+                                <menuItem title="red" state="on" image="red" onStateImage="red" offStateImage="red" mixedStateImage="red" id="EJZ-C5-sJv">
                                     <modifierMask key="keyEquivalentModifierMask"/>
                                 </menuItem>
                             </items>
@@ -94,6 +94,9 @@
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
+                    <connections>
+                        <action selector="clickSaved:" target="-2" id="bdt-wx-EJf"/>
+                    </connections>
                 </button>
             </subviews>
             <constraints>

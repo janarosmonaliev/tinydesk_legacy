@@ -52,8 +52,11 @@ class SafariExtensionViewController: SFSafariExtensionViewController {
             })
         })
     }
+    @IBAction func clickSaved(_ sender: Any) {
+        //Connect DB and save the URL, title, and color
+        self.dismissPopover()
+    }
     func setupDropdown() {
-        
         
         
     }
