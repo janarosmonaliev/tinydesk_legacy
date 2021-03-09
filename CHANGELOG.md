@@ -1,5 +1,19 @@
 # Change Log
 
+## [Unreleased] - 2021-03-12
+
+### Added
+
+- Safari Extension built with Swift
+
+### Changed
+
+-
+
+### Fixed
+
+-
+
 ## [Unreleased] - 2021-03-05
 
 ### Added
@@ -10,7 +24,7 @@
 
 ### Changed
 
-- Publish Gatsby build to `gh-pages` after testing
+- Remove publish flag from Gatsby test action
 
 ### Fixed
 
