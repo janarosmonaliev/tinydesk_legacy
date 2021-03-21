@@ -16,10 +16,12 @@ class SafariExtensionViewController: SFSafariExtensionViewController {
     @IBOutlet weak var titleTextfield: NSTextField!
     @IBOutlet weak var colorPicker: NSPopUpButton!
     @IBOutlet weak var saveBtn: NSButton!
-
+    @IBOutlet weak var folderLabel: NSTextField!
+    @IBOutlet weak var folderPicker: NSPopUpButton!
+    
     static let shared: SafariExtensionViewController = {
         let shared = SafariExtensionViewController()
-        shared.preferredContentSize = NSSize(width: 360, height:190)
+        shared.preferredContentSize = NSSize(width: 360, height:235)
         return shared
     }()
 
@@ -29,7 +31,8 @@ class SafariExtensionViewController: SFSafariExtensionViewController {
     }
     func setup() {
         self.saveBtn.title = "Save"
-        setupDropdown()
+        setupFolderDropdown()
+        setupColorDropdown()
         SFSafariApplication.getActiveWindow(completionHandler: { window in
             
             window?.getActiveTab(completionHandler: { tab in
@@ -56,7 +59,11 @@ class SafariExtensionViewController: SFSafariExtensionViewController {
         //Connect DB and save the URL, title, and color
         self.dismissPopover()
     }
-    func setupDropdown() {
+    func setupColorDropdown() {
+        
+        
+    }
+    func setupFolderDropdown() {
         
         
     }
