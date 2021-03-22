@@ -92,11 +92,8 @@
                     </textFieldCell>
                 </textField>
                 <popUpButton verticalHuggingPriority="750" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YGt-vt-Zoe">
-                    <rect key="frame" x="308" y="55" width="57" height="25"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="50" id="9G5-D2-CI3"/>
-                    </constraints>
-                    <popUpButtonCell key="cell" type="push" title="clear" bezelStyle="rounded" imagePosition="only" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" selectedItem="EJZ-C5-sJv" id="GE7-qY-RIB">
+                    <rect key="frame" x="283" y="55" width="82" height="25"/>
+                    <popUpButtonCell key="cell" type="push" title="clear" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" selectedItem="EJZ-C5-sJv" id="GE7-qY-RIB">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
                         <menu key="menu" autoenablesItems="NO" id="4gd-nl-pUx">
