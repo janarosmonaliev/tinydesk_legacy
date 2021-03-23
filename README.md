@@ -4,8 +4,7 @@
 
 ### Development
 
-Introductory information for getting started is located at [CONTRIBUTING.md](CONTRIBUTING.md)
-
+Introductory information for getting started is located at [CONTRIBUTING.md](CONTRIBUTING.md)  
 Project progress and changelog can be tracked at [CHANGELOG.md](CHANGELOG.md)
 
 ## About Our Team:
