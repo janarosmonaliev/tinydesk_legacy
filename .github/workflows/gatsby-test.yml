@@ -27,7 +27,7 @@ jobs:
         uses: foo-software/lighthouse-check-action@master
         with:
           accessToken: ${{ secrets.PROJECT_416_SECRET }}
-          urls: "https://janarosmonaliev.github.io/project-416/home"
+          urls: "https://janarosmonaliev.github.io/project-416/home/"
           branch: ${{ github.ref }}
           outputDirectory: /tmp/artifacts
       - name: Upload artifacts

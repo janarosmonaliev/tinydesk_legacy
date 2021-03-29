@@ -2,7 +2,8 @@ import React from "react";
 
 export default function Bookmark(props) {
   const handleClick = (url) => {
-    window.open(url, "_blank", "noopener noreferrer");
+    // TODO Add noopener and noreferrer tags
+    window.open(url, "_blank").focus();
   };
   return (
     <div className="bookmark-wrapper" onClick={() => handleClick(props.url)}>

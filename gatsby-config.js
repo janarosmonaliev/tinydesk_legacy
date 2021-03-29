@@ -6,7 +6,7 @@ module.exports = {
     author: `Team KGB`,
     viewport: "width=device-width, initial-scale=1, shrink-to-fit=no",
     image:
-      "https://github.com/janarosmonaliev/project-416/tree/master/src/images/commandt-display.png?raw=true",
+      "https://github.com/janarosmonaliev/project-416/blob/master/src/images/commandt-display.png?raw=true",
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
