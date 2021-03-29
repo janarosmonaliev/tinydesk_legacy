@@ -6,6 +6,8 @@
   "author": "Team KGB",
   "dependencies": {
     "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
+    "axios": "^0.21.1",
     "gatsby": "^2.32.8",
     "gatsby-image": "^2.11.0",
     "gatsby-plugin-manifest": "^2.12.1",
@@ -16,10 +18,13 @@
     "gatsby-source-filesystem": "^2.11.1",
     "gatsby-transformer-sharp": "^2.12.0",
     "react": "^16.14.0",
+    "react-animated-weather": "^4.0.1",
     "react-dom": "^16.12.0",
     "react-feather": "^2.0.9",
     "react-helmet": "^6.1.0",
-    "sass": "^1.32.8"
+    "react-icons": "^4.2.0",
+    "sass": "^1.32.8",
+    "styled-components": "^5.2.1"
   },
   "devDependencies": {
     "prettier": "2.2.1"

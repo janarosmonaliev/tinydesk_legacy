@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import TodoListWindow from "./todo-list-window";
+import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 
 export default function ToDoListWidget() {
   const todoListWindowRef = useRef();
@@ -15,7 +16,19 @@ export default function ToDoListWidget() {
             <small> To-Do List</small>
           </div>
           <div className="todo-list-widget-content">
-            <small>Wow, such empty</small>
+            <small>
+              <CheckBoxOutlineBlankIcon fontSize="small" />
+              <div className="todo-text">POL101 Read Chapter 12</div>
+            </small>
+
+            <small>
+              <CheckBoxOutlineBlankIcon fontSize="small" />
+              <div className="todo-text">POL101 Read Chapter 12</div>
+            </small>
+            <small>
+              <CheckBoxOutlineBlankIcon fontSize="small" />
+              <div className="todo-text">CSE416 SRS Design Due Date</div>
+            </small>
           </div>
         </div>
       </a>

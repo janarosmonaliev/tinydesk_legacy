@@ -312,9 +312,15 @@ small,
 }
 .notes-widget-content {
   padding: $space-02 $space-03;
+
   > small {
     color: $color-gray;
     display: flex;
+    .note-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 }
 .todo-list-widget-wrapper {
@@ -348,6 +354,12 @@ small,
   > small {
     color: $color-gray;
     display: flex;
+    align-items: center;
+    .todo-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 }
 .folders-wrapper {
@@ -367,7 +379,12 @@ small,
 .folder-wrapper {
   color: $color-black;
   flex: 0 0 auto;
-  padding: $space-02 $space-05;
+  .folder-title {
+    padding: $space-02 $space-05;
+  }
+  .add-folder {
+    padding: 5.5px $space-05;
+  }
   overflow: visible;
   text-align: center;
   cursor: pointer;
