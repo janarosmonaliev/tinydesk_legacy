@@ -4,14 +4,14 @@ import Container from "@material-ui/core/Container";
 const DesignPage = () => (
   <>
     <Container>
-      <h1> Sample Text</h1>
-      <h2> Sample Text</h2>
-      <h3> Sample Text</h3>
-      <h4> Sample Text</h4>
-      <h5> Sample Text</h5>
-      <h6> Sample Text</h6>
-      <p> Sample Text</p>
-      <small> Sample Text</small>
+      <h1> Display XLarge</h1>
+      <h2> Display Large</h2>
+      <h3> Display Medium</h3>
+      <h4> Page Heading</h4>
+      <h5> Heading</h5>
+      <h6> Subheading</h6>
+      <p> Body Text</p>
+      <small> Caption</small>
     </Container>
   </>
 );
