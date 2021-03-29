@@ -1,9 +1,12 @@
 module.exports = {
   pathPrefix: "/project-416",
   siteMetadata: {
-    title: `Project 416`,
-    description: `Personal homepage that replaces the default startuppage. It lets the user manage bookmarks, create to-do lists, and write notes`,
+    title: `Command T`,
+    description: `Personal homepage that replaces the default startup page. It lets the user manage bookmarks, create to-do lists, and write notes. Start using Command T and boost your productivity.`,
     author: `Team KGB`,
+    viewport: "width=device-width, initial-scale=1, shrink-to-fit=no",
+    image:
+      "https://github.com/janarosmonaliev/project-416/tree/master/src/images/commandt-display.png?raw=true",
   },
   plugins: [
     `gatsby-plugin-react-helmet`,

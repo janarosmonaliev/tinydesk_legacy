@@ -28,6 +28,8 @@ jobs:
         with:
           accessToken: ${{ secrets.PROJECT_416_SECRET }}
           urls: "https://janarosmonaliev.github.io/project-416/home"
+          branch: ${{ github.ref }}
+          outputDirectory: /tmp/artifacts
       - name: Upload artifacts
         uses: actions/upload-artifact@master
         with:

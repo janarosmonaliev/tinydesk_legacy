@@ -11,6 +11,8 @@ function SEO({ description, lang, meta, title }) {
             title
             description
             author
+            viewport
+            image
           }
         }
       }
@@ -29,6 +31,10 @@ function SEO({ description, lang, meta, title }) {
       titleTemplate={defaultTitle ? `%s | ${defaultTitle}` : null}
       meta={[
         {
+          name: `viewport`,
+          content: site.siteMetadata.viewport,
+        },
+        {
           name: `description`,
           content: metaDescription,
         },
@@ -45,8 +51,16 @@ function SEO({ description, lang, meta, title }) {
           content: `website`,
         },
         {
+          property: `og:image`,
+          content: site.siteMetadata.image,
+        },
+        {
           name: `twitter:card`,
-          content: `summary`,
+          content: site.siteMetadata.image,
+        },
+        {
+          name: `twitter:image`,
+          content: site.siteMetadata.image,
         },
         {
           name: `twitter:creator`,
