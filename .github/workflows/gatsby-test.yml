@@ -16,4 +16,20 @@ jobs:
           access-token: ${{ secrets.PROJECT_416_SECRET }}
           deploy-branch: gh-pages
           gatsby-args: --prefix-paths
-          skip-publish: true
+          skip-publish: false
+  lighthouse-check:
+    needs: build-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - run: mkdir /tmp/artifacts
+      - name: Run Lighthouse
+        uses: foo-software/lighthouse-check-action@master
+        with:
+          accessToken: ${{ secrets.LIGHTHOUSE_CHECK_GITHUB_ACCESS_TOKEN }}
+          urls: "https://janarosmonaliev.github.io/project-416/home"
+      - name: Upload artifacts
+        uses: actions/upload-artifact@master
+        with:
+          name: Lighthouse reports
+          path: /tmp/artifacts
