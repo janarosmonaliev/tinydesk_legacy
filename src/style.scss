@@ -187,6 +187,12 @@ small,
     margin: 0;
   }
 }
+.button-unicorn {
+  float: left;
+}
+.button-settings {
+  float: right;
+}
 .dialog-title {
   display: inline-block;
 }
@@ -221,6 +227,15 @@ small,
   > div {
     width: 100%;
   }
+}
+.search-bar-input > input {
+  padding: 0;
+}
+.search-bar-button {
+  min-width: 0;
+}
+.grid-wrapper {
+  padding-top: $space-05;
 }
 .navbar-wrapper {
   padding-top: $space-05;

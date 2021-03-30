@@ -3,19 +3,8 @@ import { Grid } from "@material-ui/core";
 import UnicornButton from "./unicorn-button";
 import SettingsButton from "./settings-button";
 import SearchBar from "./search-bar";
-import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles({
-  unicorn: {
-    float: "left",
-  },
-  settings: {
-    float: "right",
-  },
-});
 
 export default function NavigationBar() {
-  const classes = useStyles();
   return (
     <div className="navbar-wrapper">
       <Grid
@@ -26,13 +15,13 @@ export default function NavigationBar() {
         alignItems="center"
       >
         <Grid item xs>
-          <UnicornButton className={classes.unicorn} />
+          <UnicornButton className="button-unicorn" />
         </Grid>
         <Grid item xs={8}>
           <SearchBar />
         </Grid>
         <Grid item xs>
-          <SettingsButton className={classes.settings} />
+          <SettingsButton className="button-settings" />
         </Grid>
       </Grid>
     </div>
