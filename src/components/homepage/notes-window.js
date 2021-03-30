@@ -6,9 +6,12 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Container from "@material-ui/core/Container";
 import Divider from "@material-ui/core/Divider";
+import AddCircleOutlineRoundedIcon from "@material-ui/icons/AddCircleOutlineRounded";
+//import DialogContentText from "@material-ui/core/DialogContentText";
 
 const NotesWindow = forwardRef((props, ref) => {
   const [open, setOpen] = useState(false);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -23,8 +26,9 @@ const NotesWindow = forwardRef((props, ref) => {
   }));
   return (
     <Dialog
-      fullWidth
-      maxWidth="md"
+      fullWidth={true}
+      maxWidth={"md"}
+      maxheight={"md"}
       open={open}
       onClose={handleClose}
       aria-labelledby="notes-dialog"
@@ -44,30 +48,34 @@ const NotesWindow = forwardRef((props, ref) => {
       </DialogTitle>
       <DialogContent>
         {/* <p> Notes window component</p> */}
-        <Grid container spacing={3}>
-          <Grid item xs={3} container direction="column">
-            <Grid item spacing={2}>
+        <Grid container xs={12} spacing={5}>
+          <Grid item xs={3} container direction="column" spacing={4}>
+            <Grid item>
               <small> CSE 416 Course</small>
             </Grid>
-            <Divider />
-            <Grid item spacing={2}>
+            <Divider variant="middle" />
+            <Grid item>
               <small> Homeplus grocery list</small>
             </Grid>
-            <Divider />
-            <Grid item spacing={2}>
+            <Divider variant="middle" />
+            <Grid item>
               <small> SBU Visit Document</small>
             </Grid>
-            <Divider />
+            <Divider variant="middle" />
+            <Grid item>
+              <Button>
+                <AddCircleOutlineRoundedIcon />
+                <small> Add a new note</small>
+              </Button>
+            </Grid>
           </Grid>
           <Divider orientation="vertical" flexItem />
-          <Grid item xs={12} sm container>
+          <Grid item xs={9} sm container spacing={1}>
             <Grid item xs container direction="column" spacing={2}>
               <Grid item>
                 <h5>
                   <b>CSE 416 Course</b>
                 </h5>
-              </Grid>
-              <Grid item>
                 <Button>H1</Button>
                 <Button>H2</Button>
                 <Button>H3</Button>
@@ -80,7 +88,7 @@ const NotesWindow = forwardRef((props, ref) => {
                 <Button>Codeblock</Button>
                 <Button>Italic</Button>
                 <Button>Underline</Button>
-                <Button color="orange">Bold</Button>
+                <Button color="primary">Bold</Button>
               </Grid>
               <Divider />
               <Grid item>
@@ -88,7 +96,6 @@ const NotesWindow = forwardRef((props, ref) => {
                   <b>Visit Details</b>
                 </h6>{" "}
                 <p>
-                  {" "}
                   Students must satisfy baloeuw;jdnfvkasdj askdjfkasdjfiouchs
                   diufskje askdjfhskuehkjsiuvb hwehfgwioasdhjfis sudfhvajycga
                   ssidufsiduhf.
