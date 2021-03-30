@@ -246,6 +246,12 @@ small,
   display: block;
   justify-content: center;
   text-align: center;
+  transition: transform 0.2s;
+  &:hover {
+    transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+  }
   > svg {
     padding: $space-02;
     display: block;
@@ -270,7 +276,11 @@ small,
     height: rem(64px);
     border-radius: rem(15px);
     background-color: $glass-color-light;
-    backdrop-filter: blur(8px);
+    // backdrop-filter: blur(8px);
+
+    -moz-transform: translateZ(0); /* IE 9 */
+    -webkit-transform: translateZ(0); /* Chrome, Safari, Opera */
+    transform: translateZ(0);
   }
   > small {
     color: white;
@@ -330,6 +340,11 @@ small,
   > small {
     color: $color-gray;
     display: flex;
+    .note-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 }
 .todo-list-widget-wrapper {
@@ -356,6 +371,7 @@ small,
     color: white;
     display: flex;
     margin-bottom: 0;
+    align-items: center;
   }
 }
 .todo-list-widget-content {
@@ -363,6 +379,11 @@ small,
   > small {
     color: $color-gray;
     display: flex;
+    .todo-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 }
 .folders-wrapper {
@@ -382,7 +403,13 @@ small,
 .folder-wrapper {
   color: $color-black;
   flex: 0 0 auto;
-  padding: $space-02 $space-05;
+  .folder-title {
+    padding: $space-02 $space-05;
+  }
+  .add-folder {
+    padding: 5.5px $space-05;
+  }
+
   overflow: visible;
   text-align: center;
   cursor: pointer;
