@@ -7,6 +7,7 @@ import Paper from "@material-ui/core/Paper";
 import Container from "@material-ui/core/Container";
 import Divider from "@material-ui/core/Divider";
 import AddCircleOutlineRoundedIcon from "@material-ui/icons/AddCircleOutlineRounded";
+import Typography from "@material-ui/core/Typography";
 //import DialogContentText from "@material-ui/core/DialogContentText";
 
 const NotesWindow = forwardRef((props, ref) => {
@@ -49,9 +50,20 @@ const NotesWindow = forwardRef((props, ref) => {
       <DialogContent>
         {/* <p> Notes window component</p> */}
         <Grid container xs={12} spacing={5}>
-          <Grid item xs={3} container direction="column" spacing={4}>
+          <Grid item xs={3} container direction="column" spacing={2}>
             <Grid item>
-              <small> CSE 416 Course</small>
+              <Button
+                variant="contained"
+                fullWidth
+                color="primary"
+                disableElevation
+                justify-content="flex-start"
+              >
+                CSE416
+              </Button>
+              {/* <Typography variant="button" color="primary">
+                CSE 416
+              </Typography> */}
             </Grid>
             <Divider variant="middle" />
             <Grid item>
@@ -63,9 +75,8 @@ const NotesWindow = forwardRef((props, ref) => {
             </Grid>
             <Divider variant="middle" />
             <Grid item>
-              <Button>
-                <AddCircleOutlineRoundedIcon />
-                <small> Add a new note</small>
+              <Button startIcon={<AddCircleOutlineRoundedIcon />}>
+                Add a new note
               </Button>
             </Grid>
           </Grid>
