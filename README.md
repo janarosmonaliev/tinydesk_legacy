@@ -1,6 +1,6 @@
 # CSE416 Software Engineering Project
 
-[![Gatsby Build Test](https://github.com/janarosmonaliev/project-416/actions/workflows/gatsby-test.yml/badge.svg?branch=master)](https://github.com/janarosmonaliev/project-416/actions/workflows/gatsby-test.yml)
+[![Gatsby Build Test](https://github.com/janarosmonaliev/project-416/actions/workflows/gatsby-test-master.yml/badge.svg?branch=master)](https://github.com/janarosmonaliev/project-416/actions/workflows/gatsby-test-master.yml)
 
 ### Development
 
