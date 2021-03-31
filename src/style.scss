@@ -183,6 +183,7 @@ small,
   }
   > svg {
     display: flex;
+    vertical-align: middle;
     padding: 0;
     margin: 0;
   }
@@ -387,9 +388,7 @@ small,
   }
 }
 .folders-wrapper {
-  position: fixed;
-  width: 100%;
-  height: auto;
+  position: absolute;
   top: auto;
   bottom: 0;
   padding-top: $space-03;
@@ -407,7 +406,11 @@ small,
     padding: $space-02 $space-05;
   }
   .add-folder {
-    padding: 5.5px $space-05;
+    display: inline-block;
+    padding: $space-02 $space-05;
+    & > svg {
+      vertical-align: bottom;
+    }
   }
 
   overflow: visible;

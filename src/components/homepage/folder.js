@@ -8,7 +8,7 @@ export default function Folder({ info }) {
         <div className="folder-title">{info.title}</div>
       ) : (
         <div className="add-folder">
-          <FolderPlus size={20} />
+          <FolderPlus size={20} сolor={"#4f4f4f"} />
         </div>
       )}
     </a>
