@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import { Settings } from "react-feather";
 import { Menu } from "@material-ui/core";
 import { MenuItem } from "@material-ui/core";
+import { AccountSettings } from "./settings-account";
 
 export default function SettingsButton(props) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -12,6 +13,11 @@ export default function SettingsButton(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  // const handleClickAccount = () => {
+  //   <AccountSettings open={true} setOpen={true} />;
+  // };
+  // const accountsettingsRef = useRef();
   return (
     <>
       <button
@@ -44,6 +50,7 @@ export default function SettingsButton(props) {
         <MenuItem onClick={handleClose}>Account</MenuItem>
         <MenuItem onClick={handleClose}>Edit layout</MenuItem>
         <MenuItem onClick={handleClose}>Edit background image</MenuItem>
+        {/* <AccountSettings ref={accountsettingsRef} /> */}
       </Menu>
     </>
   );
