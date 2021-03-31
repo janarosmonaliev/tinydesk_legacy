@@ -1,10 +1,16 @@
 import React, { forwardRef, useImperativeHandle, useState } from "react";
-import { Dialog, DialogTitle, DialogContent } from "@material-ui/core";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  Container,
+} from "@material-ui/core";
 import { SvgIcon, IconButton, TextField, Button } from "@material-ui/core";
 import { X } from "react-feather";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 import AddCircleOutlineRoundedIcon from "@material-ui/icons/AddCircleOutlineRounded";
+import styled from "styled-components";
 
 const NotesWindow = forwardRef((props, ref) => {
   const [open, setOpen] = useState(false);
@@ -15,7 +21,22 @@ const NotesWindow = forwardRef((props, ref) => {
   const handleClose = () => {
     setOpen(false);
   };
+  const styles = {
+    dialogPaper: {
+      height: "800px",
+    },
+  };
+  // const descriptionElementRef = React.useRef(null);
+  // React.useEffect(() => {
+  //   if (open) {
+  //     const { current: descriptionElement } = descriptionElementRef;
+  //     if (descriptionElement !== null) {
+  //       descriptionElement.focus();
+  //     }
+  //   }
+  // }, [open]);
   // For the parent to access the child (Widget -> Window)
+
   useImperativeHandle(ref, () => ({
     clickOpen: () => {
       handleClickOpen();
@@ -23,12 +44,11 @@ const NotesWindow = forwardRef((props, ref) => {
   }));
   return (
     <Dialog
-      fullWidth={true}
       maxWidth={"md"}
-      maxheight={"md"}
       open={open}
       onClose={handleClose}
       aria-labelledby="notes-dialog"
+      className="notes-window-size"
     >
       <DialogTitle id="notes-dialog">
         <h5 className="dialog-title">Notes Widget</h5>
@@ -45,8 +65,8 @@ const NotesWindow = forwardRef((props, ref) => {
       </DialogTitle>
       <DialogContent>
         {/* <p> Notes window component</p> */}
-        <Grid container xs={12} spacing={5}>
-          <Grid item xs={3} container direction="column" spacing={2}>
+        <Grid container lg={12} spacing={5}>
+          <Grid item lg={3} container direction="column" spacing={2}>
             <Grid item>
               <Button
                 variant="contained"
@@ -71,13 +91,16 @@ const NotesWindow = forwardRef((props, ref) => {
             </Grid>
             <Divider variant="middle" />
             <Grid item>
-              <Button startIcon={<AddCircleOutlineRoundedIcon />}>
+              <Button
+                justify-content="baseline"
+                startIcon={<AddCircleOutlineRoundedIcon />}
+              >
                 Add a new note
               </Button>
             </Grid>
           </Grid>
           <Divider orientation="vertical" flexItem />
-          <Grid item xs={9} sm container spacing={1}>
+          <Grid item lg={9} sm container spacing={1}>
             <Grid item xs container direction="column" spacing={2}>
               <Grid item>
                 <h5>
@@ -105,6 +128,14 @@ const NotesWindow = forwardRef((props, ref) => {
                 <p>
                   Students must satisfy baloeuw;jdnfvkasdj askdjfkasdjfiouchs
                   diufskje askdjfhskuehkjsiuvb hwehfgwioasdhjfis sudfhvajycga
+                  ssidufsiduhf. Students must satisfy baloeuw;jdnfvkasdj
+                  askdjfkasdjfiouchs diufskje askdjfhskuehkjsiuvb
+                  hwehfgwioasdhjfis sudfhvajycga ssidufsiduhf. Students must
+                  satisfy baloeuw;jdnfvkasdj askdjfkasdjfiouchs diufskje
+                  askdjfhskuehkjsiuvb hwehfgwioasdhjfis sudfhvajycga
+                  ssidufsiduhf. Students must satisfy baloeuw;jdnfvkasdj
+                  askdjfkasdjfiouchs diufskje askdjfhskuehkjsiuvb
+                  hwehfgwioasdhjfis sudfhvajycga ssidufsiduhf. ssidufsiduhf.
                   ssidufsiduhf.
                 </p>
               </Grid>
