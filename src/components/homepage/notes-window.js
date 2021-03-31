@@ -3,12 +3,8 @@ import { Dialog, DialogTitle, DialogContent } from "@material-ui/core";
 import { SvgIcon, IconButton, TextField, Button } from "@material-ui/core";
 import { X } from "react-feather";
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Container from "@material-ui/core/Container";
 import Divider from "@material-ui/core/Divider";
 import AddCircleOutlineRoundedIcon from "@material-ui/icons/AddCircleOutlineRounded";
-import Typography from "@material-ui/core/Typography";
-//import DialogContentText from "@material-ui/core/DialogContentText";
 
 const NotesWindow = forwardRef((props, ref) => {
   const [open, setOpen] = useState(false);
