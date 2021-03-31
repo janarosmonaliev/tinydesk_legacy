@@ -16,6 +16,9 @@ const theme = createMuiTheme({
       paper: {
         borderRadius: "15px",
       },
+      paperWidthMd: {
+        maxWidth: "960px",
+      },
     },
     // Window title
     MuiDialogTitle: {
