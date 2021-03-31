@@ -20,7 +20,7 @@ jobs:
           gatsby-args: --prefix-paths
           skip-publish: false
   lighthouse-check:
-    needs: build-test
+    needs: build-and-publish
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
