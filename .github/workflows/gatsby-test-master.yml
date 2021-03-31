@@ -1,4 +1,4 @@
-name: Gatsby Build Test
+name: Gatsby Build & Publish
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - master
 
 jobs:
-  build-test:
+  build-and-publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -29,6 +29,7 @@ jobs:
         uses: foo-software/lighthouse-check-action@master
         with:
           accessToken: ${{ secrets.PROJECT_416_SECRET }}
+          prCommentEnabled: true
           urls: "https://janarosmonaliev.github.io/project-416/home/"
           branch: ${{ github.ref }}
           outputDirectory: /tmp/artifacts
