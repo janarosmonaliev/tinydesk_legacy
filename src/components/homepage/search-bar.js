@@ -3,21 +3,8 @@ import { InputAdornment, InputBase } from "@material-ui/core";
 import { SvgIcon } from "@material-ui/core";
 import { Button } from "@material-ui/core";
 import { Search } from "react-feather";
-import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles({
-  searchInput: {
-    "& > input": {
-      padding: "0px",
-    },
-  },
-  searchIcon: {
-    minWidth: "0px",
-  },
-});
 
 export default function SearchBar() {
-  const classes = useStyles();
   const searchText = useRef();
 
   const handleClickSearch = () => {
@@ -50,12 +37,12 @@ export default function SearchBar() {
           inputRef={searchText}
           onKeyDown={handleKeyPress}
           onSubmit={(e) => e.preventDefault}
-          className={classes.searchInput}
+          className="search-bar-input"
           endAdornment={
             <InputAdornment position="end">
               <Button
                 aria-controls="search-bar"
-                className={classes.searchIcon}
+                className="search-bar-button"
                 onClick={handleClickSearch}
               >
                 <SvgIcon>
