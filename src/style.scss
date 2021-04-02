@@ -379,7 +379,6 @@ small,
     color: white;
     display: flex;
     margin-bottom: 0;
-    align-items: center;
   }
 }
 .todo-list-widget-content {
@@ -387,6 +386,7 @@ small,
   > small {
     color: $color-gray;
     display: flex;
+    align-items: center;
     .todo-text {
       overflow: hidden;
       text-overflow: ellipsis;
@@ -442,4 +442,17 @@ small,
     background-color: $glass-color-light-active;
     box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.2);
   }
+}
+
+.grid-add-bookmark {
+  padding-top: $space-04;
+  & > large {
+    padding-right: $space-04;
+  }
+  .folder-form-control {
+    width: 100%;
+  }
+}
+.button-100 {
+  width: 100px;
 }
