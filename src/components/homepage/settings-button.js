@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import { Settings } from "react-feather";
-import { Menu } from "@material-ui/core";
+import { Menu, Container, Typography } from "@material-ui/core";
 import { MenuItem } from "@material-ui/core";
 import { X } from "react-feather";
 import {
@@ -17,9 +17,10 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import Switch from "@material-ui/core/Switch";
+import Grid from "@material-ui/core/Grid";
 //import { AccountSettings } from "./settings-account";
 
 const AccountSettings = () => {
@@ -31,6 +32,15 @@ const AccountSettings = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const [state, setState] = React.useState({
+    unicornYes: true,
+  });
+
+  const handleChange = (event) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+  };
+
   return (
     <>
       <MenuItem onClick={handleClickOpen}>Account</MenuItem>
@@ -56,17 +66,21 @@ const AccountSettings = () => {
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          <TableContainer component={Paper}>
-            <Table elevation>
+          <TableContainer
+            component={Paper}
+            elevation={0}
+            className="settings-account-table"
+          >
+            <Table>
               <TableBody>
                 <TableRow>
                   <TableCell align="left">
                     <h5>Username: </h5>
                   </TableCell>
                   <TableCell align="center">
-                    <h6>
+                    <h5>
                       <u>jnyshin</u>
-                    </h6>
+                    </h5>
                   </TableCell>
                 </TableRow>
                 <TableRow>
@@ -74,9 +88,9 @@ const AccountSettings = () => {
                     <h5>Email</h5>
                   </TableCell>
                   <TableCell align="center">
-                    <h6>
+                    <h5>
                       <u>yejin.shin@stonybrook.edu</u>
-                    </h6>
+                    </h5>
                   </TableCell>
                 </TableRow>
                 <TableRow>
@@ -84,9 +98,7 @@ const AccountSettings = () => {
                     <h5>Location</h5>
                   </TableCell>
                   <TableCell align="center">
-                    <h6>
-                      <u>Songdo, Incheon</u>
-                    </h6>
+                    <TextField label="Songdo, Incheon" align="center" />
                   </TableCell>
                 </TableRow>
                 <TableRow>
@@ -94,14 +106,33 @@ const AccountSettings = () => {
                     <h5>Keep Unicorn</h5>
                   </TableCell>
                   <TableCell align="center">
-                    <h6>
-                      <u>put yes/no button</u>
-                    </h6>
+                    <Switch
+                      checked={state.unicornYes}
+                      onChange={handleChange}
+                      name="unicornYes"
+                    />
                   </TableCell>
                 </TableRow>
               </TableBody>
             </Table>
           </TableContainer>
+        </DialogContent>
+        <DialogContent>
+          <Typography align="center">
+            <h5>Danger Zone</h5>
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12} container direction="column">
+              <Button variant="outlined" color="secondary">
+                Log Out
+              </Button>
+            </Grid>
+            <Grid item xs={12} container direction="column">
+              <Button variant="contained" color="secondary" disableElevation>
+                Remove Account
+              </Button>
+            </Grid>
+          </Grid>
         </DialogContent>
         <DialogActions>
           <Button
