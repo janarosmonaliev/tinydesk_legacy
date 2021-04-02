@@ -21,6 +21,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Switch from "@material-ui/core/Switch";
 import Grid from "@material-ui/core/Grid";
+import SettingsWeather from "./settings-weather";
 //import { AccountSettings } from "./settings-account";
 
 const AccountSettings = () => {
@@ -99,6 +100,7 @@ const AccountSettings = () => {
                   </TableCell>
                   <TableCell align="center">
                     <TextField label="Songdo, Incheon" align="center" />
+                    {/* <SettingsWeather></SettingsWeather> */}
                   </TableCell>
                 </TableRow>
                 <TableRow>
