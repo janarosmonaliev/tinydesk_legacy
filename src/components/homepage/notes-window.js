@@ -77,7 +77,7 @@ const NotesWindow = forwardRef((props, ref) => {
               <Grid item>
                 <Button
                   variant="contained"
-                  color="primary"
+                  style={{ backgroundColor: "#e77f23", color: "white" }}
                   fullWidth
                   disableElevation
                   justify-content="flex-start"
