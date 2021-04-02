@@ -21,22 +21,16 @@ const NotesWindow = forwardRef((props, ref) => {
   const handleClose = () => {
     setOpen(false);
   };
-  const styles = {
-    dialogPaper: {
-      height: "800px",
-    },
+  const outerstyles = {
+    width: "100%",
+    height: "400px",
+    overflow: "auto",
+    position: "relative",
   };
-  // const descriptionElementRef = React.useRef(null);
-  // React.useEffect(() => {
-  //   if (open) {
-  //     const { current: descriptionElement } = descriptionElementRef;
-  //     if (descriptionElement !== null) {
-  //       descriptionElement.focus();
-  //     }
-  //   }
-  // }, [open]);
-  // For the parent to access the child (Widget -> Window)
-
+  const innerstyle = {
+    width: "100%",
+    height: "650px",
+  };
   useImperativeHandle(ref, () => ({
     clickOpen: () => {
       handleClickOpen();
@@ -48,7 +42,7 @@ const NotesWindow = forwardRef((props, ref) => {
       open={open}
       onClose={handleClose}
       aria-labelledby="notes-dialog"
-      className="notes-window-size"
+      className="notes-window"
     >
       <DialogTitle id="notes-dialog">
         <h5 className="dialog-title">Notes Widget</h5>
@@ -65,8 +59,8 @@ const NotesWindow = forwardRef((props, ref) => {
       </DialogTitle>
       <DialogContent>
         {/* <p> Notes window component</p> */}
-        <Grid container lg={12} spacing={5}>
-          <Grid item lg={3} container direction="column" spacing={2}>
+        <Grid container xs={12} spacing={5}>
+          <Grid item xs={4} container direction="column" spacing={2}>
             <Grid item>
               <Button
                 variant="contained"
@@ -100,44 +94,74 @@ const NotesWindow = forwardRef((props, ref) => {
             </Grid>
           </Grid>
           <Divider orientation="vertical" flexItem />
-          <Grid item lg={9} sm container spacing={1}>
-            <Grid item xs container direction="column" spacing={2}>
+          <Grid item xs={8} md container spacing={1}>
+            <Grid item container direction="column" spacing={2}>
               <Grid item>
                 <h5>
                   <b>CSE 416 Course</b>
                 </h5>
-                <Button>H1</Button>
-                <Button>H2</Button>
-                <Button>H3</Button>
-                <Button>H4</Button>
-                <Button>H5</Button>
-                <Button>H6</Button>
-                <Button>Blockquote</Button>
-                <Button>UL</Button>
-                <Button>OL</Button>
-                <Button>Codeblock</Button>
-                <Button>Italic</Button>
-                <Button>Underline</Button>
-                <Button color="primary">Bold</Button>
+                <br></br>
+                <div className="notes-text-style-bar">
+                  <Button>H1</Button>
+                  <Button>H2</Button>
+                  <Button>H3</Button>
+                  <Button>H4</Button>
+                  <Button>H5</Button>
+                  <Button>H6</Button>
+                  <Button>Blockquote</Button>
+                  <Button>UL</Button>
+                  <Button>OL</Button>
+                  <Button>Codeblock</Button>
+                  <Button>Italic</Button>
+                  <Button>Underline</Button>
+                  <Button>Bold</Button>
+                </div>
+                <br></br>
               </Grid>
               <Divider />
               <Grid item>
-                <h6>
-                  <b>Visit Details</b>
-                </h6>{" "}
-                <p>
-                  Students must satisfy baloeuw;jdnfvkasdj askdjfkasdjfiouchs
-                  diufskje askdjfhskuehkjsiuvb hwehfgwioasdhjfis sudfhvajycga
-                  ssidufsiduhf. Students must satisfy baloeuw;jdnfvkasdj
-                  askdjfkasdjfiouchs diufskje askdjfhskuehkjsiuvb
-                  hwehfgwioasdhjfis sudfhvajycga ssidufsiduhf. Students must
-                  satisfy baloeuw;jdnfvkasdj askdjfkasdjfiouchs diufskje
-                  askdjfhskuehkjsiuvb hwehfgwioasdhjfis sudfhvajycga
-                  ssidufsiduhf. Students must satisfy baloeuw;jdnfvkasdj
-                  askdjfkasdjfiouchs diufskje askdjfhskuehkjsiuvb
-                  hwehfgwioasdhjfis sudfhvajycga ssidufsiduhf. ssidufsiduhf.
-                  ssidufsiduhf.
-                </p>
+                <div style={outerstyles}>
+                  <div style={innerstyle}>
+                    <br></br>
+                    <h5>
+                      <b>Visit Details</b>
+                    </h5>{" "}
+                    <p>
+                      Students must satisfy baloeuw;jdnfvkasdj
+                      askdjfkasdjfiouchs diufskje askdjfhskuehkjsiuvb
+                      hwehfgwioasdhjfis sudfhvajycga ssidufsiduhf. Students must
+                      satisfy baloeuw;jdnfvkasdj askdjfkasdjfiouchs diufskje
+                      askdjfhskuehkjsiuvb hwehfgwioasdhjfis sudfhvajycga
+                      ssidufsiduhf. Students must satisfy baloeuw;jdnfvkasdj
+                      askdjfkasdjfiouchs diufskje askdjfhskuehkjsiuvb
+                      hwehfgwioasdhjfis sudfhvajycga ssidufsiduhf. Students must
+                      satisfy baloeuw;jdnfvkasdj askdjfkasdjfiouchs diufskje
+                      askdjfhskuehkjsiuvb hwehfgwioasdhjfis sudfhvajycga
+                      ssidufsiduhf. ssidufsiduhf. ssidufsiduhf. Students must
+                      satisfy baloeuw;jdnfvkasdj askdjfkasdjfiouchs diufskje
+                      askdjfhskuehkjsiuvb hwehfgwioasdhjfis sudfhvajycga
+                      ssidufsiduhf. Students must satisfy baloeuw;jdnfvkasdj
+                      askdjfkasdjfiouchs diufskje askdjfhskuehkjsiuvb
+                      hwehfgwioasdhjfis sudfhvajycga ssidufsiduhf. Students must
+                      satisfy baloeuw;jdnfvkasdj askdjfkasdjfiouchs diufskje
+                      askdjfhskuehkjsiuvb hwehfgwioasdhjfis sudfhvajycga
+                      ssidufsiduhf. Students must satisfy baloeuw;jdnfvkasdj
+                      askdjfkasdjfiouchs diufskje askdjfhskuehkjsiuvb
+                      hwehfgwioasdhjfis sudfhvajycga ssidufsiduhf. ssidufsiduhf.
+                      ssidufsiduhf. Students must satisfy baloeuw;jdnfvkasdj
+                      askdjfkasdjfiouchs diufskje askdjfhskuehkjsiuvb
+                      hwehfgwioasdhjfis sudfhvajycga ssidufsiduhf. Students must
+                      satisfy baloeuw;jdnfvkasdj askdjfkasdjfiouchs diufskje
+                      askdjfhskuehkjsiuvb hwehfgwioasdhjfis sudfhvajycga
+                      ssidufsiduhf. Students must satisfy baloeuw;jdnfvkasdj
+                      askdjfkasdjfiouchs diufskje askdjfhskuehkjsiuvb
+                      hwehfgwioasdhjfis sudfhvajycga ssidufsiduhf. Students must
+                      satisfy baloeuw;jdnfvkasdj askdjfkasdjfiouchs diufskje
+                      askdjfhskuehkjsiuvb hwehfgwioasdhjfis sudfhvajycga
+                      ssidufsiduhf. ssidufsiduhf. ssidufsiduhf.
+                    </p>
+                  </div>
+                </div>
               </Grid>
             </Grid>
           </Grid>
