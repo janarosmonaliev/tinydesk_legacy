@@ -1,17 +1,11 @@
-import React, {
-  useState,
-  useRef,
-  forwardRef,
-  useImperativeHandle,
-} from "react";
+import React, { useState, forwardRef, useImperativeHandle } from "react";
 import SvgIcon from "@material-ui/core/SvgIcon";
-import { Menu, Container, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { MenuItem } from "@material-ui/core";
 import { X } from "react-feather";
 import {
   Dialog,
   DialogTitle,
-  DialogActions,
   DialogContent,
   IconButton,
   TextField,
@@ -25,6 +19,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Switch from "@material-ui/core/Switch";
 import Grid from "@material-ui/core/Grid";
+import SettingsWeather from "./settings-weather";
 
 const AccountSettingsTwo = forwardRef((props, ref) => {
   const [open, setOpen] = useState(false);
@@ -51,7 +46,7 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
 
   return (
     <>
-      {/* <MenuItem onClick={handleClickOpen}>Account</MenuItem> */}
+      <MenuItem onClick={handleClickOpen}>Account</MenuItem>
 
       <Dialog
         fullWidth
@@ -74,6 +69,16 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
           </IconButton>
         </DialogTitle>
         <DialogContent>
+          <Grid container xs={12} spacing={2}>
+            <Grid item xs={4} container direction="column">
+              <h5>Username: </h5>
+            </Grid>
+            <Grid item xs={8} container direction="column">
+              <h5>
+                <u>jnyshin</u>
+              </h5>
+            </Grid>
+          </Grid>
           <TableContainer
             component={Paper}
             elevation={0}
@@ -106,8 +111,8 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
                     <h5>Location</h5>
                   </TableCell>
                   <TableCell align="center">
-                    <TextField label="Songdo, Incheon" align="center" />
-                    {/* <SettingsWeather></SettingsWeather> */}
+                    {/* <TextField label="Songdo, Incheon" align="center" /> */}
+                    {/* <SettingsWeather /> */}
                   </TableCell>
                 </TableRow>
                 <TableRow>

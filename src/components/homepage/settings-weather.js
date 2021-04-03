@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { MenuItem } from "@material-ui/core";
 import TextField from "@material-ui/core";
 
-export default function SettingsWeather() {
+const SettingsWeather = () => {
   const [currency, setCurrency] = useState("EUR");
   // const handleClick = (url) => {
   //   // TODO Add noopener and noreferrer tags
@@ -47,4 +47,5 @@ export default function SettingsWeather() {
       </TextField>
     </>
   );
-}
+};
+export default SettingsWeather;
