@@ -4,6 +4,8 @@ import { SvgIcon, IconButton, DialogActions, Button } from "@material-ui/core";
 import { Grid, List, ListItem, Divider, ListItemText } from "@material-ui/core";
 import { FormControlLabel, Checkbox } from "@material-ui/core";
 import { X, Plus } from "react-feather";
+import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
 
 const TodoListWindow = forwardRef((props, ref) => {
   const [open, setOpen] = useState(false);
@@ -13,6 +15,7 @@ const TodoListWindow = forwardRef((props, ref) => {
   const handleClose = () => {
     setOpen(false);
   };
+
   // For the parent to access the child (Widget -> Window)
   useImperativeHandle(ref, () => ({
     clickOpen: () => {
@@ -25,6 +28,7 @@ const TodoListWindow = forwardRef((props, ref) => {
   const handleSelectList = (e, index) => {
     setSelectedIndex(index);
   };
+
   return (
     <Dialog
       fullWidth
@@ -50,10 +54,11 @@ const TodoListWindow = forwardRef((props, ref) => {
       <DialogContent>
         <Grid
           container
+          // xs={12}
           direction="row"
-          justify="center"
-          alignItems="flex-start"
-          spacing={2}
+          // justify="flex-start"
+          alignItems="stretch"
+          spacing={3}
         >
           <Grid item xs={3}>
             <List component="nav" aria-label="to-do lists">
@@ -84,16 +89,44 @@ const TodoListWindow = forwardRef((props, ref) => {
               <Divider light />
             </List>
           </Grid>
-          <Grid item xs={9}>
-            <h5>Align Items</h5>
+
+          <Divider orientation="vertical" flexItem light />
+          <Grid item xs>
+            <h5>Academic</h5>
             <FormControlLabel
-              control={<Checkbox name="gilad" />}
+              control={
+                <Checkbox
+                  name="gilad"
+                  color="primary"
+                  icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                  checkedIcon={<CheckBoxIcon fontSize="small" />}
+                />
+              }
               label="30s presentation for CSE416"
             />
-            <br></br>
+            <br />
             <FormControlLabel
-              control={<Checkbox name="gilad" />}
+              control={
+                <Checkbox
+                  name="gilad"
+                  color="primary"
+                  icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                  checkedIcon={<CheckBoxIcon fontSize="small" />}
+                />
+              }
               label="POL101 read chapter 1"
+            />
+            <br />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="gilad"
+                  color="primary"
+                  icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                  checkedIcon={<CheckBoxIcon fontSize="small" />}
+                />
+              }
+              label="CSE416 Software Requirements"
             />
           </Grid>
         </Grid>

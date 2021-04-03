@@ -32,7 +32,6 @@ const NotesWindow = forwardRef((props, ref) => {
     height: "650px",
   };
 
-
   useImperativeHandle(ref, () => ({
     clickOpen: () => {
       handleClickOpen();

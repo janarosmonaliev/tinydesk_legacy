@@ -59,9 +59,9 @@ const theme = createMuiTheme({
         borderRadius: "8px",
         paddingTop: "4px",
         paddingBottom: "4px",
-      },
-      selected: {
-        backgroundColor: "rgba(85, 172, 104, 0.6);",
+        "&$selected": {
+          // backgroundColor: "rgba(85, 172, 104, 1);",
+        },
       },
     },
     MuiDivider: {
@@ -74,6 +74,20 @@ const theme = createMuiTheme({
       root: {
         justifyContent: "flex-start",
         padding: "8px 16px",
+      },
+    },
+    MuiCheckbox: {
+      root: {
+        color: "rgba(85, 172, 104, 1)",
+        "&$checked": {
+          color: "rgba(85, 172, 104, 1);",
+        },
+      },
+      colorPrimary: {
+        color: "rgba(85, 172, 104, 1)",
+        "&$checked": {
+          color: "rgba(85, 172, 104, 1);",
+        },
       },
     },
   },
