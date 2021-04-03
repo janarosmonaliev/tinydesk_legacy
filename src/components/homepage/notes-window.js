@@ -70,7 +70,7 @@ const NotesWindow = forwardRef((props, ref) => {
                 disableElevation
                 justify-content="flex-start"
               >
-                CSE416
+                CSE416 Course
               </Button>
             </Grid>
             <Divider variant="middle" />
