@@ -20,7 +20,6 @@ const NotesWindow = forwardRef((props, ref) => {
   const handleClose = () => {
     setOpen(false);
   };
-
   const outerstyles = {
     width: "100%",
     height: "400px",
@@ -31,7 +30,6 @@ const NotesWindow = forwardRef((props, ref) => {
     width: "100%",
     height: "650px",
   };
-
 
   useImperativeHandle(ref, () => ({
     clickOpen: () => {

@@ -39,7 +39,6 @@ $glass-color-dark: rgba(0, 0, 0, 0.4);
 
 // $notes-color-primary: rgba(220, 140, 71, 1);
 $notes-color-primary: rgba(231, 127, 35, 1);
-$todo-list-color-primary: rgba(85, 172, 104, 1);
 
 html {
   -ms-text-size-adjust: 100%;
@@ -248,15 +247,11 @@ small,
   display: block;
   justify-content: center;
   text-align: center;
-  > img {
-    @include transition(transform 0.2s);
-  }
+  transition: transform 0.2s;
   &:hover {
-    > img {
-      transform: scale(1.1);
-      -moz-transform: scale(1.1);
-      -webkit-transform: scale(1.1);
-    }
+    transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -webkit-transform: scale(1.1);
   }
   > svg {
     padding: $space-02;
@@ -380,7 +375,6 @@ small,
   padding: $space-02;
   margin: -20px;
 }
-
 .todo-list-widget-wrapper {
   overflow: hidden;
   display: block;
@@ -470,10 +464,6 @@ small,
   }
 }
 
-.todo-list-window {
-  min-height: 60vh;
-
-
 .grid-add-bookmark {
   padding-top: $space-04;
   & > large {
@@ -485,5 +475,4 @@ small,
 }
 .button-100 {
   width: 100px;
-
 }
