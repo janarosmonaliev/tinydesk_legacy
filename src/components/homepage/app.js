@@ -17,7 +17,7 @@ const theme = createMuiTheme({
         borderRadius: "15px",
       },
       paperWidthMd: {
-        maxWidth: "860px",
+        maxWidth: "960px",
       },
     },
     // Window title
@@ -51,29 +51,6 @@ const theme = createMuiTheme({
         ["&:hover"]: {
           backgroundColor: "#219653",
         },
-      },
-    },
-    // List items
-    MuiListItem: {
-      root: {
-        borderRadius: "8px",
-        paddingTop: "4px",
-        paddingBottom: "4px",
-      },
-      selected: {
-        backgroundColor: "rgba(85, 172, 104, 0.6);",
-      },
-    },
-    MuiDivider: {
-      root: {
-        marginTop: "4px",
-        marginBottom: "4px",
-      },
-    },
-    MuiDialogActions: {
-      root: {
-        justifyContent: "flex-start",
-        padding: "8px 16px",
       },
     },
   },
