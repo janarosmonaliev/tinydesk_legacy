@@ -101,33 +101,32 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
             component={Paper}
             elevation={0}
             className="settings-account-table"
-            m={-10}
           >
             <Table>
               <TableBody>
-                <TableRow>
+                <TableRow style={{ height: "1rem" }}>
                   <TableCell align="left">
-                    <h5>Username: </h5>
+                    <p>Username: </p>
                   </TableCell>
                   <TableCell align="center">
-                    <h5>
+                    <p>
                       <u>jnyshin</u>
-                    </h5>
+                    </p>
                   </TableCell>
                 </TableRow>
-                <TableRow>
+                <TableRow style={{ height: "1rem" }}>
                   <TableCell align="left">
-                    <h5>Email</h5>
+                    <p>Email:</p>
                   </TableCell>
                   <TableCell align="center">
-                    <h5>
+                    <p>
                       <u>yejin.shin@stonybrook.edu</u>
-                    </h5>
+                    </p>
                   </TableCell>
                 </TableRow>
-                <TableRow>
+                <TableRow style={{ height: "1rem" }}>
                   <TableCell align="left">
-                    <h5>Location</h5>
+                    <p>Location:</p>
                   </TableCell>
                   <TableCell align="center">
                     <TextField
@@ -140,15 +139,15 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
                     >
                       {cities.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
-                          <h5>{option.label}</h5>
+                          <p>{option.label}</p>
                         </MenuItem>
                       ))}
                     </TextField>
                   </TableCell>
                 </TableRow>
-                <TableRow>
+                <TableRow style={{ height: "1rem" }}>
                   <TableCell align="left">
-                    <h5>Keep Unicorn</h5>
+                    <p>Keep Unicorn:</p>
                   </TableCell>
                   <TableCell align="center">
                     <Switch
@@ -168,7 +167,7 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
             align="center"
             //style={{ color: "#eb5757", fontWeight: "bold" }}
           >
-            <h5>Danger Zone</h5>
+            <p>Danger Zone</p>
           </Typography>
           <Grid container spacing={2}>
             <Grid item xs={12} container direction="column">
