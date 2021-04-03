@@ -1,7 +1,9 @@
 import React, { forwardRef, useImperativeHandle, useState } from "react";
 import { Dialog, DialogTitle, DialogContent } from "@material-ui/core";
-import { SvgIcon, IconButton, TextField, Button } from "@material-ui/core";
-import { X } from "react-feather";
+import { SvgIcon, IconButton, DialogActions, Button } from "@material-ui/core";
+import { Grid, List, ListItem, Divider, ListItemText } from "@material-ui/core";
+import { FormControlLabel, Checkbox } from "@material-ui/core";
+import { X, Plus } from "react-feather";
 
 const TodoListWindow = forwardRef((props, ref) => {
   const [open, setOpen] = useState(false);
@@ -17,6 +19,12 @@ const TodoListWindow = forwardRef((props, ref) => {
       handleClickOpen();
     },
   }));
+
+  const [selectedIndex, setSelectedIndex] = useState(1);
+
+  const handleSelectList = (e, index) => {
+    setSelectedIndex(index);
+  };
   return (
     <Dialog
       fullWidth
@@ -24,6 +32,7 @@ const TodoListWindow = forwardRef((props, ref) => {
       open={open}
       onClose={handleClose}
       aria-labelledby="todo-list-dialog"
+      classes={{ paper: "todo-list-window" }}
     >
       <DialogTitle id="todo-list-dialog">
         <h5 className="dialog-title">To-Do List Widget</h5>
@@ -39,8 +48,61 @@ const TodoListWindow = forwardRef((props, ref) => {
         </IconButton>
       </DialogTitle>
       <DialogContent>
-        <p> To-Do List window component</p>
+        <Grid
+          container
+          direction="row"
+          justify="center"
+          alignItems="flex-start"
+          spacing={2}
+        >
+          <Grid item xs={3}>
+            <List component="nav" aria-label="to-do lists">
+              {/* TODO Map a JSON object to display content */}
+              <ListItem
+                button
+                selected={selectedIndex === 1}
+                onClick={(e) => handleSelectList(e, 1)}
+              >
+                <ListItemText primary="Academic"></ListItemText>
+              </ListItem>
+              <Divider light />
+              <ListItem
+                button
+                selected={selectedIndex === 2}
+                onClick={(e) => handleSelectList(e, 2)}
+              >
+                <ListItemText primary="Life Goals"></ListItemText>
+              </ListItem>
+              <Divider light />
+              <ListItem
+                button
+                selected={selectedIndex === 3}
+                onClick={(e) => handleSelectList(e, 3)}
+              >
+                <ListItemText primary="My daily to-dos"></ListItemText>
+              </ListItem>
+              <Divider light />
+            </List>
+          </Grid>
+          <Grid item xs={9}>
+            <h5>Align Items</h5>
+            <FormControlLabel
+              control={<Checkbox name="gilad" />}
+              label="30s presentation for CSE416"
+            />
+            <br></br>
+            <FormControlLabel
+              control={<Checkbox name="gilad" />}
+              label="POL101 read chapter 1"
+            />
+          </Grid>
+        </Grid>
       </DialogContent>
+      <DialogActions>
+        <Button startIcon={<Plus />} disableTouchRipple>
+          Add a new list
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 });

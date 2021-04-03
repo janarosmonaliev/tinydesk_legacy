@@ -10,7 +10,6 @@ import { X } from "react-feather";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 import AddCircleOutlineRoundedIcon from "@material-ui/icons/AddCircleOutlineRounded";
-import styled from "styled-components";
 
 const NotesWindow = forwardRef((props, ref) => {
   const [open, setOpen] = useState(false);
@@ -21,11 +20,7 @@ const NotesWindow = forwardRef((props, ref) => {
   const handleClose = () => {
     setOpen(false);
   };
-  const styles = {
-    dialogPaper: {
-      height: "800px",
-    },
-  };
+
   // const descriptionElementRef = React.useRef(null);
   // React.useEffect(() => {
   //   if (open) {
