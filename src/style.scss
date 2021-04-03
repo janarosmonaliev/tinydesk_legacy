@@ -348,13 +348,33 @@ small,
     }
   }
 }
-// .notes-window-size {
-//   justify-content: center;
-//   max-width: 100%;
-//   width: 800px;
-//   max-height: 100%;
-//   height: 1000px;
-// }
+.notes-activated-button {
+  background-color: $notes-color-primary;
+  border: none;
+  text-align: left;
+  display: inline-block;
+  small {
+    color: $notes-color-primary;
+  }
+}
+.notes-window {
+  justify-content: center;
+  align-items: center;
+  max-width: 100%;
+  max-height: 100%;
+  // small {
+  //   color: $notes-color-primary;
+  // }
+}
+.notes-add-button {
+  padding-top: 0 !important;
+  padding-right: 20px;
+}
+
+.notes-text-style-bar {
+  padding: $space-02;
+  margin: -20px;
+}
 .todo-list-widget-wrapper {
   overflow: hidden;
   display: block;
