@@ -353,6 +353,33 @@ small,
     }
   }
 }
+.notes-activated-button {
+  background-color: $notes-color-primary;
+  border: none;
+  text-align: left;
+  display: inline-block;
+  small {
+    color: $notes-color-primary;
+  }
+}
+.notes-window {
+  justify-content: center;
+  align-items: center;
+  max-width: 100%;
+  max-height: 100%;
+  // small {
+  //   color: $notes-color-primary;
+  // }
+}
+.notes-add-button {
+  padding-top: 0 !important;
+  padding-right: 20px;
+}
+
+.notes-text-style-bar {
+  padding: $space-02;
+  margin: -20px;
+}
 
 .todo-list-widget-wrapper {
   overflow: hidden;
@@ -378,7 +405,6 @@ small,
     color: white;
     display: flex;
     margin-bottom: 0;
-    align-items: center;
   }
 }
 .todo-list-widget-content {
@@ -386,6 +412,7 @@ small,
   > small {
     color: $color-gray;
     display: flex;
+    align-items: center;
     .todo-text {
       overflow: hidden;
       text-overflow: ellipsis;
@@ -442,6 +469,21 @@ small,
     box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.2);
   }
 }
+
 .todo-list-window {
   min-height: 60vh;
+
+
+.grid-add-bookmark {
+  padding-top: $space-04;
+  & > large {
+    padding-right: $space-04;
+  }
+  .folder-form-control {
+    width: 100%;
+  }
+}
+.button-100 {
+  width: 100px;
+
 }

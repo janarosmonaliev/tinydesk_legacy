@@ -3,7 +3,8 @@ import axios from "axios";
 import Grid from "@material-ui/core/Grid";
 import styled from "styled-components";
 import ReactAnimatedWeather from "react-animated-weather";
-// import WeatherWidgetStatic from "../../images/weather-widget-transparent.png";
+
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const CurrentTemp = styled.div`
   font-size: 40px;
@@ -35,17 +36,19 @@ const Time = styled.div`
   text-align: right;
 `;
 
-const formatTime = (date) => {
-  var hours = date.getHours();
+const formatTime = (date, next = 0) => {
+  var hours = date.getHours() + next;
   var min = date.getMinutes();
-  const meridiem = hours >= 12 ? "PM" : "AM";
+  const meridiem = hours >= 12 ? (hours >= 24 ? "AM" : "PM") : "AM";
   hours %= 12;
   hours = hours ? hours : 12;
   min = min < 10 ? "0" + min : min;
+
   return [hours, min, meridiem];
 };
 
 export default function WeatherWidget() {
+  const numberOfForecast = [0, 1, 2, 3];
   const [weathers, setWeathers] = useState(null);
   const [loading, setLoading] = useState(false);
   const [time, setTime] = useState(formatTime(new Date()));
@@ -134,6 +137,7 @@ export default function WeatherWidget() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
+
       try {
         const response = await axios.get(
           "https://api.openweathermap.org/data/2.5/onecall?lat=37.583328&lon=127.0&exclude=minutely&appid=450f67b03a3b2668b965c9b3ce364941&units=metric"
@@ -146,19 +150,32 @@ export default function WeatherWidget() {
     };
     fetchData();
   }, []);
-
+  useEffect(() => {
+    const interval = setInterval(() => setTime(formatTime(new Date()), 10000));
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
   if (loading) {
-    console.log("Loading...");
+    return (
+      <div className="weather-widget-wrapper" style={{ height: "155px" }}>
+        <Grid item xs={12} container justify="center">
+          <CircularProgress
+            size={50}
+            thickness={8.0}
+            style={{ marginTop: "43px" }}
+          />
+        </Grid>
+      </div>
+    );
   }
   if (!weathers) {
-    console.log("Terminated");
     return null;
   }
 
   //Update Time on change in time
   return (
     <div className="weather-widget-wrapper">
-      {" "}
       <Grid
         item
         xs={12}
@@ -185,54 +202,22 @@ export default function WeatherWidget() {
           <CurrentTemp>{parseInt(weathers.current.temp)}&#8451;</CurrentTemp>
           <SubTitle>{weathers.current.weather[0].main}</SubTitle>
         </Grid>
-        <Grid
-          item
-          container
-          xs={2}
-          direction="column"
-          justify="space-between"
-          alignItems="center"
-        >
-          {getHourlyUpdate(weathers.hourly[0].weather[0].main)}
-
-          <SubTitle>{((time[0] + 1) % 12) + time[2]}</SubTitle>
-        </Grid>
-        <Grid
-          item
-          container
-          xs={2}
-          direction="column"
-          justify="space-between"
-          alignItems="center"
-        >
-          {getHourlyUpdate(weathers.hourly[1].weather[0].main)}
-
-          <SubTitle>{((time[0] + 2) % 12) + time[2]}</SubTitle>
-        </Grid>
-        <Grid
-          item
-          container
-          xs={2}
-          direction="column"
-          justify="space-between"
-          alignItems="center"
-        >
-          {getHourlyUpdate(weathers.hourly[2].weather[0].main)}
-
-          <SubTitle>{((time[0] + 3) % 12) + time[2]}</SubTitle>
-        </Grid>
-        <Grid
-          item
-          container
-          xs={2}
-          direction="column"
-          justify="space-between"
-          alignItems="center"
-        >
-          {getHourlyUpdate(weathers.hourly[3].weather[0].main)}
-
-          <SubTitle>{((time[0] + 4) % 12) + time[2]}</SubTitle>
-        </Grid>
+        {numberOfForecast.map((i) => (
+          <Grid
+            item
+            container
+            xs={2}
+            direction="column"
+            justify="space-between"
+            alignItems="center"
+          >
+            {getHourlyUpdate(weathers.hourly[i].weather[0].main)}
+            <SubTitle>
+              {formatTime(new Date(), i + 1)[0] +
+                formatTime(new Date(), i + 1)[2]}
+            </SubTitle>
+          </Grid>
+        ))}
       </Grid>
     </div>
   );
