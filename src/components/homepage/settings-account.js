@@ -19,7 +19,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Switch from "@material-ui/core/Switch";
 import Grid from "@material-ui/core/Grid";
-import SettingsWeather from "./settings-weather";
+import Divider from "@material-ui/core/Divider";
 
 const AccountSettingsTwo = forwardRef((props, ref) => {
   const [open, setOpen] = useState(false);
@@ -34,6 +34,30 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
   const [state, setState] = React.useState({
     unicornYes: true,
   });
+
+  const [location, setLocation] = useState("Songdo");
+  const handleLocationChange = (event) => {
+    setLocation(event.target.value);
+  };
+
+  const cities = [
+    {
+      value: "Songdo",
+      label: "Songdo, Incheon",
+    },
+    {
+      value: "Seoul",
+      label: "Seoul",
+    },
+    {
+      value: "Gyeonggi",
+      label: "Suwon, Gyeonggi",
+    },
+    {
+      value: "Jeju",
+      label: "Jeju, Jeju Island",
+    },
+  ];
 
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
@@ -56,7 +80,10 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
         aria-labelledby="settings-account-dialog"
       >
         <DialogTitle id="settings-account-dialog">
-          <h5 className="dialog-title">Account Settings</h5>
+          <h5 className="dialog-title" style={{ marginLeft: "15px" }}>
+            {" "}
+            Account Settings
+          </h5>
           <IconButton
             aria-label="close"
             onClick={handleClose}
@@ -68,21 +95,13 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
             </SvgIcon>
           </IconButton>
         </DialogTitle>
+        <Divider />
         <DialogContent>
-          <Grid container xs={12} spacing={2}>
-            <Grid item xs={4} container direction="column">
-              <h5>Username: </h5>
-            </Grid>
-            <Grid item xs={8} container direction="column">
-              <h5>
-                <u>jnyshin</u>
-              </h5>
-            </Grid>
-          </Grid>
           <TableContainer
             component={Paper}
             elevation={0}
             className="settings-account-table"
+            m={-10}
           >
             <Table>
               <TableBody>
@@ -111,8 +130,20 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
                     <h5>Location</h5>
                   </TableCell>
                   <TableCell align="center">
-                    {/* <TextField label="Songdo, Incheon" align="center" /> */}
-                    {/* <SettingsWeather /> */}
+                    <TextField
+                      id="standard-select-currency"
+                      select
+                      //label="Select"
+                      value={location}
+                      onChange={handleLocationChange}
+                      //helperText="Select new location"
+                    >
+                      {cities.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          <h5>{option.label}</h5>
+                        </MenuItem>
+                      ))}
+                    </TextField>
                   </TableCell>
                 </TableRow>
                 <TableRow>
@@ -124,6 +155,7 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
                       checked={state.unicornYes}
                       onChange={handleChange}
                       name="unicornYes"
+                      style={{ color: "#eb5757" }}
                     />
                   </TableCell>
                 </TableRow>
@@ -132,42 +164,32 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
           </TableContainer>
         </DialogContent>
         <DialogContent>
-          <Typography align="center">
+          <Typography
+            align="center"
+            //style={{ color: "#eb5757", fontWeight: "bold" }}
+          >
             <h5>Danger Zone</h5>
           </Typography>
           <Grid container spacing={2}>
             <Grid item xs={12} container direction="column">
-              <Button variant="outlined" color="secondary">
+              <Button
+                variant="outlined"
+                style={{ color: "#eb5757", border: "1px solid #eb5757" }}
+              >
                 Log Out
               </Button>
             </Grid>
             <Grid item xs={12} container direction="column">
-              <Button variant="contained" color="secondary" disableElevation>
+              <Button
+                variant="contained"
+                style={{ backgroundColor: "#eb5757", color: "white" }}
+                disableElevation
+              >
                 Remove Account
               </Button>
             </Grid>
           </Grid>
         </DialogContent>
-        {/* <DialogActions>
-          <Button
-            variant="contained"
-            color="primary"
-            disableElevation
-            disableTouchRipple
-            onClick={handleClose}
-          >
-            Save
-          </Button>
-          <Button
-            variant="outlined"
-            color="secondary"
-            disableElevation
-            disableTouchRipple
-            onClick={handleClose}
-          >
-            Cancel
-          </Button>
-        </DialogActions> */}
       </Dialog>
     </>
   );
