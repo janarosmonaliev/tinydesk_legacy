@@ -21,6 +21,7 @@
     "react-dom": "^16.14.0",
     "react-feather": "^2.0.9",
     "react-helmet": "^6.1.0",
+    "react-swipeable-views": "^0.13.9",
     "sass": "^1.32.8",
     "styled-components": "^5.2.1"
   },
