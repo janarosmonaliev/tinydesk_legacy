@@ -4,7 +4,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import IconButton from "@material-ui/core/IconButton";
-import { Zap, X, Copy, MoreVertical, Menu } from "react-feather";
+import { Zap, X, Copy, MoreVertical, Menu, CheckCircle } from "react-feather";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
@@ -44,26 +44,31 @@ export default function UnicornButton(props) {
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
+    setCopied(false);
   };
   const handleClose = () => {
     setOpen(false);
+    setCopied(false);
   };
 
   //Tabs index
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    setCopied(false);
   };
   const handleChangeIndex = (index) => {
     setValue(index);
+    setCopied(false);
   };
 
   //copy
   const textAreaRef = useRef(null);
-
+  const [copied, setCopied] = useState(false);
   function copyToClipboard(e) {
     textAreaRef.current.select();
     document.execCommand("copy");
+    setCopied(true);
   }
   return (
     <>
@@ -120,16 +125,16 @@ export default function UnicornButton(props) {
               </Typography>
               <br />
               <Typography>
-                1. Go to Safari Preference OR Press (⌘ + ,)
+                1. Go to Safari "Preferences" OR Press (⌘ + ,)
               </Typography>
               <br />
               <Typography>
-                2. In General, set Both "New windows open with" and "New tabs
-                open with" as Homepage
+                2. In "General" tab, set Both "New windows open with" and "New
+                tabs open with" as Homepage
               </Typography>
               <br />
               <Typography>
-                3. On "Homepage" field, please copy and paste
+                3. On "Homepage" field, copy and paste the URL
                 <br />
                 <div
                   style={{
@@ -146,6 +151,14 @@ export default function UnicornButton(props) {
                   <Button onClick={copyToClipboard}>
                     <Copy size={20} strokeWidth={3} />
                   </Button>
+                  {copied && (
+                    <div className="unicorn-success">
+                      <CheckCircle color={"#77dd77"} />
+                      <large style={{ color: "#77dd77" }}>
+                        &nbsp;Copied Successfully!
+                      </large>
+                    </div>
+                  )}
                 </div>
               </Typography>
               <br />
@@ -174,7 +187,7 @@ export default function UnicornButton(props) {
                 </div>
               </Typography>
               <br />
-              <Typography>2. Scroll Down to "On startup" section</Typography>
+              <Typography>2. Click "On startup" Tap</Typography>
               <br />
               <Typography>
                 3. Select "Open a specific page or set of pages" and click "Add
@@ -189,10 +202,23 @@ export default function UnicornButton(props) {
                     alignItems: "center",
                   }}
                 >
+                  <textarea
+                    ref={textAreaRef}
+                    value="https://commandt.com"
+                    className="hide"
+                  />
                   https://commandt.com
                   <Button onClick={copyToClipboard}>
                     <Copy size={20} strokeWidth={3} />
                   </Button>
+                  {copied && (
+                    <div className="unicorn-success">
+                      <CheckCircle color={"#77dd77"} />
+                      <large style={{ color: "#77dd77" }}>
+                        &nbsp;Copied Successfully!
+                      </large>
+                    </div>
+                  )}
                 </div>
               </Typography>
               <br />
@@ -229,17 +255,30 @@ export default function UnicornButton(props) {
               </Typography>
               <br />
               <Typography>
-                4. Copy and paste URL into URL field
+                4. Copy and paste URL into the URL field
                 <div
                   style={{
                     display: "flex",
                     alignItems: "center",
                   }}
                 >
+                  <textarea
+                    ref={textAreaRef}
+                    value="https://commandt.com"
+                    className="hide"
+                  />
                   https://commandt.com
                   <Button onClick={copyToClipboard}>
                     <Copy size={20} strokeWidth={3} />
                   </Button>
+                  {copied && (
+                    <div className="unicorn-success">
+                      <CheckCircle color={"#77dd77"} />
+                      <large style={{ color: "#77dd77" }}>
+                        &nbsp;Copied Successfully!
+                      </large>
+                    </div>
+                  )}
                 </div>
               </Typography>
               <br />
