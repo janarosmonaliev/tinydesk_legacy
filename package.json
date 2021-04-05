@@ -24,7 +24,8 @@
     "react-router-dom": "^5.2.0",
     "react-swipeable-views": "^0.13.9",
     "sass": "^1.32.8",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.2.1",
+    "unsplash-js": "^7.0.8"
   },
   "devDependencies": {
     "prettier": "2.2.1"

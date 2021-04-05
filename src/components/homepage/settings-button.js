@@ -4,6 +4,7 @@ import { Settings } from "react-feather";
 import { Menu } from "@material-ui/core";
 import { MenuItem } from "@material-ui/core";
 import AccountSettings from "./settings-account";
+import UnsplashWindow from "./unsplash-window";
 
 export default function SettingsButton(props) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -17,6 +18,11 @@ export default function SettingsButton(props) {
   const accountSettingsWindowRef = useRef();
   const handleClickAccount = () => {
     accountSettingsWindowRef.current.clickOpen();
+  };
+
+  const unsplashWindowRef = useRef();
+  const handleClickEditBg = () => {
+    unsplashWindowRef.current.clickOpenUnsplash();
   };
   return (
     <>
@@ -50,8 +56,12 @@ export default function SettingsButton(props) {
         <a onClick={handleClickAccount}></a>
         <AccountSettings ref={accountSettingsWindowRef} />
         <MenuItem onClick={handleClose}>Edit layout</MenuItem>
-        <MenuItem onClick={handleClose}>Edit background image</MenuItem>
+        <MenuItem onClick={handleClickEditBg}>Edit background image</MenuItem>
       </Menu>
+      <UnsplashWindow
+        ref={unsplashWindowRef}
+        handleEditBg={(url) => props.handleEditBg(url)}
+      ></UnsplashWindow>
     </>
   );
 }
