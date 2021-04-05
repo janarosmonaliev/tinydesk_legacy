@@ -1,18 +1,13 @@
 import { Box, Button, Grid, Paper, SvgIcon, Typography } from '@material-ui/core';
 import React from 'react';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-  } from "react-router-dom";
 import Logo from '../../images/logo.svg';
 import Login from './Login';
 import SignUp from './SignUp';
 import Image from '../../images/logo.svg';
+import { Link } from 'gatsby';
 
 const LandingBox=()=>{
-    const landingBoxStyle={padding :20, 
+    const landingBoxStyle={marginRight:"5%", 
     height:'100%', 
     width:'54%',
     position:'absolute',
@@ -72,10 +67,8 @@ const LandingBox=()=>{
     }
 
     return(
-        <Grid container>
-            <Router>
-            
-            <Paper style={landingBoxStyle}>
+        <Grid container style={landingBoxStyle}>      
+            <Paper>
             <img src={Image} style={logoStyle}></img>
                 <Grid container style={mainDivStyle}>
                 
@@ -85,25 +78,18 @@ const LandingBox=()=>{
                     <Grid container spacing={24}>
                         <Box border={1} borderColor="grey.300" borderRadius="borderRadius" style={div1Style}>
                             <Typography>Already have an account? Log in with your email below.</Typography>
-                            <Link to="/Login" style={{ textDecoration: 'none' }}><Button variant="contained" style={loginButtonStyle}>Log In</Button></Link>
+                            <Link to="/login/" style={{ textDecoration: 'none' }}><Button variant="contained" style={loginButtonStyle}>Log In</Button></Link>
                         </Box>
                         <Box border={1} borderColor="grey.300" borderRadius="borderRadius" style={div2Style}>
                             <Typography>New here? Sign In with Google or create a new account.</Typography>
                             <Button variant="contained" style={googleButtonStyle}>Sign in with Google</Button>
-                            <Link to="/SignUp" style={{ textDecoration: 'none' }}><Button variant="outlined" style={createAccountButtonStyle}>Create an account</Button></Link>
+                            <Link to="/signup" style={{ textDecoration: 'none' }}><Button variant="outlined" style={createAccountButtonStyle}>Create an account</Button></Link>
                             
                         </Box>
                         
                     </Grid>
                 </Grid>
-                
-                
             </Paper>
-            
-            
-            <Route path="/Login" component={Login} />
-            <Route path="/SignUp" component={SignUp} />
-            </Router>
         </Grid>
     )
 }
