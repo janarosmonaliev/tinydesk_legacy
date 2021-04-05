@@ -11,6 +11,7 @@ import {
   SvgIcon,
   DialogContent,
   Divider,
+  DialogActions,
 } from "@material-ui/core";
 import { TextField, Button, Grid } from "@material-ui/core";
 import { GridList, GridListTile } from "@material-ui/core";
@@ -49,9 +50,20 @@ const UnsplashWindow = forwardRef((props, ref) => {
         if (result.errors) {
           console.log("error occurred: ", result.errors[0]);
         } else {
+          console.log(result.response.results);
           setPhotos(result.response.results);
         }
       });
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.keyCode === 13) {
+      handleGetPhotos();
+    }
+  };
+
+  const handleClickImage = (tile) => {
+    console.log(tile);
   };
   return (
     <>
@@ -61,8 +73,8 @@ const UnsplashWindow = forwardRef((props, ref) => {
         open={open}
         onClose={handleClose}
         aria-labelledby="unsplash-dialog"
-        className="unsplash-window"
         scroll="paper"
+        classes={{ paper: "unsplash-window" }}
       >
         <DialogTitle id="unsplash-dialog">
           <h5 className="dialog-title">Edit background</h5>
@@ -94,6 +106,8 @@ const UnsplashWindow = forwardRef((props, ref) => {
                 id="unsplash-input"
                 variant="outlined"
                 size="small"
+                onKeyDown={handleKeyPress}
+                onSubmit={(e) => e.preventDefault}
               />
             </Grid>
             <Grid item xs={3}>
@@ -110,17 +124,43 @@ const UnsplashWindow = forwardRef((props, ref) => {
             </Grid>
           </Grid>
           <Grid container justify="center" spacing={2}>
-            <Grid item xs={12}>
-              <GridList cellHeight={180} cols={2}>
-                {photos.map((tile) => (
-                  <GridListTile key={tile.id} cols={1}>
-                    <img src={tile.urls.small} alt={tile.alt_description}></img>
-                  </GridListTile>
-                ))}
-              </GridList>
-            </Grid>
+            <div className="unsplash-wrapper">
+              {photos.map((tile) => (
+                <div className="unsplash-item" id={tile.id}>
+                  <img
+                    src={tile.urls.small}
+                    alt={tile.alt_description}
+                    className="img-fluid"
+                  ></img>
+                  <a
+                    className="unsplash-link"
+                    onClick={() => handleClickImage(tile)}
+                  ></a>
+                </div>
+              ))}
+            </div>
           </Grid>
         </DialogContent>
+        <DialogActions>
+          <Button
+            variant="contained"
+            color="primary"
+            disableElevation
+            disableTouchRipple
+            className="button-100"
+          >
+            Save
+          </Button>
+          <Button
+            variant="outlined"
+            color="secondary"
+            disableElevation
+            disableTouchRipple
+            className="button-100"
+          >
+            Cancel
+          </Button>
+        </DialogActions>
       </Dialog>
     </>
   );

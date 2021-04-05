@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Container from "@material-ui/core/Container";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import NavigationBar from "./navbar";
 import GridWrapper from "./grid-wrapper";
 import FoldersWrapper from "./folders-wrapper";
+import Image from "../../images/mac-os-bg.png";
 
 const theme = createMuiTheme({
   typography: {
@@ -73,7 +74,7 @@ const theme = createMuiTheme({
     MuiDialogActions: {
       root: {
         justifyContent: "flex-start",
-        padding: "8px 16px",
+        padding: "16px 16px",
       },
     },
     MuiCheckbox: {
@@ -93,16 +94,25 @@ const theme = createMuiTheme({
   },
 });
 
-const App = () => (
-  <ThemeProvider theme={theme}>
-    <div className="app-window">
-      <Container maxWidth="lg">
-        <NavigationBar></NavigationBar>
-        <GridWrapper></GridWrapper>
-        <FoldersWrapper></FoldersWrapper>
-      </Container>
-    </div>
-  </ThemeProvider>
-);
+const App = () => {
+  const [background, setBackground] = useState(
+    "https://raw.githubusercontent.com/janarosmonaliev/project-416/master/src/images/mac-os-bg.png?token=AHRF2MQPFXGXN6WAOXAINPDAOQZ2A"
+  );
+  const unsplashImage = {
+    backgroundImage: `url(${background})`,
+  };
+
+  return (
+    <ThemeProvider theme={theme}>
+      <div className="app-window" style={unsplashImage}>
+        <Container maxWidth="lg">
+          <NavigationBar></NavigationBar>
+          <GridWrapper></GridWrapper>
+          <FoldersWrapper></FoldersWrapper>
+        </Container>
+      </div>
+    </ThemeProvider>
+  );
+};
 
 export default App;
