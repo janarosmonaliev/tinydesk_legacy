@@ -58,7 +58,10 @@ export default function SettingsButton(props) {
         <MenuItem onClick={handleClose}>Edit layout</MenuItem>
         <MenuItem onClick={handleClickEditBg}>Edit background image</MenuItem>
       </Menu>
-      <UnsplashWindow ref={unsplashWindowRef}></UnsplashWindow>
+      <UnsplashWindow
+        ref={unsplashWindowRef}
+        handleEditBg={(url) => props.handleEditBg(url)}
+      ></UnsplashWindow>
     </>
   );
 }

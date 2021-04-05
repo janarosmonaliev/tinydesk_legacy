@@ -4,7 +4,7 @@ import UnicornButton from "./unicorn-button";
 import SettingsButton from "./settings-button";
 import SearchBar from "./search-bar";
 
-export default function NavigationBar() {
+export default function NavigationBar(props) {
   return (
     <div className="navbar-wrapper">
       <Grid
@@ -21,7 +21,10 @@ export default function NavigationBar() {
           <SearchBar />
         </Grid>
         <Grid item xs>
-          <SettingsButton className="button-settings" />
+          <SettingsButton
+            className="button-settings"
+            handleEditBg={(url) => props.handlePassBgUrl(url)}
+          />
         </Grid>
       </Grid>
     </div>

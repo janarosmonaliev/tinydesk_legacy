@@ -106,7 +106,9 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <div className="app-window" style={unsplashImage}>
         <Container maxWidth="lg">
-          <NavigationBar></NavigationBar>
+          <NavigationBar
+            handlePassBgUrl={(url) => setBackground(url)}
+          ></NavigationBar>
           <GridWrapper></GridWrapper>
           <FoldersWrapper></FoldersWrapper>
         </Container>

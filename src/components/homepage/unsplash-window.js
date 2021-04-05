@@ -50,7 +50,7 @@ const UnsplashWindow = forwardRef((props, ref) => {
         if (result.errors) {
           console.log("error occurred: ", result.errors[0]);
         } else {
-          console.log(result.response.results);
+          // console.log(result.response.results);
           setPhotos(result.response.results);
         }
       });
@@ -63,7 +63,8 @@ const UnsplashWindow = forwardRef((props, ref) => {
   };
 
   const handleClickImage = (tile) => {
-    console.log(tile);
+    // console.log(tile.urls.full);
+    props.handleEditBg(tile.urls.full);
   };
   return (
     <>
@@ -142,7 +143,7 @@ const UnsplashWindow = forwardRef((props, ref) => {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button
+          {/* <Button
             variant="contained"
             color="primary"
             disableElevation
@@ -159,7 +160,7 @@ const UnsplashWindow = forwardRef((props, ref) => {
             className="button-100"
           >
             Cancel
-          </Button>
+          </Button> */}
         </DialogActions>
       </Dialog>
     </>
