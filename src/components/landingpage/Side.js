@@ -4,21 +4,19 @@ import Image from "../../images/background_image.jpg";
 
 const Side = () => {
   const sideStyle = {
-    padding: 20,
+    position: "fixed",
+    width: "50%",
     height: "100%",
-    width: "45%",
-    backgroundImage: `url(${Image})`,
+    right: "0",
+    top: "0",
+    overflowX: "hidden",
+    overflowY: "scroll",
+    backgroundPosition: "top",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
-    position: "absolute",
-    right: 0,
   };
 
-  return (
-    <Grid>
-      <Paper style={sideStyle}></Paper>
-    </Grid>
-  );
+  return <img src={Image} style={sideStyle} />;
 };
 
 export default Side;

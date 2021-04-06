@@ -1,17 +1,19 @@
-import { Grid } from '@material-ui/core';
-import React, { useState } from 'react';
-import LoginBox from './LoginBox';
-import Side from './Side';
+import { Grid } from "@material-ui/core";
+import React from "react";
+import LoginBox from "./LoginBox";
+import Side from "./Side";
+import LandingNavBar from "./landing-navbar";
 
-
-const Login=()=>{
-    return(
-        <Grid container>
-            <LoginBox></LoginBox>
-            <Side></Side>
-        </Grid>
-        
-    )
-}
+const Login = () => {
+  return (
+    <>
+      <LandingNavBar />
+      <Grid container style={{ height: "80vh" }} alignItems="center">
+        <LoginBox></LoginBox>
+        <Side></Side>
+      </Grid>
+    </>
+  );
+};
 
 export default Login;

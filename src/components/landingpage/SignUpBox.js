@@ -1,90 +1,144 @@
-import { Box, Button, Grid, Paper, TextField, Typography } from '@material-ui/core';
-import { Link } from 'gatsby';
-import React from 'react';
-import Home from "../../pages/home";
-import Image from '../../images/logo.svg';
+import {
+  Box,
+  Button,
+  Grid,
+  TextField,
+  Typography,
+  Container,
+} from "@material-ui/core";
+import { Link } from "gatsby";
+import React from "react";
 
+const SignUpBox = () => {
+  const signUpBoxStyle = {
+    backgroundColor: "#333333",
+    color: "white",
+    width: "200px",
+  };
 
-const SignUpBox=()=>{
-    const signUpBoxStyle={padding :20, 
-        height:'100%', 
-        width:'54%',
-        position:'absolute',
-        left:0}
-    
-    const h3Style={
-        marginTop:"20%",
-        marginLeft:"3%",
-        marginRight:"15%",
-        marginBottom:"5px"
-    }
+  const textFieldStyle = {
+    width: "100%",
+    margin: "10px 0px 10px 0px",
+    marginLeft: "0px",
+  };
 
-    const body2Style={
-        marginTop:"15px",
-        marginLeft:"3%",
-        marginRight:"40%",
-        marginBottom:"5%"
-    }
+  const boxStyle = {
+    padding: "30px",
+    border: "1px solid #E0E0E0",
+    borderRadius: "20px",
+  };
 
-    const loginButtonStyle={
-        backgroundColor:"#34eb6b",
-        color:"#ffffff",
-        marginTop:"25px",
-        width:"100px"
-    }
+  const subStyle = {
+    color: "#828282",
+  };
 
-    const textFieldStyle={
-        width:"100%",
-        margin:"10px 0px 10px 0px",
-        marginLeft:"0px"
-    }
+  return (
+    <Grid item container xs={6} justify="center">
+      <Grid
+        item
+        xs={6}
+        container
+        direction="row"
+        style={{ overflowY: "hidden" }}
+      >
+        <Container maxWidth="lg">
+          <Typography variant="h3">Create an account</Typography>
+          <Typography variant="h5" style={subStyle}>
+            Enter your information to create a new account.
+          </Typography>
+          <br />
+          <Grid xs={12} container>
+            <Box style={boxStyle}>
+              <TextField
+                id="name"
+                placeholder="Full name"
+                style={textFieldStyle}
+              ></TextField>
+              <TextField
+                id="uname"
+                placeholder="Username"
+                style={textFieldStyle}
+              ></TextField>
+              <TextField
+                id="email"
+                placeholder="Email"
+                style={textFieldStyle}
+              ></TextField>
+              <TextField
+                id="pw"
+                placeholder="Password"
+                style={textFieldStyle}
+              ></TextField>
+              <TextField
+                id="city"
+                placeholder="Current city"
+                style={textFieldStyle}
+              ></TextField>
 
-    const boxStyle={
-        padding:"5%"
-    }
+              <Grid
+                item
+                xs={12}
+                container
+                justify="space-between"
+                alignItems="center"
+              >
+                <Link to="/home/" style={{ textDecoration: "none" }}>
+                  <Button variant="contained" style={signUpBoxStyle}>
+                    Create an Account
+                  </Button>
+                </Link>
+                <Link href="#" variant="body2" style={{ color: "#828282" }}>
+                  Privacy Policy
+                </Link>
+              </Grid>
+            </Box>
+          </Grid>
+        </Container>
+      </Grid>
 
-    const formStyle={
-        width:"50%",
-        maxWidth:"500px",
-        marginLeft:"25%",
-        marginRight:"30%",
-        marginTop:"120px",
-        marginBottom:"20%"
-    }
-
-    const linkStyle={
-        margin:"100% 0% 0% 20%",
-        marginTop:"px",
-        padding:"20px",
-        color:"#000"
-    }
-
-    const logoStyle={
-        marginLeft:"30px",
-        marginTop:"30px"
-    }
-    
-    return(
-        <Grid container>
-                <Paper style={signUpBoxStyle}>
-                <img src={Image} style={logoStyle}></img>
-                    <Grid container style={formStyle}>
-                        <Typography variant="h3" style={h3Style}>Create an account</Typography>
-                        <Typography variant="body2" style={body2Style}>Enter your information to create a new account.</Typography>
-                        <Box border={1} borderRadius="borderRadius" borderColor="grey.300" style={boxStyle}>
-                            <TextField id="name" placeholder="Full name" style={textFieldStyle}></TextField>
-                            <TextField id="uname" placeholder="Username" style={textFieldStyle}></TextField>
-                            <TextField id="email" placeholder="Email" style={textFieldStyle}></TextField>
-                            <TextField id="pw" placeholder="Password" style={textFieldStyle}></TextField>
-                            <TextField id="city" placeholder="Current city" style={textFieldStyle}></TextField>
-                            <Link to="/home/" style={{ textDecoration: 'none' }}><Button variant="contained" style={loginButtonStyle}>Sign Up</Button></Link>
-                            <Link href="#" style={linkStyle} variant="body2">Learn More</Link>
-                        </Box>
-                    </Grid>  
-                </Paper>
-            
-        </Grid>
-    )
-}
+      {/*           
+        <Typography variant="h3">Create an account</Typography>
+        <Typography variant="body2" style={body2Style}>
+          Enter your information to create a new account.
+        </Typography>
+        <Box style={boxStyle}>
+          <TextField
+            id="name"
+            placeholder="Full name"
+            style={textFieldStyle}
+          ></TextField>
+          <TextField
+            id="uname"
+            placeholder="Username"
+            style={textFieldStyle}
+          ></TextField>
+          <TextField
+            id="email"
+            placeholder="Email"
+            style={textFieldStyle}
+          ></TextField>
+          <TextField
+            id="pw"
+            placeholder="Password"
+            style={textFieldStyle}
+          ></TextField>
+          <TextField
+            id="city"
+            placeholder="Current city"
+            style={textFieldStyle}
+          ></TextField>
+          <Link to="/home/" style={{ textDecoration: "none" }}>
+            <Button variant="contained" style={loginButtonStyle}>
+              Sign Up
+            </Button>
+          </Link>
+          <Link href="#" style={linkStyle} variant="body2">
+            Learn More
+          </Link>
+        </Box>
+      </Grid> */}
+    </Grid>
+  );
+};
 
 export default SignUpBox;
