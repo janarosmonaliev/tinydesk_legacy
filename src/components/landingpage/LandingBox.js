@@ -53,7 +53,14 @@ const LandingBox = () => {
             </Typography>
             <br />
             <br />
-            <Grid item xs={12} container justify="flex-start" spacing={3}>
+            <Grid
+              item
+              xs={12}
+              container
+              justify="flex-start"
+              alignItems="center"
+              spacing={3}
+            >
               <Grid item lg={5} xs={12}>
                 <Box style={boxStyle}>
                   <Grid container spacing={3}>
@@ -81,21 +88,22 @@ const LandingBox = () => {
                         Sign In with Google or create a new account.
                       </Typography>
                     </Grid>
-
-                    <Grid item xs={6}>
-                      <Button variant="contained" style={googleButtonStyle}>
-                        Sign in with Google
-                      </Button>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Link to="/signup" style={{ textDecoration: "none" }}>
-                        <Button
-                          variant="contained"
-                          style={createAccountButtonStyle}
-                        >
-                          Create an account
+                    <Grid container spacing={3} alignItems="center">
+                      <Grid item lg={6} xs={12}>
+                        <Button variant="contained" style={googleButtonStyle}>
+                          Sign in with Google
                         </Button>
-                      </Link>
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <Link to="/signup" style={{ textDecoration: "none" }}>
+                          <Button
+                            variant="contained"
+                            style={createAccountButtonStyle}
+                          >
+                            Create an account
+                          </Button>
+                        </Link>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Box>
