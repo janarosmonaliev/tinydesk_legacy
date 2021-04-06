@@ -36,7 +36,7 @@ const SignUpBox = () => {
     <Grid item container xs={6} justify="center">
       <Grid
         item
-        xs={6}
+        xs={8}
         container
         direction="row"
         style={{ overflowY: "hidden" }}
