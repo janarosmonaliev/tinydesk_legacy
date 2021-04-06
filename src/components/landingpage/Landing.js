@@ -1,14 +1,24 @@
 import { Grid } from "@material-ui/core";
-import React, { useState } from "react";
+import React from "react";
 import LandingBox from "./LandingBox";
 import Side from "./Side";
+import LandingNavBar from "./landing-navbar";
 
 const Landing = () => {
   return (
-    <Grid container>
-      <LandingBox></LandingBox>
-      <Side></Side>
-    </Grid>
+    <>
+      <LandingNavBar />
+      <Grid
+        container
+        justify="flex-start"
+        style={{ height: "80vh" }}
+        alignItems="center"
+      >
+        <LandingBox />
+
+        <Side />
+      </Grid>
+    </>
   );
 };
 
