@@ -15,9 +15,9 @@ import { Link } from "gatsby";
 
 const LandingBox = () => {
   const landingBoxStyle = {
-    marginRight: "5%",
+    padding:"20px",
     height: "100%",
-    width: "54%",
+    width: "50%",
     position: "absolute",
     left: 0,
   };

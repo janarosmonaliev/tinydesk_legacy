@@ -4,9 +4,9 @@ import Image from "../../images/background_image.jpg";
 
 const Side = () => {
   const sideStyle = {
-    padding: 20,
+    padding: "20px",
     height: "100%",
-    width: "45%",
+    width: "40%",
     backgroundImage: `url(${Image})`,
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
