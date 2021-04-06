@@ -2,15 +2,12 @@ import {
   Box,
   Button,
   Grid,
-  Paper,
   TextField,
   Typography,
   Container,
 } from "@material-ui/core";
 import React from "react";
-import { borders } from "@material-ui/system";
 import { Link } from "gatsby";
-import Image from "../../images/logo.svg";
 
 const LoginBox = () => {
   const loginButtonStyle = {
@@ -29,11 +26,6 @@ const LoginBox = () => {
     padding: "30px",
     border: "1px solid #E0E0E0",
     borderRadius: "20px",
-  };
-
-  const logoStyle = {
-    marginLeft: "30px",
-    marginTop: "30px",
   };
 
   return (
@@ -59,7 +51,7 @@ const LoginBox = () => {
               placeholder="Password"
               style={textFieldStyle}
             ></TextField>
-            <Grid item container xs={12}>
+            <Grid item container lg={4} xs={12}>
               <Link to="/home/" style={{ textDecoration: "none" }}>
                 <Button variant="contained" style={loginButtonStyle}>
                   Log in

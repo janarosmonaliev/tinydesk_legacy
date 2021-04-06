@@ -1,5 +1,5 @@
 import { Grid } from "@material-ui/core";
-import React, { useState } from "react";
+import React from "react";
 import SignUpBox from "./SignUpBox";
 import Side from "./Side";
 import LandingNavBar from "./landing-navbar";
