@@ -113,7 +113,7 @@ export default function UnicornButton(props) {
           </Tabs>
           <Divider />
         </DialogTitle>
-        <DialogContent>
+        <DialogContent style={{ height: "650px" }}>
           <SwipeableViews
             index={value}
             onChangeIndex={handleChangeIndex}
@@ -128,13 +128,15 @@ export default function UnicornButton(props) {
                 1. Go to Safari "Preferences" OR Press (⌘ + ,)
               </Typography>
               <br />
+              <Typography>2. Go to "General" tab</Typography>
+              <br />
               <Typography>
-                2. In "General" tab, set Both "New windows open with" and "New
-                tabs open with" as Homepage
+                3. Set Both "New windows open with" and "New tabs open with" as
+                Homepage
               </Typography>
               <br />
               <Typography>
-                3. On "Homepage" field, copy and paste the URL
+                4. On "Homepage" field, copy and paste the URL
                 <br />
                 <div
                   style={{
@@ -162,7 +164,14 @@ export default function UnicornButton(props) {
                 </div>
               </Typography>
               <br />
-              <img src={UnicornSafari} style={{ borderRadius: "20px" }} />
+
+              <img
+                src={UnicornSafari}
+                style={{
+                  borderRadius: "20px",
+                  width: "100%",
+                }}
+              />
             </TabPanel>
             <TabPanel value={value} index={1}>
               <Typography variant="h6">
@@ -222,7 +231,10 @@ export default function UnicornButton(props) {
                 </div>
               </Typography>
               <br />
-              <img src={UnicornChrome} style={{ borderRadius: "20px" }} />
+              <img
+                src={UnicornChrome}
+                style={{ borderRadius: "20px", width: "100%" }}
+              />
             </TabPanel>
             <TabPanel value={value} index={2}>
               <Typography variant="h6">
@@ -282,7 +294,10 @@ export default function UnicornButton(props) {
                 </div>
               </Typography>
               <br />
-              <img src={UnicornFirefox} style={{ borderRadius: "20px" }} />
+              <img
+                src={UnicornFirefox}
+                style={{ borderRadius: "20px", width: "100%" }}
+              />
             </TabPanel>
           </SwipeableViews>
         </DialogContent>
