@@ -7,7 +7,8 @@ import { X, Plus } from "react-feather";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 
-const TodoListWindow = forwardRef((props, ref) => {
+const TodoListWindow = forwardRef((todolist, ref) => {
+  console.log(typeof todolist[0]);
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);

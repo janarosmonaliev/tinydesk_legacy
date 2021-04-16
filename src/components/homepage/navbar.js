@@ -24,6 +24,7 @@ export default function NavigationBar(props) {
           <SettingsButton
             className="button-settings"
             handleEditBg={(url) => props.handlePassBgUrl(url)}
+            location={props.location}
           />
         </Grid>
       </Grid>

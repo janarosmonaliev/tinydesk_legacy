@@ -1,8 +1,13 @@
-import React, { useState, forwardRef, useImperativeHandle } from "react";
+import React, {
+  useState,
+  forwardRef,
+  useImperativeHandle,
+  useCallback,
+} from "react";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import { Typography } from "@material-ui/core";
 import { MenuItem } from "@material-ui/core";
-import { X } from "react-feather";
+import { Divide, X } from "react-feather";
 import {
   Dialog,
   DialogTitle,
@@ -20,6 +25,8 @@ import Paper from "@material-ui/core/Paper";
 import Switch from "@material-ui/core/Switch";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
+import cities from "../../cities";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 
 const AccountSettingsTwo = forwardRef((props, ref) => {
   const [open, setOpen] = useState(false);
@@ -35,38 +42,30 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
     unicornYes: true,
   });
 
-  const [location, setLocation] = useState("Songdo");
-  const handleLocationChange = (event) => {
-    setLocation(event.target.value);
+  // const [location, setLocation] = useState("Songdo");
+  // const handleLocationChange = (event) => {
+  //   setLocation(event.target.value);
+  // };
+  // const [selectedCountry, setSelectedCountry] = useState("")
+  const [currentLocation, setCurrentLocation] = useState(props.location);
+  const [cityValue, setCityValue] = useState(currentLocation.name);
+
+  const city = cities.korea;
+  const cityHandleChange = (e) => {
+    setCityValue(e.target.value);
+    console.log(cityValue);
   };
-
-  const cities = [
-    {
-      value: "Songdo",
-      label: "Songdo, Incheon",
-    },
-    {
-      value: "Seoul",
-      label: "Seoul",
-    },
-    {
-      value: "Gyeonggi",
-      label: "Suwon, Gyeonggi",
-    },
-    {
-      value: "Jeju",
-      label: "Jeju, Jeju Island",
-    },
-  ];
-
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
+
   useImperativeHandle(ref, () => ({
     clickOpen: () => {
       handleClickOpen();
     },
   }));
+
+  const onClickSaveInfos = (event) => {};
 
   return (
     <>
@@ -80,10 +79,7 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
         aria-labelledby="settings-account-dialog"
       >
         <DialogTitle id="settings-account-dialog">
-          <h5 className="dialog-title" style={{ marginLeft: "15px" }}>
-            {" "}
-            Account Settings
-          </h5>
+          <div className="dialog-title"> Account Settings</div>
           <IconButton
             aria-label="close"
             onClick={handleClose}
@@ -128,21 +124,28 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
                   <TableCell align="left">
                     <p>Location:</p>
                   </TableCell>
-                  <TableCell align="center">
-                    <TextField
-                      id="standard-select-currency"
-                      select
-                      //label="Select"
-                      value={location}
-                      onChange={handleLocationChange}
-                      //helperText="Select new location"
-                    >
-                      {cities.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          <p>{option.label}</p>
-                        </MenuItem>
-                      ))}
-                    </TextField>
+
+                  <TableCell>
+                    <Autocomplete
+                      id="city"
+                      debug
+                      options={city}
+                      getOptionLabel={(option) => option.name}
+                      getOptionSelected={(option, value) =>
+                        option.name === value.name
+                      }
+                      defaultValue={currentLocation}
+                      autocomplete
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="City"
+                          variant="standard"
+                          defaultValue={currentLocation.name}
+                          onChange={cityHandleChange}
+                        />
+                      )}
+                    />
                   </TableCell>
                 </TableRow>
                 <TableRow style={{ height: "1rem" }}>
@@ -163,13 +166,17 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
           </TableContainer>
         </DialogContent>
         <DialogContent>
-          <Typography
-            align="center"
-            //style={{ color: "#eb5757", fontWeight: "bold" }}
-          >
-            <p>Danger Zone</p>
-          </Typography>
           <Grid container spacing={2}>
+            <Grid item xs={12} container direction="column">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={onClickSaveInfos}
+              >
+                Save
+              </Button>
+            </Grid>
+
             <Grid item xs={12} container direction="column">
               <Button
                 variant="outlined"

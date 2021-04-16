@@ -102,12 +102,25 @@ const App = () => {
     backgroundImage: `url(${background})`,
   };
 
+  //Dummy data
+  const userLocation = {
+    id: 1843564,
+    name: "Incheon",
+    state: "",
+    country: "KR",
+    coord: {
+      lon: 126.731667,
+      lat: 37.453609,
+    },
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <div className="app-window" style={unsplashImage}>
         <Container maxWidth="lg">
           <NavigationBar
             handlePassBgUrl={(url) => setBackground(url)}
+            location={userLocation}
           ></NavigationBar>
           <GridWrapper></GridWrapper>
           <FoldersWrapper></FoldersWrapper>
