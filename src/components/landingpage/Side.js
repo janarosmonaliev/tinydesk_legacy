@@ -1,6 +1,6 @@
 import { Grid, Paper } from "@material-ui/core";
 import React from "react";
-import Image from "../../images/background_image.jpg";
+import Image from "../../images/feature-image.jpg";
 
 const Side = () => {
   const sideStyle = {

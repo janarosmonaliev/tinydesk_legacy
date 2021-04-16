@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "gatsby";
-import Layout from "../components/layout";
+import { Router } from "@reach/router";
 import SEO from "../components/seo";
+import LandingPage from "../components/landing/layout";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import Landing from "../components/landingpage/Landing"
+
+import LoginPage from "../components/landing/login-page";
 
 const theme = createMuiTheme({
   overrides: {
@@ -12,7 +14,11 @@ const theme = createMuiTheme({
 });
 
 const IndexPage = () => (
-  <Landing></Landing>
+  <LandingPage>
+    {/* <Router basepath="/app">
+      <LoginPage path="/loginpage"></LoginPage>
+    </Router> */}
+  </LandingPage>
 );
 
 export default IndexPage;
