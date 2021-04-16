@@ -3,6 +3,8 @@ import React, {
   forwardRef,
   useImperativeHandle,
   useCallback,
+  useRef,
+  useEffect,
 } from "react";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import { Typography } from "@material-ui/core";
@@ -53,8 +55,8 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
   const city = cities.korea;
   const cityHandleChange = (e) => {
     setCityValue(e.target.value);
-    console.log(cityValue);
   };
+
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
@@ -65,7 +67,15 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
     },
   }));
 
-  const onClickSaveInfos = (event) => {};
+  const onClickSaveInfos = () => {
+    const temp = city.filter((c) => c.name === cityValue);
+    if (temp != null) {
+      alert("Successfully Saved");
+      setOpen(false);
+    } else {
+      alert("Something is wrong with the city");
+    }
+  };
 
   return (
     <>
@@ -128,21 +138,20 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
                   <TableCell>
                     <Autocomplete
                       id="city"
-                      debug
                       options={city}
                       getOptionLabel={(option) => option.name}
                       getOptionSelected={(option, value) =>
                         option.name === value.name
                       }
                       defaultValue={currentLocation}
-                      autocomplete
+                      autoComplete
                       renderInput={(params) => (
                         <TextField
                           {...params}
                           label="City"
                           variant="standard"
                           defaultValue={currentLocation.name}
-                          onChange={cityHandleChange}
+                          onSelect={cityHandleChange}
                         />
                       )}
                     />
