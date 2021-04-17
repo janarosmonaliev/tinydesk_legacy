@@ -2,23 +2,17 @@ import React from "react";
 import { Link } from "gatsby";
 import { Router } from "@reach/router";
 import SEO from "../components/seo";
-import LandingPage from "../components/landing/layout";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
-import LoginPage from "../components/landing/login-page";
-
-const theme = createMuiTheme({
-  overrides: {
-    // To edit globals of Material Design
-  },
-});
+import Layout from "../components/landing/layout";
+import WelcomePage from "../components/landing/welcome-page";
 
 const IndexPage = () => (
-  <LandingPage>
-    {/* <Router basepath="/app">
-      <LoginPage path="/loginpage"></LoginPage>
-    </Router> */}
-  </LandingPage>
+  <>
+    <SEO />
+    <Layout>
+      <WelcomePage />
+    </Layout>
+  </>
 );
 
 export default IndexPage;
