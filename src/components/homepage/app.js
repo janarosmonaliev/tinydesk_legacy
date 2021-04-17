@@ -103,6 +103,7 @@ const App = () => {
   };
 
   //Dummy data
+  //User Location
   const userLocation = {
     id: 1843564,
     name: "Incheon",
@@ -113,6 +114,77 @@ const App = () => {
       lat: 37.453609,
     },
   };
+  //Todo list
+  const todolist = {
+    todolist: [
+      {
+        title: "Academic",
+        index: 0,
+        toggle: true,
+        todos: [
+          {
+            title: "30s presentation for CSE416",
+            isCompleted: false,
+            index: 0,
+          },
+          {
+            title: "POL101 read chapter 1",
+            isCompleted: false,
+            index: 1,
+          },
+          {
+            title: "CSE416 Software Requirements",
+            isCompleted: false,
+            index: 2,
+          },
+        ],
+      },
+      {
+        title: "Life Goals",
+        index: 1,
+        toggle: true,
+        todos: [
+          {
+            title: "Study ReactJS",
+            isCompleted: false,
+            index: 0,
+          },
+          {
+            title: "Study SwiftUI",
+            isCompleted: false,
+            index: 1,
+          },
+          {
+            title: "Hello world,",
+            isCompleted: false,
+            index: 2,
+          },
+        ],
+      },
+      {
+        title: "My daily todos",
+        index: 2,
+        toggle: true,
+        todos: [
+          {
+            title: "Laundry",
+            isCompleted: false,
+            index: 0,
+          },
+          {
+            title: "Run 3 miles",
+            isCompleted: false,
+            index: 1,
+          },
+          {
+            title: "Dinner with Kwangmin",
+            isCompleted: false,
+            index: 2,
+          },
+        ],
+      },
+    ],
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -122,7 +194,10 @@ const App = () => {
             handlePassBgUrl={(url) => setBackground(url)}
             location={userLocation}
           ></NavigationBar>
-          <GridWrapper location={userLocation}></GridWrapper>
+          <GridWrapper
+            location={userLocation}
+            todolist={todolist}
+          ></GridWrapper>
           <FoldersWrapper></FoldersWrapper>
         </Container>
       </div>

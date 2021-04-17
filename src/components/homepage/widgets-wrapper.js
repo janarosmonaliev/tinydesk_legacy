@@ -19,7 +19,7 @@ export default function WidgetsWrapper(props) {
         <NotesWidget></NotesWidget>
       </Grid>
       <Grid item xs={12} lg={6} className="widget-wrapper">
-        <TodoListWidget></TodoListWidget>
+        <TodoListWidget todolist={props.todolist}></TodoListWidget>
       </Grid>
     </Grid>
   );
