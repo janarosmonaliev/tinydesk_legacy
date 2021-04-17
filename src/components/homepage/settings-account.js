@@ -70,6 +70,9 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
   const onClickSaveInfos = () => {
     const temp = city.filter((c) => c.name === cityValue);
     if (temp != null) {
+      /*Save the result as current location
+         
+      */
       alert("Successfully Saved");
       setOpen(false);
     } else {

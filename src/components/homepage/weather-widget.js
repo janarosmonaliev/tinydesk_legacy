@@ -46,7 +46,7 @@ const formatTime = (date, next = 0) => {
   return [hours, min, meridiem];
 };
 
-export default function WeatherWidget() {
+export default function WeatherWidget(props) {
   const numberOfForecast = [0, 1, 2, 3];
   const [weathers, setWeathers] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -137,9 +137,10 @@ export default function WeatherWidget() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
+
       try {
         const response = await axios.get(
-          "https://api.openweathermap.org/data/2.5/onecall?lat=37.583328&lon=127.0&exclude=minutely&appid=450f67b03a3b2668b965c9b3ce364941&units=metric"
+          `https://api.openweathermap.org/data/2.5/onecall?lat=${props.location.coord.lat}&lon=${props.location.coord.lon}&exclude=minutely&appid=450f67b03a3b2668b965c9b3ce364941&units=metric`
         );
         setWeathers(response.data);
       } catch (e) {
@@ -188,7 +189,7 @@ export default function WeatherWidget() {
         }}
       >
         <Grid item xs={6}>
-          <Title>Songdo, Incheon</Title>
+          <Title>{props.location.name}</Title>
         </Grid>
         <Grid item xs={6}>
           <Time>{time[0] + ":" + time[1] + time[2]}</Time>

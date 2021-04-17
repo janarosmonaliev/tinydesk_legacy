@@ -122,7 +122,7 @@ const App = () => {
             handlePassBgUrl={(url) => setBackground(url)}
             location={userLocation}
           ></NavigationBar>
-          <GridWrapper></GridWrapper>
+          <GridWrapper location={userLocation}></GridWrapper>
           <FoldersWrapper></FoldersWrapper>
         </Container>
       </div>
