@@ -3,7 +3,6 @@ import React from "react";
 import LoginPage from "../components/landing/login-page";
 import Layout from "../components/landing/layout";
 import SEO from "../components/seo";
-
 const Login = () => (
   <>
     <SEO

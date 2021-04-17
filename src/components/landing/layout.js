@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Grid } from "@material-ui/core";
-import FeatureImage from "../../images/feature-image-3.jpg";
+import FeatureImage from "../../images/feature-image.jpg";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
@@ -47,7 +47,7 @@ const theme = createMuiTheme({
   },
 });
 
-const Layout = ({ children }) => {
+const Layout = ({ children }, props) => {
   return (
     <ThemeProvider theme={theme}>
       <Container maxWidth="xl">
