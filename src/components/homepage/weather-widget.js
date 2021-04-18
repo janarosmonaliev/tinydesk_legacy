@@ -3,6 +3,7 @@ import axios from "axios";
 import Grid from "@material-ui/core/Grid";
 import styled from "styled-components";
 import ReactAnimatedWeather from "react-animated-weather";
+
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const CurrentTemp = styled.div`
@@ -46,12 +47,11 @@ const formatTime = (date, next = 0) => {
   return [hours, min, meridiem];
 };
 
-export default function WeatherWidget(props) {
+export default function WeatherWidget() {
   const numberOfForecast = [0, 1, 2, 3];
   const [weathers, setWeathers] = useState(null);
   const [loading, setLoading] = useState(false);
   const [time, setTime] = useState(formatTime(new Date()));
-
   const getHourlyUpdate = (param) => {
     switch (param) {
       case "Rain":
@@ -140,7 +140,7 @@ export default function WeatherWidget(props) {
 
       try {
         const response = await axios.get(
-          `https://api.openweathermap.org/data/2.5/onecall?lat=${props.location.coord.lat}&lon=${props.location.coord.lon}&exclude=minutely&appid=450f67b03a3b2668b965c9b3ce364941&units=metric`
+          "https://api.openweathermap.org/data/2.5/onecall?lat=37.583328&lon=127.0&exclude=minutely&appid=450f67b03a3b2668b965c9b3ce364941&units=metric"
         );
         setWeathers(response.data);
       } catch (e) {
@@ -189,7 +189,7 @@ export default function WeatherWidget(props) {
         }}
       >
         <Grid item xs={6}>
-          <Title>{props.location.name}</Title>
+          <Title>Songdo, Incheon</Title>
         </Grid>
         <Grid item xs={6}>
           <Time>{time[0] + ":" + time[1] + time[2]}</Time>
