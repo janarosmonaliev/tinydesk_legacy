@@ -17,10 +17,7 @@ export default function GridWrapper(props) {
         <BookmarksWrapper />
       </Grid>
       <Grid item md={5} lg={4} xs={12}>
-        <WidgetsWrapper
-          location={props.location}
-          todolist={props.todolist}
-        ></WidgetsWrapper>
+        <WidgetsWrapper></WidgetsWrapper>
       </Grid>
     </Grid>
   );
