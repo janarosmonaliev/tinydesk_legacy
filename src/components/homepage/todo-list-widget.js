@@ -1,11 +1,8 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import TodoListWindow from "./todo-list-window";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 
 export default function ToDoListWidget(props) {
-  //Todo list attributes = todolistid : Objectid, index: int ; title: String
-  //Todo attributes = title: String, isCompleted: Bool, todoId: ObjectId, index: int
-
   const todoListWindowRef = useRef();
 
   const handleClick = () => {
@@ -33,7 +30,7 @@ export default function ToDoListWidget(props) {
           <div className="todo-list-widget-content">{previewTodos}</div>
         </div>
       </a>
-      <TodoListWindow ref={todoListWindowRef} todolist={props.todolist} />
+      <TodoListWindow todolist={props.todolist} ref={todoListWindowRef} />
     </>
   );
 }

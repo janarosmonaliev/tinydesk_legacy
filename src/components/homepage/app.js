@@ -202,7 +202,7 @@ const App = () => {
           <NavigationBar
             handlePassBgUrl={(url) => setBackground(url)}
           ></NavigationBar>
-          <GridWrapper></GridWrapper>
+          <GridWrapper todolist={todolist}></GridWrapper>
           <FoldersWrapper></FoldersWrapper>
         </Container>
       </div>

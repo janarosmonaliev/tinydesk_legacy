@@ -3,7 +3,7 @@ import React from "react";
 import WeatherWidget from "./weather-widget";
 import NotesWidget from "./notes-widget";
 import TodoListWidget from "./todo-list-widget";
-export default function WidgetsWrapper() {
+export default function WidgetsWrapper(props) {
   return (
     <Grid
       container
