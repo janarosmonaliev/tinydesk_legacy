@@ -125,16 +125,19 @@ const App = () => {
           {
             title: "30s presentation for CSE416",
             isCompleted: false,
+            toggle: true,
             index: 0,
           },
           {
             title: "POL101 read chapter 1",
             isCompleted: false,
+            toggle: true,
             index: 1,
           },
           {
             title: "CSE416 Software Requirements",
             isCompleted: false,
+            toggle: true,
             index: 2,
           },
         ],
@@ -147,16 +150,19 @@ const App = () => {
           {
             title: "Study ReactJS",
             isCompleted: false,
+            toggle: true,
             index: 0,
           },
           {
             title: "Study SwiftUI",
             isCompleted: false,
+            toggle: true,
             index: 1,
           },
           {
             title: "Hello world,",
             isCompleted: false,
+            toggle: true,
             index: 2,
           },
         ],
@@ -169,16 +175,19 @@ const App = () => {
           {
             title: "Laundry",
             isCompleted: false,
+            toggle: true,
             index: 0,
           },
           {
             title: "Run 3 miles",
             isCompleted: false,
+            toggle: true,
             index: 1,
           },
           {
             title: "Dinner with Kwangmin",
             isCompleted: false,
+            toggle: true,
             index: 2,
           },
         ],
