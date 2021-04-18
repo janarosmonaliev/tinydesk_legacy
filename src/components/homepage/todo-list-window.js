@@ -173,10 +173,9 @@ const TodoListWindow = forwardRef((tl, ref) => {
 
   const nextIndex = useRef(todolists.length);
   const onClickAddTodoList = () => {
-    if (todolistFocus || todoFocus.focus) {
+    if (todolistFocus) {
       const newFocus = { focus: false, index: -1 };
       setTodoFocus(newFocus);
-
       return;
     }
 
