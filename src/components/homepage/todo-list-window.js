@@ -250,20 +250,14 @@ const TodoListWindow = forwardRef((tl, ref) => {
                 <>
                   {todolist.toggle ? (
                     <>
-                      {/* <ContextMenuTrigger
-                        id={classNames(
-                          `todolist-context-menu-${todolist.index}`
-                        )}
+                      <ListItem
+                        button
+                        selected={selectedIndex === todolist.index}
+                        onClick={(e) => handleSelectList(e, todolist.index)}
+                        onDoubleClick={handleDoubleClickTodolist}
                       >
-                        <ListItem
-                          button
-                          selected={selectedIndex === todolist.index}
-                          onClick={(e) => handleSelectList(e, todolist.index)}
-                          onDoubleClick={handleDoubleClickTodolist}
-                        >
-                          <ListItemText primary={todolist.title}></ListItemText>
-                        </ListItem>
-                      </ContextMenuTrigger> */}
+                        <ListItemText primary={todolist.title}></ListItemText>
+                      </ListItem>
                       <Divider light />
                     </>
                   ) : (
@@ -334,21 +328,6 @@ const TodoListWindow = forwardRef((tl, ref) => {
       </DialogContent>
 
       <DialogActions>
-        {/* {todolists.map((todolist) => (
-          <ContextMenu
-            id={classNames(`todolist-context-menu-${todolist.index}`)}
-          >
-            <MenuItem
-              onClick={onClickDeleteTodoList}
-              data={{ index: todolist.index }}
-            >
-              <Grid container alignItems="center">
-                <XCircle size={20} color={"#eb5757"} />
-                &nbsp;Delete
-              </Grid>
-            </MenuItem>
-          </ContextMenu>
-        ))} */}
         <Button
           startIcon={<Plus />}
           disableTouchRipple
