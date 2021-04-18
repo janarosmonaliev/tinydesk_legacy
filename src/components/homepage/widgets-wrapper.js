@@ -3,7 +3,7 @@ import React from "react";
 import WeatherWidget from "./weather-widget";
 import NotesWidget from "./notes-widget";
 import TodoListWidget from "./todo-list-widget";
-export default function WidgetsWrapper(props) {
+export default function WidgetsWrapper() {
   return (
     <Grid
       container
@@ -13,7 +13,7 @@ export default function WidgetsWrapper(props) {
       spacing={2}
     >
       <Grid item xs={12} className="widget-wrapper">
-        <WeatherWidget location={props.location}></WeatherWidget>
+        <WeatherWidget></WeatherWidget>
       </Grid>
       <Grid item xs={12} lg={6} className="widget-wrapper">
         <NotesWidget></NotesWidget>
