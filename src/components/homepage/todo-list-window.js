@@ -254,16 +254,16 @@ const TodoListWindow = forwardRef((tl, ref) => {
                         id={classNames(
                           `todolist-context-menu-${todolist.index}`
                         )}
-                      > */}
-                      <ListItem
-                        button
-                        selected={selectedIndex === todolist.index}
-                        onClick={(e) => handleSelectList(e, todolist.index)}
-                        onDoubleClick={handleDoubleClickTodolist}
                       >
-                        <ListItemText primary={todolist.title}></ListItemText>
-                      </ListItem>
-                      {/* </ContextMenuTrigger> */}
+                        <ListItem
+                          button
+                          selected={selectedIndex === todolist.index}
+                          onClick={(e) => handleSelectList(e, todolist.index)}
+                          onDoubleClick={handleDoubleClickTodolist}
+                        >
+                          <ListItemText primary={todolist.title}></ListItemText>
+                        </ListItem>
+                      </ContextMenuTrigger> */}
                       <Divider light />
                     </>
                   ) : (

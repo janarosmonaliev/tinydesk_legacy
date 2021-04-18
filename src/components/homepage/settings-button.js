@@ -14,7 +14,6 @@ export default function SettingsButton(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   const accountSettingsWindowRef = useRef();
   const handleClickAccount = () => {
     accountSettingsWindowRef.current.clickOpen();
@@ -54,7 +53,10 @@ export default function SettingsButton(props) {
         }}
       >
         <a onClick={handleClickAccount}></a>
-        <AccountSettings ref={accountSettingsWindowRef} />
+        <AccountSettings
+          ref={accountSettingsWindowRef}
+          location={props.location}
+        />
         <MenuItem onClick={handleClose}>Edit layout</MenuItem>
         <MenuItem onClick={handleClickEditBg}>Edit background image</MenuItem>
       </Menu>
