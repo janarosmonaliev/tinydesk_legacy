@@ -3,6 +3,7 @@ import React, {
   useImperativeHandle,
   useState,
   useRef,
+  useEffect,
 } from "react";
 import {
   Dialog,
@@ -14,9 +15,9 @@ import {
   DialogActions,
 } from "@material-ui/core";
 import { TextField, Button, Grid } from "@material-ui/core";
-import { GridList, GridListTile } from "@material-ui/core";
 import { X } from "react-feather";
 import { createApi } from "unsplash-js";
+import InfiniteScroll from "react-infinite-scroller";
 
 const unsplash = createApi({
   accessKey: "NaoP4rMXua-Xgx3YYi4Oa41jeZQTwxEfK_XL03lB8Vs",
@@ -39,19 +40,20 @@ const UnsplashWindow = forwardRef((props, ref) => {
   const [photos, setPhotos] = useState([]);
 
   const handleGetPhotos = () => {
+    const nextPage = Math.floor(photos.length / 30) + 1;
     unsplash.search
       .getPhotos({
         query: searchQuery.current.value,
-        page: 1,
-        perPage: 120,
+        page: nextPage,
+        perPage: 30,
         orientation: "landscape",
       })
       .then((result) => {
         if (result.errors) {
           console.log("error occurred: ", result.errors[0]);
         } else {
-          // console.log(result.response.results);
-          setPhotos(result.response.results);
+          console.log(result.response.results);
+          setPhotos(photos.concat(result.response.results));
         }
       });
   };
@@ -126,29 +128,39 @@ const UnsplashWindow = forwardRef((props, ref) => {
           </Grid>
           <Grid container justify="center" spacing={2}>
             <div className="unsplash-wrapper">
-              {photos.map((tile) => (
-                <div className="unsplash-item" id={tile.id}>
-                  <img
-                    src={tile.urls.small}
-                    alt={tile.alt_description}
-                    className="img-fluid"
-                  ></img>
-                  <a
-                    className="unsplash-link"
-                    onClick={() => handleClickImage(tile)}
-                  ></a>
-                </div>
-              ))}
+              <InfiniteScroll
+                pageStart={0}
+                loadMore={handleGetPhotos}
+                hasMore={true}
+                loader={<small key={0}>Loading ...</small>}
+                useWindow={false}
+              >
+                {photos.map((tile) => (
+                  <div className="unsplash-item" id={tile.id}>
+                    <img
+                      src={tile.urls.small}
+                      alt={tile.alt_description}
+                      className="img-fluid"
+                      key={tile.id}
+                    ></img>
+                    <a
+                      className="unsplash-link"
+                      onClick={() => handleClickImage(tile)}
+                    ></a>
+                  </div>
+                ))}
+              </InfiniteScroll>
             </div>
           </Grid>
         </DialogContent>
         <DialogActions>
-          {/* <Button
+          <Button
             variant="contained"
             color="primary"
             disableElevation
             disableTouchRipple
             className="button-100"
+            onClick={handleClose}
           >
             Save
           </Button>
@@ -160,7 +172,7 @@ const UnsplashWindow = forwardRef((props, ref) => {
             className="button-100"
           >
             Cancel
-          </Button> */}
+          </Button>
         </DialogActions>
       </Dialog>
     </>

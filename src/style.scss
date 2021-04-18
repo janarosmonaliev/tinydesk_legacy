@@ -493,14 +493,37 @@ small,
 .unsplash-wrapper {
   min-height: 20vh;
   margin-top: $space-03;
-  column-count: 2;
-  column-gap: $space-02;
+  // column-count: 2;
+  // column-gap: $space-02;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+
+  -webkit-align-items: center;
+  -webkit-moz-items: center;
+  align-items: center;
+
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  flex-direction: row;
+
+  -webkit-flex-wrap: wrap;
+  -moz-flex-wrap: wrap;
+  flex-wrap: wrap;
+
+  -webkit-flex-flow: row wrap;
+  -moz-flex-flow: row wrap;
+  flex-flow: row wrap;
+
+  -webkit-align-content: flex-end;
+  -moz-align-content: flex-end;
+  align-content: flex-end;
 }
 .unsplash-item {
   position: relative;
   display: inline-block;
   margin: 0 0 $space-02;
-  width: 100%;
+  width: 50%;
   & > img {
     width: 100%;
     height: 100%;
