@@ -7,11 +7,8 @@ import {
   Container,
 } from "@material-ui/core";
 import { Link } from "gatsby";
-import React, { useState, useCallback, useEffect } from "react";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import { Select, MenuItem, FormControl, InputLabel } from "@material-ui/core";
-import cities from "../../cities";
-import { ContactSupportOutlined } from "@material-ui/icons";
+import React from "react";
+
 const SignUpBox = () => {
   const signUpBoxStyle = {
     backgroundColor: "#333333",
@@ -35,28 +32,6 @@ const SignUpBox = () => {
     color: "#828282",
   };
 
-  //From json
-  const [city, setCity] = useState([]);
-  //from country
-  const [selectedCountry, setSelectedCountry] = useState("");
-  //to pass (one city)
-  const [selectedCity, setSelectedCity] = useState(null);
-
-  const [temp, setTemp] = useState("");
-  const handleChange = useCallback((e) => {
-    setSelectedCountry(e.target.value);
-    setCity(e.target.value == "korea" ? cities.korea : cities.usa);
-  }, []);
-  const handleSelect = useCallback((e) => {
-    // setTemp(e.target.value);
-    setSelectedCity(city.filter((c) => c.name === e.target.value));
-  });
-  // const onChange = (e) => {
-  //   setTemp(e.target.value);
-  // };
-  // useEffect(() => {
-  //   setTemp("");
-  // }, [selectedCountry]);
   return (
     <Grid item container xs={6} justify="center">
       <Grid
@@ -72,7 +47,7 @@ const SignUpBox = () => {
             Enter your information to create a new account.
           </Typography>
           <br />
-          <Grid container>
+          <Grid xs={12} container>
             <Box style={boxStyle}>
               <TextField
                 id="name"
@@ -94,36 +69,11 @@ const SignUpBox = () => {
                 placeholder="Password"
                 style={textFieldStyle}
               ></TextField>
-              <FormControl style={textFieldStyle}>
-                <InputLabel id="sign-up-select-label">Country</InputLabel>
-                <Select
-                  labalId="sign-up-select-label"
-                  id="sign-up-select"
-                  value={selectedCountry}
-                  onChange={handleChange}
-                >
-                  <MenuItem value={"usa"}>United States of America</MenuItem>
-                  <MenuItem value={"korea"}>South Korea</MenuItem>
-                </Select>
-              </FormControl>
-
-              <Autocomplete
+              <TextField
                 id="city"
-                debug
-                options={city}
-                getOptionLabel={(option) => option.name}
-                disabled={selectedCountry == ""}
-                // inputValue={temp}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="City"
-                    variant="standard"
-                    onSelect={handleSelect}
-                    // onChange={onChange}
-                  />
-                )}
-              />
+                placeholder="Current city"
+                style={textFieldStyle}
+              ></TextField>
 
               <Grid
                 item

@@ -3,6 +3,7 @@ import axios from "axios";
 import Grid from "@material-ui/core/Grid";
 import styled from "styled-components";
 import ReactAnimatedWeather from "react-animated-weather";
+
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const CurrentTemp = styled.div`
@@ -51,7 +52,6 @@ export default function WeatherWidget(props) {
   const [weathers, setWeathers] = useState(null);
   const [loading, setLoading] = useState(false);
   const [time, setTime] = useState(formatTime(new Date()));
-
   const getHourlyUpdate = (param) => {
     switch (param) {
       case "Rain":

@@ -201,7 +201,6 @@ const App = () => {
         <Container maxWidth="lg">
           <NavigationBar
             handlePassBgUrl={(url) => setBackground(url)}
-            location={userLocation}
           ></NavigationBar>
           <GridWrapper
             location={userLocation}

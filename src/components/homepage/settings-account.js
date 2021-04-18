@@ -9,7 +9,7 @@ import React, {
 import SvgIcon from "@material-ui/core/SvgIcon";
 import { Typography } from "@material-ui/core";
 import { MenuItem } from "@material-ui/core";
-import { Divide, X } from "react-feather";
+import { X } from "react-feather";
 import {
   Dialog,
   DialogTitle,
@@ -27,8 +27,6 @@ import Paper from "@material-ui/core/Paper";
 import Switch from "@material-ui/core/Switch";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
-import cities from "../../cities";
-import Autocomplete from "@material-ui/lab/Autocomplete";
 
 const AccountSettingsTwo = forwardRef((props, ref) => {
   const [open, setOpen] = useState(false);
@@ -60,7 +58,6 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
-
   useImperativeHandle(ref, () => ({
     clickOpen: () => {
       handleClickOpen();
@@ -92,7 +89,10 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
         aria-labelledby="settings-account-dialog"
       >
         <DialogTitle id="settings-account-dialog">
-          <div className="dialog-title"> Account Settings</div>
+          <h5 className="dialog-title" style={{ marginLeft: "15px" }}>
+            {" "}
+            Account Settings
+          </h5>
           <IconButton
             aria-label="close"
             onClick={handleClose}
@@ -178,17 +178,13 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
           </TableContainer>
         </DialogContent>
         <DialogContent>
+          <Typography
+            align="center"
+            //style={{ color: "#eb5757", fontWeight: "bold" }}
+          >
+            <p>Danger Zone</p>
+          </Typography>
           <Grid container spacing={2}>
-            <Grid item xs={12} container direction="column">
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={onClickSaveInfos}
-              >
-                Save
-              </Button>
-            </Grid>
-
             <Grid item xs={12} container direction="column">
               <Button
                 variant="outlined"
