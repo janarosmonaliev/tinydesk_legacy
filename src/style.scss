@@ -197,6 +197,7 @@ small,
 }
 .dialog-title {
   display: inline-block;
+  margin-left: 15px;
 }
 .button-dialog-close {
   padding-top: 0 !important;
@@ -384,7 +385,7 @@ small,
 .todo-list-widget-wrapper {
   overflow: hidden;
   display: block;
-  min-height: 150px;
+  height: 150px;
   background-color: $glass-color-light;
   backdrop-filter: blur(8px);
   box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.1);
@@ -523,4 +524,54 @@ small,
 .unicorn-success {
   color: "#77dd77";
   display: flex;
+}
+.react-contextmenu {
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  color: #373a3c;
+  font-size: 16px;
+  margin: 2px 0 0;
+  min-width: 160px;
+  outline: none;
+  opacity: 0;
+  padding: 5px 0;
+  pointer-events: none;
+  text-align: left;
+  transition: opacity 250ms ease !important;
+}
+
+.react-contextmenu.react-contextmenu--visible {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 9999;
+}
+
+.react-contextmenu-item {
+  background: 0 0;
+  border: 0;
+  color: #eb5757;
+  cursor: pointer;
+  font-weight: 400;
+  line-height: 1.5;
+  padding: 3px 20px;
+  text-align: inherit;
+  white-space: nowrap;
+}
+
+.react-contextmenu-item.react-contextmenu-item--active,
+.react-contextmenu-item.react-contextmenu-item--selected {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+.react-contextmenu-item--divider {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  cursor: inherit;
+  margin-bottom: 3px;
+  padding: 2px 0;
+}
+.react-contextmenu-item--divider:hover {
+  background-color: transparent;
+  border-color: rgba(0, 0, 0, 0.15);
 }
