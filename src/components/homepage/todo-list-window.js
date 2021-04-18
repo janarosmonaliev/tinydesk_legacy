@@ -11,18 +11,15 @@ import {
   DialogTitle,
   DialogContent,
   TextField,
-  Typography,
-  Paper,
 } from "@material-ui/core";
 import classNames from "classnames";
 import { SvgIcon, IconButton, DialogActions, Button } from "@material-ui/core";
 import { Grid, List, ListItem, Divider, ListItemText } from "@material-ui/core";
-import { FormControlLabel, Checkbox } from "@material-ui/core";
+import { Checkbox } from "@material-ui/core";
 import { X, Plus, XCircle } from "react-feather";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
-import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
-import { DragIndicatorSharp, SettingsInputHdmiSharp } from "@material-ui/icons";
+// import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import produce from "immer";
 
 const TodoListWindow = forwardRef((tl, ref) => {
@@ -253,20 +250,20 @@ const TodoListWindow = forwardRef((tl, ref) => {
                 <>
                   {todolist.toggle ? (
                     <>
-                      <ContextMenuTrigger
+                      {/* <ContextMenuTrigger
                         id={classNames(
                           `todolist-context-menu-${todolist.index}`
                         )}
+                      > */}
+                      <ListItem
+                        button
+                        selected={selectedIndex === todolist.index}
+                        onClick={(e) => handleSelectList(e, todolist.index)}
+                        onDoubleClick={handleDoubleClickTodolist}
                       >
-                        <ListItem
-                          button
-                          selected={selectedIndex === todolist.index}
-                          onClick={(e) => handleSelectList(e, todolist.index)}
-                          onDoubleClick={handleDoubleClickTodolist}
-                        >
-                          <ListItemText primary={todolist.title}></ListItemText>
-                        </ListItem>
-                      </ContextMenuTrigger>
+                        <ListItemText primary={todolist.title}></ListItemText>
+                      </ListItem>
+                      {/* </ContextMenuTrigger> */}
                       <Divider light />
                     </>
                   ) : (
@@ -337,7 +334,7 @@ const TodoListWindow = forwardRef((tl, ref) => {
       </DialogContent>
 
       <DialogActions>
-        {todolists.map((todolist) => (
+        {/* {todolists.map((todolist) => (
           <ContextMenu
             id={classNames(`todolist-context-menu-${todolist.index}`)}
           >
@@ -351,7 +348,7 @@ const TodoListWindow = forwardRef((tl, ref) => {
               </Grid>
             </MenuItem>
           </ContextMenu>
-        ))}
+        ))} */}
         <Button
           startIcon={<Plus />}
           disableTouchRipple

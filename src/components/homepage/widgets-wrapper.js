@@ -13,7 +13,7 @@ export default function WidgetsWrapper(props) {
       spacing={2}
     >
       <Grid item xs={12} className="widget-wrapper">
-        <WeatherWidget></WeatherWidget>
+        <WeatherWidget location={props.location}></WeatherWidget>
       </Grid>
       <Grid item xs={12} lg={6} className="widget-wrapper">
         <NotesWidget></NotesWidget>

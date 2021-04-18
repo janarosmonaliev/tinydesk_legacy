@@ -201,8 +201,12 @@ const App = () => {
         <Container maxWidth="lg">
           <NavigationBar
             handlePassBgUrl={(url) => setBackground(url)}
+            location={userLocation}
           ></NavigationBar>
-          <GridWrapper todolist={todolist}></GridWrapper>
+          <GridWrapper
+            location={userLocation}
+            todolist={todolist}
+          ></GridWrapper>
           <FoldersWrapper></FoldersWrapper>
         </Container>
       </div>
