@@ -102,111 +102,14 @@ const App = () => {
     backgroundImage: `url(${background})`,
   };
 
-  //Dummy data
-  //User Location
-  const userLocation = {
-    id: 1843564,
-    name: "Incheon",
-    state: "",
-    country: "KR",
-    coord: {
-      lon: 126.731667,
-      lat: 37.453609,
-    },
-  };
-  //Todo list
-  const todolist = {
-    todolist: [
-      {
-        title: "Academic",
-        index: 0,
-        toggle: true,
-        todos: [
-          {
-            title: "30s presentation for CSE416",
-            isCompleted: false,
-            toggle: true,
-            index: 0,
-          },
-          {
-            title: "POL101 read chapter 1",
-            isCompleted: false,
-            toggle: true,
-            index: 1,
-          },
-          {
-            title: "CSE416 Software Requirements",
-            isCompleted: false,
-            toggle: true,
-            index: 2,
-          },
-        ],
-      },
-      {
-        title: "Life Goals",
-        index: 1,
-        toggle: true,
-        todos: [
-          {
-            title: "Study ReactJS",
-            isCompleted: false,
-            toggle: true,
-            index: 0,
-          },
-          {
-            title: "Study SwiftUI",
-            isCompleted: false,
-            toggle: true,
-            index: 1,
-          },
-          {
-            title: "Hello world,",
-            isCompleted: false,
-            toggle: true,
-            index: 2,
-          },
-        ],
-      },
-      {
-        title: "My daily todos",
-        index: 2,
-        toggle: true,
-        todos: [
-          {
-            title: "Laundry",
-            isCompleted: false,
-            toggle: true,
-            index: 0,
-          },
-          {
-            title: "Run 3 miles",
-            isCompleted: false,
-            toggle: true,
-            index: 1,
-          },
-          {
-            title: "Dinner with Kwangmin",
-            isCompleted: false,
-            toggle: true,
-            index: 2,
-          },
-        ],
-      },
-    ],
-  };
-
   return (
     <ThemeProvider theme={theme}>
       <div className="app-window" style={unsplashImage}>
         <Container maxWidth="lg">
           <NavigationBar
             handlePassBgUrl={(url) => setBackground(url)}
-            location={userLocation}
           ></NavigationBar>
-          <GridWrapper
-            location={userLocation}
-            todolist={todolist}
-          ></GridWrapper>
+          <GridWrapper></GridWrapper>
           <FoldersWrapper></FoldersWrapper>
         </Container>
       </div>
