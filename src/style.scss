@@ -384,7 +384,7 @@ small,
 .todo-list-widget-wrapper {
   overflow: hidden;
   display: block;
-  min-height: 150px;
+  height: 150px;
   background-color: $glass-color-light;
   backdrop-filter: blur(8px);
   box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.1);

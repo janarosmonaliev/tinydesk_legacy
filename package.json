@@ -7,7 +7,9 @@
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.57",
     "axios": "^0.21.1",
+    "classnames": "^2.3.1",
     "clsx": "^1.1.1",
     "gatsby": "^2.32.8",
     "gatsby-plugin-manifest": "^2.12.1",
@@ -16,6 +18,7 @@
     "gatsby-plugin-sharp": "^2.14.3",
     "gatsby-source-filesystem": "^2.11.1",
     "gatsby-transformer-sharp": "^2.12.0",
+    "immer": "^9.0.1",
     "react": "^16.14.0",
     "react-animated-weather": "^4.0.1",
     "react-dom": "^16.14.0",
