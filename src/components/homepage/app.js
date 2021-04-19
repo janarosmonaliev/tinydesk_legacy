@@ -96,7 +96,7 @@ const theme = createMuiTheme({
 
 const App = () => {
   const [background, setBackground] = useState(
-    "https://raw.githubusercontent.com/janarosmonaliev/project-416/master/src/images/mac-os-bg.png?token=AHRF2MQPFXGXN6WAOXAINPDAOQZ2A"
+    "https://images.unsplash.com/photo-1481414981591-5732874c7193?crop=entropy&cs=srgb&fm=jpg&ixid=MnwyMjAyNzR8MHwxfHNlYXJjaHw1fHxvcmFuZ2V8ZW58MHwwfHx8MTYxODU1NjAxNQ&ixlib=rb-1.2.1&q=85"
   );
   const unsplashImage = {
     backgroundImage: `url(${background})`,
