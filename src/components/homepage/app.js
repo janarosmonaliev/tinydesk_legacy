@@ -119,76 +119,76 @@ const App = () => {
     todolist: [
       {
         title: "Academic",
-        index: 0,
+        id: 0,
         toggle: true,
         todos: [
           {
             title: "30s presentation for CSE416",
             isCompleted: false,
             toggle: true,
-            index: 0,
+            id: 0,
           },
           {
             title: "POL101 read chapter 1",
             isCompleted: false,
             toggle: true,
-            index: 1,
+            id: 1,
           },
           {
             title: "CSE416 Software Requirements",
             isCompleted: false,
             toggle: true,
-            index: 2,
+            id: 2,
           },
         ],
       },
       {
         title: "Life Goals",
-        index: 1,
+        id: 1,
         toggle: true,
         todos: [
           {
             title: "Study ReactJS",
             isCompleted: false,
             toggle: true,
-            index: 0,
+            id: 0,
           },
           {
             title: "Study SwiftUI",
             isCompleted: false,
             toggle: true,
-            index: 1,
+            id: 1,
           },
           {
             title: "Hello world,",
             isCompleted: false,
             toggle: true,
-            index: 2,
+            id: 2,
           },
         ],
       },
       {
         title: "My daily todos",
-        index: 2,
+        id: 2,
         toggle: true,
         todos: [
           {
             title: "Laundry",
             isCompleted: false,
             toggle: true,
-            index: 0,
+            id: 0,
           },
           {
             title: "Run 3 miles",
             isCompleted: false,
             toggle: true,
-            index: 1,
+            id: 1,
           },
           {
             title: "Dinner with Kwangmin",
             isCompleted: false,
             toggle: true,
-            index: 2,
+            id: 2,
           },
         ],
       },

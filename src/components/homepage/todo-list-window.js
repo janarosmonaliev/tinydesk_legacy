@@ -19,17 +19,57 @@ import { X, Plus, XCircle } from "react-feather";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import produce from "immer";
+import nextId from "react-id-generator";
+import { Menu, MenuItem } from "@material-ui/core/";
 
 const TodoListWindow = forwardRef((tl, ref) => {
+  //Props todolist from App
   const [todolists, setTodolists] = useState(tl.todolist.todolist);
+  //Open and close modal
   const [open, setOpen] = useState(false);
+  //Track whether a user makes change in todolist (ex) edit title, make new todolist)
   const [todolistFocus, setTodolistFocus] = useState(false);
+  //Track whether a user makes change in todo (ex) edit title, make new todo)
   const [todoFocus, setTodoFocus] = useState({ focus: false, index: -1 });
+  //Keep track what todolist's next index should be
+  const nextIndexTodolist = useRef(todolists.length);
+  //Keep track what todo's next index should be
+  const [nextIndexTodo, setNextIndexTodo] = useState(0);
+  //Context menu's initial position
+  const initialMousPos = {
+    mouseX: null,
+    mouseY: null,
+  };
+  //Decide Context menu's position
+  const [mousePos, setMousePos] = useState(initialMousPos);
+  //Keep track which todolist user right-clicks
+  const [todolistIdForContextMenu, setTodolistIdForContextMenu] = useState(
+    null
+  );
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
+  };
+  const handleContextMenu = (e, id) => {
+    if (id != null) {
+      setTodolistIdForContextMenu(id);
+    }
+    e.preventDefault();
+    //If contextmenu is already opened, just close it
+    if (mousePos.mouseX != null) {
+      setMousePos(initialMousPos);
+    } else {
+      setMousePos({
+        mouseX: e.clientX - 2,
+        mouseY: e.clientY - 4,
+      });
+    }
+  };
+
+  const handleContextMenuClose = () => {
+    setMousePos(initialMousPos);
   };
   // For the parent to access the child (Widget -> Window)
   useImperativeHandle(ref, () => ({
@@ -37,17 +77,21 @@ const TodoListWindow = forwardRef((tl, ref) => {
       handleClickOpen();
     },
   }));
-
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedId, setSelectedId] = useState(0);
 
   const [displayedTodolist, setDisplayedTodolist] = useState(
-    todolists.filter((todolist) => todolist.index === selectedIndex)
+    todolists.filter((todolist) => todolist.id === selectedId)
   );
-  const handleSelectList = (e, index) => {
-    setSelectedIndex(index);
+  const handleSelectList = (e, id) => {
+    setSelectedId(id);
+    setSelectedIndex(todolists.findIndex((todolist) => todolist.id === id));
   };
+
   useEffect(() => {
+    console.log("3");
     if (!todoFocus.focus) {
+      console.log("4");
       setTodolists(
         produce((draft) => {
           draft[selectedIndex].todos.map((todo) =>
@@ -66,14 +110,27 @@ const TodoListWindow = forwardRef((tl, ref) => {
   }, [todoFocus]);
 
   useEffect(() => {
-    if (selectedIndex != -1) {
+    if (selectedId != -1) {
       setDisplayedTodolist(
-        todolists.filter((todolist) => todolist.index === selectedIndex)
+        todolists.filter((todolist) => todolist.id === selectedId)
       );
+
+      //If displayedTodolist is null
+      //even above code seems like sets displayedTodolist,
+      //at this point, it is still null.
+      //This is special handling when todolist is just created
+      //when there is no todolist before that.
+      if (displayedTodolist === null) {
+        setNextIndexTodo(0);
+      } else {
+        setNextIndexTodo(displayedTodolist[0].todos.length);
+      }
+      console.log("7");
     }
-  }, [selectedIndex, todolists[selectedIndex]]);
+  }, [selectedId, todolists[selectedIndex]]);
   useEffect(() => {
-    const newFocus = { focus: false, index: -1 };
+    console.log("7");
+    const newFocus = { focus: false, id: -1 };
     setTodoFocus(newFocus);
   }, [selectedIndex]);
 
@@ -88,11 +145,19 @@ const TodoListWindow = forwardRef((tl, ref) => {
   const handleDoubleClickTodo = (index) => {
     setTodolists(
       produce((draft) => {
+        draft[selectedIndex].todos.map((todo) =>
+          !todo.toggle ? (todo.toggle = true) : todo.toggle
+        );
+      })
+    );
+
+    const focus = { focus: true, index: index };
+    setTodoFocus(focus);
+    setTodolists(
+      produce((draft) => {
         draft[selectedIndex].todos[index].toggle = false;
       })
     );
-    const focus = { focus: true, index: index };
-    setTodoFocus(focus);
   };
 
   const handleChange = (e) => {
@@ -104,7 +169,7 @@ const TodoListWindow = forwardRef((tl, ref) => {
     );
   };
 
-  const handleChangeTodo = (e) => {
+  const handleChangeTodo = (e, id) => {
     const { name, value } = e.target;
     setTodolists(
       produce((draft) => {
@@ -137,7 +202,8 @@ const TodoListWindow = forwardRef((tl, ref) => {
     if (
       (e.type === "click" && e.target.type === "checkbox") ||
       e.target.id === "todos-keep-click-away" ||
-      e.target.nodeName === "SPAN"
+      e.target.nodeName === "SPAN" ||
+      e.target.nodeName === "H5"
     ) {
       return;
     }
@@ -150,25 +216,45 @@ const TodoListWindow = forwardRef((tl, ref) => {
         setTodoFocus(focus);
       }
     } else if (e.type === "click" && !todoFocus.focus) {
+      //When user clicks new todo when focus is on todolist widget
+      if (todolistFocus) {
+        setTodolists(
+          produce((draft) => {
+            draft[selectedIndex].title =
+              draft[selectedIndex].title === ""
+                ? "New List"
+                : draft[selectedIndex].title;
+            draft[selectedIndex].toggle = true;
+          })
+        );
+        setTodolistFocus(false);
+      }
       const newTodo = {
         title: "",
         isCompleted: false,
         toggle: false,
-        index: todolists[selectedIndex].todos.length,
+        id: nextId(),
       };
       setTodolists(
         produce((draft) => {
           draft[selectedIndex].todos.push(newTodo);
         })
       );
-      const focus = { focus: true, index: newTodo.index };
-      setTodoFocus(focus);
+
+      if (displayedTodolist[0].todos.length === 0) {
+        const focus = { focus: true, index: 0 };
+        setTodoFocus(focus);
+      } else {
+        const focus = { focus: true, index: nextIndexTodo };
+        setTodoFocus(focus);
+      }
     }
   };
 
-  const nextIndex = useRef(todolists.length);
   const onClickAddTodoList = () => {
+    console.log("1");
     if (todolistFocus) {
+      console.log("2");
       const newFocus = { focus: false, index: -1 };
       setTodoFocus(newFocus);
       return;
@@ -176,28 +262,39 @@ const TodoListWindow = forwardRef((tl, ref) => {
 
     const newTodolist = {
       title: "",
-      index: nextIndex.current,
+      id: nextId(),
       toggle: false,
       todos: [],
     };
-
-    setSelectedIndex(nextIndex.current);
+    setSelectedId(newTodolist.id);
+    setSelectedIndex(nextIndexTodolist.current);
     setTodolists(todolists.concat(newTodolist));
     setTodolistFocus(true);
     const focus = { focus: false, index: -1 };
     setTodoFocus(focus);
-    nextIndex.current += 1;
+    nextIndexTodolist.current += 1;
   };
 
-  const onClickDeleteTodoList = useCallback((e, data) => {
-    setTodolists(todolists.filter((todolist) => todolist.index !== data.index));
+  const handleContextMenuDeleteTodoList = useCallback(() => {
+    setMousePos(initialMousPos);
+
+    setTodolists(
+      todolists.filter((todolist) => todolist.id !== todolistIdForContextMenu)
+    );
+
     if (todolists.length != 1) {
-      setSelectedIndex(0);
+      //Reset to first todolist
+      if (todolistIdForContextMenu == todolists[0].id) {
+        setSelectedId(todolists[1].id);
+      } else {
+        setSelectedId(todolists[0].id);
+      }
     } else {
       setDisplayedTodolist(null);
-      setSelectedIndex(-1);
+      setSelectedId(-1);
     }
-    nextIndex.current -= 1;
+    setTodolistIdForContextMenu(null);
+    nextIndexTodolist.current -= 1;
   });
 
   const checkBoxToggle = (e, index) => {
@@ -241,7 +338,12 @@ const TodoListWindow = forwardRef((tl, ref) => {
           spacing={3}
           style={{ height: "50vh" }}
         >
-          <Grid item xs={3} onClick={handleKeyDownTodolist}>
+          <Grid
+            item
+            xs={3}
+            onClick={handleKeyDownTodolist}
+            onContextMenu={handleContextMenu}
+          >
             <List component="nav" aria-label="to-do lists">
               {/* TODO Map a JSON object to display content */}
               {todolists.map((todolist) => (
@@ -250,12 +352,31 @@ const TodoListWindow = forwardRef((tl, ref) => {
                     <>
                       <ListItem
                         button
-                        selected={selectedIndex === todolist.index}
-                        onClick={(e) => handleSelectList(e, todolist.index)}
+                        selected={selectedId === todolist.id}
+                        onClick={(e) => handleSelectList(e, todolist.id)}
                         onDoubleClick={handleDoubleClickTodolist}
+                        onContextMenu={(e) => handleContextMenu(e, todolist.id)}
                       >
                         <ListItemText primary={todolist.title}></ListItemText>
                       </ListItem>
+                      <Menu
+                        keepMounted
+                        open={mousePos.mouseY !== null}
+                        onClose={handleContextMenuClose}
+                        anchorReference="anchorPosition"
+                        anchorPosition={
+                          mousePos.mouseY !== null && mousePos.mouseX !== null
+                            ? { top: mousePos.mouseY, left: mousePos.mouseX }
+                            : undefined
+                        }
+                      >
+                        <MenuItem
+                          onClick={handleContextMenuDeleteTodoList}
+                          style={{ color: "#EB5757" }}
+                        >
+                          <XCircle /> &nbsp; Delete
+                        </MenuItem>
+                      </Menu>
                       <Divider light />
                     </>
                   ) : (
@@ -294,23 +415,36 @@ const TodoListWindow = forwardRef((tl, ref) => {
                     id="todos-keep-click-away"
                   >
                     <Checkbox
-                      name={todo.index}
+                      name={todo.id}
                       color="primary"
                       icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
                       checkedIcon={<CheckBoxIcon fontSize="small" />}
                       checked={todo.isCompleted}
-                      onChange={(e) => checkBoxToggle(e, todo.index)}
+                      onChange={(e) =>
+                        checkBoxToggle(
+                          e,
+                          displayedTodolist[0].todos.findIdex(
+                            (t) => t.id === todo.id
+                          )
+                        )
+                      }
                     />
                     {todo.toggle ? (
                       <ListItemText
                         primary={todo.title}
-                        onDoubleClick={() => handleDoubleClickTodo(todo.index)}
+                        onDoubleClick={() =>
+                          handleDoubleClickTodo(
+                            displayedTodolist[0].todos.findIndex(
+                              (t) => t.id === todo.id
+                            )
+                          )
+                        }
                       ></ListItemText>
                     ) : (
                       <TextField
                         style={{ width: "80%" }}
                         value={todo.title}
-                        onChange={handleChangeTodo}
+                        onChange={(e) => handleChangeTodo(e, todo.id)}
                         onKeyDown={handleKeyDownTodo}
                         autoFocus
                       ></TextField>
