@@ -418,7 +418,7 @@ const TodoListWindow = forwardRef((tl, ref) => {
                       onChange={(e) =>
                         checkBoxToggle(
                           e,
-                          displayedTodolist[0].todos.findIdex(
+                          displayedTodolist[0].todos.findIndex(
                             (t) => t.id === todo.id
                           )
                         )
