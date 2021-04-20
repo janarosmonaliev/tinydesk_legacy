@@ -8,7 +8,7 @@ export default function Bookmark(props) {
   return (
     <div className="bookmark-wrapper" onClick={() => handleClick(props.url)}>
       <img src={props.thumbnail} width="80" height="80"></img>
-      <small>{props.name}</small>
+      <small>{props.title}</small>
     </div>
   );
 }
