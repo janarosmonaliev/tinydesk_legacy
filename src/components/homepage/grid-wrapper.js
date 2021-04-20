@@ -14,12 +14,12 @@ export default function GridWrapper(props) {
       className="grid-wrapper"
     >
       <Grid item md={7} lg={8} xs={12}>
-        <BookmarksWrapper />
+        <BookmarksWrapper displayedBookmarks={props.displayedBookmarks} />
       </Grid>
       <Grid item md={5} lg={4} xs={12}>
         <WidgetsWrapper
           location={props.location}
-          todolist={props.todolist}
+          todolists={props.todolists}
         ></WidgetsWrapper>
       </Grid>
     </Grid>

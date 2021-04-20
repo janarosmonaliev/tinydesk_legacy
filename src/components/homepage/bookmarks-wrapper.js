@@ -193,7 +193,7 @@ const AddNewBookmarkButton = () => {
   );
 };
 
-export default function BookmarksWrapper() {
+export default function BookmarksWrapper(props) {
   return (
     <>
       <Grid
@@ -204,41 +204,15 @@ export default function BookmarksWrapper() {
         alignItems="flex-start"
       >
         {/* Error: Justify must be used only in container  */}
-        <Grid item xs={4} md={3} lg={2} zeroMinWidth>
-          <Bookmark
-            thumbnail="https://www.google.com/images/branding/product/ico/google_my_business_alldp.ico"
-            name="Google Business"
-            url="https://www.google.com/about"
-          />
-        </Grid>
-        <Grid item xs={4} md={3} lg={2} zeroMinWidth>
-          <Bookmark
-            thumbnail="https://github.githubassets.com/apple-touch-icon-180x180.png"
-            name="Github"
-            url="https://github.com"
-          />
-        </Grid>
-        <Grid item xs={4} md={3} lg={2} zeroMinWidth>
-          <Bookmark
-            thumbnail="https://github.githubassets.com/apple-touch-icon-180x180.png"
-            name="CSE416 Project"
-            url="https://www.github.com/janarosmonaliev/project-416"
-          />
-        </Grid>
-        <Grid item xs={4} md={3} lg={2} zeroMinWidth>
-          <Bookmark
-            thumbnail="https://miro.medium.com/fit/c/152/152/1*sHhtYhaCe2Uc3IU0IgKwIQ.png"
-            name="Medium"
-            url="https://www.medium.com"
-          />
-        </Grid>
-        <Grid item xs={4} md={3} lg={2} zeroMinWidth>
-          <Bookmark
-            thumbnail="https://www.google.com//images/branding/googleg/1x/googleg_standard_color_128dp.png"
-            name="Google"
-            url="https://www.google.com"
-          />
-        </Grid>
+        {props.displayedBookmarks.map((bookmark) => (
+          <Grid item xs={4} md={3} lg={2} zeroMinWidth>
+            <Bookmark
+              thumbnail={bookmark.thumbnail}
+              title={bookmark.title}
+              url={bookmark.url}
+            />
+          </Grid>
+        ))}
         <Grid item xs={4} md={3} lg={2} zeroMinWidth>
           <AddNewBookmarkButton></AddNewBookmarkButton>
         </Grid>

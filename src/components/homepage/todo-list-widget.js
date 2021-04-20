@@ -13,7 +13,7 @@ export default function ToDoListWidget(props) {
   };
 
   const [previewTodos, setPreviewTodos] = useState(
-    props.todolist.todolist.map((tl) =>
+    props.todolists.todolists.map((tl) =>
       tl.todos.map((todo) => (
         <small>
           <CheckBoxOutlineBlankIcon fontSize="small" />
@@ -33,7 +33,7 @@ export default function ToDoListWidget(props) {
           <div className="todo-list-widget-content">{previewTodos}</div>
         </div>
       </a>
-      <TodoListWindow ref={todoListWindowRef} todolist={props.todolist} />
+      <TodoListWindow ref={todoListWindowRef} todolists={props.todolists} />
     </>
   );
 }

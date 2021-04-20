@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Container from "@material-ui/core/Container";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import NavigationBar from "./navbar";
@@ -115,8 +115,8 @@ const App = () => {
     },
   };
   //Todo list
-  const todolist = {
-    todolist: [
+  const todolists = {
+    todolists: [
       {
         title: "Academic",
         id: 0,
@@ -195,6 +195,113 @@ const App = () => {
     ],
   };
 
+  //Folder & Bookmarks
+  //This one gotta be one that fetched from DB
+  const initialFolders = {
+    folders: [
+      {
+        title: "Academic",
+        id: 0,
+        bookmarks: [
+          {
+            title: "Google Business",
+            url: "https://www.google.com/about",
+            thumbnail:
+              "https://www.google.com/images/branding/product/ico/google_my_business_alldp.ico",
+            color: "",
+            id: 0,
+          },
+          {
+            title: "Github",
+            url: "https://github.com",
+            thumbnail:
+              "https://github.githubassets.com/apple-touch-icon-180x180.png",
+            color: "",
+            id: 1,
+          },
+          {
+            title: "CSE416 Project",
+            url: "https://www.github.com/janarosmonaliev/project-416",
+            thumbnail:
+              "https://github.githubassets.com/apple-touch-icon-180x180.png",
+            color: "",
+            id: 2,
+          },
+          {
+            title: "Medium",
+            url: "https://www.medium.com",
+            thumbnail:
+              "https://miro.medium.com/fit/c/152/152/1*sHhtYhaCe2Uc3IU0IgKwIQ.png",
+            color: "",
+            id: 3,
+          },
+          {
+            title: "Google",
+            url: "https://www.google.com/about",
+            thumbnail:
+              "https://www.google.com//images/branding/googleg/1x/googleg_standard_color_128dp.png",
+            color: "https://www.google.com",
+            id: 4,
+          },
+        ],
+      },
+      {
+        title: "Design",
+        id: 1,
+        bookmarks: [
+          {
+            title: "Medium",
+            url: "https://www.medium.com",
+            thumbnail:
+              "https://miro.medium.com/fit/c/152/152/1*sHhtYhaCe2Uc3IU0IgKwIQ.png",
+            color: "",
+            id: 0,
+          },
+          {
+            title: "Google",
+            url: "https://www.google.com/about",
+            thumbnail:
+              "https://www.google.com//images/branding/googleg/1x/googleg_standard_color_128dp.png",
+            color: "https://www.google.com",
+            id: 1,
+          },
+        ],
+      },
+      {
+        title: "Reading",
+        id: 2,
+        bookmarks: [
+          {
+            title: "Github",
+            url: "https://github.com",
+            thumbnail:
+              "https://github.githubassets.com/apple-touch-icon-180x180.png",
+            color: "",
+            id: 0,
+          },
+          {
+            title: "CSE416 Project",
+            url: "https://www.github.com/janarosmonaliev/project-416",
+            thumbnail:
+              "https://github.githubassets.com/apple-touch-icon-180x180.png",
+            color: "",
+            id: 1,
+          },
+        ],
+      },
+    ],
+  };
+  const [folders, setFolders] = useState(initialFolders.folders);
+  const [selectedFolderId, setSelectedFolderId] = useState(folders[0].id);
+  const [displayedBookmarks, setDisplayedBookmarks] = useState(
+    folders[0].bookmarks
+  );
+  useEffect(() => {
+    setDisplayedBookmarks(
+      folders.filter((folder) => folder.id === selectedFolderId)[0].bookmarks
+    );
+  }, [selectedFolderId]);
+
   return (
     <ThemeProvider theme={theme}>
       <div className="app-window" style={unsplashImage}>
@@ -205,9 +312,13 @@ const App = () => {
           ></NavigationBar>
           <GridWrapper
             location={userLocation}
-            todolist={todolist}
+            todolists={todolists}
+            displayedBookmarks={displayedBookmarks}
           ></GridWrapper>
-          <FoldersWrapper></FoldersWrapper>
+          <FoldersWrapper
+            folders={folders}
+            setSelectedFolderId={setSelectedFolderId}
+          ></FoldersWrapper>
         </Container>
       </div>
     </ThemeProvider>

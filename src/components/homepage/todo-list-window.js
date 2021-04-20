@@ -24,7 +24,7 @@ import { Menu, MenuItem } from "@material-ui/core/";
 
 const TodoListWindow = forwardRef((tl, ref) => {
   //Props todolist from App
-  const [todolists, setTodolists] = useState(tl.todolist.todolist);
+  const [todolists, setTodolists] = useState(tl.todolists.todolists);
   //Open and close modal
   const [open, setOpen] = useState(false);
   //Track whether a user makes change in todolist (ex) edit title, make new todolist)
@@ -89,9 +89,7 @@ const TodoListWindow = forwardRef((tl, ref) => {
   };
 
   useEffect(() => {
-    console.log("3");
     if (!todoFocus.focus) {
-      console.log("4");
       setTodolists(
         produce((draft) => {
           draft[selectedIndex].todos.map((todo) =>
@@ -125,11 +123,9 @@ const TodoListWindow = forwardRef((tl, ref) => {
       } else {
         setNextIndexTodo(displayedTodolist[0].todos.length);
       }
-      console.log("7");
     }
   }, [selectedId, todolists[selectedIndex]]);
   useEffect(() => {
-    console.log("7");
     const newFocus = { focus: false, id: -1 };
     setTodoFocus(newFocus);
   }, [selectedIndex]);
@@ -203,7 +199,8 @@ const TodoListWindow = forwardRef((tl, ref) => {
       (e.type === "click" && e.target.type === "checkbox") ||
       e.target.id === "todos-keep-click-away" ||
       e.target.nodeName === "SPAN" ||
-      e.target.nodeName === "H5"
+      e.target.nodeName === "H5" ||
+      selectedId === -1
     ) {
       return;
     }
@@ -252,9 +249,7 @@ const TodoListWindow = forwardRef((tl, ref) => {
   };
 
   const onClickAddTodoList = () => {
-    console.log("1");
     if (todolistFocus) {
-      console.log("2");
       const newFocus = { focus: false, index: -1 };
       setTodoFocus(newFocus);
       return;
