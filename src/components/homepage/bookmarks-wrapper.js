@@ -53,14 +53,58 @@ function StyledRadio(props) {
 const AddNewBookmarkButton = () => {
   const [open, setOpen] = useState(false);
   const [folder, setFolder] = useState("");
+  const [url, setURL] = useState("");
+  const [title, setTitle] = useState("");
+  const [color, setColor] = useState("");
+  const newBookMark = {
+    url: "",
+    title: "",
+    color: "",
+  };
+
   const handleClickOpen = () => {
     setOpen(true);
+    // const newBookMark = {
+    //   url: "",
+    //   title: "",
+    //   color: "",
+    // };
+    // setInputs(inputs.concat(newBookMark));
   };
   const handleClose = () => {
     setOpen(false);
   };
+  const handleURLChange = (event) => {
+    setURL(event.target.value);
+    console.log(`URL is set to: ${event.target.value}`);
+  };
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
+    console.log(`Title is set to: ${event.target.value}`);
+  };
+  const handleColorChange = (event) => {
+    setColor(event.target.value);
+    console.log(`Color is set to: ${event.target.value}`);
+  };
   const handleChange = (event) => {
     setFolder(event.target.value);
+    console.log(`Folder is set to: ${event.target.value}`);
+  };
+
+  const handleSubmit = () => {
+    const newBookMark = {
+      url: url,
+      title: title,
+      color: color,
+    };
+    console.log(
+      `New bookmark will be created with url: ${url}, title: ${title}, color: ${color}, and folder: ${folder}`
+    );
+    console.log(newBookMark);
+    setURL("");
+    setTitle("");
+    setColor("green");
+    setOpen(false);
   };
   return (
     <>
@@ -71,6 +115,7 @@ const AddNewBookmarkButton = () => {
         <small>Add Bookmark</small>
       </div>
 
+      {/* Add Bookmark dialog */}
       <Dialog
         fullWidth
         maxWidth="xs"
@@ -99,12 +144,17 @@ const AddNewBookmarkButton = () => {
               label="Website URL"
               fullWidth
               autoComplete="off"
+              value={url}
+              onChange={handleURLChange}
             />
             <TextField
               id="new-bookmark-title"
               label="Title"
               fullWidth
               autoComplete="off"
+              name="title"
+              value={title}
+              onChange={handleTitleChange}
             />
             {/* TODO Visit link below for radio buttons  */}
             {/* https://material-ui.com/components/radio-buttons/ */}
@@ -122,6 +172,7 @@ const AddNewBookmarkButton = () => {
                 defaultValue="green"
                 name="radio-buttons-group"
                 style={{ flexDirection: "row" }}
+                onChange={handleColorChange}
               >
                 <FormControlLabel
                   value="green"
@@ -159,8 +210,8 @@ const AddNewBookmarkButton = () => {
                   label="Folder"
                 >
                   <MenuItem value={"Academic"}>Academic</MenuItem>
-                  <MenuItem value={20}>Design</MenuItem>
-                  <MenuItem value={30}>Reading</MenuItem>
+                  <MenuItem value={"Design"}>Design</MenuItem>
+                  <MenuItem value={"Reading"}>Reading</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -172,7 +223,7 @@ const AddNewBookmarkButton = () => {
             color="primary"
             disableElevation
             disableTouchRipple
-            onClick={handleClose}
+            onClick={handleSubmit}
             className="button-100"
           >
             Save
