@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { FolderPlus, X } from "react-feather";
 import {
   Dialog,
@@ -12,14 +12,9 @@ import {
 } from "@material-ui/core";
 import { styled } from "@material-ui/core/styles";
 
-const DialogActionButton = styled(DialogActions)({
-  justifyContent: "left",
-  marginLeft: "16px",
-  marginBottom: "20px",
-});
-
-const AddFolder = () => {
+const AddFolder = ({ onInsert }) => {
   const [open, setOpen] = useState(false);
+  const [folderTitle, setFolderTitle] = useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -27,6 +22,26 @@ const AddFolder = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleChange = (event) => {
+    setFolderTitle(event.target.value);
+    console.log(`folder title is set to: ${event.target.value}`);
+  };
+  // const handleAdd = () => {
+  //   console.log(`the folder with title ${folderTitle} will be added`);
+  //   setFolderTitle("");
+  //   setOpen(false);
+  // };
+  const handleAdd = useCallback(() => {
+    onInsert(folderTitle);
+    setFolderTitle("");
+    setOpen(false);
+  }, [onInsert, folderTitle]);
+
+  const DialogActionButton = styled(DialogActions)({
+    justifyContent: "left",
+    marginLeft: "16px",
+    marginBottom: "20px",
+  });
   return (
     <>
       <div className="folder-wrapper" onClick={() => handleClickOpen()}>
@@ -62,6 +77,8 @@ const AddFolder = () => {
               fullWidth
               autoFocus
               autoComplete="off"
+              value={folderTitle}
+              onChange={handleChange}
             />
           </form>
         </DialogContent>
@@ -71,7 +88,7 @@ const AddFolder = () => {
             color="primary"
             disableElevation
             disableTouchRipple
-            onClick={handleClose}
+            onClick={handleAdd}
             className="button-100"
           >
             Save
@@ -91,26 +108,4 @@ const AddFolder = () => {
     </>
   );
 };
-export default function Folder({ info }) {
-  return (
-    <>
-      {info.title ? (
-        <div className="folder-wrapper">
-          <div className="folder-title">{info.title}</div>
-        </div>
-      ) : (
-        <AddFolder />
-      )}
-    </>
-  );
-
-  // <div className="folder-wrapper">
-  //   {info.title ? (
-  //     <div className="folder-title">{info.title}</div>
-  //   ) : (
-  //     <div className="add-folder">
-  //       <AddFolder />
-  //     </div>
-  //   )}
-  // </div>
-}
+export default AddFolder;

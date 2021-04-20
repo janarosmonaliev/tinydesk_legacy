@@ -64,12 +64,6 @@ const AddNewBookmarkButton = () => {
 
   const handleClickOpen = () => {
     setOpen(true);
-    // const newBookMark = {
-    //   url: "",
-    //   title: "",
-    //   color: "",
-    // };
-    // setInputs(inputs.concat(newBookMark));
   };
   const handleClose = () => {
     setOpen(false);
@@ -281,6 +275,13 @@ export default function BookmarksWrapper() {
             thumbnail="https://miro.medium.com/fit/c/152/152/1*sHhtYhaCe2Uc3IU0IgKwIQ.png"
             name="Medium"
             url="https://www.medium.com"
+          />
+        </Grid>
+        <Grid item xs={4} md={3} lg={2} zeroMinWidth>
+          <Bookmark
+            thumbnail="https://www.google.com//images/branding/googleg/1x/googleg_standard_color_128dp.png"
+            name="Google"
+            url="https://www.google.com"
           />
         </Grid>
         <Grid item xs={4} md={3} lg={2} zeroMinWidth>
