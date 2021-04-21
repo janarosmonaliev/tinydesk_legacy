@@ -68,6 +68,8 @@ export default function SettingsButton(props) {
       <UnsplashWindow
         ref={unsplashWindowRef}
         handleEditBg={(url) => props.handleEditBg(url)}
+        handleCancelChanges={props.handleCancelChanges}
+        handleSaveChanges={props.handleSaveChanges}
       ></UnsplashWindow>
     </>
   );
