@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Container from "@material-ui/core/Container";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import NavigationBar from "./navbar";
@@ -98,6 +98,21 @@ const App = () => {
   const [background, setBackground] = useState(
     "https://images.unsplash.com/photo-1481414981591-5732874c7193?crop=entropy&cs=srgb&fm=jpg&ixid=MnwyMjAyNzR8MHwxfHNlYXJjaHw1fHxvcmFuZ2V8ZW58MHwwfHx8MTYxODU1NjAxNQ&ixlib=rb-1.2.1&q=85"
   );
+
+  const [initialBackground, setInitialBackground] = useState();
+
+  useMemo(() => {
+    setInitialBackground(background);
+  }, []);
+
+  const cancelSetBackground = () => {
+    setBackground(initialBackground);
+  };
+
+  const saveSetBackground = () => {
+    setInitialBackground(background);
+  };
+
   const unsplashImage = {
     backgroundImage: `url(${background})`,
   };
