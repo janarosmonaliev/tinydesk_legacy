@@ -3,6 +3,8 @@ import React, {
   useImperativeHandle,
   useState,
   useRef,
+  useCallback,
+  useEffect,
 } from "react";
 import {
   Dialog,
@@ -42,12 +44,109 @@ const NotesWindow = forwardRef((props, ref) => {
   const [notesContentFocus, setNotesContentFocus] = useState(false);
   //keep track of notes list index
   const nextIndexNote = useRef(3);
+  //Context menu's initial position (= small popup after right-click)
+  const initialMousPos = {
+    mouseX: null,
+    mouseY: null,
+  };
+  //Decide Context menu's position
+  const [mousePos, setMousePos] = useState(initialMousPos);
+  //Keep track which todolist user right-clicks
+  const [todolistIdForContextMenu, setTodolistIdForContextMenu] = useState(
+    null
+  );
 
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
+  };
+  //to handle context menu
+  const handleContextMenu = (e, id) => {
+    if (id != null) {
+      setTodolistIdForContextMenu(id);
+    }
+    e.preventDefault();
+    //If contextmenu is already opened, just close it
+    if (mousePos.mouseX != null) {
+      setMousePos(initialMousPos);
+    } else {
+      setMousePos({
+        mouseX: e.clientX - 2,
+        mouseY: e.clientY - 4,
+      });
+    }
+  };
+
+  const handleContextMenuClose = () => {
+    setMousePos(initialMousPos);
+  };
+  //index in the Notes list
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  //id of Notes in the list
+  const [selectedId, setSelectedId] = useState(0);
+
+  const [displayedNotes, setDisplayedNotes] = useState(
+    notes.filter((note) => note.id === selectedId)
+  );
+
+  const handleSelectList = (e, id) => {
+    setSelectedId(id);
+    setSelectedIndex(notes.findIndex((note) => note.id === id));
+  };
+
+  //when "Add new note" is clicked
+  useEffect(() => {
+    if (!notesContentFocus.focus) {
+      setNotes(
+        produce((draft) => {
+          draft[selectedIndex].notes.map((note) =>
+            !note.toggle ? (note.toggle = true) : note.toggle
+          );
+        })
+      );
+      setNotes(
+        produce((draft) => {
+          draft[selectedIndex].notes.map((note) =>
+            note.title === "" ? (note.title = "New Note") : note.title
+          );
+        })
+      );
+    }
+  }, [todoFocus]);
+
+  useEffect(() => {
+    if (selectedId != -1) {
+      setDisplayedNotes(notes.filter((note) => note.id === selectedId));
+
+      //If displayedTodolist is null
+      //even above code seems like sets displayedTodolist,
+      //at this point, it is still null.
+      //This is special handling when todolist is just created
+      //when there is no todolist before that.
+      //여기로 돌아오기!!
+      // if (displayedNotes === null) {
+      //   setNextIndexNote(0);
+      // } else {
+      //   setNextIndexNote(displayedTodolist[0].todos.length);
+      // }
+    }
+  }, [selectedId, notes[selectedIndex]]);
+
+  useEffect(() => {
+    const newFocus = { focus: false, id: -1 };
+    setTodoFocus(newFocus);
+  }, [selectedIndex]);
+
+  //user can double click the title and change it
+  const handleDoubleClickTitle = () => {
+    setNotes(
+      produce((draft) => {
+        draft[selectedIndex].toggle = false;
+      })
+    );
+    setNotesTitleFocus(true);
   };
 
   const outerstyles = {
@@ -60,12 +159,13 @@ const NotesWindow = forwardRef((props, ref) => {
     width: "100%",
     height: "650px",
   };
-
+  //use for parent to access
   useImperativeHandle(ref, () => ({
     clickOpen: () => {
       handleClickOpen();
     },
   }));
+
   return (
     <Dialog
       maxWidth={"md"}
