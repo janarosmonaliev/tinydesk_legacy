@@ -1,7 +1,8 @@
 import React, { useCallback, useState } from "react";
-import Folders from "./folder";
+import Folder from "./folder";
 import Grid from "@material-ui/core/Grid";
 import { FolderPlus, X } from "react-feather";
+import RemoveCircleOutlinedIcon from "@material-ui/icons/RemoveCircleOutlined";
 import {
   Dialog,
   DialogTitle,
@@ -21,9 +22,13 @@ const DialogActionButton = styled(DialogActions)({
 });
 export default function FoldersWrapper({
   folders,
+  selectedFolderId,
   setSelectedFolderId,
   jiggle,
 }) {
+  const handleDeleteFolder = (e) => {
+    console.log("HELLO");
+  };
   const AddFolder = () => {
     const [open, setOpen] = useState(false);
 
@@ -101,11 +106,33 @@ export default function FoldersWrapper({
 
   return (
     <div className="folders-wrapper">
-      <Folders
-        folders={folders}
-        setSelectedFolderId={setSelectedFolderId}
-        jiggle={jiggle}
-      />
+      {folders.map((folder) => (
+        <Grid
+          item
+          xs
+          container
+          className={jiggle ? "folders-jiggle" : ""}
+          justify="flex-end"
+        >
+          {jiggle ? (
+            <RemoveCircleOutlinedIcon
+              color="error"
+              fontSize="small"
+              className="delete-icon folder"
+              onClick={handleDeleteFolder}
+            />
+          ) : (
+            <></>
+          )}
+
+          <Folder
+            folder={folder}
+            selectedFolderId={selectedFolderId}
+            setSelectedFolderId={setSelectedFolderId}
+            jiggle={jiggle}
+          />
+        </Grid>
+      ))}
       <AddFolder />
     </div>
   );

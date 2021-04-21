@@ -20,7 +20,6 @@ $font-size: 16px;
 }
 
 //Jiggle mixin
-
 @mixin createJiggle($name, $duration, $iteration, $origin, $transition) {
   animation-name: $name;
   animation-duration: $duration;
@@ -35,18 +34,18 @@ $font-size: 16px;
   }
 
   50% {
-    transform: rotate(3deg);
+    transform: rotate(2.5deg);
     animation-timing-function: ease-out;
   }
 }
 @keyframes jiggleWidget {
   0% {
-    transform: rotate(-1.5deg);
+    transform: rotate(-1deg);
     animation-timing-function: ease-in;
   }
 
   50% {
-    transform: rotate(1.5deg);
+    transform: rotate(1deg);
     animation-timing-function: ease-out;
   }
 }
@@ -60,6 +59,11 @@ $space-04: rem(16px);
 $space-05: rem(24px);
 $space-06: rem(32px);
 $space-07: rem(40px);
+
+$delete-icon-small-offset-x-y: -10px;
+
+$delete-icon-large-offset-x: -17.5px;
+$delete-icon-large-offset-y: -15px;
 
 // Colors
 $color-black: #333333;
@@ -182,6 +186,7 @@ small,
   overflow-y: scroll;
   // background-image: url(https://raw.githubusercontent.com/janarosmonaliev/project-416/master/src/images/mac-os-bg.png?token=AHRF2MQPFXGXN6WAOXAINPDAOQZ2A);
   // background-color: white;
+
   background-position: top;
   background-repeat: no-repeat;
   background-size: cover;
@@ -279,16 +284,23 @@ small,
   display: block;
   justify-content: center;
   text-align: center;
+
   > img {
     @include transition(transform 0.2s);
   }
-  &:hover {
-    > img {
-      transform: scale(1.1);
-      -moz-transform: scale(1.1);
-      -webkit-transform: scale(1.1);
+  &.hoverable {
+    &:hover {
+      > img {
+        transform: scale(1.1);
+        -moz-transform: scale(1.1);
+        -webkit-transform: scale(1.1);
+      }
     }
   }
+  &.not-hoverable {
+    pointer-events: none;
+  }
+
   > svg {
     padding: $space-02;
     display: block;
@@ -329,16 +341,6 @@ small,
     // text-overflow: ellipsis;
     text-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.5);
   }
-
-  &.jiggle {
-    @include createJiggle(
-      jiggle,
-      0.3s,
-      infinite,
-      50% 50%,
-      all 0.2s ease-in-out
-    );
-  }
 }
 
 .widget-wrapper {
@@ -371,12 +373,17 @@ small,
   display: block;
   min-height: 150px;
   background-color: $glass-color-light;
-  backdrop-filter: blur(8px);
+  // backdrop-filter: blur(8px);
   box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.1);
   border-radius: rem(15px);
   @include transition(background-color 300ms ease-out);
-  &:hover {
-    background-color: $glass-color-light-active;
+  &.hoverable {
+    &:hover {
+      background-color: $glass-color-light-active;
+    }
+  }
+  &.not-hoverable {
+    pointer-events: none;
   }
 }
 .notes-widget-bar {
@@ -441,8 +448,13 @@ small,
   box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.1);
   border-radius: rem(15px);
   @include transition(background-color 300ms ease-out);
-  &:hover {
-    background-color: $glass-color-light-active;
+  &.hoverable {
+    &:hover {
+      background-color: $glass-color-light-active;
+    }
+  }
+  &.not-hoverable {
+    pointer-events: none;
   }
 }
 .todo-list-widget-bar {
@@ -473,6 +485,7 @@ small,
 }
 .folders-wrapper {
   position: absolute;
+  display: flex;
   top: auto;
   bottom: 0;
   padding-top: $space-03;
@@ -484,15 +497,6 @@ small,
   }
 }
 .folder-wrapper {
-  &.jiggle {
-    @include createJiggle(
-      jiggle,
-      0.3s,
-      infinite,
-      50% 50%,
-      all 0.2s ease-in-out
-    );
-  }
   color: $color-black;
   flex: 0 0 auto;
   .folder-title {
@@ -524,9 +528,18 @@ small,
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 10px;
   @include transition(background-color 300ms ease-out);
-  &:hover {
-    background-color: $glass-color-light-active;
-    box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.2);
+
+  &.hoverable {
+    &:hover {
+      background-color: $glass-color-light-active;
+      box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.2);
+    }
+    &.clicked {
+      background-color: $glass-color-light-active;
+    }
+  }
+  &.not-hoverable {
+    pointer-events: none;
   }
 }
 
@@ -583,4 +596,38 @@ small,
 .unicorn-success {
   color: "#77dd77";
   display: flex;
+}
+
+.delete-icon {
+  &.bookmark {
+    margin-top: $delete-icon-large-offset-y;
+    margin-left: 13px;
+  }
+  &.folder {
+    margin-top: $delete-icon-small-offset-x-y;
+  }
+  &.widget {
+    margin-right: $delete-icon-large-offset-x;
+    margin-top: $delete-icon-large-offset-y;
+  }
+  position: fixed;
+  z-index: 1;
+  background-color: white;
+  border-radius: 20px;
+}
+
+.bookmarks-jiggle,
+.folders-jiggle {
+  @include createJiggle(jiggle, 0.3s, infinite, 50% 50%, all 0.2s ease-in-out);
+}
+
+.app-window-filter {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  &.active {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
 }

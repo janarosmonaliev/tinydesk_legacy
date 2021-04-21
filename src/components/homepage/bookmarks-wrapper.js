@@ -205,7 +205,14 @@ export default function BookmarksWrapper(props) {
       >
         {/* Error: Justify must be used only in container  */}
         {props.displayedBookmarks.map((bookmark) => (
-          <Grid item xs={4} md={3} lg={2} zeroMinWidth>
+          <Grid
+            item
+            xs={4}
+            md={3}
+            lg={2}
+            zeroMinWidth
+            className={props.jiggle ? "bookmarks-jiggle" : ""}
+          >
             <Bookmark
               thumbnail={bookmark.thumbnail}
               title={bookmark.title}
