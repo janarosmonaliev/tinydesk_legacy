@@ -19,6 +19,37 @@ $font-size: 16px;
   transition: $transition;
 }
 
+//Jiggle mixin
+
+@mixin createJiggle($name, $duration, $iteration, $origin, $transition) {
+  animation-name: $name;
+  animation-duration: $duration;
+  animation-iteration-count: $iteration;
+  transform-origin: origin;
+  @include transition(transition);
+}
+@keyframes jiggle {
+  0% {
+    transform: rotate(-2.5deg);
+    animation-timing-function: ease-in;
+  }
+
+  50% {
+    transform: rotate(3deg);
+    animation-timing-function: ease-out;
+  }
+}
+@keyframes jiggleWidget {
+  0% {
+    transform: rotate(-1.5deg);
+    animation-timing-function: ease-in;
+  }
+
+  50% {
+    transform: rotate(1.5deg);
+    animation-timing-function: ease-out;
+  }
+}
 // Spacing Scale
 $baseline: rem(8px);
 /* spacing values */
@@ -298,9 +329,29 @@ small,
     // text-overflow: ellipsis;
     text-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.5);
   }
+
+  &.jiggle {
+    @include createJiggle(
+      jiggle,
+      0.3s,
+      infinite,
+      50% 50%,
+      all 0.2s ease-in-out
+    );
+  }
 }
+
 .widget-wrapper {
   width: 100%;
+  &.jiggle {
+    @include createJiggle(
+      jiggleWidget,
+      0.3s,
+      infinite,
+      50% 50%,
+      all 0.2s ease-in-out
+    );
+  }
 }
 .weather-widget-wrapper {
   display: block;
@@ -433,6 +484,15 @@ small,
   }
 }
 .folder-wrapper {
+  &.jiggle {
+    @include createJiggle(
+      jiggle,
+      0.3s,
+      infinite,
+      50% 50%,
+      all 0.2s ease-in-out
+    );
+  }
   color: $color-black;
   flex: 0 0 auto;
   .folder-title {
@@ -491,20 +551,38 @@ small,
   max-height: 70vh;
 }
 .unsplash-wrapper {
-  min-height: 20vh;
+  height: 60vh;
+  overflow: auto;
   margin-top: $space-03;
-  column-count: 2;
-  column-gap: $space-02;
+
+  & > div {
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: flex;
+
+    -webkit-flex-direction: row;
+    -moz-flex-direction: row;
+    flex-direction: row;
+
+    -webkit-flex-flow: row wrap;
+    -moz-flex-flow: row wrap;
+    flex-flow: row wrap;
+
+    justify-content: space-between;
+  }
 }
 .unsplash-item {
+  height: 200px;
+  width: auto;
   position: relative;
   display: inline-block;
   margin: 0 0 $space-02;
-  width: 100%;
+  width: 49%;
   & > img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 8px;
   }
 }
 .unsplash-link {

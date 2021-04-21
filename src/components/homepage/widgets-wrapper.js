@@ -12,14 +12,33 @@ export default function WidgetsWrapper(props) {
       alignItems="flex-start"
       spacing={2}
     >
-      <Grid item xs={12} className="widget-wrapper">
-        <WeatherWidget location={props.location}></WeatherWidget>
+      <Grid
+        item
+        xs={12}
+        className={props.jiggle ? "widget-wrapper jiggle" : "widget-wrapper"}
+      >
+        <WeatherWidget
+          location={props.location}
+          jiggle={props.jiggle}
+        ></WeatherWidget>
       </Grid>
-      <Grid item xs={12} lg={6} className="widget-wrapper">
+      <Grid
+        item
+        xs={12}
+        lg={6}
+        className={props.jiggle ? "widget-wrapper jiggle" : "widget-wrapper"}
+        jiggle={props.jiggle}
+      >
         <NotesWidget></NotesWidget>
       </Grid>
-      <Grid item xs={12} lg={6} className="widget-wrapper">
-        <TodoListWidget todolist={props.todolist}></TodoListWidget>
+      <Grid
+        item
+        xs={12}
+        lg={6}
+        className={props.jiggle ? "widget-wrapper jiggle" : "widget-wrapper"}
+        jiggle={props.jiggle}
+      >
+        <TodoListWidget todolists={props.todolists}></TodoListWidget>
       </Grid>
     </Grid>
   );

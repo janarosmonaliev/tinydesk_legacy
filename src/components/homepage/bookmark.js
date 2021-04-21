@@ -6,9 +6,12 @@ export default function Bookmark(props) {
     window.open(url, "_blank").focus();
   };
   return (
-    <div className="bookmark-wrapper" onClick={() => handleClick(props.url)}>
+    <div
+      className={props.jiggle ? "bookmark-wrapper jiggle" : "bookmark-wrapper"}
+      onClick={() => handleClick(props.url)}
+    >
       <img src={props.thumbnail} width="80" height="80"></img>
-      <small>{props.name}</small>
+      <small>{props.title}</small>
     </div>
   );
 }
