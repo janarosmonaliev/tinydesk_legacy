@@ -297,6 +297,7 @@ const App = () => {
     folders[0].bookmarks
   );
   const [jiggle, setJiggle] = useState(false);
+  const [filter, setFilter] = useState(false);
 
   useEffect(() => {
     setDisplayedBookmarks(
@@ -304,9 +305,14 @@ const App = () => {
     );
   }, [selectedFolderId]);
 
-  const handleStopJiggle = () => {
+  const handleStopJiggle = (e) => {
+    const nodeName = e.target.nodeName;
     if (jiggle) {
+      if (nodeName === "svg" || nodeName === "path") {
+        return;
+      }
       setJiggle(false);
+      setFilter(false);
     }
   };
   return (
@@ -316,24 +322,30 @@ const App = () => {
         style={unsplashImage}
         onClick={handleStopJiggle}
       >
-        <Container maxWidth="lg">
-          <NavigationBar
-            handlePassBgUrl={(url) => setBackground(url)}
-            location={userLocation}
-            setJiggle={setJiggle}
-          ></NavigationBar>
-          <GridWrapper
-            location={userLocation}
-            todolists={todolists}
-            displayedBookmarks={displayedBookmarks}
-            jiggle={jiggle}
-          ></GridWrapper>
-          <FoldersWrapper
-            folders={folders}
-            setSelectedFolderId={setSelectedFolderId}
-            jiggle={jiggle}
-          ></FoldersWrapper>
-        </Container>
+        <div
+          className={filter ? "app-window-filter active" : "app-window-filter"}
+        >
+          <Container maxWidth="lg">
+            <NavigationBar
+              handlePassBgUrl={(url) => setBackground(url)}
+              location={userLocation}
+              setJiggle={setJiggle}
+              setFilter={setFilter}
+            ></NavigationBar>
+            <GridWrapper
+              location={userLocation}
+              todolists={todolists}
+              displayedBookmarks={displayedBookmarks}
+              jiggle={jiggle}
+            ></GridWrapper>
+            <FoldersWrapper
+              folders={folders}
+              selectedFolderId={selectedFolderId}
+              setSelectedFolderId={setSelectedFolderId}
+              jiggle={jiggle}
+            ></FoldersWrapper>
+          </Container>
+        </div>
       </div>
     </ThemeProvider>
   );

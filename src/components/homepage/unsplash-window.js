@@ -3,7 +3,6 @@ import React, {
   useImperativeHandle,
   useState,
   useRef,
-  useEffect,
 } from "react";
 import {
   Dialog,
@@ -15,9 +14,9 @@ import {
   DialogActions,
 } from "@material-ui/core";
 import { TextField, Button, Grid } from "@material-ui/core";
+import { GridList, GridListTile } from "@material-ui/core";
 import { X } from "react-feather";
 import { createApi } from "unsplash-js";
-import InfiniteScroll from "react-infinite-scroller";
 
 const unsplash = createApi({
   accessKey: "NaoP4rMXua-Xgx3YYi4Oa41jeZQTwxEfK_XL03lB8Vs",
@@ -44,32 +43,15 @@ const UnsplashWindow = forwardRef((props, ref) => {
       .getPhotos({
         query: searchQuery.current.value,
         page: 1,
-        perPage: 30,
+        perPage: 120,
         orientation: "landscape",
       })
       .then((result) => {
         if (result.errors) {
           console.log("error occurred: ", result.errors[0]);
         } else {
+          // console.log(result.response.results);
           setPhotos(result.response.results);
-          // console.log(result.response.results);
-        }
-      });
-  };
-  const handleGetMorePhotos = (page) => {
-    unsplash.search
-      .getPhotos({
-        query: searchQuery.current.value,
-        page: page,
-        perPage: 30,
-        orientation: "landscape",
-      })
-      .then((result) => {
-        if (result.errors) {
-          console.log("error occurred: ", result.errors[0]);
-        } else {
-          setPhotos(photos.concat(result.response.results));
-          // console.log(result.response.results);
         }
       });
   };
@@ -84,7 +66,6 @@ const UnsplashWindow = forwardRef((props, ref) => {
     // console.log(tile.urls.full);
     props.handleEditBg(tile.urls.full);
   };
-
   return (
     <>
       <Dialog
@@ -120,9 +101,7 @@ const UnsplashWindow = forwardRef((props, ref) => {
           >
             <Grid item xs={9}>
               <TextField
-                autoFocus
                 inputRef={searchQuery}
-                autoComplete="off"
                 fullWidth
                 label="Search"
                 id="unsplash-input"
@@ -147,48 +126,41 @@ const UnsplashWindow = forwardRef((props, ref) => {
           </Grid>
           <Grid container justify="center" spacing={2}>
             <div className="unsplash-wrapper">
-              <InfiniteScroll
-                pageStart={0}
-                initialLoad={false}
-                loadMore={handleGetMorePhotos}
-                hasMore={true}
-                useWindow={false}
-              >
-                {photos.map((tile) => (
-                  <div className="unsplash-item" id={tile.id} key={tile.id}>
-                    <img
-                      src={tile.urls.small}
-                      alt={tile.alt_description}
-                      className="img-fluid"
-                    ></img>
-                    <a
-                      className="unsplash-link"
-                      onClick={() => handleClickImage(tile)}
-                    ></a>
-                  </div>
-                ))}
-              </InfiniteScroll>
+              {photos.map((tile) => (
+                <div className="unsplash-item" id={tile.id}>
+                  <img
+                    src={tile.urls.small}
+                    alt={tile.alt_description}
+                    className="img-fluid"
+                  ></img>
+                  <a
+                    className="unsplash-link"
+                    onClick={() => handleClickImage(tile)}
+                  ></a>
+                </div>
+              ))}
             </div>
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button
+          {/* <Button
             variant="contained"
             color="primary"
             disableElevation
             disableTouchRipple
-            onClick={handleClose}
+            className="button-100"
           >
-            Save changes
+            Save
           </Button>
           <Button
             variant="outlined"
             color="secondary"
             disableElevation
             disableTouchRipple
+            className="button-100"
           >
             Cancel
-          </Button>
+          </Button> */}
         </DialogActions>
       </Dialog>
     </>

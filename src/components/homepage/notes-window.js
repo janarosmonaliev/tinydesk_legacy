@@ -1,9 +1,4 @@
-import React, {
-  forwardRef,
-  useImperativeHandle,
-  useState,
-  useRef,
-} from "react";
+import React, { forwardRef, useImperativeHandle, useState } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -18,30 +13,6 @@ import AddCircleOutlineRoundedIcon from "@material-ui/icons/AddCircleOutlineRoun
 
 const NotesWindow = forwardRef((props, ref) => {
   const [open, setOpen] = useState(false);
-  //local data for notes
-  const [notes, setNotes] = useState([
-    {
-      title: "CSE 416",
-      index: 0,
-      content: "Students must satisfy below requirements...",
-    },
-    {
-      title: "Homeplus Grocery List",
-      index: 1,
-      content: "Apple, cereal, banana, ramen, tissues",
-    },
-    {
-      title: "SBU Visit Document",
-      index: 2,
-      content: "Action needs to be done. ",
-    },
-  ]);
-  //track whether a user makes change in notes title column
-  const [notesTitleFocus, setNotesTitleFocus] = useState(false);
-  //track whether a user makes change in notes content
-  const [notesContentFocus, setNotesContentFocus] = useState(false);
-  //keep track of notes list index
-  const nextIndexNote = useRef(3);
 
   const handleClickOpen = () => {
     setOpen(true);

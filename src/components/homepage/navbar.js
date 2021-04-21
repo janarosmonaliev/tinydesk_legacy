@@ -27,6 +27,7 @@ export default function NavigationBar(props) {
             location={props.location}
             bookmarkRef={props.bookmarkRef}
             setJiggle={props.setJiggle}
+            setFilter={props.setFilter}
           />
         </Grid>
       </Grid>
