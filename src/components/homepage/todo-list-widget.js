@@ -1,13 +1,28 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import TodoListWindow from "./todo-list-window";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 
-export default function ToDoListWidget() {
+export default function ToDoListWidget(props) {
+  //Todo list attributes = todolistid : Objectid, index: int ; title: String
+  //Todo attributes = title: String, isCompleted: Bool, todoId: ObjectId, index: int
+
   const todoListWindowRef = useRef();
 
   const handleClick = () => {
     todoListWindowRef.current.clickOpen();
   };
+
+  const [previewTodos, setPreviewTodos] = useState(
+    props.todolists.todolists.map((tl) =>
+      tl.todos.map((todo) => (
+        <small>
+          <CheckBoxOutlineBlankIcon fontSize="small" />
+          <div className="todo-text">{todo.title}</div>
+        </small>
+      ))
+    )
+  );
+
   return (
     <>
       <a onClick={handleClick}>
@@ -15,24 +30,10 @@ export default function ToDoListWidget() {
           <div className="todo-list-widget-bar">
             <small> To-Do List</small>
           </div>
-          <div className="todo-list-widget-content">
-            <small>
-              <CheckBoxOutlineBlankIcon fontSize="small" />
-              <div className="todo-text">CSE416 Design Prototype</div>
-            </small>
-
-            <small>
-              <CheckBoxOutlineBlankIcon fontSize="small" />
-              <div className="todo-text">POL101 Read Chapter 12</div>
-            </small>
-            <small>
-              <CheckBoxOutlineBlankIcon fontSize="small" />
-              <div className="todo-text">CSE416 SRS Design Due Date</div>
-            </small>
-          </div>
+          <div className="todo-list-widget-content">{previewTodos}</div>
         </div>
       </a>
-      <TodoListWindow ref={todoListWindowRef} />
+      <TodoListWindow ref={todoListWindowRef} todolists={props.todolists} />
     </>
   );
 }

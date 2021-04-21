@@ -19,6 +19,37 @@ $font-size: 16px;
   transition: $transition;
 }
 
+//Jiggle mixin
+
+@mixin createJiggle($name, $duration, $iteration, $origin, $transition) {
+  animation-name: $name;
+  animation-duration: $duration;
+  animation-iteration-count: $iteration;
+  transform-origin: origin;
+  @include transition(transition);
+}
+@keyframes jiggle {
+  0% {
+    transform: rotate(-2.5deg);
+    animation-timing-function: ease-in;
+  }
+
+  50% {
+    transform: rotate(3deg);
+    animation-timing-function: ease-out;
+  }
+}
+@keyframes jiggleWidget {
+  0% {
+    transform: rotate(-1.5deg);
+    animation-timing-function: ease-in;
+  }
+
+  50% {
+    transform: rotate(1.5deg);
+    animation-timing-function: ease-out;
+  }
+}
 // Spacing Scale
 $baseline: rem(8px);
 /* spacing values */
@@ -298,9 +329,29 @@ small,
     // text-overflow: ellipsis;
     text-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.5);
   }
+
+  &.jiggle {
+    @include createJiggle(
+      jiggle,
+      0.3s,
+      infinite,
+      50% 50%,
+      all 0.2s ease-in-out
+    );
+  }
 }
+
 .widget-wrapper {
   width: 100%;
+  &.jiggle {
+    @include createJiggle(
+      jiggleWidget,
+      0.3s,
+      infinite,
+      50% 50%,
+      all 0.2s ease-in-out
+    );
+  }
 }
 .weather-widget-wrapper {
   display: block;
@@ -384,7 +435,7 @@ small,
 .todo-list-widget-wrapper {
   overflow: hidden;
   display: block;
-  min-height: 150px;
+  height: 150px;
   background-color: $glass-color-light;
   backdrop-filter: blur(8px);
   box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.1);
@@ -433,6 +484,15 @@ small,
   }
 }
 .folder-wrapper {
+  &.jiggle {
+    @include createJiggle(
+      jiggle,
+      0.3s,
+      infinite,
+      50% 50%,
+      all 0.2s ease-in-out
+    );
+  }
   color: $color-black;
   flex: 0 0 auto;
   .folder-title {
