@@ -26,16 +26,22 @@ const NotesWindow = forwardRef((props, ref) => {
       title: "CSE 416",
       index: 0,
       content: "Students must satisfy below requirements...",
+      titleToggle: true,
+      contentToggle: true,
     },
     {
       title: "Homeplus Grocery List",
       index: 1,
       content: "Apple, cereal, banana, ramen, tissues",
+      titleToggle: true,
+      contentToggle: true,
     },
     {
       title: "SBU Visit Document",
       index: 2,
       content: "Action needs to be done. ",
+      titleToggle: true,
+      contentToggle: true,
     },
   ]);
   //track whether a user makes change in notes title column
@@ -52,9 +58,7 @@ const NotesWindow = forwardRef((props, ref) => {
   //Decide Context menu's position
   const [mousePos, setMousePos] = useState(initialMousPos);
   //Keep track which todolist user right-clicks
-  const [todolistIdForContextMenu, setTodolistIdForContextMenu] = useState(
-    null
-  );
+  const [notesIdForContextMenu, setNotesIdForContextMenu] = useState(null);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -65,7 +69,7 @@ const NotesWindow = forwardRef((props, ref) => {
   //to handle context menu
   const handleContextMenu = (e, id) => {
     if (id != null) {
-      setTodolistIdForContextMenu(id);
+      setNotesIdForContextMenu(id);
     }
     e.preventDefault();
     //If contextmenu is already opened, just close it
@@ -101,14 +105,14 @@ const NotesWindow = forwardRef((props, ref) => {
     if (!notesContentFocus.focus) {
       setNotes(
         produce((draft) => {
-          draft[selectedIndex].notes.map((note) =>
-            !note.toggle ? (note.toggle = true) : note.toggle
+          draft.map((note) =>
+            !note.titleToggle ? (note.titleToggle = true) : note.titleToggle
           );
         })
       );
       setNotes(
         produce((draft) => {
-          draft[selectedIndex].notes.map((note) =>
+          draft.map((note) =>
             note.title === "" ? (note.title = "New Note") : note.title
           );
         })
@@ -143,10 +147,45 @@ const NotesWindow = forwardRef((props, ref) => {
   const handleDoubleClickTitle = () => {
     setNotes(
       produce((draft) => {
-        draft[selectedIndex].toggle = false;
+        draft.toggle = false;
       })
     );
     setNotesTitleFocus(true);
+  };
+
+  //user can double click the content to modify
+  const handleDoubleClickContent = () => {
+    setNotes(
+      produce((draft) => {
+        draft.map((note) =>
+          !note.titleToggle ? (note.titleToggle = true) : note.titleToggle
+        );
+      })
+    );
+
+    const focus = { focus: true, index: index };
+    setNotesContentFocus(focus);
+    setNotes(
+      produce((draft) => {
+        draft[selectedIndex].contentToggle = false;
+      })
+    );
+  };
+
+  const handleTitleChange = (e) => {
+    setNotes(
+      produce((draft) => {
+        draft[selectedIndex].title = e.target.value;
+      })
+    );
+  };
+
+  const handleChangeContent = (e) => {
+    setNotes(
+      produce((draft) => {
+        draft[selectedIndex].content = e.target.value;
+      })
+    );
   };
 
   const outerstyles = {
