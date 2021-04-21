@@ -77,7 +77,7 @@ const SignupPage = () => {
                 disableElevation
                 disableTouchRipple
                 // onClick={handleLogin}
-                href="/home"
+                href="home"
               >
                 Create an account
               </Button>

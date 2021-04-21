@@ -38,7 +38,7 @@ const WelcomePage = () => {
                 color="primary"
                 disableElevation
                 disableTouchRipple
-                href="/login"
+                href="login"
               >
                 Log in
               </Button>
@@ -64,7 +64,7 @@ const WelcomePage = () => {
                 variant="outlined"
                 disableElevation
                 disableTouchRipple
-                href="/signup"
+                href="signup"
               >
                 Create an account
               </Button>
