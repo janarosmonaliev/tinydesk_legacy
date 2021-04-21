@@ -13,10 +13,20 @@ import {
   DialogActions,
 } from "@material-ui/core";
 import { SvgIcon, IconButton, Button } from "@material-ui/core";
-import { X } from "react-feather";
+import { X, XCircle } from "react-feather";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
+import {
+  List,
+  ListItem,
+  Menu,
+  MenuItem,
+  TextField,
+  ListItemText,
+} from "@material-ui/core";
 import AddCircleOutlineRoundedIcon from "@material-ui/icons/AddCircleOutlineRounded";
+import nextId from "react-id-generator";
+import produce from "immer";
 
 const NotesWindow = forwardRef((props, ref) => {
   const [open, setOpen] = useState(false);
@@ -24,21 +34,21 @@ const NotesWindow = forwardRef((props, ref) => {
   const [notes, setNotes] = useState([
     {
       title: "CSE 416",
-      index: 0,
+      id: 0,
       content: "Students must satisfy below requirements...",
       titleToggle: true,
       contentToggle: true,
     },
     {
       title: "Homeplus Grocery List",
-      index: 1,
+      id: 1,
       content: "Apple, cereal, banana, ramen, tissues",
       titleToggle: true,
       contentToggle: true,
     },
     {
       title: "SBU Visit Document",
-      index: 2,
+      id: 2,
       content: "Action needs to be done. ",
       titleToggle: true,
       contentToggle: true,
@@ -47,7 +57,10 @@ const NotesWindow = forwardRef((props, ref) => {
   //track whether a user makes change in notes title column
   const [notesTitleFocus, setNotesTitleFocus] = useState(false);
   //track whether a user makes change in notes content
-  const [notesContentFocus, setNotesContentFocus] = useState(false);
+  const [notesContentFocus, setNotesContentFocus] = useState({
+    focus: false,
+    index: -1,
+  });
   //keep track of notes list index
   const nextIndexNote = useRef(3);
   //Context menu's initial position (= small popup after right-click)
@@ -95,6 +108,7 @@ const NotesWindow = forwardRef((props, ref) => {
     notes.filter((note) => note.id === selectedId)
   );
 
+  //FIX HERE
   const handleSelectList = (e, id) => {
     setSelectedId(id);
     setSelectedIndex(notes.findIndex((note) => note.id === id));
@@ -118,7 +132,7 @@ const NotesWindow = forwardRef((props, ref) => {
         })
       );
     }
-  }, [todoFocus]);
+  }, [notesContentFocus]);
 
   useEffect(() => {
     if (selectedId != -1) {
@@ -140,7 +154,7 @@ const NotesWindow = forwardRef((props, ref) => {
 
   useEffect(() => {
     const newFocus = { focus: false, id: -1 };
-    setTodoFocus(newFocus);
+    setNotesContentFocus(newFocus);
   }, [selectedIndex]);
 
   //user can double click the title and change it
@@ -163,7 +177,7 @@ const NotesWindow = forwardRef((props, ref) => {
       })
     );
 
-    const focus = { focus: true, index: index };
+    const focus = { focus: true, index: -1 };
     setNotesContentFocus(focus);
     setNotes(
       produce((draft) => {
@@ -187,6 +201,114 @@ const NotesWindow = forwardRef((props, ref) => {
       })
     );
   };
+
+  // Working on Todolist
+  const handleKeyDownNotesTitle = (e) => {
+    if (notes.length == 0) {
+      return;
+    }
+    if (e.key === "Enter" || e.type === "click") {
+      if (notesTitleFocus) {
+        setNotes(
+          produce((draft) => {
+            draft[selectedIndex].title =
+              draft[selectedIndex].title === ""
+                ? "New List"
+                : draft[selectedIndex].title;
+            draft[selectedIndex].titleToggle = true;
+          })
+        );
+        setNotesTitleFocus(false);
+      }
+    }
+  };
+
+  const handleKeyDownNotesContent = (e) => {
+    if (
+      (e.key === "Enter" && notesContentFocus.focus) ||
+      (e.type === "click" && notesContentFocus.focus)
+    ) {
+      if (notesContentFocus.focus) {
+        const focus = { focus: false, index: nextIndexNote.current };
+        setNotesContentFocus(focus);
+      }
+    } else if (e.type === "click" && !notesContentFocus.focus) {
+      //When user clicks new todo when focus is on todolist widget
+      // if (todolistFocus) {
+      //   setTodolists(
+      //     produce((draft) => {
+      //       draft[selectedIndex].title =
+      //         draft[selectedIndex].title === ""
+      //           ? "New List"
+      //           : draft[selectedIndex].title;
+      //       draft[selectedIndex].toggle = true;
+      //     })
+      //   );
+      //   setTodolistFocus(false);
+      // }
+      const newNote = {
+        title: "",
+        id: nextId(),
+        content: "",
+        titleToggle: true,
+        contentToggle: true,
+      };
+      setNotes(
+        produce((draft) => {
+          draft.push(newNote);
+        })
+      );
+      if (displayedNotes.length === 0) {
+        const focus = { focus: true, index: 0 };
+        setNotesContentFocus(focus);
+      } else {
+        const focus = { focus: true, index: nextIndexNote.current };
+        setNotesContentFocus(focus);
+      }
+    }
+  };
+
+  const onClickAddNotes = () => {
+    if (notesTitleFocus) {
+      const newFocus = { focus: false, index: -1 };
+      setNotesTitleFocus(newFocus);
+      return;
+    }
+    const newNote = {
+      title: "",
+      id: nextId(),
+      content: "",
+      titleToggle: true,
+      contentToggle: true,
+    };
+    setSelectedId(newNote.id);
+    setSelectedIndex(nextIndexNote.current);
+    setNotes(notes.concat(newNote));
+    setNotesTitleFocus(true);
+    const focus = { focus: false, index: -1 };
+    setNotesContentFocus(focus);
+    nextIndexNote.current += 1;
+  };
+
+  const handleContextMenuDeleteNotes = useCallback(() => {
+    setMousePos(initialMousPos);
+
+    setNotes(notes.filter((note) => note.id !== notesIdForContextMenu));
+
+    if (notes.length != 1) {
+      //Reset to first todolist
+      if (notesIdForContextMenu == notes[0].id) {
+        setSelectedId(notes[1].id);
+      } else {
+        setSelectedId(notes[0].id);
+      }
+    } else {
+      setDisplayedNotes(null);
+      setSelectedId(-1);
+    }
+    setNotesIdForContextMenu(null);
+    nextIndexNote.current -= 1;
+  });
 
   const outerstyles = {
     width: "100%",
@@ -230,138 +352,114 @@ const NotesWindow = forwardRef((props, ref) => {
       <DialogContent>
         {/* <p> Notes window component</p> */}
         <Grid container xs={12} spacing={5}>
-          <Grid item xs={4} container direction="column" spacing={2}>
-            <Grid item>
-              <Button
-                variant="contained"
-                style={{ backgroundColor: "#e77f23", color: "white" }}
-                fullWidth
-                disableElevation
-                justify-content="flex-start"
-              >
-                CSE416 Course
-              </Button>
-            </Grid>
-            <Divider variant="middle" />
-            <Grid item>
-              <Button fullWidth disableElevation justify-content="flex-start">
-                Homeplus grocery list
-              </Button>
-            </Grid>
-            <Divider variant="middle" />
-            <Grid item>
-              <Button fullWidth disableElevation justify-content="flex-start">
-                SBU Visit Document
-              </Button>
-            </Grid>
-            <Divider variant="middle" />
-
-            <DialogActions></DialogActions>
+          <Grid
+            item
+            xs={4}
+            container
+            direction="column"
+            onClick={handleKeyDownNotesTitle}
+            onContextMenu={handleContextMenu}
+          >
+            <List component="nav" aria-label="notes">
+              {/* TODO Map a JSON object to display content */}
+              {notes.map((note) => (
+                <>
+                  {note.titleToggle ? (
+                    <>
+                      <ListItem
+                        button
+                        selected={selectedId === notes.id}
+                        onClick={(e) => handleSelectList(e, notes.id)}
+                        onDoubleClick={handleDoubleClickTitle}
+                        onContextMenu={(e) => handleContextMenu(e, note.id)}
+                      >
+                        <ListItemText primary={note.title}></ListItemText>
+                      </ListItem>
+                      <Menu
+                        keepMounted
+                        open={mousePos.mouseY !== null}
+                        onClose={handleContextMenuClose}
+                        anchorReference="anchorPosition"
+                        anchorPosition={
+                          mousePos.mouseY !== null && mousePos.mouseX !== null
+                            ? { top: mousePos.mouseY, left: mousePos.mouseX }
+                            : undefined
+                        }
+                      >
+                        <MenuItem
+                          onClick={handleContextMenuDeleteNotes}
+                          style={{ color: "#EB5757" }}
+                        >
+                          <XCircle /> &nbsp; Delete
+                        </MenuItem>
+                      </Menu>
+                      <Divider light />
+                    </>
+                  ) : (
+                    <>
+                      <ListItem>
+                        <TextField
+                          value={note.title}
+                          onChange={handleTitleChange}
+                          onKeyDown={handleKeyDownNotesTitle}
+                          autoFocus
+                        ></TextField>
+                      </ListItem>
+                      <Divider light />
+                    </>
+                  )}
+                </>
+              ))}
+            </List>
           </Grid>
-          <Divider orientation="vertical" flexItem />
-          <Grid item xs={8} md container spacing={1}>
-            <Grid item container direction="column" spacing={2}>
-              <Grid item>
-                <h5>
-                  <b>CSE 416 Course</b>
-                </h5>
-                <br></br>
-                <div className="notes-text-style-bar">
-                  <Button>H1</Button>
-                  <Button>H2</Button>
-                  <Button>H3</Button>
-                  <Button>H4</Button>
-                  <Button>H5</Button>
-                  <Button>H6</Button>
-                  <Button>Blockquote</Button>
-                  <Button>UL</Button>
-                  <Button>OL</Button>
-                  <Button>Codeblock</Button>
-                  <Button>Italic</Button>
-                  <Button>Underline</Button>
-                  <Button>Bold</Button>
+
+          <Divider variant="middle" />
+
+          <DialogActions></DialogActions>
+        </Grid>
+        <Divider orientation="vertical" flexItem />
+        <Grid item xs={8} md container spacing={1}>
+          <Grid item container direction="column" spacing={2}>
+            <Grid item>
+              <h5>
+                <b>CSE 416 Course</b>
+              </h5>
+              <br></br>
+              <div className="notes-text-style-bar">
+                <Button>H1</Button>
+                <Button>H2</Button>
+                <Button>H3</Button>
+                <Button>H4</Button>
+                <Button>H5</Button>
+                <Button>H6</Button>
+                <Button>Blockquote</Button>
+                <Button>UL</Button>
+                <Button>OL</Button>
+                <Button>Codeblock</Button>
+                <Button>Italic</Button>
+                <Button>Underline</Button>
+                <Button>Bold</Button>
+              </div>
+              <br></br>
+            </Grid>
+            <Divider />
+            <Grid item>
+              <div style={outerstyles}>
+                <div style={innerstyle}>
+                  <br></br>
+                  <h5>
+                    <b>Visit Details</b>
+                  </h5>{" "}
+                  <p>
+                    Students must satisfy baloeuw;jdnfvkasdj askdjfkasdjfiouchs
+                    diufskje askdjfhskuehkjsiuvb hwehfgwioasdhjfis sudfhvajycga
+                    ssidufsiduhf. Students must satisfy baloeuw;jdnfvkasdj
+                    askdjfkasdjfiouchs diufskje askdjfhskuehkjsiuvb
+                    hwehfgwioasdhjfis sudfhvajycga ssidufsiduhf. Students must
+                    satisfy baloeuw;jdnfvkasdj
+                  </p>
                 </div>
-                <br></br>
-              </Grid>
-              <Divider />
-              <Grid item>
-                <div style={outerstyles}>
-                  <div style={innerstyle}>
-                    <br></br>
-                    <h5>
-                      <b>Visit Details</b>
-                    </h5>{" "}
-                    <p>
-                      Students must satisfy baloeuw;jdnfvkasdj
-                      askdjfkasdjfiouchs diufskje askdjfhskuehkjsiuvb
-                      hwehfgwioasdhjfis sudfhvajycga ssidufsiduhf. Students must
-                      satisfy baloeuw;jdnfvkasdj askdjfkasdjfiouchs diufskje
-                      askdjfhskuehkjsiuvb hwehfgwioasdhjfis sudfhvajycga
-                      ssidufsiduhf. Students must satisfy baloeuw;jdnfvkasdj
-                      askdjfkasdjfiouchs diufskje askdjfhskuehkjsiuvb
-                      hwehfgwioasdhjfis sudfhvajycga ssidufsiduhf. Students must
-                      satisfy baloeuw;jdnfvkasdj askdjfkasdjfiouchs diufskje
-                      askdjfhskuehkjsiuvb hwehfgwioasdhjfis sudfhvajycga
-                      ssidufsiduhf. ssidufsiduhf. ssidufsiduhf. Students must
-                      satisfy baloeuw;jdnfvkasdj askdjfkasdjfiouchs diufskje
-                      askdjfhskuehkjsiuvb hwehfgwioasdhjfis sudfhvajycga
-                      ssidufsiduhf. Students must satisfy baloeuw;jdnfvkasdj
-                      askdjfkasdjfiouchs diufskje askdjfhskuehkjsiuvb
-                      hwehfgwioasdhjfis sudfhvajycga ssidufsiduhf. Students must
-                      satisfy baloeuw;jdnfvkasdj askdjfkasdjfiouchs diufskje
-                      askdjfhskuehkjsiuvb hwehfgwioasdhjfis sudfhvajycga
-                      ssidufsiduhf. Students must satisfy baloeuw;jdnfvkasdj
-                      askdjfkasdjfiouchs diufskje askdjfhskuehkjsiuvb
-                      hwehfgwioasdhjfis sudfhvajycga ssidufsiduhf. ssidufsiduhf.
-                      ssidufsiduhf. Students must satisfy baloeuw;jdnfvkasdj
-                      askdjfkasdjfiouchs diufskje askdjfhskuehkjsiuvb
-                      hwehfgwioasdhjfis sudfhvajycga ssidufsiduhf. Students must
-                      satisfy baloeuw;jdnfvkasdj askdjfkasdjfiouchs diufskje
-                      askdjfhskuehkjsiuvb hwehfgwioasdhjfis sudfhvajycga
-                      ssidufsiduhf. Students must satisfy baloeuw;jdnfvkasdj
-                      askdjfkasdjfiouchs diufskje askdjfhskuehkjsiuvb
-                      hwehfgwioasdhjfis sudfhvajycga ssidufsiduhf. Students must
-                      satisfy baloeuw;jdnfvkasdj askdjfkasdjfiouchs diufskje
-                      askdjfhskuehkjsiuvb hwehfgwioasdhjfis sudfhvajycga
-                      ssidufsiduhf. ssidufsiduhf. ssidufsiduhf.
-                    </p>
-                    <p>
-                      Students must satisfy baloeuw;jdnfvkasdj
-                      askdjfkasdjfiouchs diufskje askdjfhskuehkjsiuvb
-                      hwehfgwioasdhjfis sudfhvajycga ssidufsiduhf. Students must
-                      satisfy baloeuw;jdnfvkasdj askdjfkasdjfiouchs diufskje
-                      askdjfhskuehkjsiuvb hwehfgwioasdhjfis sudfhvajycga
-                      ssidufsiduhf. Students must satisfy baloeuw;jdnfvkasdj
-                      askdjfkasdjfiouchs diufskje askdjfhskuehkjsiuvb
-                      hwehfgwioasdhjfis sudfhvajycga ssidufsiduhf. Students must
-                      satisfy baloeuw;jdnfvkasdj askdjfkasdjfiouchs diufskje
-                      askdjfhskuehkjsiuvb hwehfgwioasdhjfis sudfhvajycga
-                      ssidufsiduhf. ssidufsiduhf. ssidufsiduhf. Students must
-                      satisfy baloeuw;jdnfvkasdj askdjfkasdjfiouchs diufskje
-                      askdjfhskuehkjsiuvb hwehfgwioasdhjfis sudfhvajycga
-                      ssidufsiduhf. Students must satisfy baloeuw;jdnfvkasdj
-                      askdjfkasdjfiouchs diufskje askdjfhskuehkjsiuvb
-                      hwehfgwioasdhjfis sudfhvajycga ssidufsiduhf. Students must
-                      satisfy baloeuw;jdnfvkasdj askdjfkasdjfiouchs diufskje
-                      askdjfhskuehkjsiuvb hwehfgwioasdhjfis sudfhvajycga
-                      ssidufsiduhf. Students must satisfy baloeuw;jdnfvkasdj
-                      askdjfkasdjfiouchs diufskje askdjfhskuehkjsiuvb
-                      hwehfgwioasdhjfis sudfhvajycga ssidufsiduhf. ssidufsiduhf.
-                      ssidufsiduhf. Students must satisfy baloeuw;jdnfvkasdj
-                      askdjfkasdjfiouchs diufskje askdjfhskuehkjsiuvb
-                      hwehfgwioasdhjfis sudfhvajycga ssidufsiduhf. Students must
-                      satisfy baloeuw;jdnfvkasdj askdjfkasdjfiouchs diufskje
-                      askdjfhskuehkjsiuvb hwehfgwioasdhjfis sudfhvajycga
-                      ssidufsiduhf. Students must satisfy baloeuw;jdnfvkasdj
-                      askdjfkasdjfiouchs diufskje askdjfhskuehkjsiuvb
-                      hwehfgwioasdhjfis sudfhvajycga ssidufsiduhf. Students must
-                      satisfy baloeuw;jdnfvkasdj askdjfkasdjfiouchs diufskje
-                      askdjfhskuehkjsiuvb hwehfgwioasdhjfis sudfhvajycga
-                      ssidufsiduhf. ssidufsiduhf. ssidufsiduhf.
-                    </p>
-                  </div>
-                </div>
-              </Grid>
+              </div>
             </Grid>
           </Grid>
         </Grid>
@@ -370,6 +468,7 @@ const NotesWindow = forwardRef((props, ref) => {
         <Button
           startIcon={<AddCircleOutlineRoundedIcon />}
           className="notes-add-button"
+          onClick={onClickAddNotes}
         >
           Add a new note
         </Button>
