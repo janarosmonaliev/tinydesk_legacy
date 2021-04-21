@@ -11,7 +11,7 @@ const Note = styled.div`
   text-align: left;
 `;
 
-export default function NotesWidget() {
+export default function NotesWidget(props) {
   const notesWindowRef = useRef();
 
   const handleClick = () => {
@@ -20,7 +20,13 @@ export default function NotesWidget() {
   return (
     <>
       <a onClick={handleClick}>
-        <div className="notes-widget-wrapper">
+        <div
+          className={
+            props.jiggle
+              ? "notes-widget-wrapper not-hoverable"
+              : "notes-widget-wrapper hoverable"
+          }
+        >
           <div className="notes-widget-bar">
             <small> Notes</small>
           </div>

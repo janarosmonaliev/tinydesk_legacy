@@ -14,6 +14,7 @@ import {
 } from "@material-ui/core";
 import { styled } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import nextId from "react-id-generator";
 
 const DialogActionButton = styled(DialogActions)({
   justifyContent: "left",
@@ -50,17 +51,12 @@ function StyledRadio(props) {
   );
 }
 
-const AddNewBookmarkButton = () => {
+const AddNewBookmarkButton = ({ setFolders, selectedFolderId, folders }) => {
   const [open, setOpen] = useState(false);
   const [folder, setFolder] = useState("");
   const [url, setURL] = useState("");
   const [title, setTitle] = useState("");
   const [color, setColor] = useState("");
-  const newBookMark = {
-    url: "",
-    title: "",
-    color: "",
-  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -87,14 +83,19 @@ const AddNewBookmarkButton = () => {
 
   const handleSubmit = () => {
     const newBookMark = {
-      url: url,
       title: title,
+      url: url,
+      thumbnail: "",
       color: color,
+      id: nextId(),
     };
     console.log(
       `New bookmark will be created with url: ${url}, title: ${title}, color: ${color}, and folder: ${folder}`
     );
     console.log(newBookMark);
+    console.log(selectedFolderId);
+    console.log(folders);
+    // setFolders(folders[selectedFolderId].bookmarks.concat(newBookMark));
     setURL("");
     setTitle("");
     setColor("green");
@@ -203,9 +204,9 @@ const AddNewBookmarkButton = () => {
                   onChange={handleChange}
                   label="Folder"
                 >
-                  <MenuItem value={"Academic"}>Academic</MenuItem>
-                  <MenuItem value={"Design"}>Design</MenuItem>
-                  <MenuItem value={"Reading"}>Reading</MenuItem>
+                  {folders.map((folder) => (
+                    <MenuItem value={folder.title}>{folder.title}</MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>
@@ -250,7 +251,14 @@ export default function BookmarksWrapper(props) {
       >
         {/* Error: Justify must be used only in container  */}
         {props.displayedBookmarks.map((bookmark) => (
-          <Grid item xs={4} md={3} lg={2} zeroMinWidth>
+          <Grid
+            item
+            xs={4}
+            md={3}
+            lg={2}
+            zeroMinWidth
+            className={props.jiggle ? "bookmarks-jiggle" : ""}
+          >
             <Bookmark
               thumbnail={bookmark.thumbnail}
               title={bookmark.title}
@@ -260,14 +268,11 @@ export default function BookmarksWrapper(props) {
           </Grid>
         ))}
         <Grid item xs={4} md={3} lg={2} zeroMinWidth>
-          <Bookmark
-            thumbnail="https://www.google.com//images/branding/googleg/1x/googleg_standard_color_128dp.png"
-            name="Google"
-            url="https://www.google.com"
-          />
-        </Grid>
-        <Grid item xs={4} md={3} lg={2} zeroMinWidth>
-          <AddNewBookmarkButton></AddNewBookmarkButton>
+          <AddNewBookmarkButton
+            setFolders={props.setFolders}
+            folders={props.folders}
+            selectedFolderId={props.selectedFolderId}
+          ></AddNewBookmarkButton>
         </Grid>
       </Grid>
     </>
