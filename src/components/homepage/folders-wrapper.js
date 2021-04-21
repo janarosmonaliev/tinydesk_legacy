@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useRef } from "react";
 import Folder from "./folder";
 import Grid from "@material-ui/core/Grid";
-import { FolderPlus, X } from "react-feather";
 import RemoveCircleOutlinedIcon from "@material-ui/icons/RemoveCircleOutlined";
+import { FolderPlus, X } from "react-feather";
 import {
   Dialog,
   DialogTitle,
@@ -11,17 +11,13 @@ import {
   Button,
   IconButton,
   DialogActions,
-  Typography,
 } from "@material-ui/core";
 import { styled } from "@material-ui/core/styles";
+import nextId from "react-id-generator";
 
-const DialogActionButton = styled(DialogActions)({
-  justifyContent: "left",
-  marginLeft: "16px",
-  marginBottom: "20px",
-});
 export default function FoldersWrapper({
   folders,
+  setFolders,
   selectedFolderId,
   setSelectedFolderId,
   jiggle,
@@ -29,8 +25,17 @@ export default function FoldersWrapper({
   const handleDeleteFolder = (e) => {
     console.log("HELLO");
   };
-  const AddFolder = () => {
+  const AddFolder = ({ folders, setFolders }) => {
+    const onInsert = useCallback((title) => {
+      const newFolder = {
+        title: title,
+        id: nextId(),
+        bookmarks: [],
+      };
+      setFolders(folders.concat(newFolder));
+    });
     const [open, setOpen] = useState(false);
+    const [folderTitle, setFolderTitle] = useState("");
 
     const handleClickOpen = () => {
       setOpen(true);
@@ -38,7 +43,26 @@ export default function FoldersWrapper({
     const handleClose = () => {
       setOpen(false);
     };
+    const handleChange = (event) => {
+      setFolderTitle(event.target.value);
+      console.log(`folder title is set to: ${event.target.value}`);
+    };
+    // const handleAdd = () => {
+    //   console.log(`the folder with title ${folderTitle} will be added`);
+    //   setFolderTitle("");
+    //   setOpen(false);
+    // };
+    const handleAdd = useCallback(() => {
+      onInsert(folderTitle);
+      setFolderTitle("");
+      setOpen(false);
+    }, [onInsert, folderTitle]);
 
+    const DialogActionButton = styled(DialogActions)({
+      justifyContent: "left",
+      marginLeft: "16px",
+      marginBottom: "20px",
+    });
     return (
       <>
         <div className="folder-wrapper" onClick={() => handleClickOpen()}>
@@ -74,6 +98,8 @@ export default function FoldersWrapper({
                 fullWidth
                 autoFocus
                 autoComplete="off"
+                value={folderTitle}
+                onChange={handleChange}
               />
             </form>
           </DialogContent>
@@ -83,7 +109,7 @@ export default function FoldersWrapper({
               color="primary"
               disableElevation
               disableTouchRipple
-              onClick={handleClose}
+              onClick={handleAdd}
               className="button-100"
             >
               Save
@@ -133,7 +159,7 @@ export default function FoldersWrapper({
           />
         </Grid>
       ))}
-      <AddFolder />
+      <AddFolder folders={folders} setFolders={setFolders} />
     </div>
   );
 }

@@ -15,6 +15,9 @@ export default function GridWrapper(props) {
     >
       <Grid item md={7} lg={8} xs={12}>
         <BookmarksWrapper
+          setFolders={props.setFolders}
+          selectedFolderId={props.selectedFolderId}
+          folders={props.folders}
           displayedBookmarks={props.displayedBookmarks}
           jiggle={props.jiggle}
         />

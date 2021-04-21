@@ -303,7 +303,7 @@ const App = () => {
     setDisplayedBookmarks(
       folders.filter((folder) => folder.id === selectedFolderId)[0].bookmarks
     );
-  }, [selectedFolderId]);
+  }, [selectedFolderId, folders[selectedFolderId]]);
 
   const handleStopJiggle = (e) => {
     const nodeName = e.target.nodeName;
@@ -335,11 +335,15 @@ const App = () => {
             <GridWrapper
               location={userLocation}
               todolists={todolists}
+              setFolders={setFolders}
+              selectedFolderId={selectedFolderId}
               displayedBookmarks={displayedBookmarks}
+              folders={folders}
               jiggle={jiggle}
             ></GridWrapper>
             <FoldersWrapper
               folders={folders}
+              setFolders={setFolders}
               selectedFolderId={selectedFolderId}
               setSelectedFolderId={setSelectedFolderId}
               jiggle={jiggle}
