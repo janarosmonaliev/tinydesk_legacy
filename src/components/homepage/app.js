@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Container from "@material-ui/core/Container";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import NavigationBar from "./navbar";
@@ -296,28 +296,42 @@ const App = () => {
   const [displayedBookmarks, setDisplayedBookmarks] = useState(
     folders[0].bookmarks
   );
+  const [jiggle, setJiggle] = useState(false);
+
   useEffect(() => {
     setDisplayedBookmarks(
       folders.filter((folder) => folder.id === selectedFolderId)[0].bookmarks
     );
   }, [selectedFolderId]);
 
+  const handleStopJiggle = () => {
+    if (jiggle) {
+      setJiggle(false);
+    }
+  };
   return (
     <ThemeProvider theme={theme}>
-      <div className="app-window" style={unsplashImage}>
+      <div
+        className="app-window"
+        style={unsplashImage}
+        onClick={handleStopJiggle}
+      >
         <Container maxWidth="lg">
           <NavigationBar
             handlePassBgUrl={(url) => setBackground(url)}
             location={userLocation}
+            setJiggle={setJiggle}
           ></NavigationBar>
           <GridWrapper
             location={userLocation}
             todolists={todolists}
             displayedBookmarks={displayedBookmarks}
+            jiggle={jiggle}
           ></GridWrapper>
           <FoldersWrapper
             folders={folders}
             setSelectedFolderId={setSelectedFolderId}
+            jiggle={jiggle}
           ></FoldersWrapper>
         </Container>
       </div>

@@ -23,6 +23,11 @@ export default function SettingsButton(props) {
   const handleClickEditBg = () => {
     unsplashWindowRef.current.clickOpenUnsplash();
   };
+
+  const handleEditLayout = () => {
+    props.setJiggle(true);
+    setAnchorEl(null);
+  };
   return (
     <>
       <button
@@ -57,7 +62,7 @@ export default function SettingsButton(props) {
           ref={accountSettingsWindowRef}
           location={props.location}
         />
-        <MenuItem onClick={handleClose}>Edit layout</MenuItem>
+        <MenuItem onClick={handleEditLayout}>Edit layout</MenuItem>
         <MenuItem onClick={handleClickEditBg}>Edit background image</MenuItem>
       </Menu>
       <UnsplashWindow

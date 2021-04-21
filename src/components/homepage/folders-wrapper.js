@@ -19,7 +19,11 @@ const DialogActionButton = styled(DialogActions)({
   marginLeft: "16px",
   marginBottom: "20px",
 });
-export default function FoldersWrapper({ folders, setSelectedFolderId }) {
+export default function FoldersWrapper({
+  folders,
+  setSelectedFolderId,
+  jiggle,
+}) {
   const AddFolder = () => {
     const [open, setOpen] = useState(false);
 
@@ -97,7 +101,11 @@ export default function FoldersWrapper({ folders, setSelectedFolderId }) {
 
   return (
     <div className="folders-wrapper">
-      <Folders folders={folders} setSelectedFolderId={setSelectedFolderId} />
+      <Folders
+        folders={folders}
+        setSelectedFolderId={setSelectedFolderId}
+        jiggle={jiggle}
+      />
       <AddFolder />
     </div>
   );
