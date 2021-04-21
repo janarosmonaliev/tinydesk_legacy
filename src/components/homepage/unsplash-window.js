@@ -40,11 +40,10 @@ const UnsplashWindow = forwardRef((props, ref) => {
   const [photos, setPhotos] = useState([]);
 
   const handleGetPhotos = () => {
-    const nextPage = Math.floor(photos.length / 30) + 1;
     unsplash.search
       .getPhotos({
         query: searchQuery.current.value,
-        page: nextPage,
+        page: 1,
         perPage: 30,
         orientation: "landscape",
       })
@@ -52,8 +51,25 @@ const UnsplashWindow = forwardRef((props, ref) => {
         if (result.errors) {
           console.log("error occurred: ", result.errors[0]);
         } else {
-          console.log(result.response.results);
+          setPhotos(result.response.results);
+          // console.log(result.response.results);
+        }
+      });
+  };
+  const handleGetMorePhotos = (page) => {
+    unsplash.search
+      .getPhotos({
+        query: searchQuery.current.value,
+        page: page,
+        perPage: 30,
+        orientation: "landscape",
+      })
+      .then((result) => {
+        if (result.errors) {
+          console.log("error occurred: ", result.errors[0]);
+        } else {
           setPhotos(photos.concat(result.response.results));
+          // console.log(result.response.results);
         }
       });
   };
@@ -68,6 +84,7 @@ const UnsplashWindow = forwardRef((props, ref) => {
     // console.log(tile.urls.full);
     props.handleEditBg(tile.urls.full);
   };
+
   return (
     <>
       <Dialog
@@ -103,7 +120,9 @@ const UnsplashWindow = forwardRef((props, ref) => {
           >
             <Grid item xs={9}>
               <TextField
+                autoFocus
                 inputRef={searchQuery}
+                autoComplete="off"
                 fullWidth
                 label="Search"
                 id="unsplash-input"
@@ -130,18 +149,17 @@ const UnsplashWindow = forwardRef((props, ref) => {
             <div className="unsplash-wrapper">
               <InfiniteScroll
                 pageStart={0}
-                loadMore={handleGetPhotos}
+                initialLoad={false}
+                loadMore={handleGetMorePhotos}
                 hasMore={true}
-                loader={<small key={0}>Loading ...</small>}
                 useWindow={false}
               >
                 {photos.map((tile) => (
-                  <div className="unsplash-item" id={tile.id}>
+                  <div className="unsplash-item" id={tile.id} key={tile.id}>
                     <img
                       src={tile.urls.small}
                       alt={tile.alt_description}
                       className="img-fluid"
-                      key={tile.id}
                     ></img>
                     <a
                       className="unsplash-link"
@@ -159,17 +177,15 @@ const UnsplashWindow = forwardRef((props, ref) => {
             color="primary"
             disableElevation
             disableTouchRipple
-            className="button-100"
             onClick={handleClose}
           >
-            Save
+            Save changes
           </Button>
           <Button
             variant="outlined"
             color="secondary"
             disableElevation
             disableTouchRipple
-            className="button-100"
           >
             Cancel
           </Button>
