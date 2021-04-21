@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Container from "@material-ui/core/Container";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import NavigationBar from "./navbar";
@@ -98,6 +98,21 @@ const App = () => {
   const [background, setBackground] = useState(
     "https://images.unsplash.com/photo-1481414981591-5732874c7193?crop=entropy&cs=srgb&fm=jpg&ixid=MnwyMjAyNzR8MHwxfHNlYXJjaHw1fHxvcmFuZ2V8ZW58MHwwfHx8MTYxODU1NjAxNQ&ixlib=rb-1.2.1&q=85"
   );
+
+  const [initialBackground, setInitialBackground] = useState();
+
+  useMemo(() => {
+    setInitialBackground(background);
+  }, []);
+
+  const cancelSetBackground = () => {
+    setBackground(initialBackground);
+  };
+
+  const saveSetBackground = () => {
+    setInitialBackground(background);
+  };
+
   const unsplashImage = {
     backgroundImage: `url(${background})`,
   };
@@ -297,16 +312,22 @@ const App = () => {
     folders[0].bookmarks
   );
   const [jiggle, setJiggle] = useState(false);
+  const [filter, setFilter] = useState(false);
 
   useEffect(() => {
     setDisplayedBookmarks(
       folders.filter((folder) => folder.id === selectedFolderId)[0].bookmarks
     );
-  }, [selectedFolderId]);
+  }, [selectedFolderId, folders[selectedFolderId]]);
 
-  const handleStopJiggle = () => {
+  const handleStopJiggle = (e) => {
+    const nodeName = e.target.nodeName;
     if (jiggle) {
+      if (nodeName === "svg" || nodeName === "path") {
+        return;
+      }
       setJiggle(false);
+      setFilter(false);
     }
   };
   return (
@@ -316,24 +337,34 @@ const App = () => {
         style={unsplashImage}
         onClick={handleStopJiggle}
       >
-        <Container maxWidth="lg">
-          <NavigationBar
-            handlePassBgUrl={(url) => setBackground(url)}
-            location={userLocation}
-            setJiggle={setJiggle}
-          ></NavigationBar>
-          <GridWrapper
-            location={userLocation}
-            todolists={todolists}
-            displayedBookmarks={displayedBookmarks}
-            jiggle={jiggle}
-          ></GridWrapper>
-          <FoldersWrapper
-            folders={folders}
-            setSelectedFolderId={setSelectedFolderId}
-            jiggle={jiggle}
-          ></FoldersWrapper>
-        </Container>
+        <div
+          className={filter ? "app-window-filter active" : "app-window-filter"}
+        >
+          <Container maxWidth="lg">
+            <NavigationBar
+              handlePassBgUrl={(url) => setBackground(url)}
+              location={userLocation}
+              setJiggle={setJiggle}
+              setFilter={setFilter}
+            ></NavigationBar>
+            <GridWrapper
+              location={userLocation}
+              todolists={todolists}
+              setFolders={setFolders}
+              selectedFolderId={selectedFolderId}
+              displayedBookmarks={displayedBookmarks}
+              folders={folders}
+              jiggle={jiggle}
+            ></GridWrapper>
+            <FoldersWrapper
+              folders={folders}
+              setFolders={setFolders}
+              selectedFolderId={selectedFolderId}
+              setSelectedFolderId={setSelectedFolderId}
+              jiggle={jiggle}
+            ></FoldersWrapper>
+          </Container>
+        </div>
       </div>
     </ThemeProvider>
   );

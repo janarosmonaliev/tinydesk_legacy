@@ -17,14 +17,17 @@ export default function SettingsButton(props) {
   const accountSettingsWindowRef = useRef();
   const handleClickAccount = () => {
     accountSettingsWindowRef.current.clickOpen();
+    setAnchorEl(null);
   };
 
   const unsplashWindowRef = useRef();
   const handleClickEditBg = () => {
     unsplashWindowRef.current.clickOpenUnsplash();
+    setAnchorEl(null);
   };
 
   const handleEditLayout = () => {
+    props.setFilter(true);
     props.setJiggle(true);
     setAnchorEl(null);
   };
@@ -68,6 +71,8 @@ export default function SettingsButton(props) {
       <UnsplashWindow
         ref={unsplashWindowRef}
         handleEditBg={(url) => props.handleEditBg(url)}
+        handleCancelChanges={props.handleCancelChanges}
+        handleSaveChanges={props.handleSaveChanges}
       ></UnsplashWindow>
     </>
   );

@@ -11,7 +11,6 @@ import {
   IconButton,
   SvgIcon,
   DialogContent,
-  Divider,
   DialogActions,
 } from "@material-ui/core";
 import { TextField, Button, Grid } from "@material-ui/core";
@@ -85,6 +84,14 @@ const UnsplashWindow = forwardRef((props, ref) => {
     props.handleEditBg(tile.urls.full);
   };
 
+  const cancelChanges = () => {
+    setOpen(false);
+    props.handleCancelChanges();
+  };
+  const saveChanges = () => {
+    setOpen(false);
+    props.handleSaveChanges();
+  };
   return (
     <>
       <Dialog
@@ -177,7 +184,7 @@ const UnsplashWindow = forwardRef((props, ref) => {
             color="primary"
             disableElevation
             disableTouchRipple
-            onClick={handleClose}
+            onClick={saveChanges}
           >
             Save changes
           </Button>
@@ -186,6 +193,7 @@ const UnsplashWindow = forwardRef((props, ref) => {
             color="secondary"
             disableElevation
             disableTouchRipple
+            onClick={cancelChanges}
           >
             Cancel
           </Button>

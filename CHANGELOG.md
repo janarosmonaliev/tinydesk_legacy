@@ -1,5 +1,22 @@
 # Change Log
 
+## [0.0.2] - 2021-04-22
+
+### Fixed
+
+- Inconsistensies with `withStyles` package in production mode were fixed by injecting `@material-ui` styles first in `gatsby-config.js`
+
+```javascript
+{
+    resolve: `gatsby-plugin-material-ui`,
+    options: {
+    stylesProvider: {
+        injectFirst: true,
+    },
+    },
+},
+```
+
 ## [0.0.1] - 2021-03-29
 
 ### Added

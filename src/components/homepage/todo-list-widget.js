@@ -26,7 +26,13 @@ export default function ToDoListWidget(props) {
   return (
     <>
       <a onClick={handleClick}>
-        <div className="todo-list-widget-wrapper">
+        <div
+          className={
+            props.jiggle
+              ? "todo-list-widget-wrapper not-hoverable"
+              : "todo-list-widget-wrapper hoverable"
+          }
+        >
           <div className="todo-list-widget-bar">
             <small> To-Do List</small>
           </div>
