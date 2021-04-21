@@ -14,6 +14,7 @@ import {
 } from "@material-ui/core";
 import { styled } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import nextId from "react-id-generator";
 
 const DialogActionButton = styled(DialogActions)({
   justifyContent: "left",
@@ -50,17 +51,55 @@ function StyledRadio(props) {
   );
 }
 
-const AddNewBookmarkButton = () => {
+const AddNewBookmarkButton = ({ setFolders, selectedFolderId, folders }) => {
   const [open, setOpen] = useState(false);
   const [folder, setFolder] = useState("");
+  const [url, setURL] = useState("");
+  const [title, setTitle] = useState("");
+  const [color, setColor] = useState("");
+
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
+  const handleURLChange = (event) => {
+    setURL(event.target.value);
+    console.log(`URL is set to: ${event.target.value}`);
+  };
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
+    console.log(`Title is set to: ${event.target.value}`);
+  };
+  const handleColorChange = (event) => {
+    setColor(event.target.value);
+    console.log(`Color is set to: ${event.target.value}`);
+  };
   const handleChange = (event) => {
     setFolder(event.target.value);
+    console.log(`Folder is set to: ${event.target.value}`);
+  };
+
+  const handleSubmit = () => {
+    const newBookMark = {
+      title: title,
+      url: url,
+      thumbnail: "",
+      color: color,
+      id: nextId(),
+    };
+    console.log(
+      `New bookmark will be created with url: ${url}, title: ${title}, color: ${color}, and folder: ${folder}`
+    );
+    console.log(newBookMark);
+    console.log(selectedFolderId);
+    console.log(folders);
+    // setFolders(folders[selectedFolderId].bookmarks.concat(newBookMark));
+    setURL("");
+    setTitle("");
+    setColor("green");
+    setOpen(false);
   };
   return (
     <>
@@ -71,6 +110,7 @@ const AddNewBookmarkButton = () => {
         <small>Add Bookmark</small>
       </div>
 
+      {/* Add Bookmark dialog */}
       <Dialog
         fullWidth
         maxWidth="xs"
@@ -99,12 +139,17 @@ const AddNewBookmarkButton = () => {
               label="Website URL"
               fullWidth
               autoComplete="off"
+              value={url}
+              onChange={handleURLChange}
             />
             <TextField
               id="new-bookmark-title"
               label="Title"
               fullWidth
               autoComplete="off"
+              name="title"
+              value={title}
+              onChange={handleTitleChange}
             />
             {/* TODO Visit link below for radio buttons  */}
             {/* https://material-ui.com/components/radio-buttons/ */}
@@ -122,6 +167,7 @@ const AddNewBookmarkButton = () => {
                 defaultValue="green"
                 name="radio-buttons-group"
                 style={{ flexDirection: "row" }}
+                onChange={handleColorChange}
               >
                 <FormControlLabel
                   value="green"
@@ -158,9 +204,9 @@ const AddNewBookmarkButton = () => {
                   onChange={handleChange}
                   label="Folder"
                 >
-                  <MenuItem value={"Academic"}>Academic</MenuItem>
-                  <MenuItem value={20}>Design</MenuItem>
-                  <MenuItem value={30}>Reading</MenuItem>
+                  {folders.map((folder) => (
+                    <MenuItem value={folder.title}>{folder.title}</MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>
@@ -172,7 +218,7 @@ const AddNewBookmarkButton = () => {
             color="primary"
             disableElevation
             disableTouchRipple
-            onClick={handleClose}
+            onClick={handleSubmit}
             className="button-100"
           >
             Save
@@ -193,7 +239,7 @@ const AddNewBookmarkButton = () => {
   );
 };
 
-export default function BookmarksWrapper() {
+export default function BookmarksWrapper(props) {
   return (
     <>
       <Grid
@@ -204,43 +250,29 @@ export default function BookmarksWrapper() {
         alignItems="flex-start"
       >
         {/* Error: Justify must be used only in container  */}
+        {props.displayedBookmarks.map((bookmark) => (
+          <Grid
+            item
+            xs={4}
+            md={3}
+            lg={2}
+            zeroMinWidth
+            className={props.jiggle ? "bookmarks-jiggle" : ""}
+          >
+            <Bookmark
+              thumbnail={bookmark.thumbnail}
+              title={bookmark.title}
+              url={bookmark.url}
+              jiggle={props.jiggle}
+            />
+          </Grid>
+        ))}
         <Grid item xs={4} md={3} lg={2} zeroMinWidth>
-          <Bookmark
-            thumbnail="https://www.google.com/images/branding/product/ico/google_my_business_alldp.ico"
-            name="Google Business"
-            url="https://www.google.com/about"
-          />
-        </Grid>
-        <Grid item xs={4} md={3} lg={2} zeroMinWidth>
-          <Bookmark
-            thumbnail="https://github.githubassets.com/apple-touch-icon-180x180.png"
-            name="Github"
-            url="https://github.com"
-          />
-        </Grid>
-        <Grid item xs={4} md={3} lg={2} zeroMinWidth>
-          <Bookmark
-            thumbnail="https://github.githubassets.com/apple-touch-icon-180x180.png"
-            name="CSE416 Project"
-            url="https://www.github.com/janarosmonaliev/project-416"
-          />
-        </Grid>
-        <Grid item xs={4} md={3} lg={2} zeroMinWidth>
-          <Bookmark
-            thumbnail="https://miro.medium.com/fit/c/152/152/1*sHhtYhaCe2Uc3IU0IgKwIQ.png"
-            name="Medium"
-            url="https://www.medium.com"
-          />
-        </Grid>
-        <Grid item xs={4} md={3} lg={2} zeroMinWidth>
-          <Bookmark
-            thumbnail="https://www.google.com//images/branding/googleg/1x/googleg_standard_color_128dp.png"
-            name="Google"
-            url="https://www.google.com"
-          />
-        </Grid>
-        <Grid item xs={4} md={3} lg={2} zeroMinWidth>
-          <AddNewBookmarkButton></AddNewBookmarkButton>
+          <AddNewBookmarkButton
+            setFolders={props.setFolders}
+            folders={props.folders}
+            selectedFolderId={props.selectedFolderId}
+          ></AddNewBookmarkButton>
         </Grid>
       </Grid>
     </>
