@@ -53,7 +53,7 @@ const LoginPage = () => {
                 disableElevation
                 disableTouchRipple
                 // onClick={handleLogin}
-                href="/home"
+                href="home"
               >
                 Log in
               </Button>
