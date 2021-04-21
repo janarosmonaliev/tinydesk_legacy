@@ -15,6 +15,7 @@ import {
 import { styled } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import nextId from "react-id-generator";
+import produce from "immer";
 
 const DialogActionButton = styled(DialogActions)({
   justifyContent: "left",
@@ -95,7 +96,12 @@ const AddNewBookmarkButton = ({ setFolders, selectedFolderId, folders }) => {
     console.log(newBookMark);
     console.log(selectedFolderId);
     console.log(folders);
-    // setFolders(folders[selectedFolderId].bookmarks.concat(newBookMark));
+    console.log(folders[selectedFolderId]);
+    setFolders(
+      produce(folders, (draft) => {
+        draft[selectedFolderId].bookmarks.push(newBookMark);
+      })
+    );
     setURL("");
     setTitle("");
     setColor("green");
