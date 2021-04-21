@@ -8,34 +8,8 @@ const useStyles = makeStyles({
   landingHeading: {
     marginBottom: "80px",
   },
-  textInvertColorBlack: {
-    color: "white",
-    "@media (min-width: 960px)": {
-      color: "black",
-    },
-  },
-  textInvertColorGray: {
-    color: "#c7c7c7",
-    "@media (min-width: 960px)": {
-      color: "#4f4f4f",
-    },
-  },
   buttonSignInGoogle: {
     marginRight: "16px",
-  },
-  logoTypeWrapper: {
-    marginTop: "16px",
-    marginBottom: "40px",
-    "& > img": {
-      verticalAlign: "middle",
-      display: "inline-block",
-    },
-    "& > span": {
-      fontSize: "18px",
-      fontWeight: "500",
-      verticalAlign: "middle",
-      display: "inline-block",
-    },
   },
 });
 
@@ -43,16 +17,14 @@ const WelcomePage = () => {
   const classes = useStyles();
   return (
     <Grid item xs={12} md={6} lg={6}>
-      <div className={classes.logoTypeWrapper}>
+      <div className="logotype-wrapper">
         <img src={Logo} width="50" height="32" alt="CommandT Logo"></img>{" "}
-        <span className={classes.textInvertColorBlack}>CommandT</span>
+        <span className="landing-text-black">CommandT</span>
       </div>
-      <h1
-        className={classes.textInvertColorBlack + " " + classes.landingHeading}
-      >
+      <h1 className={"landing-text-black" + " " + classes.landingHeading}>
         Change the way you organize your bookmarks and use your homepage
       </h1>
-      <h5 className={classes.textInvertColorGray}>
+      <h5 className="landing-text-gray">
         Get started by logging in with your account or sign up with your Google
         account or email.
       </h5>

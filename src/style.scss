@@ -565,3 +565,29 @@ small,
     position: relative;
   }
 }
+.landing-text-black {
+  color: white;
+  @media (min-width: 960px) {
+    color: black;
+  }
+}
+.landing-text-gray {
+  color: #c7c7c7;
+  @media (min-width: 960px) {
+    color: $color-gray;
+  }
+}
+.logotype-wrapper {
+  margin-top: $space-03;
+  margin-bottom: $space-07;
+  & > img {
+    vertical-align: middle;
+    display: inline-block;
+  }
+  & > span {
+    font-size: 18px;
+    font-weight: 500;
+    vertical-align: middle;
+    display: inline-block;
+  }
+}

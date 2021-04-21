@@ -44,6 +44,11 @@ const theme = createMuiTheme({
         },
       },
     },
+    MuiTextField: {
+      root: {
+        marginBottom: "16px",
+      },
+    },
   },
 });
 
