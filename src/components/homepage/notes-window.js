@@ -161,7 +161,7 @@ const NotesWindow = forwardRef((props, ref) => {
   const handleDoubleClickTitle = () => {
     setNotes(
       produce((draft) => {
-        draft.toggle = false;
+        draft[selectedIndex].toggle = false;
       })
     );
     setNotesTitleFocus(true);
@@ -171,7 +171,7 @@ const NotesWindow = forwardRef((props, ref) => {
   const handleDoubleClickContent = () => {
     setNotes(
       produce((draft) => {
-        draft.map((note) =>
+        draft[selectedIndex].map((note) =>
           !note.titleToggle ? (note.titleToggle = true) : note.titleToggle
         );
       })
@@ -211,6 +211,7 @@ const NotesWindow = forwardRef((props, ref) => {
       if (notesTitleFocus) {
         setNotes(
           produce((draft) => {
+            console.log(draft);
             draft[selectedIndex].title =
               draft[selectedIndex].title === ""
                 ? "New List"
@@ -234,18 +235,18 @@ const NotesWindow = forwardRef((props, ref) => {
       }
     } else if (e.type === "click" && !notesContentFocus.focus) {
       //When user clicks new todo when focus is on todolist widget
-      // if (todolistFocus) {
-      //   setTodolists(
-      //     produce((draft) => {
-      //       draft[selectedIndex].title =
-      //         draft[selectedIndex].title === ""
-      //           ? "New List"
-      //           : draft[selectedIndex].title;
-      //       draft[selectedIndex].toggle = true;
-      //     })
-      //   );
-      //   setTodolistFocus(false);
-      // }
+      if (notesTitleFocus) {
+        setNotes(
+          produce((draft) => {
+            draft[selectedIndex].title =
+              draft[selectedIndex].title === ""
+                ? "New List"
+                : draft[selectedIndex].title;
+            draft[selectedIndex].toggle = true;
+          })
+        );
+        setNotesTitleFocus(false);
+      }
       const newNote = {
         title: "",
         id: nextId(),
@@ -278,8 +279,8 @@ const NotesWindow = forwardRef((props, ref) => {
       title: "",
       id: nextId(),
       content: "",
-      titleToggle: true,
-      contentToggle: true,
+      titleToggle: false,
+      contentToggle: false,
     };
     setSelectedId(newNote.id);
     setSelectedIndex(nextIndexNote.current);
@@ -444,18 +445,16 @@ const NotesWindow = forwardRef((props, ref) => {
                 </div>
                 <br></br>
                 <Divider />
-                <br></br>
                 {displayedNotes != null ? (
                   displayedNotes.map((note) => (
                     <>
-                      <Grid
-                        container
-                        item
-                        xs={12}
-                        alignItems="center"
-                        id="todos-keep-click-away"
-                      >
-                        <div>{note.content}</div>
+                      <Grid item onKeyDown={handleKeyDownNotesContent}>
+                        <div style={outerstyles}>
+                          <div style={innerstyle}>
+                            <br></br>
+                            <p>{note.content}</p>
+                          </div>
+                        </div>
                       </Grid>
                     </>
                   ))
