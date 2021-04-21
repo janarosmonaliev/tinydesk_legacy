@@ -1,17 +1,13 @@
 import React from "react";
 
-export default function Folders({
-  folders,
-  // selectedFolderId,
-  setSelectedFolderId,
-}) {
+export default function Folders({ folders, setSelectedFolderId, jiggle }) {
   const handleClick = (id) => {
     setSelectedFolderId(id);
   };
   return (
     <>
       {folders.map((folder) => (
-        <a className="folder-wrapper">
+        <a className={jiggle ? "folder-wrapper jiggle" : "folder-wrapper"}>
           <div className="folder-title" onClick={() => handleClick(folder.id)}>
             {folder.title}
           </div>

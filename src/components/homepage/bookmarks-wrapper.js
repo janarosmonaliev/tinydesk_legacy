@@ -210,6 +210,7 @@ export default function BookmarksWrapper(props) {
               thumbnail={bookmark.thumbnail}
               title={bookmark.title}
               url={bookmark.url}
+              jiggle={props.jiggle}
             />
           </Grid>
         ))}

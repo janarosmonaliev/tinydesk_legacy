@@ -25,6 +25,8 @@ export default function NavigationBar(props) {
             className="button-settings"
             handleEditBg={(url) => props.handlePassBgUrl(url)}
             location={props.location}
+            bookmarkRef={props.bookmarkRef}
+            setJiggle={props.setJiggle}
           />
         </Grid>
       </Grid>
