@@ -100,12 +100,13 @@ const AddNewBookmarkButton = () => {
     console.log(newBookMark);
     console.log(selectedFolderId);
     console.log(folders);
-    const folderID = folders.findIndex((f) => f.title === folder);
+    const folderIndex = folders.findIndex((f) => f.id === selectedFolderId);
     setFolders(
       produce(folders, (draft) => {
-        draft[folderID].bookmarks.push(newBookMark);
+        draft[folderIndex].bookmarks.push(newBookMark);
       })
     );
+
     setURL("");
     setTitle("");
     setColor("green");

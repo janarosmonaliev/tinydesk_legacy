@@ -321,7 +321,7 @@ const App = () => {
     setDisplayedBookmarks(
       folders.filter((folder) => folder.id === selectedFolderId)[0].bookmarks
     );
-  }, [selectedFolderId, folders[selectedFolderId]]);
+  }, [selectedFolderId, folders]);
 
   const handleStopJiggle = (e) => {
     const nodeName = e.target.nodeName;
@@ -345,6 +345,7 @@ const App = () => {
     folders,
     setFolders,
     displayedBookmarks,
+    setDisplayedBookmarks,
     todolists,
     setTodolists,
   };
