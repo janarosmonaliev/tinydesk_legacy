@@ -48,8 +48,9 @@ Ex) If you finished implementing the "add Todolist" function, give an empty name
 
 ### Bug Report
 
-Every team member should open an issue on Github if they encounter a bug. They should be all allowed to get an email when other team members opened an issue as follow:
+Every team member should open an issue on Github if they encounter a bug. They should be all frequently check an issue to give quick feedback.
 
+Allowing email notification will help to give and receive feedback.
 ![Screen Shot 2021-04-22 at 12 40 55 PM](https://user-images.githubusercontent.com/59468036/115654229-a7faed00-a36b-11eb-96d6-81ceed84654a.png)
 
 A team member who is in charge of the bugged function should fix it.
@@ -62,6 +63,7 @@ These are the steps to open an issue:
 
 A team member who is in charge of such a task should fix the bug. He or she has to fix the bug as soon as possible. However, when a bug could have occurred due to some other team member's push, team members should communicate with each other thoroughly to fix the bug together. 
 
+A team member who fixed a bug should comment on how did he or she fixed a bug to prevent similar bugs in the future. 
 
 
 
