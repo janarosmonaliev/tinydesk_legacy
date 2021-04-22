@@ -5,6 +5,7 @@ import NavigationBar from "./navbar";
 import GridWrapper from "./grid-wrapper";
 import FoldersWrapper from "./folders-wrapper";
 import Image from "../../images/mac-os-bg.png";
+import { UserContext } from "./context/UserContext";
 
 const theme = createMuiTheme({
   typography: {
@@ -93,7 +94,6 @@ const theme = createMuiTheme({
     },
   },
 });
-
 const App = () => {
   const [background, setBackground] = useState(
     "https://images.unsplash.com/photo-1481414981591-5732874c7193?crop=entropy&cs=srgb&fm=jpg&ixid=MnwyMjAyNzR8MHwxfHNlYXJjaHw1fHxvcmFuZ2V8ZW58MHwwfHx8MTYxODU1NjAxNQ&ixlib=rb-1.2.1&q=85"
@@ -120,7 +120,7 @@ const App = () => {
 
   //Dummy data
   //User Location
-  const userLocation = {
+  const initialLocation = {
     id: 1843564,
     name: "Incheon",
     state: "",
@@ -131,7 +131,7 @@ const App = () => {
     },
   };
   //Todo list
-  const todolists = {
+  const initialTodolists = {
     todolists: [
       {
         title: "Academic",
@@ -307,13 +307,15 @@ const App = () => {
       },
     ],
   };
+  const [location, setLocation] = useState(initialLocation);
+  const [todolists, setTodolists] = useState(initialTodolists.todolists);
+  const [jiggle, setJiggle] = useState(false);
+  const [filter, setFilter] = useState(false);
   const [folders, setFolders] = useState(initialFolders.folders);
   const [selectedFolderId, setSelectedFolderId] = useState(folders[0].id);
   const [displayedBookmarks, setDisplayedBookmarks] = useState(
     folders[0].bookmarks
   );
-  const [jiggle, setJiggle] = useState(false);
-  const [filter, setFilter] = useState(false);
 
   useEffect(() => {
     setDisplayedBookmarks(
@@ -331,45 +333,48 @@ const App = () => {
       setFilter(false);
     }
   };
+  const userContext = {
+    location,
+    setLocation,
+    jiggle,
+    setJiggle,
+    filter,
+    setFilter,
+    selectedFolderId,
+    setSelectedFolderId,
+    folders,
+    setFolders,
+    displayedBookmarks,
+    todolists,
+    setTodolists,
+  };
   return (
-    <ThemeProvider theme={theme}>
-      <div
-        className="app-window"
-        style={unsplashImage}
-        onClick={handleStopJiggle}
-      >
+    <UserContext.Provider value={userContext}>
+      <ThemeProvider theme={theme}>
         <div
-          className={filter ? "app-window-filter active" : "app-window-filter"}
+          className="app-window"
+          style={unsplashImage}
+          onClick={handleStopJiggle}
         >
-          <Container maxWidth="lg">
-            <NavigationBar
-              handlePassBgUrl={(url) => setBackground(url)}
-              saveChanges={saveSetBackground}
-              cancelChanges={cancelSetBackground}
-              location={userLocation}
-              setJiggle={setJiggle}
-              setFilter={setFilter}
-            ></NavigationBar>
-            <GridWrapper
-              location={userLocation}
-              todolists={todolists}
-              setFolders={setFolders}
-              selectedFolderId={selectedFolderId}
-              displayedBookmarks={displayedBookmarks}
-              folders={folders}
-              jiggle={jiggle}
-            ></GridWrapper>
-            <FoldersWrapper
-              folders={folders}
-              setFolders={setFolders}
-              selectedFolderId={selectedFolderId}
-              setSelectedFolderId={setSelectedFolderId}
-              jiggle={jiggle}
-            ></FoldersWrapper>
-          </Container>
+          <div
+            className={
+              filter ? "app-window-filter active" : "app-window-filter"
+            }
+          >
+            <Container maxWidth="lg">
+              <NavigationBar
+                handlePassBgUrl={(url) => setBackground(url)}
+                saveChanges={saveSetBackground}
+                xwe
+                cancelChanges={cancelSetBackground}
+              ></NavigationBar>
+              <GridWrapper></GridWrapper>
+              <FoldersWrapper></FoldersWrapper>
+            </Container>
+          </div>
         </div>
-      </div>
-    </ThemeProvider>
+      </ThemeProvider>
+    </UserContext.Provider>
   );
 };
 

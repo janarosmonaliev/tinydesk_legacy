@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
+import { UserContext } from "./context/UserContext";
 
-export default function Folder({
-  folder,
-  selectedFolderId,
-  setSelectedFolderId,
-  jiggle,
-}) {
+export default function Folder({ folder }) {
+  const { jiggle, selectedFolderId, setSelectedFolderId } = useContext(
+    UserContext
+  );
   const handleClick = (id) => {
     setSelectedFolderId(id);
   };

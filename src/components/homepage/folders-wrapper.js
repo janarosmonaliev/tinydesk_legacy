@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef } from "react";
+import React, { useCallback, useState, useRef, useContext } from "react";
 import Folder from "./folder";
 import Grid from "@material-ui/core/Grid";
 import RemoveCircleOutlinedIcon from "@material-ui/icons/RemoveCircleOutlined";
@@ -14,18 +14,15 @@ import {
 } from "@material-ui/core";
 import { styled } from "@material-ui/core/styles";
 import nextId from "react-id-generator";
+import { UserContext } from "./context/UserContext";
 
-export default function FoldersWrapper({
-  folders,
-  setFolders,
-  selectedFolderId,
-  setSelectedFolderId,
-  jiggle,
-}) {
+export default function FoldersWrapper() {
+  const { jiggle, folders, setFolders } = useContext(UserContext);
   const handleDeleteFolder = (e) => {
     console.log("HELLO");
   };
-  const AddFolder = ({ folders, setFolders }) => {
+
+  const AddFolder = () => {
     const onInsert = useCallback((title) => {
       const newFolder = {
         title: title,
@@ -151,15 +148,10 @@ export default function FoldersWrapper({
             <></>
           )}
 
-          <Folder
-            folder={folder}
-            selectedFolderId={selectedFolderId}
-            setSelectedFolderId={setSelectedFolderId}
-            jiggle={jiggle}
-          />
+          <Folder folder={folder} />
         </Grid>
       ))}
-      <AddFolder folders={folders} setFolders={setFolders} />
+      <AddFolder />
     </div>
   );
 }

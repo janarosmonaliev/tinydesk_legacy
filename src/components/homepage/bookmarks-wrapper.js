@@ -1,6 +1,6 @@
 import { DialogActions, Grid } from "@material-ui/core";
 import clsx from "clsx";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Bookmark from "./bookmark";
 import { Plus, X } from "react-feather";
 import { SvgIcon, IconButton, TextField, Button } from "@material-ui/core";
@@ -16,6 +16,7 @@ import { styled } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import nextId from "react-id-generator";
 import produce from "immer";
+import { UserContext } from "./context/UserContext";
 
 const DialogActionButton = styled(DialogActions)({
   justifyContent: "left",
@@ -52,7 +53,8 @@ function StyledRadio(props) {
   );
 }
 
-const AddNewBookmarkButton = ({ setFolders, selectedFolderId, folders }) => {
+const AddNewBookmarkButton = () => {
+  const { selectedFolderId, folders, setFolders } = useContext(UserContext);
   const [open, setOpen] = useState(false);
   const [folder, setFolder] = useState("");
   const [url, setURL] = useState("");
@@ -212,8 +214,8 @@ const AddNewBookmarkButton = ({ setFolders, selectedFolderId, folders }) => {
                   onChange={handleChange}
                   label="Folder"
                 >
-                  {folders.map((folder) => (
-                    <MenuItem value={folder.title}>{folder.title}</MenuItem>
+                  {folders.map((f) => (
+                    <MenuItem value={f.title}>{f.title}</MenuItem>
                   ))}
                 </Select>
               </FormControl>
@@ -247,7 +249,8 @@ const AddNewBookmarkButton = ({ setFolders, selectedFolderId, folders }) => {
   );
 };
 
-export default function BookmarksWrapper(props) {
+export default function BookmarksWrapper() {
+  const { jiggle, displayedBookmarks } = useContext(UserContext);
   return (
     <>
       <Grid
@@ -258,29 +261,24 @@ export default function BookmarksWrapper(props) {
         alignItems="flex-start"
       >
         {/* Error: Justify must be used only in container  */}
-        {props.displayedBookmarks.map((bookmark) => (
+        {displayedBookmarks.map((bookmark) => (
           <Grid
             item
             xs={4}
             md={3}
             lg={2}
             zeroMinWidth
-            className={props.jiggle ? "bookmarks-jiggle" : ""}
+            className={jiggle ? "bookmarks-jiggle" : ""}
           >
             <Bookmark
               thumbnail={bookmark.thumbnail}
               title={bookmark.title}
               url={bookmark.url}
-              jiggle={props.jiggle}
             />
           </Grid>
         ))}
         <Grid item xs={4} md={3} lg={2} zeroMinWidth>
-          <AddNewBookmarkButton
-            setFolders={props.setFolders}
-            folders={props.folders}
-            selectedFolderId={props.selectedFolderId}
-          ></AddNewBookmarkButton>
+          <AddNewBookmarkButton></AddNewBookmarkButton>
         </Grid>
       </Grid>
     </>

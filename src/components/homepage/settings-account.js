@@ -5,6 +5,7 @@ import React, {
   useCallback,
   useRef,
   useEffect,
+  useContext,
 } from "react";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import { Typography } from "@material-ui/core";
@@ -29,8 +30,10 @@ import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 import cities from "../../cities";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import { UserContext } from "./context/UserContext";
 
 const AccountSettingsTwo = forwardRef((props, ref) => {
+  const { location, setLocation } = useContext(UserContext);
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -49,8 +52,7 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
   //   setLocation(event.target.value);
   // };
   // const [selectedCountry, setSelectedCountry] = useState("")
-  const [currentLocation, setCurrentLocation] = useState(props.location);
-  const [cityValue, setCityValue] = useState(currentLocation.name);
+  const [cityValue, setCityValue] = useState(location.name);
 
   const city = cities.korea;
   const cityHandleChange = (e) => {
@@ -146,14 +148,14 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
                       getOptionSelected={(option, value) =>
                         option.name === value.name
                       }
-                      defaultValue={currentLocation}
+                      defaultValue={location}
                       autoComplete
                       renderInput={(params) => (
                         <TextField
                           {...params}
                           label="City"
                           variant="standard"
-                          defaultValue={currentLocation.name}
+                          defaultValue={location.name}
                           onSelect={cityHandleChange}
                         />
                       )}

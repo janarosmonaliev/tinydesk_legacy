@@ -1,12 +1,14 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import { Settings } from "react-feather";
 import { Menu } from "@material-ui/core";
 import { MenuItem } from "@material-ui/core";
 import AccountSettings from "./settings-account";
 import UnsplashWindow from "./unsplash-window";
+import { UserContext } from "./context/UserContext";
 
 export default function SettingsButton(props) {
+  const { setJiggle, setFilter } = useContext(UserContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClickOpen = (e) => {
     setAnchorEl(e.currentTarget);
@@ -27,10 +29,11 @@ export default function SettingsButton(props) {
   };
 
   const handleEditLayout = () => {
-    props.setFilter(true);
-    props.setJiggle(true);
+    setFilter(true);
+    setJiggle(true);
     setAnchorEl(null);
   };
+
   return (
     <>
       <button
@@ -61,10 +64,7 @@ export default function SettingsButton(props) {
         }}
       >
         <a onClick={handleClickAccount}></a>
-        <AccountSettings
-          ref={accountSettingsWindowRef}
-          location={props.location}
-        />
+        <AccountSettings ref={accountSettingsWindowRef} />
         <MenuItem onClick={handleEditLayout}>Edit layout</MenuItem>
         <MenuItem onClick={handleClickEditBg}>Edit background image</MenuItem>
       </Menu>

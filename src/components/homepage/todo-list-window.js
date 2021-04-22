@@ -5,6 +5,7 @@ import React, {
   useRef,
   useCallback,
   useEffect,
+  useContext,
 } from "react";
 import {
   Dialog,
@@ -21,10 +22,12 @@ import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import produce from "immer";
 import nextId from "react-id-generator";
 import { Menu, MenuItem } from "@material-ui/core/";
+import { UserContext } from "./context/UserContext";
 
-const TodoListWindow = forwardRef((tl, ref) => {
+const TodoListWindow = forwardRef((props, ref) => {
   //Props todolist from App
-  const [todolists, setTodolists] = useState(tl.todolists.todolists);
+  const { todolists, setTodolists } = useContext(UserContext);
+
   //Open and close modal
   const [open, setOpen] = useState(false);
   //Track whether a user makes change in todolist (ex) edit title, make new todolist)

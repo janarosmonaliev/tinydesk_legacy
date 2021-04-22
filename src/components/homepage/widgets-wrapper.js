@@ -1,10 +1,13 @@
 import { Grid } from "@material-ui/core";
-import React from "react";
+import React, { useContext } from "react";
 import WeatherWidget from "./weather-widget";
 import NotesWidget from "./notes-widget";
 import TodoListWidget from "./todo-list-widget";
 import RemoveCircleOutlinedIcon from "@material-ui/icons/RemoveCircleOutlined";
-export default function WidgetsWrapper(props) {
+
+import { UserContext } from "./context/UserContext";
+export default function WidgetsWrapper() {
+  const { jiggle } = useContext(UserContext);
   const handleDeleteWidget = (widgetType) => {
     console.log(widgetType);
   };
@@ -19,9 +22,9 @@ export default function WidgetsWrapper(props) {
       <Grid
         item
         xs={12}
-        className={props.jiggle ? "widget-wrapper jiggle" : "widget-wrapper"}
+        className={jiggle ? "widget-wrapper jiggle" : "widget-wrapper"}
       >
-        {props.jiggle ? (
+        {jiggle ? (
           <Grid container item xs={12} justify="flex-end">
             <RemoveCircleOutlinedIcon
               color="error"
@@ -34,16 +37,15 @@ export default function WidgetsWrapper(props) {
           <></>
         )}
 
-        <WeatherWidget location={props.location}></WeatherWidget>
+        <WeatherWidget></WeatherWidget>
       </Grid>
       <Grid
         item
         xs={12}
         lg={6}
-        className={props.jiggle ? "widget-wrapper jiggle" : "widget-wrapper"}
-        jiggle={props.jiggle}
+        className={jiggle ? "widget-wrapper jiggle" : "widget-wrapper"}
       >
-        {props.jiggle ? (
+        {jiggle ? (
           <Grid container item xs={12} justify="flex-end">
             <RemoveCircleOutlinedIcon
               color="error"
@@ -55,16 +57,15 @@ export default function WidgetsWrapper(props) {
         ) : (
           <></>
         )}
-        <NotesWidget jiggle={props.jiggle}></NotesWidget>
+        <NotesWidget></NotesWidget>
       </Grid>
       <Grid
         item
         xs={12}
         lg={6}
-        className={props.jiggle ? "widget-wrapper jiggle" : "widget-wrapper"}
-        jiggle={props.jiggle}
+        className={jiggle ? "widget-wrapper jiggle" : "widget-wrapper"}
       >
-        {props.jiggle ? (
+        {jiggle ? (
           <Grid container item xs={12} justify="flex-end">
             <RemoveCircleOutlinedIcon
               color="error"
@@ -76,10 +77,7 @@ export default function WidgetsWrapper(props) {
         ) : (
           <></>
         )}
-        <TodoListWidget
-          todolists={props.todolists}
-          jiggle={props.jiggle}
-        ></TodoListWidget>
+        <TodoListWidget></TodoListWidget>
       </Grid>
     </Grid>
   );
