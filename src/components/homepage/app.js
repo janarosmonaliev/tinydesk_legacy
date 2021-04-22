@@ -106,6 +106,7 @@ const App = () => {
   }, []);
 
   const cancelSetBackground = () => {
+    console.log("cancelling");
     setBackground(initialBackground);
   };
 
@@ -343,6 +344,8 @@ const App = () => {
           <Container maxWidth="lg">
             <NavigationBar
               handlePassBgUrl={(url) => setBackground(url)}
+              saveChanges={saveSetBackground}
+              cancelChanges={cancelSetBackground}
               location={userLocation}
               setJiggle={setJiggle}
               setFilter={setFilter}

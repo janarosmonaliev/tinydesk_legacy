@@ -383,8 +383,8 @@ small,
   display: block;
   min-height: 150px;
   background-color: $glass-color-light;
-  // backdrop-filter: blur(8px);
-  box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 0.5rem 0 #0000001a;
   border-radius: rem(15px);
   @include transition(background-color 300ms ease-out);
   &.hoverable {

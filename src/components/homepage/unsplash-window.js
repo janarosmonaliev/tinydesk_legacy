@@ -85,13 +85,15 @@ const UnsplashWindow = forwardRef((props, ref) => {
   };
 
   const cancelChanges = () => {
-    setOpen(false);
     props.handleCancelChanges();
+    handleClose();
   };
+
   const saveChanges = () => {
-    setOpen(false);
     props.handleSaveChanges();
+    handleClose();
   };
+
   return (
     <>
       <Dialog
@@ -155,7 +157,7 @@ const UnsplashWindow = forwardRef((props, ref) => {
           <Grid container justify="center" spacing={2}>
             <div className="unsplash-wrapper">
               <InfiniteScroll
-                pageStart={0}
+                pageStart={2}
                 initialLoad={false}
                 loadMore={handleGetMorePhotos}
                 hasMore={true}
