@@ -79,6 +79,8 @@ const AddNewBookmarkButton = ({ setFolders, selectedFolderId, folders }) => {
   };
   const handleChange = (event) => {
     setFolder(event.target.value);
+
+    //selectedFolderId = event.target.value;
     console.log(`Folder is set to: ${event.target.value}`);
   };
 
@@ -96,10 +98,10 @@ const AddNewBookmarkButton = ({ setFolders, selectedFolderId, folders }) => {
     console.log(newBookMark);
     console.log(selectedFolderId);
     console.log(folders);
-    console.log(folders[selectedFolderId]);
+    const folderID = folders.findIndex((f) => f.title === folder);
     setFolders(
       produce(folders, (draft) => {
-        draft[selectedFolderId].bookmarks.push(newBookMark);
+        draft[folderID].bookmarks.push(newBookMark);
       })
     );
     setURL("");
