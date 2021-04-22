@@ -82,7 +82,7 @@ const SignupPage = () => {
                 color="primary"
                 disableElevation
                 disableTouchRipple
-                onClick={() => navigate("home")}
+                onClick={() => navigate("/home", { replace: true })}
               >
                 Create an account
               </Button>

@@ -53,7 +53,7 @@ const LoginPage = () => {
                 color="primary"
                 disableElevation
                 disableTouchRipple
-                onClick={() => navigate("home")}
+                onClick={() => navigate("/home", { replace: true })}
               >
                 Log in
               </Button>
