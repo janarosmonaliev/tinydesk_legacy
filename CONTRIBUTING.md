@@ -33,7 +33,7 @@ _- If applied, this commit will_ `your message`
 _- If applied, this commit will **Change React component**_  
 _- If applied, this commit will **~~React component changed~~**_
 
-## Pull requests and merging
+## Pull requests, merging and testing
 
 1. Before making a pull request, please make a production build of your code. Script below will run `gatsby clean`, `gatsby build` and `gatsby serve`. It cleans build files and cache, makes a production build and serves it on `localhost:9000`.
 
@@ -70,9 +70,21 @@ After that, git will prompt you to resolve conflicts by accepting or rejecting c
 
 Latest stable production build of the application is automatically published to `gh-pages` branch. It is served at [https://janarosmonaliev.github.io/project-416/](https://janarosmonaliev.github.io/project-416/)
 
-## Issues
+## Issues and bugs
 
 Active issues can be found in [Issues tab](https://github.com/janarosmonaliev/project-416/issues). If you believe that an issue or a bug might interfere with other people's development process, please create a new issue. It must have a short title and a description of the issue. It would be useful to set a flair (`react-bug`, `gatsby-bug`, etc.), include an image and how and where the error can be reproduced.
+
+The person assigned for an issue should try to fix it. However, if a bug occurred due to other developer's changes, team members have to communicate throughly to resolve it together.
+
+Turning on email notifications will help you to be up-to-date with issues and feedbacks.
+
+## General guidelines
+
+Stress test your code's functionality:
+
+1. Do exactly the opposite of what the user is expected to do
+2. Check if implemented code works well with other components and does not breaks other features
+3. Increase its robustness by checking how it handles unexpected input or data
 
 ## Change Log
 
@@ -96,4 +108,5 @@ Important notes from KGB team.
 
 - Fix gatsby-build-test Github action
 
-Good luck! 🚀🚀🚀
+Good luck! 🚀🚀🚀  
+Last Modified: 22/04/2021 3:20 PM
