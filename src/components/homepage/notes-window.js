@@ -35,7 +35,8 @@ const NotesWindow = forwardRef((props, ref) => {
     {
       title: "CSE 416",
       id: 0,
-      content: "Students must satisfy below requirements...",
+      content:
+        "Students must satisfy below requirements. woejnfsoudvnwenr asoiugwenf sdfoisdj rew  gfoisdhswkjeqiucndnen eeee Students must satisfy below requirements. woejnfsoudvnwenr asoiugwenf sdfoisdj rew  gfoisdhswkjeqiucndnen eeee Students must satisfy below requirements. woejnfsoudvnwenr asoiugwenf sdfoisdj rew  gfoisdhswkjeqiucndnen eeee Students must satisfy below requirements. woejnfsoudvnwenr asoiugwenf sdfoisdj rew  gfoisdhswkjeqiucndnen eeee Students must satisfy below requirements. woejnfsoudvnwenr asoiugwenf sdfoisdj rew  gfoisdhswkjeqiucndnen eeee Students must satisfy below requirements. woejnfsoudvnwenr asoiugwenf sdfoisdj rew  gfoisdhswkjeqiucndnen eeee",
       titleToggle: true,
       contentToggle: true,
     },
@@ -118,14 +119,14 @@ const NotesWindow = forwardRef((props, ref) => {
   useEffect(() => {
     if (!notesContentFocus.focus) {
       setNotes(
-        produce((draft) => {
+        produce(notes, (draft) => {
           draft.map((note) =>
             !note.titleToggle ? (note.titleToggle = true) : note.titleToggle
           );
         })
       );
       setNotes(
-        produce((draft) => {
+        produce(notes, (draft) => {
           draft.map((note) =>
             note.title === "" ? (note.title = "New Note") : note.title
           );
@@ -147,7 +148,7 @@ const NotesWindow = forwardRef((props, ref) => {
       // if (displayedNotes === null) {
       //   setNextIndexNote(0);
       // } else {
-      //   setNextIndexNote(displayedTodolist[0].todos.length);
+      //   setNextIndexNote(displayedNotes.length);
       // }
     }
   }, [selectedId, notes[selectedIndex]]);
@@ -160,35 +161,24 @@ const NotesWindow = forwardRef((props, ref) => {
   //user can double click the title and change it
   const handleDoubleClickTitle = () => {
     setNotes(
-      produce((draft) => {
+      produce(notes, (draft) => {
         draft[selectedIndex].toggle = false;
       })
     );
     setNotesTitleFocus(true);
   };
 
-  //user can double click the content to modify
-  const handleDoubleClickContent = () => {
-    setNotes(
-      produce((draft) => {
-        draft[selectedIndex].map((note) =>
-          !note.titleToggle ? (note.titleToggle = true) : note.titleToggle
-        );
-      })
-    );
-
-    const focus = { focus: true, index: -1 };
-    setNotesContentFocus(focus);
-    setNotes(
-      produce((draft) => {
-        draft[selectedIndex].contentToggle = false;
-      })
-    );
-  };
+  // const focus = { focus: true, index: -1 };
+  // setNotesContentFocus(focus);
+  // setNotes(
+  //   produce(notes, (draft) => {
+  //     draft[selectedIndex].contentToggle = false;
+  //   })
+  // );
 
   const handleTitleChange = (e) => {
     setNotes(
-      produce((draft) => {
+      produce(notes, (draft) => {
         draft[selectedIndex].title = e.target.value;
       })
     );
@@ -196,7 +186,7 @@ const NotesWindow = forwardRef((props, ref) => {
 
   const handleChangeContent = (e) => {
     setNotes(
-      produce((draft) => {
+      produce(notes, (draft) => {
         draft[selectedIndex].content = e.target.value;
       })
     );
@@ -210,11 +200,11 @@ const NotesWindow = forwardRef((props, ref) => {
     if (e.key === "Enter" || e.type === "click") {
       if (notesTitleFocus) {
         setNotes(
-          produce((draft) => {
+          produce(notes, (draft) => {
             console.log(draft);
             draft[selectedIndex].title =
               draft[selectedIndex].title === ""
-                ? "New List"
+                ? "New Note"
                 : draft[selectedIndex].title;
             draft[selectedIndex].titleToggle = true;
           })
@@ -234,13 +224,13 @@ const NotesWindow = forwardRef((props, ref) => {
         setNotesContentFocus(focus);
       }
     } else if (e.type === "click" && !notesContentFocus.focus) {
-      //When user clicks new todo when focus is on todolist widget
+      //When user clicks new todo when focus is on notes widget
       if (notesTitleFocus) {
         setNotes(
-          produce((draft) => {
+          produce(notes, (draft) => {
             draft[selectedIndex].title =
               draft[selectedIndex].title === ""
-                ? "New List"
+                ? "New Note"
                 : draft[selectedIndex].title;
             draft[selectedIndex].toggle = true;
           })
@@ -255,7 +245,7 @@ const NotesWindow = forwardRef((props, ref) => {
         contentToggle: true,
       };
       setNotes(
-        produce((draft) => {
+        produce(notes, (draft) => {
           draft.push(newNote);
         })
       );
@@ -320,6 +310,17 @@ const NotesWindow = forwardRef((props, ref) => {
   const innerstyle = {
     width: "100%",
     height: "650px",
+  };
+  const textareaSize = {
+    width: "100%",
+    outline: "none",
+    minHeight: "20px",
+    padding: "0",
+    boxShadow: "none",
+    display: "block",
+    border: "2px solid black",
+    overflow: "hidden", // Removes scrollbar
+    transition: "height 0.2s ease",
   };
   //use for parent to access
   useImperativeHandle(ref, () => ({
@@ -450,10 +451,15 @@ const NotesWindow = forwardRef((props, ref) => {
                     <>
                       <Grid item onKeyDown={handleKeyDownNotesContent}>
                         <div style={outerstyles}>
-                          <div style={innerstyle}>
-                            <br></br>
-                            <p>{note.content}</p>
-                          </div>
+                          <TextField
+                            label=""
+                            fullWidth
+                            multiline
+                            InputProps={{ disableUnderline: true }}
+                            rowsMax={10}
+                            value={note.content}
+                            onChange={handleChangeContent}
+                          />
                         </div>
                       </Grid>
                     </>
