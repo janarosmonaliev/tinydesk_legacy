@@ -18,7 +18,6 @@ jobs:
           access-token: ${{ secrets.PROJECT_416_SECRET }}
           deploy-branch: gh-pages
           gatsby-args: --prefix-paths
-          skip-publish: false
   lighthouse-check:
     needs: build-and-publish
     runs-on: ubuntu-latest

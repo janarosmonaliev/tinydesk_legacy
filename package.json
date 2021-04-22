@@ -42,7 +42,7 @@
   ],
   "license": "GPL-3.0-or-later",
   "scripts": {
-    "build": "gatsby clean && gatsby build",
+    "build": "gatsby clean && gatsby build --prefix-paths",
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "start": "npm run develop",

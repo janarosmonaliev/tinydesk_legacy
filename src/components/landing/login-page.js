@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { navigate } from "gatsby";
 import { Grid, Card, CardContent, Button } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import Logo from "../../images/commandt-logo-sm.svg";
@@ -52,8 +53,7 @@ const LoginPage = () => {
                 color="primary"
                 disableElevation
                 disableTouchRipple
-                // onClick={handleLogin}
-                href="home"
+                onClick={() => navigate("home")}
               >
                 Log in
               </Button>
@@ -63,7 +63,9 @@ const LoginPage = () => {
           <Button
             disableElevation
             disableTouchRipple
-            href="/"
+            onClick={() => {
+              navigate("/");
+            }}
             className="landing-text-gray"
           >
             &larr; Back

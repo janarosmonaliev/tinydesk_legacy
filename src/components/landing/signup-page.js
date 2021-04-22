@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { navigate } from "gatsby";
 import {
   Grid,
   Card,
@@ -7,6 +8,7 @@ import {
   Button,
   MenuItem,
 } from "@material-ui/core";
+import Logo from "../../images/commandt-logo-sm.svg";
 
 const SignupPage = () => {
   const fullNameRef = useRef();
@@ -19,6 +21,10 @@ const SignupPage = () => {
     <Grid item xs={12} md={6} lg={6}>
       <Grid container justify="center">
         <Grid item xs={12} md={8}>
+          <div className="logotype-wrapper">
+            <img src={Logo} width="50" height="32" alt="CommandT Logo"></img>{" "}
+            <span className="landing-text-black">CommandT</span>
+          </div>
           <h1 className="landing-text-black">Create an account</h1>
           <h5 className="landing-text-gray">
             Enter your information below to create a new account.
@@ -76,8 +82,7 @@ const SignupPage = () => {
                 color="primary"
                 disableElevation
                 disableTouchRipple
-                // onClick={handleLogin}
-                href="home"
+                onClick={() => navigate("home")}
               >
                 Create an account
               </Button>
@@ -87,7 +92,9 @@ const SignupPage = () => {
           <Button
             disableElevation
             disableTouchRipple
-            href="/"
+            onClick={() => {
+              navigate("/");
+            }}
             className="landing-text-gray"
           >
             &larr; Back

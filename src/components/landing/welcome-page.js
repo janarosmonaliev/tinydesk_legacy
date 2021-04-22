@@ -3,6 +3,7 @@ import { Grid, Card, CardContent } from "@material-ui/core";
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Logo from "../../images/commandt-logo-sm.svg";
+import { navigate } from "gatsby";
 
 const useStyles = makeStyles({
   landingHeading: {
@@ -38,7 +39,9 @@ const WelcomePage = () => {
                 color="primary"
                 disableElevation
                 disableTouchRipple
-                href="login"
+                onClick={() => {
+                  navigate("/login");
+                }}
               >
                 Log in
               </Button>
@@ -64,7 +67,9 @@ const WelcomePage = () => {
                 variant="outlined"
                 disableElevation
                 disableTouchRipple
-                href="signup"
+                onClick={() => {
+                  navigate("/signup");
+                }}
               >
                 Create an account
               </Button>

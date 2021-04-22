@@ -2,6 +2,16 @@
 
 ## [0.0.2] - 2021-04-22
 
+### Added
+
+- New responsive landing page
+- Infinite scroll on background image search
+- Save and cancellation of changing the background image
+- Swithcing between folders
+- Adding a new folder
+- Fully functional To-Do List widget
+- Layout edit state animation added
+
 ### Fixed
 
 - Inconsistensies with `withStyles` package in production mode were fixed by injecting `@material-ui` styles first in `gatsby-config.js`
