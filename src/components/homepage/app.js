@@ -325,8 +325,14 @@ const App = () => {
 
   const handleStopJiggle = (e) => {
     const nodeName = e.target.nodeName;
+    const targetType = e.target.type;
     if (jiggle) {
-      if (nodeName === "svg" || nodeName === "path") {
+      if (
+        nodeName === "svg" ||
+        nodeName === "path" ||
+        nodeName === "SPAN" ||
+        targetType == "button"
+      ) {
         return;
       }
       setJiggle(false);
