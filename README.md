@@ -30,26 +30,27 @@ Our solution is to create a webpage that serves as a startup page on any interne
 
 <img width="1440" alt="Screen Shot 2021-04-22 at 12 10 50 PM" src="https://user-images.githubusercontent.com/59468036/115650472-37040700-a364-11eb-99b5-5fe15cef8b2f.png">
 
-## Track Bugs
+## Track Bugs:
 
 Every team member has a responsibility to report the bug they have encountered. The team will benefit from minimizing possible bugs at the developing level from the user's unexpected action to deliver a better service to external testing users in beta test. 
 
 ### Test
 Each team member SHOULD test enough and implement a proper error handler before merging with the master. These are possible testing methods:
 
-1. Do exactly the opposite of your expectation.
+1. Do exactly the opposite of your expectation <br />
 Ex) If you implement the "add note" function, delete all the notes and check it works properly.
 
-2. Build up your implementation
+2. Build up your implementation <br />
 Ex) If you finished implementing the "add Todolist" function, combine and test it with previous functions to check whether it works properly without breaking other functions or giving conflicts with recent functions that you implemented. 
 
-3. Intentaionlly gives an error
+3. Intentaionlly gives an error <br />
 Ex) If you finished implementing the "add Todolist" function, give an empty name to a todolist.
 
 ### Bug Report
 
-Every team member should open an issue on Github if they encounter a bug. They should be all allowed to get an email when other team member opened an issue as follow:
-![Screen Shot 2021-04-22 at 12 40 55 PM](https://user-images.githubusercontent.com/59468036/115652977-46398380-a369-11eb-866b-adc5b5b69d26.png)
+Every team member should open an issue on Github if they encounter a bug. They should be all allowed to get an email when other team members opened an issue as follow:
+
+![Screen Shot 2021-04-22 at 12 40 55 PM](https://user-images.githubusercontent.com/59468036/115654229-a7faed00-a36b-11eb-96d6-81ceed84654a.png)
 
 A team member who is in charge of the bugged function should fix it.
 
