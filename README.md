@@ -63,7 +63,7 @@ These are the steps to open an issue:
 
 A team member who is in charge of such a task should fix the bug. He or she has to fix the bug as soon as possible. However, when a bug could have occurred due to some other team member's push, team members should communicate with each other thoroughly to fix the bug together. 
 
-A team member who fixed a bug should comment on how did he or she fixed a bug to prevent similar bugs in the future. 
+A team member who fixed a bug should comment on how did he or she fixed a bug before closing the issue to prevent similar bugs in the future. 
 
 
 
