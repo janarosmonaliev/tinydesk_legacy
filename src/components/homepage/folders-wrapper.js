@@ -11,15 +11,52 @@ import {
   Button,
   IconButton,
   DialogActions,
+  Divider,
 } from "@material-ui/core";
 import { styled } from "@material-ui/core/styles";
 import nextId from "react-id-generator";
 import { UserContext } from "./context/UserContext";
 
+const DialogActionButton = styled(DialogActions)({
+  justifyContent: "left",
+  marginLeft: "16px",
+  marginBottom: "20px",
+});
+
 export default function FoldersWrapper() {
-  const { jiggle, folders, setFolders } = useContext(UserContext);
-  const handleDeleteFolder = (e) => {
-    console.log("HELLO");
+  const {
+    jiggle,
+    folders,
+    setFolders,
+    setSelectedFolderId,
+    setJiggle,
+  } = useContext(UserContext);
+
+  const [openDelete, setOpenDelete] = useState(false);
+  const [folderId, setFolderId] = useState("");
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+    setFolderId("");
+  };
+  const handleOpenDelete = (id) => {
+    setOpenDelete(true);
+    setFolderId(id);
+  };
+
+  const handleRemoveFolder = () => {
+    if (folders.length === 1) {
+      alert("You must have at least one folder");
+      return;
+    }
+    console.log(folderId);
+    //special handling when removing first folder
+    if (folderId === folders[0].id) {
+      setSelectedFolderId(folders[1].id);
+    }
+    setFolders(folders.filter((folder) => folder.id !== folderId));
+
+    setOpenDelete(false);
+    setFolderId(-1);
   };
 
   const AddFolder = () => {
@@ -55,11 +92,6 @@ export default function FoldersWrapper() {
       setOpen(false);
     }, [onInsert, folderTitle]);
 
-    const DialogActionButton = styled(DialogActions)({
-      justifyContent: "left",
-      marginLeft: "16px",
-      marginBottom: "20px",
-    });
     return (
       <>
         <div className="folder-wrapper" onClick={() => handleClickOpen()}>
@@ -128,30 +160,82 @@ export default function FoldersWrapper() {
   };
 
   return (
-    <div className="folders-wrapper">
-      {folders.map((folder) => (
-        <Grid
-          item
-          xs
-          container
-          className={jiggle ? "folders-jiggle" : ""}
-          justify="flex-end"
-        >
-          {jiggle ? (
-            <RemoveCircleOutlinedIcon
-              color="error"
-              fontSize="small"
-              className="delete-icon folder"
-              onClick={handleDeleteFolder}
-            />
-          ) : (
-            <></>
-          )}
+    <>
+      <div className="folders-wrapper">
+        {folders.map((folder) => (
+          <>
+            <Grid
+              item
+              xs
+              container
+              className={jiggle ? "folders-jiggle" : ""}
+              justify="flex-end"
+            >
+              {jiggle ? (
+                <RemoveCircleOutlinedIcon
+                  color="error"
+                  fontSize="small"
+                  className="delete-icon folder"
+                  onClick={() => handleOpenDelete(folder.id)}
+                />
+              ) : (
+                <></>
+              )}
 
-          <Folder folder={folder} />
-        </Grid>
-      ))}
-      <AddFolder />
-    </div>
+              <Folder folder={folder} />
+            </Grid>
+          </>
+        ))}
+
+        <AddFolder />
+      </div>
+      <Dialog
+        onClose={handleCloseDelete}
+        open={openDelete}
+        aria-labelledby="remove-folder-dialog"
+        fullWidth
+        maxWidth="xs"
+      >
+        <DialogTitle id="remove-folder-dialog">
+          <h5 className="dialog-title">Delete a folder</h5>
+          <IconButton
+            aria-label="close"
+            onClick={handleCloseDelete}
+            size="small"
+            className="button-dialog-close"
+          >
+            <X />
+          </IconButton>
+        </DialogTitle>
+        <Divider />
+        <DialogContent>
+          Do you really want to remove the folder? Removing folder will delete
+          all bookmarks in the folder.
+        </DialogContent>
+
+        <DialogActionButton>
+          <Button
+            variant="contained"
+            color="primary"
+            disableElevation
+            disableTouchRipple
+            className="button-100"
+            onClick={handleCloseDelete}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="outlined"
+            color="secondary"
+            disableElevation
+            disableTouchRipple
+            className="button-100"
+            onClick={handleRemoveFolder}
+          >
+            Remove
+          </Button>
+        </DialogActionButton>
+      </Dialog>
+    </>
   );
 }

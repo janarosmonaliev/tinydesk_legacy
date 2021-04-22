@@ -198,24 +198,29 @@ const TodoListWindow = forwardRef((props, ref) => {
     }
   };
   const handleKeyDownTodo = (e) => {
+    const type = e.type;
+    const nodeName = e.target.nodeName;
+    const targetType = e.target.type;
+    const targetId = e.target.id;
+    const eKey = e.key;
     if (
-      (e.type === "click" && e.target.type === "checkbox") ||
-      e.target.id === "todos-keep-click-away" ||
-      e.target.nodeName === "SPAN" ||
-      e.target.nodeName === "H5" ||
+      (type === "click" && targetType === "checkbox") ||
+      targetId === "todos-keep-click-away" ||
+      nodeName === "SPAN" ||
+      nodeName === "H5" ||
       selectedId === -1
     ) {
       return;
     }
     if (
-      (e.key === "Enter" && todoFocus.focus) ||
-      (e.type === "click" && todoFocus.focus)
+      (eKey === "Enter" && todoFocus.focus) ||
+      (type === "click" && todoFocus.focus)
     ) {
       if (todoFocus.focus) {
         const focus = { focus: false, index: -1 };
         setTodoFocus(focus);
       }
-    } else if (e.type === "click" && !todoFocus.focus) {
+    } else if (type === "click" && !todoFocus.focus) {
       //When user clicks new todo when focus is on todolist widget
       if (todolistFocus) {
         setTodolists(

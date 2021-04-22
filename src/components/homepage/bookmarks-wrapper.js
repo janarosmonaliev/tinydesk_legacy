@@ -262,22 +262,24 @@ export default function BookmarksWrapper() {
         alignItems="flex-start"
       >
         {/* Error: Justify must be used only in container  */}
-        {displayedBookmarks.map((bookmark) => (
-          <Grid
-            item
-            xs={4}
-            md={3}
-            lg={2}
-            zeroMinWidth
-            className={jiggle ? "bookmarks-jiggle" : ""}
-          >
-            <Bookmark
-              thumbnail={bookmark.thumbnail}
-              title={bookmark.title}
-              url={bookmark.url}
-            />
-          </Grid>
-        ))}
+        {displayedBookmarks &&
+          displayedBookmarks.map((bookmark) => (
+            <Grid
+              item
+              xs={4}
+              md={3}
+              lg={2}
+              zeroMinWidth
+              className={jiggle ? "bookmarks-jiggle" : ""}
+            >
+              <Bookmark
+                thumbnail={bookmark.thumbnail}
+                title={bookmark.title}
+                url={bookmark.url}
+                id={bookmark.id}
+              />
+            </Grid>
+          ))}
         <Grid item xs={4} md={3} lg={2} zeroMinWidth>
           <AddNewBookmarkButton></AddNewBookmarkButton>
         </Grid>
