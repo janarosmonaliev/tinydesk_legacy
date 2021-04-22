@@ -1,11 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import TodoListWindow from "./todo-list-window";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+import { UserContext } from "./context/UserContext";
 
-export default function ToDoListWidget(props) {
+export default function ToDoListWidget() {
   //Todo list attributes = todolistid : Objectid, index: int ; title: String
   //Todo attributes = title: String, isCompleted: Bool, todoId: ObjectId, index: int
-
+  const { jiggle, todolists } = useContext(UserContext);
   const todoListWindowRef = useRef();
 
   const handleClick = () => {
@@ -13,7 +14,7 @@ export default function ToDoListWidget(props) {
   };
 
   const [previewTodos, setPreviewTodos] = useState(
-    props.todolists.todolists.map((tl) =>
+    todolists.map((tl) =>
       tl.todos.map((todo) => (
         <small>
           <CheckBoxOutlineBlankIcon fontSize="small" />
@@ -28,7 +29,7 @@ export default function ToDoListWidget(props) {
       <a onClick={handleClick}>
         <div
           className={
-            props.jiggle
+            jiggle
               ? "todo-list-widget-wrapper not-hoverable"
               : "todo-list-widget-wrapper hoverable"
           }
@@ -39,7 +40,7 @@ export default function ToDoListWidget(props) {
           <div className="todo-list-widget-content">{previewTodos}</div>
         </div>
       </a>
-      <TodoListWindow ref={todoListWindowRef} todolists={props.todolists} />
+      <TodoListWindow ref={todoListWindowRef} />
     </>
   );
 }

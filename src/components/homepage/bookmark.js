@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import RemoveCircleOutlinedIcon from "@material-ui/icons/RemoveCircleOutlined";
 import Grid from "@material-ui/core/Grid";
+import { UserContext } from "./context/UserContext";
 
 export default function Bookmark(props) {
+  const { jiggle } = useContext(UserContext);
   const handleClick = (url) => {
     // TODO Add noopener and noreferrer tags
     window.open(url, "_blank").focus();
@@ -12,7 +14,7 @@ export default function Bookmark(props) {
   };
   return (
     <>
-      {props.jiggle ? (
+      {jiggle ? (
         <Grid item xs={12} container justify="center">
           <div onClick={handleDeleteBookmark}>
             <RemoveCircleOutlinedIcon
@@ -28,7 +30,7 @@ export default function Bookmark(props) {
 
       <div
         className={
-          props.jiggle
+          jiggle
             ? "bookmark-wrapper not-hoverable"
             : "bookmark-wrapper hoverable"
         }

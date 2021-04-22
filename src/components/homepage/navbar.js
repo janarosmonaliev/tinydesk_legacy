@@ -26,10 +26,7 @@ export default function NavigationBar(props) {
             handleEditBg={(url) => props.handlePassBgUrl(url)}
             handleCancelChanges={props.cancelChanges}
             handleSaveChanges={props.saveChanges}
-            location={props.location}
             bookmarkRef={props.bookmarkRef}
-            setJiggle={props.setJiggle}
-            setFilter={props.setFilter}
           />
         </Grid>
       </Grid>

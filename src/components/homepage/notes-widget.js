@@ -1,6 +1,7 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import NotesWindow from "./notes-window";
 import styled from "styled-components";
+import { UserContext } from "./context/UserContext";
 
 const Note = styled.div`
   padding: 5px 5px 2px 10px;
@@ -13,7 +14,7 @@ const Note = styled.div`
 
 export default function NotesWidget(props) {
   const notesWindowRef = useRef();
-
+  const { jiggle } = useContext(UserContext);
   const handleClick = () => {
     notesWindowRef.current.clickOpen();
   };
@@ -22,7 +23,7 @@ export default function NotesWidget(props) {
       <a onClick={handleClick}>
         <div
           className={
-            props.jiggle
+            jiggle
               ? "notes-widget-wrapper not-hoverable"
               : "notes-widget-wrapper hoverable"
           }
