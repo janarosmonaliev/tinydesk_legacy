@@ -117,7 +117,7 @@ const NotesWindow = forwardRef((props, ref) => {
 
   //when "Add new note" is clicked
   useEffect(() => {
-    if (!notesContentFocus.focus) {
+    if (!notesTitleFocus.focus) {
       setNotes(
         produce(notes, (draft) => {
           draft.map((note) =>
@@ -133,23 +133,11 @@ const NotesWindow = forwardRef((props, ref) => {
         })
       );
     }
-  }, [notesContentFocus]);
+  }, [notesTitleFocus]);
 
   useEffect(() => {
     if (selectedId != -1) {
       setDisplayedNotes(notes.filter((note) => note.id === selectedId));
-
-      //If displayedTodolist is null
-      //even above code seems like sets displayedTodolist,
-      //at this point, it is still null.
-      //This is special handling when todolist is just created
-      //when there is no todolist before that.
-      //여기로 돌아오기!!
-      // if (displayedNotes === null) {
-      //   setNextIndexNote(0);
-      // } else {
-      //   setNextIndexNote(displayedNotes.length);
-      // }
     }
   }, [selectedId, notes[selectedIndex]]);
 
@@ -162,19 +150,11 @@ const NotesWindow = forwardRef((props, ref) => {
   const handleDoubleClickTitle = () => {
     setNotes(
       produce(notes, (draft) => {
-        draft[selectedIndex].toggle = false;
+        draft[selectedIndex].titleToggle = false;
       })
     );
     setNotesTitleFocus(true);
   };
-
-  // const focus = { focus: true, index: -1 };
-  // setNotesContentFocus(focus);
-  // setNotes(
-  //   produce(notes, (draft) => {
-  //     draft[selectedIndex].contentToggle = false;
-  //   })
-  // );
 
   const handleTitleChange = (e) => {
     setNotes(
