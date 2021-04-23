@@ -330,6 +330,7 @@ export default function BookmarksWrapper() {
           direction="row"
           justify="flex-start"
           alignItems="flex-start"
+          style={{ overflow: "auto" }}
         >
           {items.map((value, index) => (
             <SortableBookmark
