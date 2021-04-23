@@ -283,39 +283,77 @@ const AddNewBookmarkButton = () => {
 };
 
 export default function BookmarksWrapper() {
-  const { jiggle, displayedBookmarks } = useContext(UserContext);
+  const {
+    jiggle,
+    displayedBookmarks,
+    setFolders,
+    folders,
+    selectedFolderId,
+  } = useContext(UserContext);
+
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    const arr = arrayMove(displayedBookmarks, oldIndex, newIndex);
+    const folderIndex = folders.findIndex(
+      (folder) => folder.id === selectedFolderId
+    );
+    console.log(folderIndex);
+    setFolders(
+      produce((draft) => {
+        draft[folderIndex].bookmarks = arr;
+      })
+    );
+  };
+
+  const SortableBookmark = SortableElement(({ value }) => (
+    <Grid
+      item
+      xs={4}
+      md={3}
+      lg={2}
+      zeroMinWidth
+      className={jiggle ? "bookmarks-jiggle" : ""}
+    >
+      <Bookmark
+        thumbnail={value.thumbnail}
+        title={value.title}
+        url={value.url}
+        id={value.id}
+      />
+    </Grid>
+  ));
+  const SortableList = SortableContainer(({ items }) => {
+    return (
+      <>
+        <Grid
+          container
+          spacing={1}
+          direction="row"
+          justify="flex-start"
+          alignItems="flex-start"
+        >
+          {items.map((value, index) => (
+            <SortableBookmark
+              // key={`item-${value.id}`}
+              index={index}
+              value={value}
+            />
+          ))}
+
+          <Grid item xs={4} md={3} lg={2} zeroMinWidth>
+            <AddNewBookmarkButton></AddNewBookmarkButton>
+          </Grid>
+        </Grid>
+      </>
+    );
+  });
+
   return (
     <>
-      <Grid
-        container
-        spacing={1}
-        direction="row"
-        justify="flex-start"
-        alignItems="flex-start"
-      >
-        {/* Error: Justify must be used only in container  */}
-        {displayedBookmarks &&
-          displayedBookmarks.map((bookmark) => (
-            <Grid
-              item
-              xs={4}
-              md={3}
-              lg={2}
-              zeroMinWidth
-              className={jiggle ? "bookmarks-jiggle" : ""}
-            >
-              <Bookmark
-                thumbnail={bookmark.thumbnail}
-                title={bookmark.title}
-                url={bookmark.url}
-                id={bookmark.id}
-              />
-            </Grid>
-          ))}
-        <Grid item xs={4} md={3} lg={2} zeroMinWidth>
-          <AddNewBookmarkButton></AddNewBookmarkButton>
-        </Grid>
-      </Grid>
+      <SortableList
+        items={displayedBookmarks}
+        onSortEnd={onSortEnd}
+        axis="xy"
+      />
     </>
   );
 }
