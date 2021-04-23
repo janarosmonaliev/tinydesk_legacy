@@ -57,7 +57,7 @@ const AddNewBookmarkButton = () => {
   const { selectedFolderId, folders, setFolders } = useContext(UserContext);
   const [open, setOpen] = useState(false);
   const [folder, setFolder] = useState("");
-  const [url, setURL] = useState("");
+  const [url, setURL] = useState("https://www.");
   const [title, setTitle] = useState("");
   const [color, setColor] = useState("");
 
@@ -65,6 +65,9 @@ const AddNewBookmarkButton = () => {
     setOpen(true);
   };
   const handleClose = () => {
+    setURL("https://www.");
+    setTitle("");
+    setColor("green");
     setOpen(false);
   };
   const handleURLChange = (event) => {
@@ -100,14 +103,15 @@ const AddNewBookmarkButton = () => {
     console.log(newBookMark);
     console.log(selectedFolderId);
     console.log(folders);
-    const folderIndex = folders.findIndex((f) => f.id === selectedFolderId);
+    //this part is changed
+    const folderIndex = folders.findIndex((f) => f.title === folder);
     setFolders(
       produce(folders, (draft) => {
         draft[folderIndex].bookmarks.push(newBookMark);
       })
     );
 
-    setURL("");
+    setURL("https://www.");
     setTitle("");
     setColor("green");
     setOpen(false);
