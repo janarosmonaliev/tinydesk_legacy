@@ -6,6 +6,7 @@ import { Plus, X } from "react-feather";
 import { SvgIcon, IconButton, TextField, Button } from "@material-ui/core";
 import { Dialog, DialogTitle, DialogContent } from "@material-ui/core";
 import { Select, InputLabel, MenuItem } from "@material-ui/core";
+import { Remove } from "@material-ui/icons";
 import {
   FormControlLabel,
   FormControl,
@@ -17,6 +18,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import nextId from "react-id-generator";
 import produce from "immer";
 import { UserContext } from "./context/UserContext";
+import { SortableContainer, SortableElement } from "react-sortable-hoc";
+import arrayMove from "array-move";
 
 const DialogActionButton = styled(DialogActions)({
   justifyContent: "left",
@@ -39,9 +42,25 @@ const useStyles = makeStyles({
       "inset 0 0 0 2px rgba(51,51,51,1), inset 0 -1px 0 rgba(51,51,51,1)",
   },
 });
+
 function StyledRadio(props) {
   const classes = useStyles(props);
-
+  if (props.className === "clear") {
+    return (
+      <Grid container justify="center" alignItems="center">
+        <Radio
+          className={classes.root}
+          disableRipple
+          checkedIcon={
+            <span className={clsx(classes.icon, classes.checkedIcon)} />
+          }
+          icon={<span className={classes.icon} />}
+          {...props}
+        ></Radio>
+        <Remove className="remove-icon" />
+      </Grid>
+    );
+  }
   return (
     <Radio
       className={classes.root}
@@ -67,7 +86,7 @@ const AddNewBookmarkButton = () => {
   const handleClose = () => {
     setURL("https://www.");
     setTitle("");
-    setColor("green");
+    setColor("clear");
     setOpen(false);
   };
   const handleURLChange = (event) => {
@@ -113,7 +132,7 @@ const AddNewBookmarkButton = () => {
 
     setURL("https://www.");
     setTitle("");
-    setColor("green");
+    setColor("clear");
     setOpen(false);
   };
   return (
@@ -179,11 +198,20 @@ const AddNewBookmarkButton = () => {
               <large className="color-form-label">Color</large>
               <RadioGroup
                 aria-label="color"
-                defaultValue="green"
+                defaultValue="clear"
                 name="radio-buttons-group"
                 style={{ flexDirection: "row" }}
                 onChange={handleColorChange}
               >
+                <FormControlLabel
+                  value="clear"
+                  control={
+                    <StyledRadio
+                      className="clear"
+                      backgroundColor="rgba(220, 220, 220, 0.5)"
+                    />
+                  }
+                />
                 <FormControlLabel
                   value="green"
                   control={<StyledRadio backgroundColor="#6FCF97" />}
@@ -255,39 +283,78 @@ const AddNewBookmarkButton = () => {
 };
 
 export default function BookmarksWrapper() {
-  const { jiggle, displayedBookmarks } = useContext(UserContext);
+  const {
+    jiggle,
+    displayedBookmarks,
+    setFolders,
+    folders,
+    selectedFolderId,
+  } = useContext(UserContext);
+
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    const arr = arrayMove(displayedBookmarks, oldIndex, newIndex);
+    const folderIndex = folders.findIndex(
+      (folder) => folder.id === selectedFolderId
+    );
+    console.log(folderIndex);
+    setFolders(
+      produce((draft) => {
+        draft[folderIndex].bookmarks = arr;
+      })
+    );
+  };
+
+  const SortableBookmark = SortableElement(({ value }) => (
+    <Grid
+      item
+      xs={4}
+      md={3}
+      lg={2}
+      zeroMinWidth
+      className={jiggle ? "bookmarks-jiggle" : ""}
+    >
+      <Bookmark
+        thumbnail={value.thumbnail}
+        title={value.title}
+        url={value.url}
+        id={value.id}
+      />
+    </Grid>
+  ));
+  const SortableList = SortableContainer(({ items }) => {
+    return (
+      <>
+        <Grid
+          container
+          spacing={1}
+          direction="row"
+          justify="flex-start"
+          alignItems="flex-start"
+          style={{ overflow: "auto" }}
+        >
+          {items.map((value, index) => (
+            <SortableBookmark
+              // key={`item-${value.id}`}
+              index={index}
+              value={value}
+            />
+          ))}
+
+          <Grid item xs={4} md={3} lg={2} zeroMinWidth>
+            <AddNewBookmarkButton></AddNewBookmarkButton>
+          </Grid>
+        </Grid>
+      </>
+    );
+  });
+
   return (
     <>
-      <Grid
-        container
-        spacing={1}
-        direction="row"
-        justify="flex-start"
-        alignItems="flex-start"
-      >
-        {/* Error: Justify must be used only in container  */}
-        {displayedBookmarks &&
-          displayedBookmarks.map((bookmark) => (
-            <Grid
-              item
-              xs={4}
-              md={3}
-              lg={2}
-              zeroMinWidth
-              className={jiggle ? "bookmarks-jiggle" : ""}
-            >
-              <Bookmark
-                thumbnail={bookmark.thumbnail}
-                title={bookmark.title}
-                url={bookmark.url}
-                id={bookmark.id}
-              />
-            </Grid>
-          ))}
-        <Grid item xs={4} md={3} lg={2} zeroMinWidth>
-          <AddNewBookmarkButton></AddNewBookmarkButton>
-        </Grid>
-      </Grid>
+      <SortableList
+        items={displayedBookmarks}
+        onSortEnd={onSortEnd}
+        axis="xy"
+      />
     </>
   );
 }
