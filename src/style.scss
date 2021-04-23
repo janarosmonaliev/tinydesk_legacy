@@ -297,6 +297,7 @@ small,
 
   > img {
     @include transition(transform 0.2s);
+    pointer-events: none;
   }
   &.hoverable {
     &:hover {
@@ -715,4 +716,10 @@ small,
   &.active {
     background-color: rgba(0, 0, 0, 0.4);
   }
+}
+.remove-icon {
+  color: red;
+  position: fixed;
+  transform: rotate(-45deg);
+  font-size: 28px;
 }
