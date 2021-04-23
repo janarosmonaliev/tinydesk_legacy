@@ -75,13 +75,16 @@ function StyledRadio(props) {
 const AddNewBookmarkButton = () => {
   const { selectedFolderId, folders, setFolders } = useContext(UserContext);
   const [open, setOpen] = useState(false);
-  const [folder, setFolder] = useState("");
+  const [folder, setFolder] = useState(selectedFolderId);
   const [url, setURL] = useState("https://www.");
   const [title, setTitle] = useState("");
   const [color, setColor] = useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
+    //Since Select (material ui's component)'s default value is set to opened folder
+    //When user click to open the addBookmark modal, this will select folder for user automatically.
+    setFolder(selectedFolderId);
   };
   const handleClose = () => {
     setURL("https://www.");
@@ -123,7 +126,8 @@ const AddNewBookmarkButton = () => {
     console.log(selectedFolderId);
     console.log(folders);
     //this part is changed
-    const folderIndex = folders.findIndex((f) => f.title === folder);
+    //Find folder's index based on folder's id
+    const folderIndex = folders.findIndex((f) => f.id === folder);
     setFolders(
       produce(folders, (draft) => {
         draft[folderIndex].bookmarks.push(newBookMark);
@@ -132,6 +136,7 @@ const AddNewBookmarkButton = () => {
 
     setURL("https://www.");
     setTitle("");
+    //Default color is changed to clear.
     setColor("clear");
     setOpen(false);
   };
@@ -198,6 +203,7 @@ const AddNewBookmarkButton = () => {
               <large className="color-form-label">Color</large>
               <RadioGroup
                 aria-label="color"
+                //default value is changed to clear
                 defaultValue="clear"
                 name="radio-buttons-group"
                 style={{ flexDirection: "row" }}
@@ -207,6 +213,7 @@ const AddNewBookmarkButton = () => {
                   value="clear"
                   control={
                     <StyledRadio
+                      //made className clear to have exception to add "remove" icon
                       className="clear"
                       backgroundColor="rgba(220, 220, 220, 0.5)"
                     />
@@ -248,7 +255,9 @@ const AddNewBookmarkButton = () => {
                   label="Folder"
                 >
                   {folders.map((f) => (
-                    <MenuItem value={f.title}>{f.title}</MenuItem>
+                    //MenuItem value is changed from f.title => f.id;
+                    //This will make handleChange's "event.target.value" to have folder's id, not title.
+                    <MenuItem value={f.id}>{f.title}</MenuItem>
                   ))}
                 </Select>
               </FormControl>
@@ -350,11 +359,45 @@ export default function BookmarksWrapper() {
 
   return (
     <>
-      <SortableList
-        items={displayedBookmarks}
-        onSortEnd={onSortEnd}
-        axis="xy"
-      />
+      {jiggle ? (
+        <>
+          <Grid
+            container
+            spacing={1}
+            direction="row"
+            justify="flex-start"
+            alignItems="flex-start"
+          >
+            {displayedBookmarks &&
+              displayedBookmarks.map((bookmark) => (
+                <Grid
+                  item
+                  xs={4}
+                  md={3}
+                  lg={2}
+                  zeroMinWidth
+                  className={jiggle ? "bookmarks-jiggle" : ""}
+                >
+                  <Bookmark
+                    thumbnail={bookmark.thumbnail}
+                    title={bookmark.title}
+                    url={bookmark.url}
+                    id={bookmark.id}
+                  />
+                </Grid>
+              ))}
+            <Grid item xs={4} md={3} lg={2} zeroMinWidth>
+              <AddNewBookmarkButton></AddNewBookmarkButton>
+            </Grid>
+          </Grid>
+        </>
+      ) : (
+        <SortableList
+          items={displayedBookmarks}
+          onSortEnd={onSortEnd}
+          axis="xy"
+        />
+      )}
     </>
   );
 }
