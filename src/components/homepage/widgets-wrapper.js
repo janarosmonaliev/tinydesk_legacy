@@ -19,12 +19,8 @@ export default function WidgetsWrapper() {
       alignItems="flex-start"
       spacing={2}
     >
-      <Grid
-        item
-        xs={12}
-        className={jiggle ? "widget-wrapper jiggle" : "widget-wrapper"}
-      >
-        {jiggle ? (
+      <Grid item xs={12} className="widget-wrapper">
+        {/* {jiggle ? (
           <Grid container item xs={12} justify="flex-end">
             <RemoveCircleOutlinedIcon
               color="error"
@@ -35,17 +31,12 @@ export default function WidgetsWrapper() {
           </Grid>
         ) : (
           <></>
-        )}
+        )} */}
 
         <WeatherWidget></WeatherWidget>
       </Grid>
-      <Grid
-        item
-        xs={12}
-        lg={6}
-        className={jiggle ? "widget-wrapper jiggle" : "widget-wrapper"}
-      >
-        {jiggle ? (
+      <Grid item xs={12} lg={6} className="widget-wrapper">
+        {/* {jiggle ? (
           <Grid container item xs={12} justify="flex-end">
             <RemoveCircleOutlinedIcon
               color="error"
@@ -56,16 +47,11 @@ export default function WidgetsWrapper() {
           </Grid>
         ) : (
           <></>
-        )}
+        )} */}
         <NotesWidget></NotesWidget>
       </Grid>
-      <Grid
-        item
-        xs={12}
-        lg={6}
-        className={jiggle ? "widget-wrapper jiggle" : "widget-wrapper"}
-      >
-        {jiggle ? (
+      <Grid item xs={12} lg={6} className="widget-wrapper">
+        {/* {jiggle ? (
           <Grid container item xs={12} justify="flex-end">
             <RemoveCircleOutlinedIcon
               color="error"
@@ -76,7 +62,7 @@ export default function WidgetsWrapper() {
           </Grid>
         ) : (
           <></>
-        )}
+        )} */}
         <TodoListWidget></TodoListWidget>
       </Grid>
     </Grid>

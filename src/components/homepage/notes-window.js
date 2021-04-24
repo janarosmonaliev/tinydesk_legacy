@@ -27,6 +27,8 @@ import {
 import AddCircleOutlineRoundedIcon from "@material-ui/icons/AddCircleOutlineRounded";
 import nextId from "react-id-generator";
 import produce from "immer";
+import { SortableContainer, SortableElement } from "react-sortable-hoc";
+import arrayMove from "array-move";
 
 const NotesWindow = forwardRef((props, ref) => {
   const [open, setOpen] = useState(false);
@@ -36,7 +38,7 @@ const NotesWindow = forwardRef((props, ref) => {
       title: "CSE 416",
       id: 0,
       content:
-        "Students must satisfy below requirements. woejnfsoudvnwenr asoiugwenf sdfoisdj rew  gfoisdhswkjeqiucndnen eeee Students must satisfy below requirements. woejnfsoudvnwenr asoiugwenf sdfoisdj rew  gfoisdhswkjeqiucndnen eeee Students must satisfy below requirements. woejnfsoudvnwenr asoiugwenf sdfoisdj rew  gfoisdhswkjeqiucndnen eeee Students must satisfy below requirements. woejnfsoudvnwenr asoiugwenf sdfoisdj rew  gfoisdhswkjeqiucndnen eeee Students must satisfy below requirements. woejnfsoudvnwenr asoiugwenf sdfoisdj rew  gfoisdhswkjeqiucndnen eeee Students must satisfy below requirements. woejnfsoudvnwenr asoiugwenf sdfoisdj rew  gfoisdhswkjeqiucndnen eeee",
+        "Introduces the basic concepts and modern tools and techniques of <br/> software engineering. Emphasizes the development of reliable and maintainable software via system requirements and specifications, software design methodologies including object-oriented design, implementation, integration, and testing; software project management; life-cycle documentation; software maintenance; and consideration of human factor issues.",
       titleToggle: true,
       contentToggle: true,
     },
@@ -309,6 +311,92 @@ const NotesWindow = forwardRef((props, ref) => {
     },
   }));
 
+  //When user "DROP" a element, it callbacks this function
+  //So I gotta setNotes index using "array-move"
+  const onSortEnd = ({ oldIndex, newIndex }, e) => {
+    setNotes(arrayMove(notes, oldIndex, newIndex));
+  };
+  //value = todo in previous context
+  //I'm basically copying all the code of the "each" notelist as SortableElement
+  //To have draggable function
+  // |-------SortableContainer------|
+  // | |------SortableElement-----| |
+  // | |                          | |
+  // | |                          | |
+  // | |                          | |
+  // | |                          | |
+  // | |                          | |
+  // | |--------------------------| |
+  // |------------------------------|
+
+  const SortableNotelistItem = SortableElement(({ value }) => (
+    <>
+      {value.titleToggle ? (
+        <>
+          <ListItem
+            button
+            selected={selectedId === value.id}
+            onClick={(e) => handleSelectList(e, value.id)}
+            onDoubleClick={handleDoubleClickTitle}
+            onContextMenu={(e) => handleContextMenu(e, value.id)}
+            style={{ zIndex: 9999 }}
+          >
+            <ListItemText primary={value.title}></ListItemText>
+          </ListItem>
+          <Menu
+            keepMounted
+            open={mousePos.mouseY !== null}
+            onClose={handleContextMenuClose}
+            anchorReference="anchorPosition"
+            anchorPosition={
+              mousePos.mouseY !== null && mousePos.mouseX !== null
+                ? { top: mousePos.mouseY, left: mousePos.mouseX }
+                : undefined
+            }
+          >
+            <MenuItem
+              onClick={handleContextMenuDeleteNotes}
+              style={{ color: "#EB5757" }}
+            >
+              <XCircle /> &nbsp; Delete
+            </MenuItem>
+          </Menu>
+          <Divider light />
+        </>
+      ) : (
+        <>
+          <ListItem>
+            <TextField
+              value={value.title}
+              onChange={handleTitleChange}
+              onKeyDown={handleKeyDownNotesTitle}
+              autoFocus
+            ></TextField>
+          </ListItem>
+          <Divider light />
+        </>
+      )}
+    </>
+  ));
+  const SortableNotelist = SortableContainer(({ items }) => (
+    <Grid
+      item
+      xs={4}
+      onClick={handleKeyDownNotesTitle}
+      onContextMenu={handleContextMenu}
+    >
+      <List component="nav" aria-label="to-do lists">
+        {items.map((value, index) => (
+          <SortableNotelistItem
+            key={`note-list-${index}`}
+            value={value}
+            index={index}
+          />
+        ))}
+      </List>
+    </Grid>
+  ));
+
   return (
     <Dialog
       fullWidth
@@ -341,64 +429,12 @@ const NotesWindow = forwardRef((props, ref) => {
           spacing={3}
           style={{ height: "50vh" }}
         >
-          <Grid
-            item
-            xs={4}
-            onClick={handleKeyDownNotesTitle}
-            onContextMenu={handleContextMenu}
-          >
-            <List component="nav" aria-label="to-do lists">
-              {/* TODO Map a JSON object to display content */}
-              {notes.map((note) => (
-                <>
-                  {note.titleToggle ? (
-                    <>
-                      <ListItem
-                        button
-                        selected={selectedId === note.id}
-                        onClick={(e) => handleSelectList(e, note.id)}
-                        onDoubleClick={handleDoubleClickTitle}
-                        onContextMenu={(e) => handleContextMenu(e, note.id)}
-                      >
-                        <ListItemText primary={note.title}></ListItemText>
-                      </ListItem>
-                      <Menu
-                        keepMounted
-                        open={mousePos.mouseY !== null}
-                        onClose={handleContextMenuClose}
-                        anchorReference="anchorPosition"
-                        anchorPosition={
-                          mousePos.mouseY !== null && mousePos.mouseX !== null
-                            ? { top: mousePos.mouseY, left: mousePos.mouseX }
-                            : undefined
-                        }
-                      >
-                        <MenuItem
-                          onClick={handleContextMenuDeleteNotes}
-                          style={{ color: "#EB5757" }}
-                        >
-                          <XCircle /> &nbsp; Delete
-                        </MenuItem>
-                      </Menu>
-                      <Divider light />
-                    </>
-                  ) : (
-                    <>
-                      <ListItem>
-                        <TextField
-                          value={note.title}
-                          onChange={handleTitleChange}
-                          onKeyDown={handleKeyDownNotesTitle}
-                          autoFocus
-                        ></TextField>
-                      </ListItem>
-                      <Divider light />
-                    </>
-                  )}
-                </>
-              ))}
-            </List>
-          </Grid>
+          <SortableNotelist
+            items={notes}
+            axis="y"
+            distance={5}
+            onSortEnd={onSortEnd}
+          />
 
           <Divider orientation="vertical" flexItem light />
 
