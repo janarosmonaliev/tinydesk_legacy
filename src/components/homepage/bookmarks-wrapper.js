@@ -2,7 +2,7 @@ import { DialogActions, Grid } from "@material-ui/core";
 import clsx from "clsx";
 import React, { useContext, useState } from "react";
 import Bookmark from "./bookmark";
-import { Plus, X } from "react-feather";
+import { FilePlus, Plus, X } from "react-feather";
 import { SvgIcon, IconButton, TextField, Button } from "@material-ui/core";
 import { Dialog, DialogTitle, DialogContent } from "@material-ui/core";
 import { Select, InputLabel, MenuItem } from "@material-ui/core";
@@ -299,18 +299,48 @@ export default function BookmarksWrapper() {
     folders,
     selectedFolderId,
   } = useContext(UserContext);
+  // const [dragBookmarkIndex, setDragBookmarkIndex] = useState(-1);
 
-  const onSortEnd = ({ oldIndex, newIndex }) => {
-    const arr = arrayMove(displayedBookmarks, oldIndex, newIndex);
+  const onSortEnd = ({ oldIndex, newIndex }, e) => {
     const folderIndex = folders.findIndex(
       (folder) => folder.id === selectedFolderId
     );
-    console.log(folderIndex);
-    setFolders(
-      produce((draft) => {
-        draft[folderIndex].bookmarks = arr;
-      })
-    );
+
+    if (e.target.className === "folder-title") {
+      if (e.target.id === String(selectedFolderId)) {
+        return;
+      }
+      const destinationFolderIndex = folders.findIndex(
+        (f) => String(f.id) === e.target.id
+      );
+      const movingBookmark = folders[folderIndex].bookmarks[oldIndex];
+
+      //Delete bookmark
+      setFolders(
+        produce((draft) => {
+          draft[folderIndex].bookmarks.splice(
+            draft[folderIndex].bookmarks.findIndex(
+              (bm) => bm.id === movingBookmark.id
+            ),
+            1
+          );
+        })
+      );
+      //Move bookmark
+      setFolders(
+        produce((draft) => {
+          draft[destinationFolderIndex].bookmarks.push(movingBookmark);
+        })
+      );
+    } else {
+      const arr = arrayMove(displayedBookmarks, oldIndex, newIndex);
+
+      setFolders(
+        produce((draft) => {
+          draft[folderIndex].bookmarks = arr;
+        })
+      );
+    }
   };
 
   const SortableBookmark = SortableElement(({ value }) => (
@@ -396,6 +426,7 @@ export default function BookmarksWrapper() {
           items={displayedBookmarks}
           onSortEnd={onSortEnd}
           axis="xy"
+          distance={5}
         />
       )}
     </>
