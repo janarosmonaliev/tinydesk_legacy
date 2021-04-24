@@ -18,7 +18,11 @@ export default function Folder({ folder }) {
           : "folder-wrapper hoverable"
       }
     >
-      <div className="folder-title" onClick={() => handleClick(folder.id)}>
+      <div
+        className="folder-title"
+        id={folder.id}
+        onClick={() => handleClick(folder.id)}
+      >
         {folder.title}
       </div>
     </div>
