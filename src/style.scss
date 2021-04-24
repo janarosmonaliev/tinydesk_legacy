@@ -363,15 +363,15 @@ small,
   -webkit-user-select: none;
   -moz-user-select: none;
   width: 100%;
-  &.jiggle {
-    @include createJiggle(
-      jiggleWidget,
-      0.3s,
-      infinite,
-      50% 50%,
-      all 0.2s ease-in-out
-    );
-  }
+  // &.jiggle {
+  //   @include createJiggle(
+  //     jiggleWidget,
+  //     0.3s,
+  //     infinite,
+  //     50% 50%,
+  //     all 0.2s ease-in-out
+  //   );
+  // }
 }
 .weather-widget-wrapper {
   display: block;
@@ -500,6 +500,11 @@ small,
       white-space: nowrap;
     }
   }
+}
+.todo-list-todo-grid {
+  user-select: none;
+  word-wrap: break-word;
+  // overflow: hidden;
 }
 .folders-wrapper {
   position: absolute;
