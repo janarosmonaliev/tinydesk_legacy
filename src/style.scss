@@ -290,10 +290,14 @@ small,
   padding-bottom: $space-07;
 }
 .bookmark-wrapper {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
   margin: 0 auto;
   display: block;
   justify-content: center;
   text-align: center;
+  cursor: pointer;
 
   > img {
     @include transition(transform 0.2s);
@@ -355,6 +359,9 @@ small,
 }
 
 .widget-wrapper {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
   width: 100%;
   &.jiggle {
     @include createJiggle(
