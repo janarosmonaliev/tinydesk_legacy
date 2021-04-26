@@ -122,11 +122,13 @@ const NotesWindow = forwardRef((props, ref) => {
 
   //when "Add new note" is clicked
   useEffect(() => {
-    if (!notesTitleFocus.focus) {
+    if (!notesTitleFocus) {
       setNotes(
         produce(notes, (draft) => {
           draft.map((note) =>
-            !note.titleToggle ? (note.titleToggle = true) : note.titleToggle
+            !note.contentToggle
+              ? (note.contentToggle = true)
+              : note.contentToggle
           );
         })
       );
@@ -138,19 +140,28 @@ const NotesWindow = forwardRef((props, ref) => {
         })
       );
     }
-  }, [notesTitleFocus]);
+    console.log("useEffect 1");
+  }, [notesContentFocus.focus]);
 
   useEffect(() => {
     if (selectedId != -1) {
       setDisplayedNotes(notes.filter((note) => note.id === selectedId));
     }
+    console.log("useEffect 2");
   }, [selectedId, notes[selectedIndex]]);
 
   useEffect(() => {
     const newFocus = { focus: false, id: -1 };
     setNotesContentFocus(newFocus);
+    console.log("useEffect 3");
   }, [selectedIndex]);
 
+  // useEffect(() => {
+  //   if (notesContentFocus) {
+  //     setNotesTitleFocus(false);
+  //   }
+  //   console.log("useEffect 4");
+  // }, [notesContentFocus]);
   //user can double click the title and change it
   const handleDoubleClickTitle = () => {
     setNotes(
@@ -159,6 +170,7 @@ const NotesWindow = forwardRef((props, ref) => {
       })
     );
     setNotesTitleFocus(true);
+    console.log("handle double click title");
   };
 
   const handleTitleChange = (e) => {
@@ -167,6 +179,7 @@ const NotesWindow = forwardRef((props, ref) => {
         draft[selectedIndex].title = e.target.value;
       })
     );
+    console.log("handle title change");
   };
 
   const handleChangeContent = (e) => {
@@ -175,6 +188,7 @@ const NotesWindow = forwardRef((props, ref) => {
         draft[selectedIndex].content = e.target.value;
       })
     );
+    console.log("handle change content");
   };
 
   // Working on Todolist
@@ -182,7 +196,7 @@ const NotesWindow = forwardRef((props, ref) => {
     if (notes.length == 0) {
       return;
     }
-    if (e.key === "Enter" || e.type === "click") {
+    if (e.type === "click" || e.key === "Enter") {
       if (notesTitleFocus) {
         setNotes(
           produce(notes, (draft) => {
@@ -195,8 +209,10 @@ const NotesWindow = forwardRef((props, ref) => {
           })
         );
         setNotesTitleFocus(false);
+        setNotesContentFocus(true);
       }
     }
+    console.log("handleKeyDown Notes Title function");
   };
 
   const handleKeyDownNotesContent = (e) => {
@@ -217,7 +233,7 @@ const NotesWindow = forwardRef((props, ref) => {
               draft[selectedIndex].title === ""
                 ? "New Note"
                 : draft[selectedIndex].title;
-            draft[selectedIndex].toggle = true;
+            draft[selectedIndex].titleToggle = true;
           })
         );
         setNotesTitleFocus(false);
@@ -226,8 +242,8 @@ const NotesWindow = forwardRef((props, ref) => {
         title: "",
         id: nextId(),
         content: "",
-        titleToggle: true,
-        contentToggle: true,
+        titleToggle: false,
+        contentToggle: false,
       };
       setNotes(
         produce(notes, (draft) => {
@@ -242,12 +258,13 @@ const NotesWindow = forwardRef((props, ref) => {
         setNotesContentFocus(focus);
       }
     }
+    console.log("handleKeyDown Notes Content function");
   };
 
   const onClickAddNotes = () => {
     if (notesTitleFocus) {
       const newFocus = { focus: false, index: -1 };
-      setNotesTitleFocus(newFocus);
+      setNotesContentFocus(newFocus);
       return;
     }
     const newNote = {
@@ -285,6 +302,12 @@ const NotesWindow = forwardRef((props, ref) => {
     setNotesIdForContextMenu(null);
     nextIndexNote.current -= 1;
   });
+  const onNotesContentClick = (e) => {
+    if (notesTitleFocus) {
+      setNotesTitleFocus(false);
+    }
+    setNotesContentFocus(true);
+  };
 
   const outerstyles = {
     width: "100%",
@@ -479,6 +502,7 @@ const NotesWindow = forwardRef((props, ref) => {
                             //rowsMax={100}
                             style={innerstyle}
                             value={note.content}
+                            //onClick={onNotesContentClick}
                             onChange={handleChangeContent}
                           />
                         </div>
