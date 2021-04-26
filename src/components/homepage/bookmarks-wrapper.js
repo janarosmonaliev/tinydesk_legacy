@@ -306,6 +306,7 @@ export default function BookmarksWrapper() {
       (folder) => folder.id === selectedFolderId
     );
 
+    //If bookmark is moved to folder
     if (e.target.className === "folder-title") {
       if (e.target.id === String(selectedFolderId)) {
         return;
@@ -332,7 +333,9 @@ export default function BookmarksWrapper() {
           draft[destinationFolderIndex].bookmarks.push(movingBookmark);
         })
       );
-    } else {
+    }
+    //If rearranging bookmarks order
+    else {
       const arr = arrayMove(displayedBookmarks, oldIndex, newIndex);
 
       setFolders(
