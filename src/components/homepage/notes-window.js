@@ -11,6 +11,7 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  DialogContentText,
 } from "@material-ui/core";
 import { SvgIcon, IconButton, Button } from "@material-ui/core";
 import { X, XCircle, Plus } from "react-feather";
@@ -23,8 +24,8 @@ import {
   MenuItem,
   TextField,
   ListItemText,
+  Paper,
 } from "@material-ui/core";
-import AddCircleOutlineRoundedIcon from "@material-ui/icons/AddCircleOutlineRounded";
 import nextId from "react-id-generator";
 import produce from "immer";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
@@ -32,6 +33,7 @@ import arrayMove from "array-move";
 
 const NotesWindow = forwardRef((props, ref) => {
   const [open, setOpen] = useState(false);
+  const [scroll, setScroll] = useState("paper");
   //local data for notes
   const [notes, setNotes] = useState([
     {
@@ -78,6 +80,7 @@ const NotesWindow = forwardRef((props, ref) => {
 
   const handleClickOpen = () => {
     setOpen(true);
+    setScroll("paper");
   };
   const handleClose = () => {
     setOpen(false);
@@ -285,13 +288,13 @@ const NotesWindow = forwardRef((props, ref) => {
 
   const outerstyles = {
     width: "100%",
-    height: "400px",
+    height: "1%",
     overflow: "auto",
     position: "relative",
   };
   const innerstyle = {
     width: "100%",
-    height: "650px",
+    height: "1%",
   };
   const textareaSize = {
     width: "100%",
@@ -399,7 +402,6 @@ const NotesWindow = forwardRef((props, ref) => {
 
   return (
     <Dialog
-      fullWidth
       maxWidth="md"
       open={open}
       onClose={handleClose}
@@ -427,7 +429,6 @@ const NotesWindow = forwardRef((props, ref) => {
           // justify="flex-start"
           alignItems="stretch"
           spacing={3}
-          style={{ height: "50vh" }}
         >
           <SortableNotelist
             items={notes}
@@ -462,32 +463,36 @@ const NotesWindow = forwardRef((props, ref) => {
                 </div>
                 <br></br>
                 <Divider />
-                {displayedNotes != null ? (
-                  displayedNotes.map((note) => (
-                    <>
-                      <Grid item onKeyDown={handleKeyDownNotesContent}>
-                        <div style={outerstyles}>
+                <Grid item>
+                  {displayedNotes != null ? (
+                    displayedNotes.map((note) => (
+                      <>
+                        <div
+                          style={outerstyles}
+                          onKeyDown={handleKeyDownNotesContent}
+                        >
                           <TextField
                             label=""
                             fullWidth
                             multiline
                             InputProps={{ disableUnderline: true }}
-                            rowsMax={10}
+                            //rowsMax={100}
+                            style={innerstyle}
                             value={note.content}
                             onChange={handleChangeContent}
                           />
                         </div>
-                      </Grid>
-                    </>
-                  ))
-                ) : (
-                  <div
-                    style={{ width: "80%" }}
-                    onChange={(e) => handleChangeContent(e)}
-                    onKeyDown={handleKeyDownNotesContent}
-                    autoFocus
-                  ></div>
-                )}
+                      </>
+                    ))
+                  ) : (
+                    <div
+                      style={{ width: "80%" }}
+                      onChange={(e) => handleChangeContent(e)}
+                      onKeyDown={handleKeyDownNotesContent}
+                      autoFocus
+                    ></div>
+                  )}
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
