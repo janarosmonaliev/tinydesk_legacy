@@ -23,6 +23,8 @@ import produce from "immer";
 import nextId from "react-id-generator";
 import { Menu, MenuItem } from "@material-ui/core/";
 import { UserContext } from "./context/UserContext";
+import { SortableContainer, SortableElement } from "react-sortable-hoc";
+import arrayMove from "array-move";
 
 const TodoListWindow = forwardRef((props, ref) => {
   //Props todolist from App
@@ -82,7 +84,7 @@ const TodoListWindow = forwardRef((props, ref) => {
   }));
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedId, setSelectedId] = useState(0);
-
+  const [isSorting, setIsSorting] = useState(false);
   const [displayedTodolist, setDisplayedTodolist] = useState(
     todolists.filter((todolist) => todolist.id === selectedId)
   );
@@ -203,12 +205,16 @@ const TodoListWindow = forwardRef((props, ref) => {
     const targetType = e.target.type;
     const targetId = e.target.id;
     const eKey = e.key;
+    console.log(type);
+    console.log(targetType);
+    console.log(eKey);
     if (
       (type === "click" && targetType === "checkbox") ||
       targetId === "todos-keep-click-away" ||
       nodeName === "SPAN" ||
       nodeName === "H5" ||
-      selectedId === -1
+      selectedId === -1 ||
+      isSorting
     ) {
       return;
     }
@@ -308,6 +314,158 @@ const TodoListWindow = forwardRef((props, ref) => {
       })
     );
   };
+  const onTodolistSortEnd = ({ oldIndex, newIndex }, e) => {
+    setTodolists(arrayMove(todolists, oldIndex, newIndex));
+  };
+  const onTodoSortEnd = ({ oldIndex, newIndex }, e) => {
+    setIsSorting(true);
+    const arr = arrayMove(displayedTodolist[0].todos, oldIndex, newIndex);
+    setTodolists(
+      produce((draft) => {
+        draft[selectedIndex].todos = arr;
+      })
+    );
+    setIsSorting(false);
+  };
+
+  const SortableTodoItem = SortableElement(({ value }) => (
+    <>
+      <Grid
+        container
+        alignItems="center"
+        id="todos-keep-click-away"
+        className="todo-list-todo-grid"
+        style={{ zIndex: 9999 }}
+      >
+        <Grid item xs={1} conatiner>
+          <Checkbox
+            name={value.id}
+            color="primary"
+            icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+            checkedIcon={<CheckBoxIcon fontSize="small" />}
+            checked={value.isCompleted}
+            onChange={(e) =>
+              checkBoxToggle(
+                e,
+                displayedTodolist[0].todos.findIndex((t) => t.id === value.id)
+              )
+            }
+          />
+        </Grid>
+        <Grid item xs>
+          {value.toggle ? (
+            <ListItemText
+              primary={value.title}
+              onDoubleClick={() =>
+                handleDoubleClickTodo(
+                  displayedTodolist[0].todos.findIndex((t) => t.id === value.id)
+                )
+              }
+            ></ListItemText>
+          ) : (
+            <TextField
+              style={{ width: "80%" }}
+              value={value.title}
+              onChange={(e) => handleChangeTodo(e, value.id)}
+              onKeyDown={handleKeyDownTodo}
+              autoFocus
+            ></TextField>
+          )}
+        </Grid>
+      </Grid>
+    </>
+  ));
+
+  const SortableTodolistItem = SortableElement(({ value }) => (
+    <>
+      {value.toggle ? (
+        <>
+          <ListItem
+            button
+            selected={selectedId === value.id}
+            onClick={(e) => handleSelectList(e, value.id)}
+            onDoubleClick={handleDoubleClickTodolist}
+            onContextMenu={(e) => handleContextMenu(e, value.id)}
+            style={{ zIndex: 9999 }}
+          >
+            <ListItemText primary={value.title}></ListItemText>
+          </ListItem>
+          <Menu
+            keepMounted
+            open={mousePos.mouseY !== null}
+            onClose={handleContextMenuClose}
+            anchorReference="anchorPosition"
+            anchorPosition={
+              mousePos.mouseY !== null && mousePos.mouseX !== null
+                ? { top: mousePos.mouseY, left: mousePos.mouseX }
+                : undefined
+            }
+          >
+            <MenuItem
+              onClick={handleContextMenuDeleteTodoList}
+              style={{ color: "#EB5757" }}
+            >
+              <XCircle /> &nbsp; Delete
+            </MenuItem>
+          </Menu>
+          <Divider light />
+        </>
+      ) : (
+        <>
+          <ListItem>
+            <TextField
+              value={value.title}
+              onChange={handleChange}
+              onKeyDown={handleKeyDownTodolist}
+              autoFocus
+            ></TextField>
+          </ListItem>
+          <Divider light />
+        </>
+      )}
+    </>
+  ));
+
+  const SortableTodoContainer = SortableContainer(({ items }) => {
+    return (
+      <Grid item xs={8} onClick={handleKeyDownTodo}>
+        <h5>{items == null ? "" : items[0].title}</h5>
+        {items != null ? (
+          items[0].todos.map((value, index) => (
+            <SortableTodoItem
+              key={`todo-item-${index}`}
+              value={value}
+              index={index}
+            />
+          ))
+        ) : (
+          <></>
+        )}
+      </Grid>
+    );
+  });
+
+  const SortableTodoList = SortableContainer(({ items }) => {
+    return (
+      <Grid
+        item
+        xs={3}
+        onClick={handleKeyDownTodolist}
+        onContextMenu={handleContextMenu}
+        classNames="sortable-todolist-item"
+      >
+        <List component="nav" aria-label="to-do lists">
+          {items.map((value, index) => (
+            <SortableTodolistItem
+              key={`todolist-item-${index}`}
+              value={value}
+              index={index}
+            />
+          ))}
+        </List>
+      </Grid>
+    );
+  });
 
   return (
     <Dialog
@@ -341,124 +499,19 @@ const TodoListWindow = forwardRef((props, ref) => {
           spacing={3}
           style={{ height: "50vh" }}
         >
-          <Grid
-            item
-            xs={3}
-            onClick={handleKeyDownTodolist}
-            onContextMenu={handleContextMenu}
-          >
-            <List component="nav" aria-label="to-do lists">
-              {/* TODO Map a JSON object to display content */}
-              {todolists.map((todolist) => (
-                <>
-                  {todolist.toggle ? (
-                    <>
-                      <ListItem
-                        button
-                        selected={selectedId === todolist.id}
-                        onClick={(e) => handleSelectList(e, todolist.id)}
-                        onDoubleClick={handleDoubleClickTodolist}
-                        onContextMenu={(e) => handleContextMenu(e, todolist.id)}
-                      >
-                        <ListItemText primary={todolist.title}></ListItemText>
-                      </ListItem>
-                      <Menu
-                        keepMounted
-                        open={mousePos.mouseY !== null}
-                        onClose={handleContextMenuClose}
-                        anchorReference="anchorPosition"
-                        anchorPosition={
-                          mousePos.mouseY !== null && mousePos.mouseX !== null
-                            ? { top: mousePos.mouseY, left: mousePos.mouseX }
-                            : undefined
-                        }
-                      >
-                        <MenuItem
-                          onClick={handleContextMenuDeleteTodoList}
-                          style={{ color: "#EB5757" }}
-                        >
-                          <XCircle /> &nbsp; Delete
-                        </MenuItem>
-                      </Menu>
-                      <Divider light />
-                    </>
-                  ) : (
-                    <>
-                      <ListItem>
-                        <TextField
-                          value={todolist.title}
-                          onChange={handleChange}
-                          onKeyDown={handleKeyDownTodolist}
-                          autoFocus
-                        ></TextField>
-                      </ListItem>
-                      <Divider light />
-                    </>
-                  )}
-                </>
-              ))}
-            </List>
-          </Grid>
-
+          <SortableTodoList
+            items={todolists}
+            axis="y"
+            distance={5}
+            onSortEnd={onTodolistSortEnd}
+          />
           <Divider orientation="vertical" flexItem light />
-
-          <Grid item xs onClick={handleKeyDownTodo}>
-            <h5>
-              {displayedTodolist == null ? "" : displayedTodolist[0].title}
-            </h5>
-
-            {displayedTodolist != null ? (
-              displayedTodolist[0].todos.map((todo) => (
-                <>
-                  <Grid
-                    container
-                    item
-                    xs={12}
-                    alignItems="center"
-                    id="todos-keep-click-away"
-                  >
-                    <Checkbox
-                      name={todo.id}
-                      color="primary"
-                      icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                      checkedIcon={<CheckBoxIcon fontSize="small" />}
-                      checked={todo.isCompleted}
-                      onChange={(e) =>
-                        checkBoxToggle(
-                          e,
-                          displayedTodolist[0].todos.findIndex(
-                            (t) => t.id === todo.id
-                          )
-                        )
-                      }
-                    />
-                    {todo.toggle ? (
-                      <ListItemText
-                        primary={todo.title}
-                        onDoubleClick={() =>
-                          handleDoubleClickTodo(
-                            displayedTodolist[0].todos.findIndex(
-                              (t) => t.id === todo.id
-                            )
-                          )
-                        }
-                      ></ListItemText>
-                    ) : (
-                      <TextField
-                        style={{ width: "80%" }}
-                        value={todo.title}
-                        onChange={(e) => handleChangeTodo(e, todo.id)}
-                        onKeyDown={handleKeyDownTodo}
-                        autoFocus
-                      ></TextField>
-                    )}
-                  </Grid>
-                </>
-              ))
-            ) : (
-              <div></div>
-            )}
-          </Grid>
+          <SortableTodoContainer
+            items={displayedTodolist}
+            axis="y"
+            distance={5}
+            onSortEnd={onTodoSortEnd}
+          />
         </Grid>
       </DialogContent>
 
