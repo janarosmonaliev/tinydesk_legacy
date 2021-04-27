@@ -506,6 +506,7 @@ const TodoListWindow = forwardRef((props, ref) => {
           direction="row"
           // justify="flex-start"
           alignItems="stretch"
+          className="widget-window-content"
           spacing={3}
         >
           <SortableTodoList
@@ -514,7 +515,7 @@ const TodoListWindow = forwardRef((props, ref) => {
             distance={5}
             onSortEnd={onTodolistSortEnd}
           />
-          <Divider orientation="vertical" flexItem light />
+          <Divider orientation="vertical" flexItem />
           <SortableTodoContainer
             items={displayedTodolist}
             axis="y"
