@@ -91,11 +91,17 @@ export default function FoldersWrapper() {
     //   setFolderTitle("");
     //   setOpen(false);
     // };
-    const handleAdd = useCallback(() => {
-      onInsert(folderTitle);
-      setFolderTitle("");
-      setOpen(false);
-    }, [onInsert, folderTitle]);
+
+    //preventDefault let you prevent entering with /? query string at the end
+    const handleAdd = useCallback(
+      (e) => {
+        e.preventDefault();
+        onInsert(folderTitle);
+        setFolderTitle("");
+        setOpen(false);
+      },
+      [onInsert, folderTitle]
+    );
 
     return (
       <>
@@ -124,7 +130,7 @@ export default function FoldersWrapper() {
             </IconButton>
           </DialogTitle>
           <DialogContent>
-            <form className="test">
+            <form className="test" onSubmit={handleAdd}>
               <TextField
                 required
                 id="add-folder-name"
