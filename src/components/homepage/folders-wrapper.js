@@ -75,6 +75,7 @@ export default function FoldersWrapper() {
     });
     const [open, setOpen] = useState(false);
     const [folderTitle, setFolderTitle] = useState("");
+    const [isEmpty, setIsEmpty] = useState(false);
 
     const handleClickOpen = () => {
       setOpen(true);
@@ -83,6 +84,9 @@ export default function FoldersWrapper() {
       setOpen(false);
     };
     const handleChange = (event) => {
+      if (isEmpty) {
+        setIsEmpty(false);
+      }
       setFolderTitle(event.target.value);
       console.log(`folder title is set to: ${event.target.value}`);
     };
@@ -96,9 +100,14 @@ export default function FoldersWrapper() {
     const handleAdd = useCallback(
       (e) => {
         e.preventDefault();
+        if (folderTitle === "") {
+          setIsEmpty(true);
+          return;
+        }
         onInsert(folderTitle);
         setFolderTitle("");
         setOpen(false);
+        setIsEmpty(false);
       },
       [onInsert, folderTitle]
     );
@@ -135,6 +144,7 @@ export default function FoldersWrapper() {
                 required
                 id="add-folder-name"
                 label="Folder name"
+                error={isEmpty}
                 fullWidth
                 autoFocus
                 autoComplete="off"
