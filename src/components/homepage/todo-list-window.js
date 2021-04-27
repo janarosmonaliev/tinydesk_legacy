@@ -56,6 +56,25 @@ const TodoListWindow = forwardRef((props, ref) => {
   };
   const handleClose = () => {
     setOpen(false);
+    // setTodolists(
+    //   todolists.map((tl) => {
+    //     tl.todos.filter((todo) => todo.isCompleted !== false);
+    //   })
+    // );
+    setTodolists(
+      produce((draft) => {
+        draft.map((tl) =>
+          tl.todos.map((todo) =>
+            todo.isCompleted
+              ? tl.todos.splice(
+                  tl.todos.findIndex((t) => t.isCompleted !== false),
+                  1
+                )
+              : todo
+          )
+        );
+      })
+    );
   };
   const handleContextMenu = (e, id) => {
     if (id != null) {
@@ -205,9 +224,6 @@ const TodoListWindow = forwardRef((props, ref) => {
     const targetType = e.target.type;
     const targetId = e.target.id;
     const eKey = e.key;
-    console.log(type);
-    console.log(targetType);
-    console.log(eKey);
     if (
       (type === "click" && targetType === "checkbox") ||
       targetId === "todos-keep-click-away" ||
@@ -307,6 +323,10 @@ const TodoListWindow = forwardRef((props, ref) => {
   });
 
   const checkBoxToggle = (e, index) => {
+    if (todoFocus.focus) {
+      const newFocus = { focus: false, index: -1 };
+      setTodoFocus(newFocus);
+    }
     setTodolists(
       produce((draft) => {
         draft[selectedIndex].todos[index].isCompleted = !draft[selectedIndex]
@@ -337,7 +357,7 @@ const TodoListWindow = forwardRef((props, ref) => {
         className="todo-list-todo-grid"
         style={{ zIndex: 9999 }}
       >
-        <Grid item xs={1} conatiner>
+        <Grid item xs={1}>
           <Checkbox
             name={value.id}
             color="primary"
@@ -352,7 +372,7 @@ const TodoListWindow = forwardRef((props, ref) => {
             }
           />
         </Grid>
-        <Grid item xs>
+        <Grid item xs={11}>
           {value.toggle ? (
             <ListItemText
               primary={value.title}

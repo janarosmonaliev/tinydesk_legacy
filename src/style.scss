@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
 $font-family: "Inter", sans-serif;
 
 // Helper Mixins
@@ -735,3 +736,19 @@ small,
   transform: rotate(-45deg);
   font-size: 28px;
 }
+// .calendar-widget-wrapper {
+//   font-family: "Varela Round", sans-serif;
+//   color: white;
+//   height: 150px;
+//   display: block;
+//   position: relative;
+//   box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.1);
+//   border-radius: rem(15px);
+//   background-color: $glass-color-dark;
+//   backdrop-filter: blur(8px);
+
+//   font-weight: bold;
+//   .calendar-day-date {
+//     font-size: 55px;
+//   }
+// }

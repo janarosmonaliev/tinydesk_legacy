@@ -152,7 +152,7 @@ export default function WeatherWidget() {
       setLoading(false);
     };
     fetchData();
-  }, []);
+  }, [location]);
   useEffect(() => {
     const interval = setInterval(() => setTime(formatTime(new Date()), 10000));
     return () => {
