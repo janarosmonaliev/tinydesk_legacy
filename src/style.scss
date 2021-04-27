@@ -572,8 +572,12 @@ small,
   max-height: 550px;
   // border-radius: $space-05;
   @media (min-width: 960px) {
-    min-height: 400px;
+    min-height: 500px;
+    max-height: 600px;
+  }
+  @media (min-width: 1280px) {
     min-height: 600px;
+    max-height: 700px;
   }
 }
 
