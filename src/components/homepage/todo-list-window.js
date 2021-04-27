@@ -494,7 +494,7 @@ const TodoListWindow = forwardRef((props, ref) => {
       open={open}
       onClose={handleClose}
       aria-labelledby="todo-list-dialog"
-      classes={{ paper: "todo-list-window" }}
+      classes={{ paper: "widget-window" }}
     >
       <DialogTitle id="todo-list-dialog">
         <h5 className="dialog-title">To-Do List Widget</h5>
@@ -517,7 +517,6 @@ const TodoListWindow = forwardRef((props, ref) => {
           // justify="flex-start"
           alignItems="stretch"
           spacing={3}
-          style={{ height: "50vh" }}
         >
           <SortableTodoList
             items={todolists}

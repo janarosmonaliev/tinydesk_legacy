@@ -429,7 +429,7 @@ const NotesWindow = forwardRef((props, ref) => {
       open={open}
       onClose={handleClose}
       aria-labelledby="todo-list-dialog"
-      classes={{ paper: "todo-list-window" }}
+      classes={{ paper: "widget-window" }}
     >
       <DialogTitle id="todo-list-dialog">
         <h5 className="dialog-title">Notes Widget</h5>
