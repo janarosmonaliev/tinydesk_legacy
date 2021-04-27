@@ -567,9 +567,14 @@ small,
   }
 }
 
-.todo-list-window {
-  min-height: 60vh;
-  max-height: 60vh;
+.widget-window {
+  min-height: 400px;
+  max-height: 550px;
+  // border-radius: $space-05;
+  @media (min-width: 960px) {
+    min-height: 400px;
+    min-height: 600px;
+  }
 }
 
 .grid-add-bookmark {
