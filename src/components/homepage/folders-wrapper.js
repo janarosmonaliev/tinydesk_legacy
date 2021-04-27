@@ -29,6 +29,7 @@ export default function FoldersWrapper() {
     folders,
     setFolders,
     setSelectedFolderId,
+    selectedFolderId,
     setJiggle,
   } = useContext(UserContext);
 
@@ -48,12 +49,16 @@ export default function FoldersWrapper() {
       alert("You must have at least one folder");
       return;
     }
-    console.log(folderId);
+
     //special handling when removing first folder
     if (folderId === folders[0].id) {
       setSelectedFolderId(folders[1].id);
     }
     setFolders(folders.filter((folder) => folder.id !== folderId));
+
+    if (selectedFolderId == folderId) {
+      setSelectedFolderId(folders[0].id);
+    }
 
     setOpenDelete(false);
     setFolderId(-1);

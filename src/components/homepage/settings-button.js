@@ -18,8 +18,8 @@ export default function SettingsButton(props) {
   };
   const accountSettingsWindowRef = useRef();
   const handleClickAccount = () => {
-    accountSettingsWindowRef.current.clickOpen();
     setAnchorEl(null);
+    accountSettingsWindowRef.current.clickOpen();
   };
 
   const unsplashWindowRef = useRef();

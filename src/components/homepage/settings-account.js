@@ -70,15 +70,17 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
   }));
 
   const onClickSaveInfos = () => {
-    const temp = city.filter((c) => c.name === cityValue);
-    if (temp != null) {
-      /*Save the result as current location
-         
-      */
+    const newCity = city.filter((c) => c.name === cityValue)[0];
+    console.log(newCity);
+    if (newCity != null) {
+      //Save the result as current location
+      setLocation(newCity);
+
       alert("Successfully Saved");
       setOpen(false);
     } else {
-      alert("Something is wrong with the city");
+      alert("Something is wrong with the name of city");
+      return;
     }
   };
 

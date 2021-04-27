@@ -308,11 +308,13 @@ export default function BookmarksWrapper() {
 
     //If bookmark is moved to folder
     if (e.target.className === "folder-title") {
-      if (e.target.id === String(selectedFolderId)) {
+      //== because they can have different type
+      if (e.target.id == selectedFolderId) {
         return;
       }
       const destinationFolderIndex = folders.findIndex(
-        (f) => String(f.id) === e.target.id
+        // == because they can have different type
+        (f) => f.id == e.target.id
       );
       const movingBookmark = folders[folderIndex].bookmarks[oldIndex];
 
