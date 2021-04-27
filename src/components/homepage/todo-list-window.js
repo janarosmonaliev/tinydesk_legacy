@@ -56,25 +56,15 @@ const TodoListWindow = forwardRef((props, ref) => {
   };
   const handleClose = () => {
     setOpen(false);
-    // setTodolists(
-    //   todolists.map((tl) => {
-    //     tl.todos.filter((todo) => todo.isCompleted !== false);
-    //   })
-    // );
-    setTodolists(
-      produce((draft) => {
-        draft.map((tl) =>
-          tl.todos.map((todo) =>
-            todo.isCompleted
-              ? tl.todos.splice(
-                  tl.todos.findIndex((t) => t.isCompleted !== false),
-                  1
-                )
-              : todo
-          )
-        );
+    // console.log(todolists);
+    const newArr = [];
+    todolists.map((todolist) =>
+      newArr.push({
+        ...todolist,
+        todos: todolist.todos.filter((todo) => !todo.isCompleted),
       })
     );
+    setTodolists(newArr);
   };
   const handleContextMenu = (e, id) => {
     if (id != null) {
