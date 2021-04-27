@@ -554,6 +554,7 @@ small,
   @include transition(background-color 300ms ease-out);
 
   &.hoverable {
+    @include transition(background-color 300ms ease-out);
     &:hover {
       background-color: $glass-color-light-active;
       box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.2);
@@ -579,6 +580,9 @@ small,
     min-height: 600px;
     max-height: 700px;
   }
+}
+.widget-window-content {
+  min-height: 400px;
 }
 
 .grid-add-bookmark {

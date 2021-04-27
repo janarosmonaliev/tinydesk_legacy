@@ -447,11 +447,11 @@ const NotesWindow = forwardRef((props, ref) => {
       <DialogContent>
         <Grid
           container
-          // xs={12}
           direction="row"
-          // justify="flex-start"
+          // // justify="flex-start"
           alignItems="stretch"
           spacing={3}
+          className="widget-window-content"
         >
           <SortableNotelist
             items={notes}
@@ -460,7 +460,7 @@ const NotesWindow = forwardRef((props, ref) => {
             onSortEnd={onSortEnd}
           />
 
-          <Divider orientation="vertical" flexItem light />
+          <Divider orientation="vertical" flexItem={true} />
 
           <Grid item xs={7} md container spacing={3}>
             <Grid item container direction="column" spacing={2}>
