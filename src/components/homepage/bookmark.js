@@ -42,7 +42,7 @@ export default function Bookmark(props) {
     setFolders(
       produce((draft) => {
         draft[folderIndex].bookmarks.splice(
-          draft[0].bookmarks.findIndex((bm) => bm.id === props.id),
+          draft[folderIndex].bookmarks.findIndex((bm) => bm.id === props.id),
           1
         );
       })

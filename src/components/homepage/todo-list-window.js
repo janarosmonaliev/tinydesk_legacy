@@ -92,7 +92,7 @@ const TodoListWindow = forwardRef((props, ref) => {
     },
   }));
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [selectedId, setSelectedId] = useState(0);
+  const [selectedId, setSelectedId] = useState(todolists[0].id);
   const [isSorting, setIsSorting] = useState(false);
   const [displayedTodolist, setDisplayedTodolist] = useState(
     todolists.filter((todolist) => todolist.id === selectedId)
@@ -124,7 +124,7 @@ const TodoListWindow = forwardRef((props, ref) => {
   useEffect(() => {
     if (selectedId != -1) {
       setDisplayedTodolist(
-        todolists.filter((todolist) => todolist.id === selectedId)
+        todolists.filter((todolist) => todolist.id == selectedId)
       );
 
       //If displayedTodolist is null

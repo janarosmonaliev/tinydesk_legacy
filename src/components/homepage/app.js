@@ -6,6 +6,7 @@ import GridWrapper from "./grid-wrapper";
 import FoldersWrapper from "./folders-wrapper";
 import Image from "../../images/mac-os-bg.png";
 import { UserContext } from "./context/UserContext";
+import nextId from "react-id-generator";
 
 const theme = createMuiTheme({
   typography: {
@@ -135,76 +136,76 @@ const App = () => {
     todolists: [
       {
         title: "Academic",
-        id: 0,
+        id: nextId(),
         toggle: true,
         todos: [
           {
             title: "30s presentation for CSE416",
             isCompleted: false,
             toggle: true,
-            id: 0,
+            id: nextId(),
           },
           {
             title: "POL101 read chapter 1",
             isCompleted: false,
             toggle: true,
-            id: 1,
+            id: nextId(),
           },
           {
             title: "CSE416 Software Requirements",
             isCompleted: false,
             toggle: true,
-            id: 2,
+            id: nextId(),
           },
         ],
       },
       {
         title: "Life Goals",
-        id: 1,
+        id: nextId(),
         toggle: true,
         todos: [
           {
             title: "Study ReactJS",
             isCompleted: false,
             toggle: true,
-            id: 0,
+            id: nextId(),
           },
           {
             title: "Study SwiftUI",
             isCompleted: false,
             toggle: true,
-            id: 1,
+            id: nextId(),
           },
           {
             title: "Hello world,",
             isCompleted: false,
             toggle: true,
-            id: 2,
+            id: nextId(),
           },
         ],
       },
       {
         title: "My daily todos",
-        id: 2,
+        id: nextId(),
         toggle: true,
         todos: [
           {
             title: "Laundry",
             isCompleted: false,
             toggle: true,
-            id: 0,
+            id: nextId(),
           },
           {
             title: "Run 3 miles",
             isCompleted: false,
             toggle: true,
-            id: 1,
+            id: nextId(),
           },
           {
             title: "Dinner with Kwangmin",
             isCompleted: false,
             toggle: true,
-            id: 2,
+            id: nextId(),
           },
         ],
       },
@@ -217,7 +218,7 @@ const App = () => {
     folders: [
       {
         title: "Academic",
-        id: 0,
+        id: nextId(),
         bookmarks: [
           {
             title: "Google Business",
@@ -225,7 +226,7 @@ const App = () => {
             thumbnail:
               "https://www.google.com/images/branding/product/ico/google_my_business_alldp.ico",
             color: "",
-            id: 0,
+            id: nextId(),
           },
           {
             title: "Github",
@@ -233,7 +234,7 @@ const App = () => {
             thumbnail:
               "https://github.githubassets.com/apple-touch-icon-180x180.png",
             color: "",
-            id: 1,
+            id: nextId(),
           },
           {
             title: "CSE416 Project",
@@ -241,7 +242,7 @@ const App = () => {
             thumbnail:
               "https://github.githubassets.com/apple-touch-icon-180x180.png",
             color: "",
-            id: 2,
+            id: nextId(),
           },
           {
             title: "Medium",
@@ -249,7 +250,7 @@ const App = () => {
             thumbnail:
               "https://miro.medium.com/fit/c/152/152/1*sHhtYhaCe2Uc3IU0IgKwIQ.png",
             color: "",
-            id: 3,
+            id: nextId(),
           },
           {
             title: "Google",
@@ -257,13 +258,13 @@ const App = () => {
             thumbnail:
               "https://www.google.com//images/branding/googleg/1x/googleg_standard_color_128dp.png",
             color: "https://www.google.com",
-            id: 4,
+            id: nextId(),
           },
         ],
       },
       {
         title: "Design",
-        id: 1,
+        id: nextId(),
         bookmarks: [
           {
             title: "Medium",
@@ -271,7 +272,7 @@ const App = () => {
             thumbnail:
               "https://miro.medium.com/fit/c/152/152/1*sHhtYhaCe2Uc3IU0IgKwIQ.png",
             color: "",
-            id: 0,
+            id: nextId(),
           },
           {
             title: "Google",
@@ -279,13 +280,13 @@ const App = () => {
             thumbnail:
               "https://www.google.com//images/branding/googleg/1x/googleg_standard_color_128dp.png",
             color: "https://www.google.com",
-            id: 1,
+            id: nextId(),
           },
         ],
       },
       {
         title: "Reading",
-        id: 2,
+        id: nextId(),
         bookmarks: [
           {
             title: "Github",
@@ -293,7 +294,7 @@ const App = () => {
             thumbnail:
               "https://github.githubassets.com/apple-touch-icon-180x180.png",
             color: "",
-            id: 0,
+            id: nextId(),
           },
           {
             title: "CSE416 Project",
@@ -301,7 +302,7 @@ const App = () => {
             thumbnail:
               "https://github.githubassets.com/apple-touch-icon-180x180.png",
             color: "",
-            id: 1,
+            id: nextId(),
           },
         ],
       },
