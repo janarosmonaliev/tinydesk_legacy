@@ -1,5 +1,22 @@
 # Change Log
 
+## [0.0.3] - 2021-04-29
+
+### Added
+
+- Bookmark change position on drap and drop
+- Bookmark move into different folder feature
+- Movable notes, to-do lists and to-do items
+- Add and delete bookmarks
+- Delete a folder
+- Changing location from settings
+
+### Fixed
+
+- Bookmarks deletion bug fixed
+- Bookmark url bug fixed
+- Dialog height bug fixed
+
 ## [0.0.2] - 2021-04-22
 
 ### Added
