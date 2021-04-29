@@ -308,6 +308,22 @@ const App = () => {
       },
     ],
   };
+  const initialWidget = {
+    widgets: [
+      {
+        name: "weather",
+        id: nextId(),
+      },
+      {
+        name: "note",
+        id: nextId(),
+      },
+      {
+        name: "todolist",
+        id: nextId(),
+      },
+    ],
+  };
   const [location, setLocation] = useState(initialLocation);
   const [todolists, setTodolists] = useState(initialTodolists.todolists);
   const [jiggle, setJiggle] = useState(false);
@@ -317,6 +333,7 @@ const App = () => {
   const [displayedBookmarks, setDisplayedBookmarks] = useState(
     folders[0].bookmarks
   );
+  const [widgets, setWidgets] = useState(initialWidget.widgets);
 
   useEffect(() => {
     setDisplayedBookmarks(
@@ -355,6 +372,8 @@ const App = () => {
     setDisplayedBookmarks,
     todolists,
     setTodolists,
+    widgets,
+    setWidgets,
   };
   return (
     <UserContext.Provider value={userContext}>
