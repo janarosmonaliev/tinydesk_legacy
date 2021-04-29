@@ -10,12 +10,17 @@
 - Add and delete bookmarks
 - Delete a folder
 - Changing location from settings
+- Color tags are now visible as bookmark's border
 
 ### Fixed
 
 - Bookmarks deletion bug fixed
 - Bookmark url bug fixed
 - Dialog height bug fixed
+
+### Changed
+
+- Widgets cannot be deleted from the app from now on
 
 ## [0.0.2] - 2021-04-22
 
