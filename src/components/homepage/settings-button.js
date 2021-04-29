@@ -65,7 +65,7 @@ export default function SettingsButton(props) {
       >
         <a onClick={handleClickAccount}></a>
         <AccountSettings ref={accountSettingsWindowRef} />
-        <MenuItem onClick={handleEditLayout}>Edit layout</MenuItem>
+        <MenuItem onClick={handleEditLayout}>Edit Homepage</MenuItem>
         <MenuItem onClick={handleClickEditBg}>Edit background image</MenuItem>
       </Menu>
       <UnsplashWindow
