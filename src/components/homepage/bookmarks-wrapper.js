@@ -362,6 +362,7 @@ export default function BookmarksWrapper() {
         title={value.title}
         url={value.url}
         id={value.id}
+        color={value.color}
       />
     </Grid>
   ));

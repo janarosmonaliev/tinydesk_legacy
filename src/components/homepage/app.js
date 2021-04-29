@@ -225,7 +225,7 @@ const App = () => {
             url: "https://www.google.com/about",
             thumbnail:
               "https://www.google.com/images/branding/product/ico/google_my_business_alldp.ico",
-            color: "",
+            color: "yellow",
             id: nextId(),
           },
           {
@@ -233,7 +233,7 @@ const App = () => {
             url: "https://github.com",
             thumbnail:
               "https://github.githubassets.com/apple-touch-icon-180x180.png",
-            color: "",
+            color: "green",
             id: nextId(),
           },
           {
@@ -241,7 +241,7 @@ const App = () => {
             url: "https://www.github.com/janarosmonaliev/project-416",
             thumbnail:
               "https://github.githubassets.com/apple-touch-icon-180x180.png",
-            color: "",
+            color: "orange",
             id: nextId(),
           },
           {
@@ -249,7 +249,7 @@ const App = () => {
             url: "https://www.medium.com",
             thumbnail:
               "https://miro.medium.com/fit/c/152/152/1*sHhtYhaCe2Uc3IU0IgKwIQ.png",
-            color: "",
+            color: "red",
             id: nextId(),
           },
           {
@@ -257,7 +257,7 @@ const App = () => {
             url: "https://www.google.com/about",
             thumbnail:
               "https://www.google.com//images/branding/googleg/1x/googleg_standard_color_128dp.png",
-            color: "https://www.google.com",
+            color: "blue",
             id: nextId(),
           },
         ],
