@@ -26,9 +26,8 @@ import { UserContext } from "./context/UserContext";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
 
-const TodoListWindow = forwardRef((props, ref) => {
+const TodoListWindow = forwardRef(({ todolists, setTodolists }, ref) => {
   //Props todolist from App
-  const { todolists, setTodolists } = useContext(UserContext);
 
   //Open and close modal
   const [open, setOpen] = useState(false);

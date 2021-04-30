@@ -379,7 +379,7 @@ export default function BookmarksWrapper() {
         >
           {items.map((value, index) => (
             <SortableBookmark
-              // key={`item-${value.id}`}
+              key={`bookmark-sort-${index}`}
               index={index}
               value={value}
             />
