@@ -1,17 +1,35 @@
 import { Grid } from "@material-ui/core";
-import React, { useContext } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import WeatherWidget from "./weather-widget";
 import NotesWidget from "./notes-widget";
 import TodoListWidget from "./todo-list-widget";
 import { UserContext } from "./context/UserContext";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
+import nextId from "react-id-generator";
 
 export default function WidgetsWrapper() {
-  const { widgets, setWidgets } = useContext(UserContext);
-  const onSortEnd = ({ oldIndex, newIndex }) => {
-    setWidgets(arrayMove(widgets, oldIndex, newIndex));
+  const initialWidget = {
+    widgets: [
+      {
+        name: "weather",
+        id: nextId(),
+      },
+      {
+        name: "note",
+        id: nextId(),
+      },
+      {
+        name: "todolist",
+        id: nextId(),
+      },
+    ],
   };
+  const [widgets, setWidgets] = useState(initialWidget.widgets);
+  // const { jiggle } = useContext(UserContext);
+  // const onSortEnd = useCallback(({ oldIndex, newIndex }) => {
+  //   setWidgets(arrayMove(widgets, oldIndex, newIndex));
+  // });
   const getWidget = (widget) => {
     switch (widget.name) {
       case "weather":
@@ -35,12 +53,33 @@ export default function WidgetsWrapper() {
     }
   };
 
-  const SortableWidget = SortableElement(({ value }) => {
-    return getWidget(value);
-  });
+  // const SortableWidget = SortableElement(({ value }) => {
+  //   return getWidget(value);
+  // });
 
-  const SortableWidgetContainer = SortableContainer(({ items }) => {
-    return (
+  // const SortableWidgetContainer = SortableContainer(({ items }) => {
+  //   return (
+  //     <Grid
+  //       container
+  //       direction="row"
+  //       justify="flex-start"
+  //       alignItems="flex-start"
+  //       spacing={2}
+  //       // style={{ overflow: "hidden" }}
+  //     >
+  //       {items.map((value, index) => (
+  //         <SortableWidget
+  //           key={`widget-sort-${index}`}
+  //           index={index}
+  //           value={value}
+  //         />
+  //       ))}
+  //     </Grid>
+  //   );
+  // });
+
+  return (
+    <>
       <Grid
         container
         direction="row"
@@ -49,19 +88,8 @@ export default function WidgetsWrapper() {
         spacing={2}
         // style={{ overflow: "hidden" }}
       >
-        {items.map((value, index) => (
-          <SortableWidget index={index} value={value} />
-        ))}
+        {widgets.map((widget) => getWidget(widget))}
       </Grid>
-    );
-  });
-
-  return (
-    <SortableWidgetContainer
-      items={widgets}
-      onSortEnd={onSortEnd}
-      distance={5}
-      axis="xy"
-    />
+    </>
   );
 }

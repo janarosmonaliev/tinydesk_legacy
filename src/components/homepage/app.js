@@ -131,87 +131,6 @@ const App = () => {
       lat: 37.453609,
     },
   };
-  //Todo list
-  const initialTodolists = {
-    todolists: [
-      {
-        title: "Academic",
-        id: nextId(),
-        toggle: true,
-        todos: [
-          {
-            title: "30s presentation for CSE416",
-            isCompleted: false,
-            toggle: true,
-            id: nextId(),
-          },
-          {
-            title: "POL101 read chapter 1",
-            isCompleted: false,
-            toggle: true,
-            id: nextId(),
-          },
-          {
-            title: "CSE416 Software Requirements",
-            isCompleted: false,
-            toggle: true,
-            id: nextId(),
-          },
-        ],
-      },
-      {
-        title: "Life Goals",
-        id: nextId(),
-        toggle: true,
-        todos: [
-          {
-            title: "Study ReactJS",
-            isCompleted: false,
-            toggle: true,
-            id: nextId(),
-          },
-          {
-            title: "Study SwiftUI",
-            isCompleted: false,
-            toggle: true,
-            id: nextId(),
-          },
-          {
-            title: "Hello world,",
-            isCompleted: false,
-            toggle: true,
-            id: nextId(),
-          },
-        ],
-      },
-      {
-        title: "My daily todos",
-        id: nextId(),
-        toggle: true,
-        todos: [
-          {
-            title: "Laundry",
-            isCompleted: false,
-            toggle: true,
-            id: nextId(),
-          },
-          {
-            title: "Run 3 miles",
-            isCompleted: false,
-            toggle: true,
-            id: nextId(),
-          },
-          {
-            title: "Dinner with Kwangmin",
-            isCompleted: false,
-            toggle: true,
-            id: nextId(),
-          },
-        ],
-      },
-    ],
-  };
-
   //Folder & Bookmarks
   //This one gotta be one that fetched from DB
   const initialFolders = {
@@ -308,24 +227,8 @@ const App = () => {
       },
     ],
   };
-  const initialWidget = {
-    widgets: [
-      {
-        name: "weather",
-        id: nextId(),
-      },
-      {
-        name: "note",
-        id: nextId(),
-      },
-      {
-        name: "todolist",
-        id: nextId(),
-      },
-    ],
-  };
+
   const [location, setLocation] = useState(initialLocation);
-  const [todolists, setTodolists] = useState(initialTodolists.todolists);
   const [jiggle, setJiggle] = useState(false);
   const [filter, setFilter] = useState(false);
   const [folders, setFolders] = useState(initialFolders.folders);
@@ -333,7 +236,6 @@ const App = () => {
   const [displayedBookmarks, setDisplayedBookmarks] = useState(
     folders[0].bookmarks
   );
-  const [widgets, setWidgets] = useState(initialWidget.widgets);
 
   useEffect(() => {
     setDisplayedBookmarks(
@@ -370,10 +272,6 @@ const App = () => {
     setFolders,
     displayedBookmarks,
     setDisplayedBookmarks,
-    todolists,
-    setTodolists,
-    widgets,
-    setWidgets,
   };
   return (
     <UserContext.Provider value={userContext}>
