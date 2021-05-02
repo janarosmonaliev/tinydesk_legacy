@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import NotesWindow from "./notes-window";
 import styled from "styled-components";
 import { UserContext } from "./context/UserContext";
@@ -18,6 +18,30 @@ export default function NotesWidget(props) {
   const handleClick = () => {
     notesWindowRef.current.clickOpen();
   };
+  const [notes, setNotes] = useState([
+    {
+      title: "CSE 416",
+      id: 0,
+      content:
+        "Introduces the basic concepts and modern tools and techniques of <br/> software engineering. Emphasizes the development of reliable and maintainable software via system requirements and specifications, software design methodologies including object-oriented design, implementation, integration, and testing; software project management; life-cycle documentation; software maintenance; and consideration of human factor issues.",
+      titleToggle: true,
+      contentToggle: true,
+    },
+    {
+      title: "Homeplus Grocery List",
+      id: 1,
+      content: "Apple, cereal, banana, ramen, tissues",
+      titleToggle: true,
+      contentToggle: true,
+    },
+    {
+      title: "SBU Visit Document",
+      id: 2,
+      content: "Action needs to be done. ",
+      titleToggle: true,
+      contentToggle: true,
+    },
+  ]);
   return (
     <>
       <a onClick={handleClick}>
@@ -32,19 +56,15 @@ export default function NotesWidget(props) {
             <small> Notes</small>
           </div>
           <div className="notes-widget-content">
-            <small>
-              <div className="note-text">CSE416 Course</div>
-            </small>
-            <small>
-              <div className="note-text">Homeplus Grocery list</div>
-            </small>
-            <small>
-              <div className="note-text">SBU Visit documentation Required</div>
-            </small>
+            {notes.map((note) => (
+              <small>
+                <div className="note-text">{note.title}</div>
+              </small>
+            ))}
           </div>
         </div>
       </a>
-      <NotesWindow ref={notesWindowRef} />
+      <NotesWindow ref={notesWindowRef} notes={notes} setNotes={setNotes} />
     </>
   );
 }
