@@ -3,10 +3,12 @@ import React, { useCallback, useContext, useState } from "react";
 import WeatherWidget from "./weather-widget";
 import NotesWidget from "./notes-widget";
 import TodoListWidget from "./todo-list-widget";
+import CalendarWidget from "./calendar-widget";
 import { UserContext } from "./context/UserContext";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
 import nextId from "react-id-generator";
+import Calendar from "react-calendar";
 
 export default function WidgetsWrapper() {
   const initialWidget = {
@@ -21,6 +23,10 @@ export default function WidgetsWrapper() {
       },
       {
         name: "todolist",
+        id: nextId(),
+      },
+      {
+        name: "calendar",
         id: nextId(),
       },
     ],
@@ -50,6 +56,13 @@ export default function WidgetsWrapper() {
             <NotesWidget />
           </Grid>
         );
+      case "calendar": {
+        return (
+          <Grid item xs={12} lg={12} className="widget-wrapper">
+            <CalendarWidget />
+          </Grid>
+        );
+      }
     }
   };
 
