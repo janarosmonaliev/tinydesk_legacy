@@ -70,6 +70,7 @@ $delete-icon-large-offset-y: -15px;
 $color-black: #333333;
 $color-gray: #4f4f4f;
 $glass-color-light: rgba(255, 255, 255, 0.4);
+$glass-color-light-focus: rgba(255, 255, 255, 0.6);
 $glass-color-light-active: rgba(255, 255, 255, 0.8);
 $glass-color-dark: rgba(0, 0, 0, 0.4);
 
@@ -374,6 +375,18 @@ small,
   //   );
   // }
 }
+.calendar-widget-wrapper {
+  display: flex;
+  align-items: center;
+  padding: $space-01 $space-03;
+  color: white;
+  position: relative;
+  box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.1);
+  border-radius: rem(15px);
+  background-color: $glass-color-dark;
+  backdrop-filter: blur(8px);
+  height: 160px;
+}
 .weather-widget-wrapper {
   display: block;
   position: relative;
@@ -391,7 +404,7 @@ small,
   overflow: hidden;
   display: block;
   min-height: 150px;
-  background-color: $glass-color-light;
+  background-color: $glass-color-light-focus;
   backdrop-filter: blur(8px);
   box-shadow: 0 0 0.5rem 0 #0000001a;
   border-radius: rem(15px);
@@ -462,7 +475,7 @@ small,
   overflow: hidden;
   display: block;
   height: 150px;
-  background-color: $glass-color-light;
+  background-color: $glass-color-light-focus;
   backdrop-filter: blur(8px);
   box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.1);
   border-radius: rem(15px);
@@ -493,6 +506,7 @@ small,
   padding: $space-02 $space-03;
   > small {
     color: $color-gray;
+    margin-bottom: $space-01;
     display: flex;
     align-items: center;
     .todo-text {

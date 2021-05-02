@@ -7,7 +7,7 @@ export default function GridWrapper() {
   return (
     <Grid
       container
-      spacing={7}
+      spacing={8}
       direction="row"
       justify="center"
       alignItems="flex-start"
