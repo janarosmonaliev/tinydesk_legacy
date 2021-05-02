@@ -56,7 +56,7 @@ export default function NotesWidget(props) {
             <small> Notes</small>
           </div>
           <div className="notes-widget-content">
-            {notes.map((note) => (
+            {notes.slice(0, 4).map((note) => (
               <small>
                 <div className="note-text">{note.title}</div>
               </small>

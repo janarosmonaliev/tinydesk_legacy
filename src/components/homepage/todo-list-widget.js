@@ -93,6 +93,20 @@ export default function ToDoListWidget() {
   const handleClick = () => {
     todoListWindowRef.current.clickOpen();
   };
+  const previews = () => {
+    var ret = [];
+    var index = 0;
+    for (var i = 0; i < todolists.length; i++) {
+      for (var j = 0; j < todolists[i].todos.length; j++) {
+        ret.push(todolists[i].todos[j]);
+        index += 1;
+        if (index == 4) {
+          return ret;
+        }
+      }
+    }
+    return ret;
+  };
 
   return (
     <>
@@ -108,14 +122,12 @@ export default function ToDoListWidget() {
             <small> To-Do List</small>
           </div>
           <div className="todo-list-widget-content">
-            {todolists.map((tl) =>
-              tl.todos.map((todo) => (
-                <small>
-                  <CheckBoxOutlineBlankIcon fontSize="small" />
-                  <div className="todo-text">{todo.title}</div>
-                </small>
-              ))
-            )}
+            {previews().map((todo) => (
+              <small>
+                <CheckBoxOutlineBlankIcon fontSize="small" />
+                <div className="todo-text">{todo.title}</div>
+              </small>
+            ))}
           </div>
         </div>
       </a>
