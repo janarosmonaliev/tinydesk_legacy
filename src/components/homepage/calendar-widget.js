@@ -47,7 +47,7 @@ const CalendarWidget = () => {
   const daysOfTheWeek = ["M", "T", "W", "T", "F", "S", "S"];
   dayjs.extend(weekday);
   const daysInMonth = dayjs(currentDate).daysInMonth();
-  const dayOfTheWeek = dayjs(currentDate).weekday();
+  const dayOfTheWeek = dayjs().startOf("M").weekday();
   const shift = dayOfTheWeek === 0 ? 6 : dayOfTheWeek - 1;
   const daysShift = new Array(shift).fill(" ");
   let daysOfTheMonth = Array.from({ length: daysInMonth }, (_, i) => i + 1);
