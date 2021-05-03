@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState} from "react";
 import { navigate } from "gatsby";
 import {
   Grid,
@@ -9,6 +9,7 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import Logo from "../../images/commandt-logo-sm.svg";
+import axios from 'axios';
 
 const SignupPage = () => {
   const fullNameRef = useRef();
@@ -16,6 +17,31 @@ const SignupPage = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const cityRef = useRef();
+
+  // Again, using states cuz I don't really understand how Ref works well
+
+  const[fullName, setFullName] = useState("");
+  const[username, setUsername] = useState("");
+  const[email, setEmail] = useState("");
+  const[password, setPassword] = useState("");
+  const[city, setCity] = useState("");
+
+
+  // register function fires when the user clicks submit
+  const register = () => {
+    axios({
+      method: "POST",
+      data: {
+        name: fullName,
+        username: username,
+        email: email,
+        password: password,
+        city: city,
+      },
+      withCredentials: true,
+      url: "http://localhost:4000/signup",
+    }).then((res) => console.log(res));
+  };
 
   return (
     <Grid item xs={12} md={6} lg={6}>
@@ -37,21 +63,24 @@ const SignupPage = () => {
                   fullWidth
                   label="Full name"
                   type="name"
-                  inputRef={fullNameRef}
+                  inputRef={fullNameRef} 
+                  onChange={e => setFullName(e.target.value)}
                 />
                 <TextField
                   id="sign-page-form-username"
                   fullWidth
                   label="Username"
                   type="text"
-                  inputRef={usernameRef}
+                  inputRef={usernameRef} 
+                  onChange={e => setUsername(e.target.value)}
                 />
                 <TextField
                   id="sign-page-form-email"
                   fullWidth
                   label="Email"
                   type="email"
-                  inputRef={emailRef}
+                  inputRef={emailRef} 
+                  onChange={e => setEmail(e.target.value)}
                 />
                 <TextField
                   id="sign-page-form-password"
@@ -59,14 +88,16 @@ const SignupPage = () => {
                   label="Password"
                   type="password"
                   inputRef={passwordRef}
-                  autoComplete="current-password"
+                  autoComplete="current-password" 
+                  onChange={e => setPassword(e.target.value)}
                 />
                 <TextField
                   id="sign-page-form-city"
                   select
                   fullWidth
                   label="Current city"
-                  inputRef={cityRef}
+                  inputRef={cityRef} 
+                  onChange={e => setCity(e.target.value)}
                 >
                   <MenuItem key="Seoul" value="Seoul">
                     Seoul
@@ -82,7 +113,7 @@ const SignupPage = () => {
                 color="primary"
                 disableElevation
                 disableTouchRipple
-                onClick={() => navigate("/home", { replace: true })}
+                onClick={register}
               >
                 Create an account
               </Button>
