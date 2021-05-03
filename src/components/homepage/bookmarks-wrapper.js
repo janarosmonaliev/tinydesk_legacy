@@ -2,7 +2,7 @@ import { DialogActions, Grid } from "@material-ui/core";
 import clsx from "clsx";
 import React, { useContext, useState } from "react";
 import Bookmark from "./bookmark";
-import { FilePlus, Plus, X } from "react-feather";
+import { FilePlus, Plus, X, Minus } from "react-feather";
 import { SvgIcon, IconButton, TextField, Button } from "@material-ui/core";
 import { Dialog, DialogTitle, DialogContent } from "@material-ui/core";
 import { Select, InputLabel, MenuItem } from "@material-ui/core";
@@ -39,7 +39,9 @@ const useStyles = makeStyles({
   checkedIcon: {
     backgroundColor: (props) => props.backgroundColor,
     boxShadow:
-      "inset 0 0 0 2px rgba(51,51,51,1), inset 0 -1px 0 rgba(51,51,51,1)",
+      "inset 0 0 0 2px rgba(51,51,51,1), inset 0 1px 0 rgba(51,51,51,1)",
+    zIndex: 1,
+    filter: "blur(0px)",
   },
 });
 
@@ -57,7 +59,7 @@ function StyledRadio(props) {
           icon={<span className={classes.icon} />}
           {...props}
         ></Radio>
-        <Remove className="remove-icon" />
+        <Minus size={30} color="red" className="remove-icon" />
       </Grid>
     );
   }
@@ -71,7 +73,50 @@ function StyledRadio(props) {
     />
   );
 }
+const SortableBookmark = SortableElement(({ value, jiggle }) => (
+  <Grid
+    item
+    xs={4}
+    md={3}
+    lg={2}
+    zeroMinWidth
+    className={jiggle ? "bookmarks-jiggle" : ""}
+  >
+    <Bookmark
+      thumbnail={value.thumbnail}
+      title={value.title}
+      url={value.url}
+      id={value.id}
+      color={value.color}
+    />
+  </Grid>
+));
+const SortableList = SortableContainer(({ items, jiggle }) => {
+  return (
+    <>
+      <Grid
+        container
+        spacing={1}
+        direction="row"
+        justify="flex-start"
+        alignItems="flex-start"
+        style={{ overflow: "auto" }}
+      >
+        {items.map((value, index) => (
+          <SortableBookmark
+            key={`bookmark-sort-${index}`}
+            index={index}
+            value={value}
+          />
+        ))}
 
+        <Grid item xs={4} md={3} lg={2} zeroMinWidth>
+          <AddNewBookmarkButton></AddNewBookmarkButton>
+        </Grid>
+      </Grid>
+    </>
+  );
+});
 const AddNewBookmarkButton = () => {
   const { selectedFolderId, folders, setFolders } = useContext(UserContext);
   const [open, setOpen] = useState(false);
@@ -122,9 +167,6 @@ const AddNewBookmarkButton = () => {
     console.log(
       `New bookmark will be created with url: ${url}, title: ${title}, color: ${color}, and folder: ${folder}`
     );
-    console.log(newBookMark);
-    console.log(selectedFolderId);
-    console.log(folders);
     //this part is changed
     //Find folder's index based on folder's id
     const folderIndex = folders.findIndex((f) => f.id === folder);
@@ -348,51 +390,6 @@ export default function BookmarksWrapper() {
     }
   };
 
-  const SortableBookmark = SortableElement(({ value }) => (
-    <Grid
-      item
-      xs={4}
-      md={3}
-      lg={2}
-      zeroMinWidth
-      className={jiggle ? "bookmarks-jiggle" : ""}
-    >
-      <Bookmark
-        thumbnail={value.thumbnail}
-        title={value.title}
-        url={value.url}
-        id={value.id}
-        color={value.color}
-      />
-    </Grid>
-  ));
-  const SortableList = SortableContainer(({ items }) => {
-    return (
-      <>
-        <Grid
-          container
-          spacing={1}
-          direction="row"
-          justify="flex-start"
-          alignItems="flex-start"
-          style={{ overflow: "auto" }}
-        >
-          {items.map((value, index) => (
-            <SortableBookmark
-              key={`bookmark-sort-${index}`}
-              index={index}
-              value={value}
-            />
-          ))}
-
-          <Grid item xs={4} md={3} lg={2} zeroMinWidth>
-            <AddNewBookmarkButton></AddNewBookmarkButton>
-          </Grid>
-        </Grid>
-      </>
-    );
-  });
-
   return (
     <>
       {jiggle ? (
@@ -433,6 +430,7 @@ export default function BookmarksWrapper() {
           onSortEnd={onSortEnd}
           axis="xy"
           distance={5}
+          jiggle={jiggle}
         />
       )}
     </>

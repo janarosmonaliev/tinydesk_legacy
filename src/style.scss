@@ -758,24 +758,29 @@ small,
   }
 }
 .remove-icon {
-  color: red;
   position: fixed;
   transform: rotate(-45deg);
-  font-size: 28px;
 }
-// .calendar-widget-wrapper {
-//   font-family: "Varela Round", sans-serif;
-//   color: white;
-//   height: 150px;
-//   display: block;
-//   position: relative;
-//   box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.1);
-//   border-radius: rem(15px);
-//   background-color: $glass-color-dark;
-//   backdrop-filter: blur(8px);
-
-//   font-weight: bold;
-//   .calendar-day-date {
-//     font-size: 55px;
-//   }
-// }
+.bookmark-border {
+  &.clear {
+    border: none;
+  }
+  &.green {
+    border: 3px solid #6fcf97;
+  }
+  &.yellow {
+    border: 3px solid #f2c94c;
+  }
+  &.orange {
+    border: 3px solid #f2994a;
+  }
+  &.red {
+    border: 3px solid #eb5757;
+  }
+  &.blue {
+    border: 3px solid #2f80ed;
+  }
+  &.purple {
+    border: 3px solid #bb6bd9;
+  }
+}
