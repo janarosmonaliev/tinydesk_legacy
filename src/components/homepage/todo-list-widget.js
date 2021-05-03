@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState, useMemo, useEffect } from "react";
 import TodoListWindow from "./todo-list-window";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import { UserContext } from "./context/UserContext";
@@ -87,13 +87,19 @@ export default function ToDoListWidget() {
     ],
   };
   const [todolists, setTodolists] = useState(initialTodolists.todolists);
+  const [previewTodos, setPreviewTodos] = useState([]);
+  //Open and close modal
+  //Located here to use useEffect on change open to optimize the calculation
+  const [open, setOpen] = useState(false);
+
   const { jiggle } = useContext(UserContext);
   const todoListWindowRef = useRef();
 
   const handleClick = () => {
     todoListWindowRef.current.clickOpen();
   };
-  const previews = () => {
+
+  useEffect(() => {
     var ret = [];
     var index = 0;
     for (var i = 0; i < todolists.length; i++) {
@@ -101,13 +107,13 @@ export default function ToDoListWidget() {
         ret.push(todolists[i].todos[j]);
         index += 1;
         if (index == 4) {
-          return ret;
+          setPreviewTodos(ret);
+          return;
         }
       }
     }
-    return ret;
-  };
-
+    setPreviewTodos(ret);
+  }, [open]);
   return (
     <>
       <a onClick={handleClick}>
@@ -122,7 +128,7 @@ export default function ToDoListWidget() {
             <small> To-Do List</small>
           </div>
           <div className="todo-list-widget-content">
-            {previews().map((todo) => (
+            {previewTodos.map((todo) => (
               <small>
                 <CheckBoxOutlineBlankIcon fontSize="small" />
                 <div className="todo-text">{todo.title}</div>
@@ -135,6 +141,8 @@ export default function ToDoListWidget() {
         ref={todoListWindowRef}
         todolists={todolists}
         setTodolists={setTodolists}
+        open={open}
+        setOpen={setOpen}
       />
     </>
   );

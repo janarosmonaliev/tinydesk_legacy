@@ -5,6 +5,7 @@ import styled from "styled-components";
 import ReactAnimatedWeather from "react-animated-weather";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { UserContext } from "./context/UserContext";
+import { CloudLightning } from "react-feather";
 
 const CurrentTemp = styled.div`
   font-size: 40px;
@@ -47,6 +48,18 @@ const formatTime = (date, next = 0) => {
   return [hours, min, meridiem];
 };
 
+const ActivityIndicator = () => (
+  <div className="weather-widget-wrapper" style={{ height: "155px" }}>
+    <Grid item xs={12} container justify="center">
+      <CircularProgress
+        size={50}
+        thickness={8.0}
+        style={{ marginTop: "43px" }}
+      />
+    </Grid>
+  </div>
+);
+
 export default function WeatherWidget() {
   const numberOfForecast = [0, 1, 2, 3];
   const [weathers, setWeathers] = useState(null);
@@ -80,10 +93,21 @@ export default function WeatherWidget() {
           </div>
         );
       case "Clear":
-        return (
+        const hours = new Date().getHours();
+        const isDayTime = hours > 6 && hours < 20;
+        return isDayTime ? (
           <div style={{ marginTop: "10px" }}>
             <ReactAnimatedWeather
               icon={"CLEAR_DAY"}
+              color={"yellow"}
+              size={50}
+              animated={true}
+            />
+          </div>
+        ) : (
+          <div style={{ marginTop: "10px" }}>
+            <ReactAnimatedWeather
+              icon={"CLEAR_NIGHT"}
               color={"yellow"}
               size={50}
               animated={true}
@@ -105,11 +129,10 @@ export default function WeatherWidget() {
       case "Thunderstorm":
         return (
           <div style={{ marginTop: "10px" }}>
-            <ReactAnimatedWeather
-              icon={"CLOUDY"}
+            <CloudLightning
+              className="cloud-lightning"
               color={"gray"}
-              size={50}
-              animated={true}
+              size={40}
             />
           </div>
         );
@@ -160,17 +183,7 @@ export default function WeatherWidget() {
     };
   }, []);
   if (loading) {
-    return (
-      <div className="weather-widget-wrapper" style={{ height: "155px" }}>
-        <Grid item xs={12} container justify="center">
-          <CircularProgress
-            size={50}
-            thickness={8.0}
-            style={{ marginTop: "43px" }}
-          />
-        </Grid>
-      </div>
-    );
+    return <ActivityIndicator />;
   }
   if (!weathers) {
     return null;
