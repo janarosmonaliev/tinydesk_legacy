@@ -21,7 +21,6 @@ const DialogActionButton = styled(DialogActions)({
   marginBottom: "20px",
 });
 export default function Bookmark(props) {
-  console.log(props.color);
   const { jiggle, setFolders, selectedFolderId, folders } = useContext(
     UserContext
   );
@@ -79,7 +78,7 @@ export default function Bookmark(props) {
           src={props.thumbnail}
           width="80"
           height="80"
-          style={{ border: `2px solid ${props.color}` }}
+          className={`bookmark-border ${props.color}`}
         ></img>
 
         <small>{props.title}</small>
