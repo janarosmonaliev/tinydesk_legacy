@@ -3,16 +3,31 @@ import { navigate } from "gatsby";
 import { Grid, Card, CardContent, Button } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import Logo from "../../images/commandt-logo-sm.svg";
+import axios from 'axios';
 
 const LoginPage = () => {
   // Ref objects for obtaining input values
   const emailRef = useRef();
   const passwordRef = useRef();
 
-  const handleLogin = () => {};
+  
 
-  const [isEmailError, setEmailError] = useState(false);
-  const [isPasswordError, setPasswordError] = useState(false);
+  // state variables since I haven't read how to use ref objects yet
+  // should aim to use the ref objects that Janar put in here
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const login = () => {
+    axios({
+      method: "POST",
+      data: {
+        email: email,
+        password: password,
+      },
+      withCredentials: true,
+      url: "http://localhost:4000/login",
+    }).then((res) => console.log(res));
+  };
 
   return (
     <Grid item xs={12} md={6} lg={6}>
@@ -35,7 +50,7 @@ const LoginPage = () => {
                   label="Email"
                   type="email"
                   inputRef={emailRef}
-                  error={isEmailError}
+                  onChange={e => setEmail(e.target.value)}
                 />
                 <TextField
                   id="login-page-form-password"
@@ -44,7 +59,7 @@ const LoginPage = () => {
                   type="password"
                   autoComplete="current-password"
                   inputRef={passwordRef}
-                  error={isPasswordError}
+                  onChange={e => setPassword(e.target.value)}
                 />
               </form>
 
@@ -53,7 +68,7 @@ const LoginPage = () => {
                 color="primary"
                 disableElevation
                 disableTouchRipple
-                onClick={() => navigate("/home", { replace: true })}
+                onClick={login}
               >
                 Log in
               </Button>
