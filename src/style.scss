@@ -784,3 +784,16 @@ small,
     border: 3px solid #bb6bd9;
   }
 }
+.cloud-lightning {
+  animation: shake 1s;
+  animation-iteration-count: infinite;
+}
+@keyframes shake {
+  0% {
+    transform: translate(0.5px, 0.5px) rotate(1deg);
+  }
+
+  50% {
+    transform: translate(-0.5px, 0.5px) rotate(-1deg);
+  }
+}

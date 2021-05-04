@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import RemoveCircleOutlinedIcon from "@material-ui/icons/RemoveCircleOutlined";
 import Grid from "@material-ui/core/Grid";
 import { UserContext } from "./context/UserContext";
-import { X } from "react-feather";
+import { X, Edit } from "react-feather";
 import {
   Dialog,
   DialogTitle,
@@ -13,7 +13,10 @@ import {
   Divider,
 } from "@material-ui/core";
 import { styled } from "@material-ui/core/styles";
+import { Menu, MenuItem } from "@material-ui/core/";
 import produce from "immer";
+import { SettingsInputComponentOutlined } from "@material-ui/icons";
+import { BookmarkContext } from "./context/BookmarkContext";
 
 const DialogActionButton = styled(DialogActions)({
   justifyContent: "left",
@@ -24,7 +27,14 @@ export default function Bookmark(props) {
   const { jiggle, setFolders, selectedFolderId, folders } = useContext(
     UserContext
   );
+  const {
+    mousePos,
+    handleContextMenu,
+    handleContextMenuClose,
+    handleContextMenuEdit,
+  } = useContext(BookmarkContext);
   const [open, setOpen] = useState(false);
+
   const handleClick = (url) => {
     // TODO Add noopener and noreferrer tags
     window.open(url, "_blank").focus();
@@ -73,6 +83,7 @@ export default function Bookmark(props) {
             : "bookmark-wrapper hoverable"
         }
         onClick={() => handleClick(props.url)}
+        onContextMenu={(e) => handleContextMenu(e, props.id)}
       >
         <img
           src={props.thumbnail}
@@ -83,6 +94,21 @@ export default function Bookmark(props) {
 
         <small>{props.title}</small>
       </div>
+      <Menu
+        keepMounted
+        open={mousePos.mouseY !== null}
+        onClose={handleContextMenuClose}
+        anchorReference="anchorPosition"
+        anchorPosition={
+          mousePos.mouseY !== null && mousePos.mouseX !== null
+            ? { top: mousePos.mouseY, left: mousePos.mouseX }
+            : undefined
+        }
+      >
+        <MenuItem onClick={handleContextMenuEdit}>
+          <Edit /> &nbsp; Edit
+        </MenuItem>
+      </Menu>
       <Dialog
         onClose={handleClose}
         open={open}
