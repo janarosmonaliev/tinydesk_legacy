@@ -30,8 +30,7 @@ import {
 import nextId from "react-id-generator";
 import produce from "immer";
 
-const NotesWindow = forwardRef(({ notes, setNotes }, ref) => {
-  const [open, setOpen] = useState(false);
+const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
   const [scroll, setScroll] = useState("paper");
   //index in the Notes list
   const [selectedIndex, setSelectedIndex] = useState(0);
