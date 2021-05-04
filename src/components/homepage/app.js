@@ -131,87 +131,6 @@ const App = () => {
       lat: 37.453609,
     },
   };
-  //Todo list
-  const initialTodolists = {
-    todolists: [
-      {
-        title: "Academic",
-        id: nextId(),
-        toggle: true,
-        todos: [
-          {
-            title: "30s presentation for CSE416",
-            isCompleted: false,
-            toggle: true,
-            id: nextId(),
-          },
-          {
-            title: "POL101 read chapter 1",
-            isCompleted: false,
-            toggle: true,
-            id: nextId(),
-          },
-          {
-            title: "CSE416 Software Requirements",
-            isCompleted: false,
-            toggle: true,
-            id: nextId(),
-          },
-        ],
-      },
-      {
-        title: "Life Goals",
-        id: nextId(),
-        toggle: true,
-        todos: [
-          {
-            title: "Study ReactJS",
-            isCompleted: false,
-            toggle: true,
-            id: nextId(),
-          },
-          {
-            title: "Study SwiftUI",
-            isCompleted: false,
-            toggle: true,
-            id: nextId(),
-          },
-          {
-            title: "Hello world,",
-            isCompleted: false,
-            toggle: true,
-            id: nextId(),
-          },
-        ],
-      },
-      {
-        title: "My daily todos",
-        id: nextId(),
-        toggle: true,
-        todos: [
-          {
-            title: "Laundry",
-            isCompleted: false,
-            toggle: true,
-            id: nextId(),
-          },
-          {
-            title: "Run 3 miles",
-            isCompleted: false,
-            toggle: true,
-            id: nextId(),
-          },
-          {
-            title: "Dinner with Kwangmin",
-            isCompleted: false,
-            toggle: true,
-            id: nextId(),
-          },
-        ],
-      },
-    ],
-  };
-
   //Folder & Bookmarks
   //This one gotta be one that fetched from DB
   const initialFolders = {
@@ -225,7 +144,7 @@ const App = () => {
             url: "https://www.google.com/about",
             thumbnail:
               "https://www.google.com/images/branding/product/ico/google_my_business_alldp.ico",
-            color: "",
+            color: "yellow",
             id: nextId(),
           },
           {
@@ -233,7 +152,7 @@ const App = () => {
             url: "https://github.com",
             thumbnail:
               "https://github.githubassets.com/apple-touch-icon-180x180.png",
-            color: "",
+            color: "green",
             id: nextId(),
           },
           {
@@ -241,7 +160,7 @@ const App = () => {
             url: "https://www.github.com/janarosmonaliev/project-416",
             thumbnail:
               "https://github.githubassets.com/apple-touch-icon-180x180.png",
-            color: "",
+            color: "orange",
             id: nextId(),
           },
           {
@@ -249,7 +168,7 @@ const App = () => {
             url: "https://www.medium.com",
             thumbnail:
               "https://miro.medium.com/fit/c/152/152/1*sHhtYhaCe2Uc3IU0IgKwIQ.png",
-            color: "",
+            color: "red",
             id: nextId(),
           },
           {
@@ -257,7 +176,7 @@ const App = () => {
             url: "https://www.google.com/about",
             thumbnail:
               "https://www.google.com//images/branding/googleg/1x/googleg_standard_color_128dp.png",
-            color: "https://www.google.com",
+            color: "blue",
             id: nextId(),
           },
         ],
@@ -271,7 +190,7 @@ const App = () => {
             url: "https://www.medium.com",
             thumbnail:
               "https://miro.medium.com/fit/c/152/152/1*sHhtYhaCe2Uc3IU0IgKwIQ.png",
-            color: "",
+            color: "clear",
             id: nextId(),
           },
           {
@@ -279,7 +198,7 @@ const App = () => {
             url: "https://www.google.com/about",
             thumbnail:
               "https://www.google.com//images/branding/googleg/1x/googleg_standard_color_128dp.png",
-            color: "https://www.google.com",
+            color: "clear",
             id: nextId(),
           },
         ],
@@ -293,7 +212,7 @@ const App = () => {
             url: "https://github.com",
             thumbnail:
               "https://github.githubassets.com/apple-touch-icon-180x180.png",
-            color: "",
+            color: "clear",
             id: nextId(),
           },
           {
@@ -301,15 +220,15 @@ const App = () => {
             url: "https://www.github.com/janarosmonaliev/project-416",
             thumbnail:
               "https://github.githubassets.com/apple-touch-icon-180x180.png",
-            color: "",
+            color: "clear",
             id: nextId(),
           },
         ],
       },
     ],
   };
+
   const [location, setLocation] = useState(initialLocation);
-  const [todolists, setTodolists] = useState(initialTodolists.todolists);
   const [jiggle, setJiggle] = useState(false);
   const [filter, setFilter] = useState(false);
   const [folders, setFolders] = useState(initialFolders.folders);
@@ -353,8 +272,6 @@ const App = () => {
     setFolders,
     displayedBookmarks,
     setDisplayedBookmarks,
-    todolists,
-    setTodolists,
   };
   return (
     <UserContext.Provider value={userContext}>

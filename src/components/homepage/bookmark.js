@@ -49,6 +49,7 @@ export default function Bookmark(props) {
     );
     setOpen(false);
   };
+
   return (
     <>
       {jiggle ? (
@@ -73,7 +74,12 @@ export default function Bookmark(props) {
         }
         onClick={() => handleClick(props.url)}
       >
-        <img src={props.thumbnail} width="80" height="80"></img>
+        <img
+          src={props.thumbnail}
+          width="80"
+          height="80"
+          className={`bookmark-border ${props.color}`}
+        ></img>
 
         <small>{props.title}</small>
       </div>
