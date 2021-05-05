@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const user = new mongoose.Schema({
+const folder_db = new mongoose.Schema({
   // Email, Location, Password, name, username
   email: String,
   location: String,
@@ -12,4 +12,4 @@ const user = new mongoose.Schema({
   username: String,
 });
 
-module.exports = mongoose.model("User", user);
+module.exports = mongoose.model("Folder_db", folder_db);
