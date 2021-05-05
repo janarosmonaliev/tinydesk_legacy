@@ -36,7 +36,7 @@ app.use(session({
     saveUninitialized: true
 }));
 
-app.use(cookieParser("unicorncode"));
+app.use(cookieParser("unicorncookie"));
 
 // Initialize Passport
 app.use(passport.initialize());
