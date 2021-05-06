@@ -4,7 +4,7 @@ import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import { UserContext } from "./context/UserContext";
 import nextId from "react-id-generator";
 
-export default function ToDoListWidget() {
+const ToDoListWidget = () => {
   //Todo list attributes = todolistid : Objectid, index: int ; title: String
   //Todo attributes = title: String, isCompleted: Bool, todoId: ObjectId, index: int
   const initialTodolists = {
@@ -146,4 +146,5 @@ export default function ToDoListWidget() {
       />
     </>
   );
-}
+};
+export default React.memo(ToDoListWidget);

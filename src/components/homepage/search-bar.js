@@ -3,8 +3,7 @@ import { InputAdornment, InputBase } from "@material-ui/core";
 import { SvgIcon } from "@material-ui/core";
 import { Button } from "@material-ui/core";
 import { Search } from "react-feather";
-
-export default function SearchBar() {
+const SearchBar = () => {
   const searchText = useRef();
 
   const handleClickSearch = () => {
@@ -55,4 +54,6 @@ export default function SearchBar() {
       </div>
     </>
   );
-}
+};
+
+export default React.memo(SearchBar);

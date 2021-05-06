@@ -441,4 +441,4 @@ const TodoListWindow = forwardRef(
     );
   }
 );
-export default TodoListWindow;
+export default React.memo(TodoListWindow);

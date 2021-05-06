@@ -363,4 +363,4 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
     </Dialog>
   );
 });
-export default NotesWindow;
+export default React.memo(NotesWindow);
