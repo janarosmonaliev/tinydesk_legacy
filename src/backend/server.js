@@ -62,16 +62,26 @@ app.post("/login", (req, res, next) => {
   })(req, res, next);
 });
 
+const initialLocation = {
+  id: 1843564,
+  name: "Incheon",
+  state: "",
+  country: "KR",
+  coord: {
+    lon: 126.731667,
+    lat: 37.453609,
+  },
+};
+
 app.post("/signup", (req, res) => {
   User.findOne({ email: req.body.email }, async (err, doc) => {
     if (err) throw err;
     if (doc) res.send("user Already Exists");
     if (!doc) {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
       const newUser = new User({
         email: req.body.email,
-        location: req.body.city,
+        location: initialLocation,
         password: hashedPassword,
         notes: [],
         todolists: [],
@@ -87,6 +97,18 @@ app.post("/signup", (req, res) => {
       });
       await newUser.save();
       res.send("New user created");
+    }
+  });
+});
+
+//query is not working properly.
+app.post("/login", (req, res) => {
+  User.findOne({ email: req.body.email }, async (err, doc) => {
+    if (err) throw err;
+    if (!doc) res.send("User does not exist");
+    if (doc) {
+      res.send(doc, "Logged in successfully");
+      console.log(doc);
     }
   });
 });
