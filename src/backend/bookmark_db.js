@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const bookmark_db = new mongoose.Schema({
-  // Email, Location, Password, name, username
+  // bookmark title, url, color tag, and thumbnail
   title: String,
   url: String,
   color: String,

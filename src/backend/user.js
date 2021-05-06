@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const user = new mongoose.Schema({
   // Email, Location, Password, name, username
   email: String,
-  location: String,
+  location: Object,
   password: String,
   notes: Array,
   todolists: Array,
@@ -10,6 +10,7 @@ const user = new mongoose.Schema({
   backgroundImg: Object,
   name: String,
   username: String,
+  keepUnicorn: Boolean,
 });
 
 module.exports = mongoose.model("User", user);
