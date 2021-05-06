@@ -23,7 +23,7 @@ const DialogActionButton = styled(DialogActions)({
   marginLeft: "16px",
   marginBottom: "20px",
 });
-export default function Bookmark(props) {
+const Bookmark = (props) => {
   const { jiggle, setFolders, selectedFolderId, folders } = useContext(
     UserContext
   );
@@ -157,4 +157,5 @@ export default function Bookmark(props) {
       </Dialog>
     </>
   );
-}
+};
+export default React.memo(Bookmark);

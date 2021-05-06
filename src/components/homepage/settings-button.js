@@ -7,7 +7,7 @@ import AccountSettings from "./settings-account";
 import UnsplashWindow from "./unsplash-window";
 import { UserContext } from "./context/UserContext";
 
-export default function SettingsButton(props) {
+const SettingsButton = (props) => {
   const { setJiggle, setFilter } = useContext(UserContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClickOpen = (e) => {
@@ -76,4 +76,5 @@ export default function SettingsButton(props) {
       ></UnsplashWindow>
     </>
   );
-}
+};
+export default React.memo(SettingsButton);

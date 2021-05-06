@@ -216,4 +216,4 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
     </>
   );
 });
-export default AccountSettingsTwo;
+export default React.memo(AccountSettingsTwo);

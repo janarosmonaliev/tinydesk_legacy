@@ -205,4 +205,4 @@ const UnsplashWindow = forwardRef((props, ref) => {
   );
 });
 
-export default UnsplashWindow;
+export default React.memo(UnsplashWindow);

@@ -60,7 +60,7 @@ const ActivityIndicator = () => (
   </div>
 );
 
-export default function WeatherWidget() {
+const WeatherWidget = () => {
   const numberOfForecast = [0, 1, 2, 3];
   const [weathers, setWeathers] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -237,4 +237,5 @@ export default function WeatherWidget() {
       </Grid>
     </div>
   );
-}
+};
+export default React.memo(WeatherWidget);

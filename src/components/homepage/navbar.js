@@ -4,7 +4,7 @@ import UnicornButton from "./unicorn-button";
 import SettingsButton from "./settings-button";
 import SearchBar from "./search-bar";
 
-export default function NavigationBar(props) {
+const NavigationBar = (props) => {
   return (
     <div className="navbar-wrapper">
       <Grid
@@ -32,4 +32,5 @@ export default function NavigationBar(props) {
       </Grid>
     </div>
   );
-}
+};
+export default React.memo(NavigationBar);

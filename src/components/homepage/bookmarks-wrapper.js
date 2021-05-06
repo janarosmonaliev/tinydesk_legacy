@@ -366,7 +366,7 @@ const AddNewBookmarkButton = () => {
   );
 };
 
-export default function BookmarksWrapper() {
+const BookmarksWrapper = () => {
   const {
     jiggle,
     displayedBookmarks,
@@ -540,4 +540,5 @@ export default function BookmarksWrapper() {
       )}
     </BookmarkContext.Provider>
   );
-}
+};
+export default React.memo(BookmarksWrapper);

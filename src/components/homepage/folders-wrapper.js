@@ -23,7 +23,7 @@ const DialogActionButton = styled(DialogActions)({
   marginBottom: "20px",
 });
 
-export default function FoldersWrapper() {
+const FoldersWrapper = () => {
   const {
     jiggle,
     folders,
@@ -259,4 +259,5 @@ export default function FoldersWrapper() {
       </Dialog>
     </>
   );
-}
+};
+export default React.memo(FoldersWrapper);
