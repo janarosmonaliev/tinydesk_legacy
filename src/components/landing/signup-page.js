@@ -28,7 +28,6 @@ const SignupPage = () => {
   const [password, setPassword] = useState("");
   const [country, setCountry] = useState("");
   const [city, setCity] = useState({});
-  const [value, setValue] = useState("");
 
   // register function fires when the user clicks submit
   const register = () => {
