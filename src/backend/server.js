@@ -94,6 +94,7 @@ app.post("/signup", (req, res) => {
         },
         name: req.body.name,
         username: req.body.username,
+        keepUnicorn: true,
       });
       await newUser.save();
       res.send("New user created");
@@ -103,14 +104,22 @@ app.post("/signup", (req, res) => {
 
 //query is not working properly.
 app.post("/login", (req, res) => {
-  User.findOne({ email: req.body.email }, async (err, doc) => {
-    if (err) throw err;
-    if (!doc) res.send("User does not exist");
-    if (doc) {
-      res.send(doc, "Logged in successfully");
-      console.log(doc);
+  User.findOne(
+    { email: req.body.email, password: bcrypt.hash(req.body.password, 10) },
+    async (err, doc) => {
+      if (err) throw err;
+      if (!doc) res.send("User does not exist");
+      if (doc) {
+        res.send(doc, "Logged in successfully");
+        console.log(doc);
+      }
     }
-  });
+  );
+});
+
+app.get("/home", (req, res) => {
+  const doc = User.find({ email: req.body.email, password: req.body.password });
+  res.send(doc);
 });
 
 // This code starts the express server
