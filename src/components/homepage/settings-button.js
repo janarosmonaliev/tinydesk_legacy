@@ -18,8 +18,8 @@ const SettingsButton = (props) => {
   };
   const accountSettingsWindowRef = useRef();
   const handleClickAccount = () => {
-    setAnchorEl(null);
     accountSettingsWindowRef.current.clickOpen();
+    setAnchorEl(null);
   };
 
   const unsplashWindowRef = useRef();
@@ -65,6 +65,7 @@ const SettingsButton = (props) => {
       >
         <a onClick={handleClickAccount}></a>
         <AccountSettings ref={accountSettingsWindowRef} />
+        <MenuItem onClick={handleClickAccount}>Account</MenuItem>
         <MenuItem onClick={handleEditLayout}>Edit Homepage</MenuItem>
         <MenuItem onClick={handleClickEditBg}>Edit background image</MenuItem>
       </Menu>
