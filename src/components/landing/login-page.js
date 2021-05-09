@@ -24,13 +24,14 @@ const LoginPage = () => {
     }).then((res) => console.log(res));
   };
 
-  const getUser = () => {
-    axios({
-      method: "GET",
-      withCredentials: true,
-      url: "http://localhost:4000/home", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
-    }).then((res) => console.log(res));
-  };
+  // Comment for Yejin --> These lines:
+  // const getUser = () => {
+  //   axios({
+  //     method: "GET",
+  //     withCredentials: true,
+  //     url: "http://localhost:4000/home", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
+  //   }).then((res) => console.log(res));
+  // };
   return (
     <Grid item xs={12} md={6} lg={6}>
       <Grid container justify="center">
