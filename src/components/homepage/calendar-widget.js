@@ -99,4 +99,4 @@ const CalendarWidget = () => {
   );
 };
 
-export default CalendarWidget;
+export default React.memo(CalendarWidget);

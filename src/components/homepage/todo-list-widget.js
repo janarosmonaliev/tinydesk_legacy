@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState, useMemo, useEffect } from "react";
 import TodoListWindow from "./todo-list-window";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import { UserContext } from "./context/UserContext";
 import nextId from "react-id-generator";
 
-export default function ToDoListWidget() {
+const ToDoListWidget = () => {
   //Todo list attributes = todolistid : Objectid, index: int ; title: String
   //Todo attributes = title: String, isCompleted: Bool, todoId: ObjectId, index: int
   const initialTodolists = {
@@ -87,6 +87,11 @@ export default function ToDoListWidget() {
     ],
   };
   const [todolists, setTodolists] = useState(initialTodolists.todolists);
+  const [previewTodos, setPreviewTodos] = useState([]);
+  //Open and close modal
+  //Located here to use useEffect on change open to optimize the calculation
+  const [open, setOpen] = useState(false);
+
   const { jiggle } = useContext(UserContext);
   const todoListWindowRef = useRef();
 
@@ -94,6 +99,21 @@ export default function ToDoListWidget() {
     todoListWindowRef.current.clickOpen();
   };
 
+  useEffect(() => {
+    var ret = [];
+    var index = 0;
+    for (var i = 0; i < todolists.length; i++) {
+      for (var j = 0; j < todolists[i].todos.length; j++) {
+        ret.push(todolists[i].todos[j]);
+        index += 1;
+        if (index == 4) {
+          setPreviewTodos(ret);
+          return;
+        }
+      }
+    }
+    setPreviewTodos(ret);
+  }, [open]);
   return (
     <>
       <a onClick={handleClick}>
@@ -108,14 +128,12 @@ export default function ToDoListWidget() {
             <small> To-Do List</small>
           </div>
           <div className="todo-list-widget-content">
-            {todolists.map((tl) =>
-              tl.todos.map((todo) => (
-                <small>
-                  <CheckBoxOutlineBlankIcon fontSize="small" />
-                  <div className="todo-text">{todo.title}</div>
-                </small>
-              ))
-            )}
+            {previewTodos.map((todo) => (
+              <small>
+                <CheckBoxOutlineBlankIcon fontSize="small" />
+                <div className="todo-text">{todo.title}</div>
+              </small>
+            ))}
           </div>
         </div>
       </a>
@@ -123,7 +141,10 @@ export default function ToDoListWidget() {
         ref={todoListWindowRef}
         todolists={todolists}
         setTodolists={setTodolists}
+        open={open}
+        setOpen={setOpen}
       />
     </>
   );
-}
+};
+export default React.memo(ToDoListWidget);

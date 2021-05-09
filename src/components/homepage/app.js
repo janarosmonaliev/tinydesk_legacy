@@ -190,7 +190,7 @@ const App = () => {
             url: "https://www.medium.com",
             thumbnail:
               "https://miro.medium.com/fit/c/152/152/1*sHhtYhaCe2Uc3IU0IgKwIQ.png",
-            color: "",
+            color: "clear",
             id: nextId(),
           },
           {
@@ -198,7 +198,7 @@ const App = () => {
             url: "https://www.google.com/about",
             thumbnail:
               "https://www.google.com//images/branding/googleg/1x/googleg_standard_color_128dp.png",
-            color: "https://www.google.com",
+            color: "clear",
             id: nextId(),
           },
         ],
@@ -212,7 +212,7 @@ const App = () => {
             url: "https://github.com",
             thumbnail:
               "https://github.githubassets.com/apple-touch-icon-180x180.png",
-            color: "",
+            color: "clear",
             id: nextId(),
           },
           {
@@ -220,7 +220,7 @@ const App = () => {
             url: "https://www.github.com/janarosmonaliev/project-416",
             thumbnail:
               "https://github.githubassets.com/apple-touch-icon-180x180.png",
-            color: "",
+            color: "clear",
             id: nextId(),
           },
         ],
@@ -236,6 +236,7 @@ const App = () => {
   const [displayedBookmarks, setDisplayedBookmarks] = useState(
     folders[0].bookmarks
   );
+  const [unicorn, setUnicorn] = useState(true);
 
   useEffect(() => {
     setDisplayedBookmarks(
@@ -272,6 +273,8 @@ const App = () => {
     setFolders,
     displayedBookmarks,
     setDisplayedBookmarks,
+    unicorn,
+    setUnicorn,
   };
   return (
     <UserContext.Provider value={userContext}>
@@ -303,5 +306,4 @@ const App = () => {
   );
 };
 
-export default App;
-
+export default React.memo(App);

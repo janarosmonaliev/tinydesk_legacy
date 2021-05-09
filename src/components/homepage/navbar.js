@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Grid } from "@material-ui/core";
 import UnicornButton from "./unicorn-button";
 import SettingsButton from "./settings-button";
 import SearchBar from "./search-bar";
+import { UserContext } from "./context/UserContext";
 
-export default function NavigationBar(props) {
+
+const NavigationBar = (props) => {
+  const { unicorn } = useContext(UserContext);
   return (
     <div className="navbar-wrapper">
       <Grid
@@ -14,9 +17,14 @@ export default function NavigationBar(props) {
         justify="space-between"
         alignItems="center"
       >
-        <Grid item xs>
-          <UnicornButton className="button-unicorn" />
-        </Grid>
+        {unicorn ? (
+          <Grid item xs>
+            <UnicornButton className="button-unicorn" />
+          </Grid>
+        ) : (
+          <Grid item xs></Grid>
+        )}
+
         <Grid item xs={8}>
           <SearchBar />
         </Grid>
@@ -32,4 +40,5 @@ export default function NavigationBar(props) {
       </Grid>
     </div>
   );
-}
+};
+export default React.memo(NavigationBar);

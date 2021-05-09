@@ -3,7 +3,7 @@ import React from "react";
 import BookmarksWrapper from "./bookmarks-wrapper";
 import WidgetsWrapper from "./widgets-wrapper";
 
-export default function GridWrapper() {
+const GridWrapper = () => {
   return (
     <Grid
       container
@@ -21,4 +21,5 @@ export default function GridWrapper() {
       </Grid>
     </Grid>
   );
-}
+};
+export default React.memo(GridWrapper);

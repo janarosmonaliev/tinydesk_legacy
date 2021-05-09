@@ -391,16 +391,6 @@ const cities = {
       },
     },
     {
-      id: 1835841,
-      name: "Republic of Korea",
-      state: "",
-      country: "KR",
-      coord: {
-        lon: 127.5,
-        lat: 37.0,
-      },
-    },
-    {
       id: 1835847,
       name: "Seoul",
       state: "",
