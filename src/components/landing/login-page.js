@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { navigate } from "gatsby";
 import { Grid, Card, CardContent, Button } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
@@ -6,14 +6,9 @@ import Logo from "../../images/commandt-logo-sm.svg";
 import axios from 'axios';
 
 const LoginPage = () => {
-  // Ref objects for obtaining input values
-  const emailRef = useRef();
-  const passwordRef = useRef();
-
-  
-
   // state variables since I haven't read how to use ref objects yet
   // should aim to use the ref objects that Janar put in here
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -25,10 +20,17 @@ const LoginPage = () => {
         password: password,
       },
       withCredentials: true,
-      url: "http://localhost:4000/login",
+      url: "http://localhost:4000/login", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
     }).then((res) => console.log(res));
   };
 
+  const getUser = () => {
+    axios({
+      method: "GET",
+      withCredentials: true,
+      url: "http://localhost:4000/home", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
+    }).then((res) => console.log(res));
+  };
   return (
     <Grid item xs={12} md={6} lg={6}>
       <Grid container justify="center">
@@ -49,7 +51,6 @@ const LoginPage = () => {
                   fullWidth
                   label="Email"
                   type="email"
-                  inputRef={emailRef}
                   onChange={e => setEmail(e.target.value)}
                 />
                 <TextField
@@ -58,7 +59,6 @@ const LoginPage = () => {
                   label="Password"
                   type="password"
                   autoComplete="current-password"
-                  inputRef={passwordRef}
                   onChange={e => setPassword(e.target.value)}
                 />
               </form>

@@ -14,22 +14,17 @@ import { Autocomplete } from "@material-ui/lab";
 import cities from "../../cities";
 
 const SignupPage = () => {
-  const fullNameRef = useRef();
-  const usernameRef = useRef();
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const cityRef = useRef();
+  // Using states to store the values put on the form fields by the user
 
-  // Again, using states cuz I don't really understand how Ref works well
-
-  const [fullName, setFullName] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const[fullName, setFullName] = useState("");
+  const[username, setUsername] = useState("");
+  const[email, setEmail] = useState("");
+  const[password, setPassword] = useState("");
   const [country, setCountry] = useState("");
   const [city, setCity] = useState({});
 
-  // register function fires when the user clicks submit
+
+  // The function that fires when the user clicks to submit the form
   const register = () => {
     axios({
       method: "POST",
@@ -41,7 +36,7 @@ const SignupPage = () => {
         city: city,
       },
       withCredentials: true,
-      url: "http://localhost:4000/signup",
+      url: "http://localhost:4000/signup", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
     }).then((res) => console.log(res));
   };
   const handleOnChangeCountry = (e) => {
@@ -67,7 +62,6 @@ const SignupPage = () => {
                   fullWidth
                   label="Full name"
                   type="name"
-                  inputRef={fullNameRef}
                   onChange={(e) => setFullName(e.target.value)}
                 />
                 <TextField
@@ -75,7 +69,6 @@ const SignupPage = () => {
                   fullWidth
                   label="Username"
                   type="text"
-                  inputRef={usernameRef}
                   onChange={(e) => setUsername(e.target.value)}
                 />
                 <TextField
@@ -83,7 +76,6 @@ const SignupPage = () => {
                   fullWidth
                   label="Email"
                   type="email"
-                  inputRef={emailRef}
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <TextField
@@ -91,7 +83,6 @@ const SignupPage = () => {
                   fullWidth
                   label="Password"
                   type="password"
-                  inputRef={passwordRef}
                   autoComplete="current-password"
                   onChange={(e) => setPassword(e.target.value)}
                 />
