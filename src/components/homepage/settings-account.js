@@ -33,19 +33,18 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import { UserContext } from "./context/UserContext";
 
 const AccountSettingsTwo = forwardRef((props, ref) => {
-  const { location, setLocation } = useContext(UserContext);
+  const { location, setLocation, unicorn, setUnicorn } = useContext(
+    UserContext
+  );
   const [open, setOpen] = useState(false);
 
+  const [unicornConfig, setUnicornConfig] = useState(unicorn);
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
-
-  const [state, setState] = React.useState({
-    unicornYes: true,
-  });
 
   // const [location, setLocation] = useState("Songdo");
   // const handleLocationChange = (event) => {
@@ -60,7 +59,7 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
   };
 
   const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
+    setUnicornConfig(event.target.checked);
   };
 
   useImperativeHandle(ref, () => ({
@@ -71,7 +70,7 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
 
   const onClickSaveInfos = () => {
     const newCity = city.filter((c) => c.name === cityValue)[0];
-    console.log(newCity);
+
     if (newCity != null) {
       //Save the result as current location
       setLocation(newCity);
@@ -82,12 +81,11 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
       alert("Something is wrong with the name of city");
       return;
     }
+    setUnicorn(unicornConfig);
   };
 
   return (
     <>
-      <MenuItem onClick={handleClickOpen}>Account</MenuItem>
-
       <Dialog
         fullWidth
         maxWidth="xs"
@@ -170,9 +168,8 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
                   </TableCell>
                   <TableCell align="center">
                     <Switch
-                      checked={state.unicornYes}
+                      checked={unicornConfig}
                       onChange={handleChange}
-                      name="unicornYes"
                       style={{ color: "#eb5757" }}
                     />
                   </TableCell>
@@ -216,4 +213,4 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
     </>
   );
 });
-export default AccountSettingsTwo;
+export default React.memo(AccountSettingsTwo);

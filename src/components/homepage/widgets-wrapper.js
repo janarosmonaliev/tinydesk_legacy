@@ -10,7 +10,7 @@ import arrayMove from "array-move";
 import nextId from "react-id-generator";
 import Calendar from "react-calendar";
 
-export default function WidgetsWrapper() {
+const WidgetsWrapper = () => {
   const initialWidget = {
     widgets: [
       {
@@ -105,4 +105,5 @@ export default function WidgetsWrapper() {
       </Grid>
     </>
   );
-}
+};
+export default React.memo(WidgetsWrapper);

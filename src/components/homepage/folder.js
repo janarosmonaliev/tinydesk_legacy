@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { UserContext } from "./context/UserContext";
-
-export default function Folder({ folder }) {
+const Folder = ({ folder }) => {
   const { jiggle, selectedFolderId, setSelectedFolderId } = useContext(
     UserContext
   );
@@ -27,4 +26,5 @@ export default function Folder({ folder }) {
       </div>
     </div>
   );
-}
+};
+export default React.memo(Folder);

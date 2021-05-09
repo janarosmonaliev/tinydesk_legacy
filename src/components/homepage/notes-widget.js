@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState, useEffect } from "react";
 import NotesWindow from "./notes-window";
 import styled from "styled-components";
 import { UserContext } from "./context/UserContext";
@@ -12,12 +12,16 @@ const Note = styled.div`
   text-align: left;
 `;
 
-export default function NotesWidget(props) {
+const NotesWidget = (props) => {
   const notesWindowRef = useRef();
   const { jiggle } = useContext(UserContext);
   const handleClick = () => {
     notesWindowRef.current.clickOpen();
   };
+
+  //Populated from here to optimize the previews
+  const [open, setOpen] = useState(false);
+  const [previewNotes, setPreviewNotes] = useState([]);
   const [notes, setNotes] = useState([
     {
       title: "CSE 416",
@@ -42,6 +46,9 @@ export default function NotesWidget(props) {
       contentToggle: true,
     },
   ]);
+  useEffect(() => {
+    setPreviewNotes(notes.slice(0, 4));
+  }, [open]);
   return (
     <>
       <a onClick={handleClick}>
@@ -56,7 +63,7 @@ export default function NotesWidget(props) {
             <small> Notes</small>
           </div>
           <div className="notes-widget-content">
-            {notes.slice(0, 4).map((note) => (
+            {previewNotes.map((note) => (
               <small>
                 <div className="note-text">{note.title}</div>
               </small>
@@ -64,7 +71,14 @@ export default function NotesWidget(props) {
           </div>
         </div>
       </a>
-      <NotesWindow ref={notesWindowRef} notes={notes} setNotes={setNotes} />
+      <NotesWindow
+        ref={notesWindowRef}
+        notes={notes}
+        setNotes={setNotes}
+        open={open}
+        setOpen={setOpen}
+      />
     </>
   );
-}
+};
+export default React.memo(NotesWidget);

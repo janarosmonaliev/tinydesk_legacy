@@ -20,6 +20,7 @@ import produce from "immer";
 import { UserContext } from "./context/UserContext";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
+import { BookmarkContext } from "./context/BookmarkContext";
 
 const DialogActionButton = styled(DialogActions)({
   justifyContent: "left",
@@ -73,15 +74,8 @@ function StyledRadio(props) {
     />
   );
 }
-const SortableBookmark = SortableElement(({ value, jiggle }) => (
-  <Grid
-    item
-    xs={4}
-    md={3}
-    lg={2}
-    zeroMinWidth
-    className={jiggle ? "bookmarks-jiggle" : ""}
-  >
+const SortableBookmark = SortableElement(({ value }) => (
+  <Grid item xs={4} md={3} lg={2} zeroMinWidth>
     <Bookmark
       thumbnail={value.thumbnail}
       title={value.title}
@@ -91,7 +85,7 @@ const SortableBookmark = SortableElement(({ value, jiggle }) => (
     />
   </Grid>
 ));
-const SortableList = SortableContainer(({ items, jiggle }) => {
+const SortableList = SortableContainer(({ items }) => {
   return (
     <>
       <Grid
@@ -119,11 +113,22 @@ const SortableList = SortableContainer(({ items, jiggle }) => {
 });
 const AddNewBookmarkButton = () => {
   const { selectedFolderId, folders, setFolders } = useContext(UserContext);
-  const [open, setOpen] = useState(false);
+  const {
+    edit,
+    setEdit,
+    open,
+    setOpen,
+    url,
+    setURL,
+    title,
+    setTitle,
+    color,
+    setColor,
+    contextMenuBookmarkId,
+    setContextMenuBookmarkId,
+  } = useContext(BookmarkContext);
+
   const [folder, setFolder] = useState(selectedFolderId);
-  const [url, setURL] = useState("https://www.");
-  const [title, setTitle] = useState("");
-  const [color, setColor] = useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -136,45 +141,63 @@ const AddNewBookmarkButton = () => {
     setTitle("");
     setColor("clear");
     setOpen(false);
+    setEdit(false);
   };
   const handleURLChange = (event) => {
     setURL(event.target.value);
-    console.log(`URL is set to: ${event.target.value}`);
   };
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
-    console.log(`Title is set to: ${event.target.value}`);
   };
   const handleColorChange = (event) => {
     setColor(event.target.value);
-    console.log(`Color is set to: ${event.target.value}`);
   };
   const handleChange = (event) => {
-    setFolder(event.target.value);
-
     //selectedFolderId = event.target.value;
-    console.log(`Folder is set to: ${event.target.value}`);
+    setFolder(event.target.value);
   };
 
   const handleSubmit = () => {
-    const newBookMark = {
-      title: title,
-      url: url,
-      thumbnail: "",
-      color: color,
-      id: nextId(),
-    };
-    console.log(
-      `New bookmark will be created with url: ${url}, title: ${title}, color: ${color}, and folder: ${folder}`
-    );
-    //this part is changed
-    //Find folder's index based on folder's id
-    const folderIndex = folders.findIndex((f) => f.id === folder);
-    setFolders(
-      produce(folders, (draft) => {
-        draft[folderIndex].bookmarks.push(newBookMark);
-      })
-    );
+    //Editing Mode
+    if (edit) {
+      console.log(url);
+      console.log(title);
+      console.log(color);
+      const folderIndex = folders.findIndex((f) => f.id === selectedFolderId);
+      const bookmarkIndex = folders[folderIndex].bookmarks.findIndex(
+        (bm) => bm.id === contextMenuBookmarkId
+      );
+      console.log(folderIndex);
+      console.log(bookmarkIndex);
+      console.log(contextMenuBookmarkId);
+      setFolders(
+        produce((draft) => {
+          draft[folderIndex].bookmarks[bookmarkIndex].url = url;
+          draft[folderIndex].bookmarks[bookmarkIndex].title = title;
+          draft[folderIndex].bookmarks[bookmarkIndex].color = color;
+        })
+      );
+
+      setContextMenuBookmarkId("");
+      setEdit(false);
+    } else {
+      const folderIndex = folders.findIndex((f) => f.id === folder);
+      const newBookMark = {
+        title: title,
+        url: url,
+        thumbnail: "",
+        color: color,
+        id: nextId(),
+      };
+      //this part is changed
+      //Find folder's index based on folder's id
+
+      setFolders(
+        produce(folders, (draft) => {
+          draft[folderIndex].bookmarks.push(newBookMark);
+        })
+      );
+    }
 
     setURL("https://www.");
     setTitle("");
@@ -182,6 +205,7 @@ const AddNewBookmarkButton = () => {
     setColor("clear");
     setOpen(false);
   };
+
   return (
     <>
       <div className="bookmark-wrapper" onClick={() => handleClickOpen()}>
@@ -197,10 +221,15 @@ const AddNewBookmarkButton = () => {
         maxWidth="xs"
         open={open}
         onClose={handleClose}
-        aria-labelledby="new-bookmark-dialog"
+        aria-labelledby={edit ? "edit-bookmark-dialog" : "new-bookmark-dialog"}
       >
-        <DialogTitle id="new-bookmark-dialog">
-          <h5 className="dialog-title">Add a new bookmark</h5>
+        <DialogTitle id={edit ? "edit-bookmark-dialog" : "new-bookmark-dialog"}>
+          {edit ? (
+            <h5 className="dialog-title">Edit a bookmark</h5>
+          ) : (
+            <h5 className="dialog-title">Add a new bookmark</h5>
+          )}
+
           <IconButton
             aria-label="close"
             onClick={handleClose}
@@ -246,7 +275,7 @@ const AddNewBookmarkButton = () => {
               <RadioGroup
                 aria-label="color"
                 //default value is changed to clear
-                defaultValue="clear"
+                value={color}
                 name="radio-buttons-group"
                 style={{ flexDirection: "row" }}
                 onChange={handleColorChange}
@@ -287,23 +316,27 @@ const AddNewBookmarkButton = () => {
                 />
               </RadioGroup>
             </Grid>
-            <Grid item xs={12} className="grid-add-bookmark">
-              <FormControl variant="outlined" className="folder-form-control">
-                <InputLabel id="folder-add-bookmark-label">Folder</InputLabel>
-                <Select
-                  labelId="folder-add-bookmark-label"
-                  value={folder}
-                  onChange={handleChange}
-                  label="Folder"
-                >
-                  {folders.map((f) => (
-                    //MenuItem value is changed from f.title => f.id;
-                    //This will make handleChange's "event.target.value" to have folder's id, not title.
-                    <MenuItem value={f.id}>{f.title}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
+            {edit ? (
+              <></>
+            ) : (
+              <Grid item xs={12} className="grid-add-bookmark">
+                <FormControl variant="outlined" className="folder-form-control">
+                  <InputLabel id="folder-add-bookmark-label">Folder</InputLabel>
+                  <Select
+                    labelId="folder-add-bookmark-label"
+                    value={folder}
+                    onChange={handleChange}
+                    label="Folder"
+                  >
+                    {folders.map((f) => (
+                      //MenuItem value is changed from f.title => f.id;
+                      //This will make handleChange's "event.target.value" to have folder's id, not title.
+                      <MenuItem value={f.id}>{f.title}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+            )}
           </form>
         </DialogContent>
         <DialogActionButton>
@@ -333,7 +366,7 @@ const AddNewBookmarkButton = () => {
   );
 };
 
-export default function BookmarksWrapper() {
+const BookmarksWrapper = () => {
   const {
     jiggle,
     displayedBookmarks,
@@ -343,6 +376,77 @@ export default function BookmarksWrapper() {
   } = useContext(UserContext);
   // const [dragBookmarkIndex, setDragBookmarkIndex] = useState(-1);
 
+  const [contextMenuBookmarkId, setContextMenuBookmarkId] = useState("");
+  const [edit, setEdit] = useState(false);
+
+  //Populated from here to "reuse" the add Bookmark modal as edit bookmark modal
+  const [open, setOpen] = useState(false);
+  const [url, setURL] = useState("https://www.");
+  const [title, setTitle] = useState("");
+  const [color, setColor] = useState("");
+  //Context menu's initial position
+  const initialMousPos = {
+    mouseX: null,
+    mouseY: null,
+  };
+  //Decide Context menu's position
+  const [mousePos, setMousePos] = useState(initialMousPos);
+
+  const handleContextMenu = (e, id) => {
+    if (id != null) {
+      setContextMenuBookmarkId(id);
+    }
+    e.preventDefault();
+    //If contextmenu is already opened, just close it
+    if (mousePos.mouseX != null) {
+      setMousePos(initialMousPos);
+    } else {
+      setMousePos({
+        mouseX: e.clientX - 2,
+        mouseY: e.clientY - 4,
+      });
+    }
+  };
+  const handleContextMenuClose = () => {
+    setMousePos(initialMousPos);
+  };
+  const handleContextMenuEdit = () => {
+    setMousePos(initialMousPos);
+    setEdit(true);
+
+    setOpen(true);
+    const folderIndex = folders.findIndex(
+      (folder) => folder.id === selectedFolderId
+    );
+    const bookmarkIndex = folders[folderIndex].bookmarks.findIndex(
+      (bm) => bm.id === contextMenuBookmarkId
+    );
+    console.log(contextMenuBookmarkId);
+    const selectedBookmark = folders[folderIndex].bookmarks[bookmarkIndex];
+    setURL(selectedBookmark.url);
+    setTitle(selectedBookmark.title);
+    setColor(selectedBookmark.color);
+  };
+
+  const bookmarkContext = {
+    contextMenuBookmarkId,
+    setContextMenuBookmarkId,
+    mousePos,
+    setMousePos,
+    handleContextMenu,
+    handleContextMenuClose,
+    handleContextMenuEdit,
+    edit,
+    setEdit,
+    open,
+    setOpen,
+    url,
+    setURL,
+    title,
+    setTitle,
+    color,
+    setColor,
+  };
   const onSortEnd = ({ oldIndex, newIndex }, e) => {
     const folderIndex = folders.findIndex(
       (folder) => folder.id === selectedFolderId
@@ -391,7 +495,7 @@ export default function BookmarksWrapper() {
   };
 
   return (
-    <>
+    <BookmarkContext.Provider value={bookmarkContext}>
       {jiggle ? (
         <>
           <Grid
@@ -416,6 +520,7 @@ export default function BookmarksWrapper() {
                     title={bookmark.title}
                     url={bookmark.url}
                     id={bookmark.id}
+                    color={bookmark.color}
                   />
                 </Grid>
               ))}
@@ -433,6 +538,7 @@ export default function BookmarksWrapper() {
           jiggle={jiggle}
         />
       )}
-    </>
+    </BookmarkContext.Provider>
   );
-}
+};
+export default React.memo(BookmarksWrapper);
