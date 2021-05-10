@@ -1,16 +1,14 @@
 import React, { useRef, useState } from "react";
-import { navigate } from "gatsby";
+import { navigate, navigateTo } from "gatsby";
 import { Grid, Card, CardContent, Button } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import Logo from "../../images/commandt-logo-sm.svg";
-import axios from 'axios';
+import axios from "axios";
 
 const LoginPage = () => {
   // Ref objects for obtaining input values
   const emailRef = useRef();
   const passwordRef = useRef();
-
-  
 
   // state variables since I haven't read how to use ref objects yet
   // should aim to use the ref objects that Janar put in here
@@ -50,7 +48,7 @@ const LoginPage = () => {
                   label="Email"
                   type="email"
                   inputRef={emailRef}
-                  onChange={e => setEmail(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <TextField
                   id="login-page-form-password"
@@ -59,7 +57,7 @@ const LoginPage = () => {
                   type="password"
                   autoComplete="current-password"
                   inputRef={passwordRef}
-                  onChange={e => setPassword(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </form>
 
