@@ -7,6 +7,7 @@ import FoldersWrapper from "./folders-wrapper";
 import Image from "../../images/mac-os-bg.png";
 import { UserContext } from "./context/UserContext";
 import nextId from "react-id-generator";
+import axios from "axios";
 
 const theme = createMuiTheme({
   typography: {
@@ -96,6 +97,25 @@ const theme = createMuiTheme({
   },
 });
 const App = () => {
+  const [theEmail, setTheEmail] = useState(null);
+  const [theUserName, setTheUserName] = useState(null);
+  useEffect(() => {
+    axios({
+      method: "get",
+      withCredentials: true,
+      url: "http://localhost:4000/home",
+    }).then((res) => {
+      console.log(res.data);
+      setTheEmail(res.data.email);
+      setTheUserName(res.data.username);
+    });
+  }, []);
+
+  console.log(theEmail, theUserName);
+  // const res = axios.get("http://localhost:4000/home");
+  // setTheEmail(res.data);
+  //console.log(theEmail);
+
   const [background, setBackground] = useState(
     "https://images.unsplash.com/photo-1481414981591-5732874c7193?crop=entropy&cs=srgb&fm=jpg&ixid=MnwyMjAyNzR8MHwxfHNlYXJjaHw1fHxvcmFuZ2V8ZW58MHwwfHx8MTYxODU1NjAxNQ&ixlib=rb-1.2.1&q=85"
   );
