@@ -236,6 +236,7 @@ const App = () => {
   const [displayedBookmarks, setDisplayedBookmarks] = useState(
     folders[0].bookmarks
   );
+  const [unicorn, setUnicorn] = useState(true);
 
   useEffect(() => {
     setDisplayedBookmarks(
@@ -272,6 +273,8 @@ const App = () => {
     setFolders,
     displayedBookmarks,
     setDisplayedBookmarks,
+    unicorn,
+    setUnicorn,
   };
   return (
     <UserContext.Provider value={userContext}>
@@ -303,4 +306,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default React.memo(App);

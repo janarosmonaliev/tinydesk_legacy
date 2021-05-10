@@ -1,11 +1,11 @@
 import { Box, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import React from "react";
+import React, { useRef } from "react";
 import dayjs from "dayjs";
 import weekday from "dayjs/plugin/weekday";
 import { current } from "immer";
 import { red } from "@material-ui/core/colors";
-
+import CalendarWindow from "./calendar-window";
 const useStyles = makeStyles({
   calendarDaysGrid: {
     display: "grid",
@@ -39,7 +39,6 @@ const useStyles = makeStyles({
 
 const CalendarWidget = () => {
   const classes = useStyles();
-
   // Preparing calendar data
   const currentDate = dayjs();
   let currentDay = currentDate.date();
@@ -52,40 +51,52 @@ const CalendarWidget = () => {
   const daysShift = new Array(shift).fill(" ");
   let daysOfTheMonth = Array.from({ length: daysInMonth }, (_, i) => i + 1);
   daysOfTheMonth = [...daysShift, ...daysOfTheMonth];
+
+  const calendarWindowRef = useRef();
+  const handleClick = () => {
+    calendarWindowRef.current.openCalendar();
+  };
   return (
-    <div className="calendar-widget-wrapper">
-      <Grid container spacing={0} alignItems="center">
-        <Grid item xs={8} md={6}>
-          <ol className={classes.calendarDaysGrid}>
-            {daysOfTheWeek.map((day) => (
-              <li>{day}</li>
-            ))}
-          </ol>
-          <ol className={classes.calendarDaysGrid}>
-            {daysOfTheMonth.map((day) => {
-              if (day === currentDay) {
-                return (
-                  <li className={classes.currentDay}>
-                    <span>{day}</span>
-                  </li>
-                );
-              } else {
-                return <li>{day}</li>;
-              }
-            })}
-          </ol>
-        </Grid>
-        <Grid item xs={4} md={6}>
-          <Box textAlign="center">
-            <p className={classes.calendarWidgetMont}>{currentDateFormatted}</p>
-            <small className={classes.calendarWidgetText}>
-              No more events today
-            </small>
-          </Box>
-        </Grid>
-      </Grid>
-    </div>
+    <>
+      <a onClick={handleClick}>
+        <div className="calendar-widget-wrapper">
+          <Grid container spacing={0} alignItems="center">
+            <Grid item xs={8} md={6}>
+              <ol className={classes.calendarDaysGrid}>
+                {daysOfTheWeek.map((day) => (
+                  <li>{day}</li>
+                ))}
+              </ol>
+              <ol className={classes.calendarDaysGrid}>
+                {daysOfTheMonth.map((day) => {
+                  if (day === currentDay) {
+                    return (
+                      <li className={classes.currentDay}>
+                        <span>{day}</span>
+                      </li>
+                    );
+                  } else {
+                    return <li>{day}</li>;
+                  }
+                })}
+              </ol>
+            </Grid>
+            <Grid item xs={4} md={6}>
+              <Box textAlign="center">
+                <p className={classes.calendarWidgetMont}>
+                  {currentDateFormatted}
+                </p>
+                <small className={classes.calendarWidgetText}>
+                  No more events today
+                </small>
+              </Box>
+            </Grid>
+          </Grid>
+        </div>
+      </a>
+      <CalendarWindow ref={calendarWindowRef} />
+    </>
   );
 };
 
-export default CalendarWidget;
+export default React.memo(CalendarWidget);

@@ -39,7 +39,7 @@ function a11yProps(index) {
   };
 }
 
-export default function UnicornButton(props) {
+const UnicornButton = (props) => {
   //Dialog
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
@@ -304,4 +304,5 @@ export default function UnicornButton(props) {
       </Dialog>
     </>
   );
-}
+};
+export default React.memo(UnicornButton);

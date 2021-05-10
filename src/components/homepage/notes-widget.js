@@ -12,7 +12,7 @@ const Note = styled.div`
   text-align: left;
 `;
 
-export default function NotesWidget(props) {
+const NotesWidget = (props) => {
   const notesWindowRef = useRef();
   const { jiggle } = useContext(UserContext);
   const handleClick = () => {
@@ -80,4 +80,5 @@ export default function NotesWidget(props) {
       />
     </>
   );
-}
+};
+export default React.memo(NotesWidget);

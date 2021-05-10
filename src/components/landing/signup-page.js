@@ -10,23 +10,20 @@ import {
 } from "@material-ui/core";
 import Logo from "../../images/commandt-logo-sm.svg";
 import axios from "axios";
+import { Autocomplete } from "@material-ui/lab";
+import cities from "../../cities";
 
 const SignupPage = () => {
-  const fullNameRef = useRef();
-  const usernameRef = useRef();
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const cityRef = useRef();
-
-  // Again, using states cuz I don't really understand how Ref works well
+  // Using states to store the values put on the form fields by the user
 
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState({});
 
-  // register function fires when the user clicks submit
+  // The function that fires when the user clicks to submit the form
   const register = () => {
     axios({
       method: "POST",
@@ -38,10 +35,12 @@ const SignupPage = () => {
         city: city,
       },
       withCredentials: true,
-      url: "http://localhost:4000/signup",
+      url: "http://localhost:4000/signup", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
     }).then((res) => console.log(res));
   };
-
+  const handleOnChangeCountry = (e) => {
+    setCountry(e.target.value);
+  };
   return (
     <Grid item xs={12} md={6} lg={6}>
       <Grid container justify="center">
@@ -62,7 +61,6 @@ const SignupPage = () => {
                   fullWidth
                   label="Full name"
                   type="name"
-                  inputRef={fullNameRef}
                   onChange={(e) => setFullName(e.target.value)}
                 />
                 <TextField
@@ -70,7 +68,6 @@ const SignupPage = () => {
                   fullWidth
                   label="Username"
                   type="text"
-                  inputRef={usernameRef}
                   onChange={(e) => setUsername(e.target.value)}
                 />
                 <TextField
@@ -78,7 +75,6 @@ const SignupPage = () => {
                   fullWidth
                   label="Email"
                   type="email"
-                  inputRef={emailRef}
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <TextField
@@ -86,28 +82,36 @@ const SignupPage = () => {
                   fullWidth
                   label="Password"
                   type="password"
-                  inputRef={passwordRef}
                   autoComplete="current-password"
                   onChange={(e) => setPassword(e.target.value)}
                 />
+
                 <TextField
                   id="sign-page-form-city"
                   select
                   fullWidth
-                  label="Current city"
-                  inputRef={cityRef}
-                  onChange={(e) => {
-                    setCity(e.target.value);
-                    console.log(e.target.value);
-                  }}
+                  label="Country"
+                  onChange={(e) => handleOnChangeCountry(e)}
                 >
-                  <MenuItem key="Seoul" value="Seoul">
-                    Seoul
+                  <MenuItem key="usa" value="usa">
+                    United State
                   </MenuItem>
-                  <MenuItem key="Incheon" value="Incheon">
-                    Incheon
+                  <MenuItem key="korea" value="korea">
+                    South Korea
                   </MenuItem>
                 </TextField>
+                <Autocomplete
+                  onChange={(e, newValue) => {
+                    setCity(newValue);
+                  }}
+                  id="city-by-country"
+                  options={cities[country]}
+                  getOptionLabel={(option) => option.name}
+                  disabled={cities[country] == null}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Cities" variant="standard" />
+                  )}
+                ></Autocomplete>
               </form>
 
               <Button
