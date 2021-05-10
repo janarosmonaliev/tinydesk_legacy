@@ -237,7 +237,6 @@ const App = () => {
     folders[0].bookmarks
   );
   const [unicorn, setUnicorn] = useState(true);
-
   useEffect(() => {
     setDisplayedBookmarks(
       folders.filter((folder) => folder.id === selectedFolderId)[0].bookmarks
