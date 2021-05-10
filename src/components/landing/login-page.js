@@ -52,7 +52,7 @@ const LoginPage = () => {
                   fullWidth
                   label="Email"
                   type="email"
-                  inputRef={emailRef}
+                  //inputRef={emailRef}
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <TextField
@@ -61,7 +61,7 @@ const LoginPage = () => {
                   label="Password"
                   type="password"
                   autoComplete="current-password"
-                  inputRef={passwordRef}
+                  //inputRef={passwordRef}
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </form>
