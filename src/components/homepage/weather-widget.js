@@ -170,7 +170,7 @@ const WeatherWidget = () => {
         );
         setWeathers(response.data);
       } catch (e) {
-        console.log(e);
+        console.error("Error:" + e);
       }
       setLoading(false);
     };

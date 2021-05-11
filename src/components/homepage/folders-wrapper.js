@@ -39,9 +39,9 @@ const FoldersWrapper = () => {
     setOpenDelete(false);
     setFolderId("");
   };
-  const handleOpenDelete = (id) => {
+  const handleOpenDelete = (_id) => {
     setOpenDelete(true);
-    setFolderId(id);
+    setFolderId(_id);
   };
 
   const handleRemoveFolder = () => {
@@ -51,13 +51,13 @@ const FoldersWrapper = () => {
     }
 
     //special handling when removing first folder
-    if (folderId === folders[0].id) {
-      setSelectedFolderId(folders[1].id);
+    if (folderId === folders[0]._id) {
+      setSelectedFolderId(folders[1]._id);
     }
-    setFolders(folders.filter((folder) => folder.id !== folderId));
+    setFolders(folders.filter((folder) => folder._id !== folderId));
 
     if (selectedFolderId == folderId) {
-      setSelectedFolderId(folders[0].id);
+      setSelectedFolderId(folders[0]._id);
     }
 
     setOpenDelete(false);
@@ -68,7 +68,7 @@ const FoldersWrapper = () => {
     const onInsert = useCallback((title) => {
       const newFolder = {
         title: title,
-        id: nextId(),
+        _id: nextId(),
         bookmarks: [],
       };
       setFolders(folders.concat(newFolder));
@@ -88,13 +88,7 @@ const FoldersWrapper = () => {
         setIsEmpty(false);
       }
       setFolderTitle(event.target.value);
-      console.log(`folder title is set to: ${event.target.value}`);
     };
-    // const handleAdd = () => {
-    //   console.log(`the folder with title ${folderTitle} will be added`);
-    //   setFolderTitle("");
-    //   setOpen(false);
-    // };
 
     //preventDefault let you prevent entering with /? query string at the end
     const handleAdd = useCallback(
@@ -197,7 +191,7 @@ const FoldersWrapper = () => {
                   color="error"
                   fontSize="small"
                   className="delete-icon folder"
-                  onClick={() => handleOpenDelete(folder.id)}
+                  onClick={() => handleOpenDelete(folder._id)}
                 />
               ) : (
                 <></>
