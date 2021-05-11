@@ -3,12 +3,12 @@ import { navigate } from "gatsby";
 import { Grid, Card, CardContent, Button } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import Logo from "../../images/commandt-logo-sm.svg";
-import axios from 'axios';
+import axios from "axios";
 
 const LoginPage = () => {
   // state variables since I haven't read how to use ref objects yet
   // should aim to use the ref objects that Janar put in here
-  
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -21,7 +21,14 @@ const LoginPage = () => {
       },
       withCredentials: true,
       url: "http://localhost:4000/login", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
-    }).then((res) => console.log(res));
+    }).then((res) => {
+      console.log(res);
+      if (res.data == "Successfully Authenticated") {
+        navigate("/home");
+      } else {
+        alert("Please check your email or password");
+      }
+    });
   };
 
   // Comment for Yejin --> These lines:
@@ -52,7 +59,7 @@ const LoginPage = () => {
                   fullWidth
                   label="Email"
                   type="email"
-                  onChange={e => setEmail(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <TextField
                   id="login-page-form-password"
@@ -60,7 +67,7 @@ const LoginPage = () => {
                   label="Password"
                   type="password"
                   autoComplete="current-password"
-                  onChange={e => setPassword(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </form>
 

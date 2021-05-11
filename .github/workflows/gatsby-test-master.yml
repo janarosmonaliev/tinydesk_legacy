@@ -29,6 +29,7 @@ jobs:
         with:
           accessToken: ${{ secrets.PROJECT_416_SECRET }}
           prCommentEnabled: true
+          emulatedFormFactor: "desktop"
           urls: "https://janarosmonaliev.github.io/project-416/home/"
           branch: ${{ github.ref }}
           outputDirectory: /tmp/artifacts
