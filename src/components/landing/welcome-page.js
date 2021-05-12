@@ -4,6 +4,7 @@ import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Logo from "../../images/commandt-logo-sm.svg";
 import { navigate } from "gatsby";
+import axios from "axios";
 
 const useStyles = makeStyles({
   landingHeading: {
@@ -13,6 +14,22 @@ const useStyles = makeStyles({
     marginRight: "16px",
   },
 });
+
+
+// Route
+const googleSignUp = () => {
+  axios({
+    method: "GET",
+    url: "http://localhost:4000/auth/google", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
+  }).then((res) => {
+    console.log(res);
+    // if (res.data == "Successfully Authenticated") {
+    //   navigate("/home");
+    // } else {
+    //   alert("Please check your email or password");
+    // }
+  });
+};
 
 const WelcomePage = () => {
   const classes = useStyles();
@@ -60,6 +77,7 @@ const WelcomePage = () => {
                 disableElevation
                 disableTouchRipple
                 className={classes.buttonSignInGoogle}
+                onClick={googleSignUp}
               >
                 Sign in with Google
               </Button>

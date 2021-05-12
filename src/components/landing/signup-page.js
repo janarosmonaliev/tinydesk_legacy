@@ -35,7 +35,6 @@ const SignupPage = () => {
         password: password,
         city: city,
       },
-      withCredentials: true,
       url: "http://localhost:4000/signup", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
     }).then((res) => console.log(res));
   };

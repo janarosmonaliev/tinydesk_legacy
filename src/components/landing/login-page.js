@@ -19,8 +19,7 @@ const LoginPage = () => {
         email: email,
         password: password,
       },
-      withCredentials: true,
-      url: "https://commandt-backend.herokuapp.com/login", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
+      url: "http://localhost:4000/login", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
     }).then((res) => {
       console.log(res);
       if (res.data == "Successfully Authenticated") {

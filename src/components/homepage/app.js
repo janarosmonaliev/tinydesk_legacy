@@ -123,7 +123,6 @@ const App = () => {
   useEffect(() => {
     axios({
       method: "get",
-      withCredentials: true,
       url: "http://localhost:4000/home",
     }).then((res) => {
       console.log(res.data);
