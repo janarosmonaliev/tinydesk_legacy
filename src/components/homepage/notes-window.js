@@ -29,6 +29,7 @@ import {
 } from "@material-ui/core";
 import nextId from "react-id-generator";
 import produce from "immer";
+import axios from "axios";
 
 const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
   const [scroll, setScroll] = useState("paper");
@@ -141,12 +142,22 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
       content: "",
       toggle: false,
     };
+
     setSelectedId(newNote.id);
     setSelectedIndex(nextIndexNote.current);
     setNotes(notes.concat(newNote));
 
     nextIndexNote.current += 1;
+    //apiAddNote();
   };
+
+  // const apiAddNote = useCallback(() => {
+  //   axios({
+  //     method: "POST",
+  //     withCredentials: true,
+  //     url: "http://localhost:4000/home/note", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
+  //   }).then((res) => console.log(res));
+  // });
 
   const onEnterNotesList = (e) => {
     e.preventDefault();
