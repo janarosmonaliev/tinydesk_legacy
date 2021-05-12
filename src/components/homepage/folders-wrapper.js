@@ -16,6 +16,7 @@ import {
 import { styled } from "@material-ui/core/styles";
 import nextId from "react-id-generator";
 import { UserContext } from "./context/UserContext";
+import axios from "axios";
 
 const DialogActionButton = styled(DialogActions)({
   justifyContent: "left",
@@ -54,6 +55,7 @@ const FoldersWrapper = () => {
     if (folderId === folders[0]._id) {
       setSelectedFolderId(folders[1]._id);
     }
+    apiDeleteFolder();
     setFolders(folders.filter((folder) => folder._id !== folderId));
 
     if (selectedFolderId == folderId) {
@@ -64,6 +66,17 @@ const FoldersWrapper = () => {
     setFolderId(-1);
   };
 
+  const apiDeleteFolder = useCallback(() => {
+    axios({
+      method: "DELETE",
+      data: {
+        removeId: folderId,
+      },
+      withCredentials: true,
+      url: "http://localhost:4000/home/folder", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
+    }).then((res) => console.log(res));
+  });
+
   const AddFolder = () => {
     const onInsert = useCallback((title) => {
       const newFolder = {
@@ -71,7 +84,19 @@ const FoldersWrapper = () => {
         _id: nextId(),
         bookmarks: [],
       };
+      apiAddFolder(title);
       setFolders(folders.concat(newFolder));
+    });
+
+    const apiAddFolder = useCallback((title) => {
+      axios({
+        method: "POST",
+        data: {
+          title: title,
+        },
+        withCredentials: true,
+        url: "http://localhost:4000/home/folder", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
+      }).then((res) => console.log(res));
     });
     const [open, setOpen] = useState(false);
     const [folderTitle, setFolderTitle] = useState("");

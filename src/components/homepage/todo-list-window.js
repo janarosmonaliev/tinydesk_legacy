@@ -21,6 +21,7 @@ import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import produce from "immer";
 import nextId from "react-id-generator";
 import { Menu, MenuItem } from "@material-ui/core/";
+import axios from "axios";
 
 const TodoListWindow = forwardRef(
   ({ todolists, setTodolists, open, setOpen }, ref) => {
@@ -115,7 +116,7 @@ const TodoListWindow = forwardRef(
           (todolist) => todolist._id !== todolistIdForContextMenu
         )
       );
-
+      apiDeleteTodolist();
       if (todolists.length != 1) {
         //Reset to first todolist
         if (todolistIdForContextMenu == todolists[0]._id) {
@@ -131,6 +132,17 @@ const TodoListWindow = forwardRef(
       }
       setTodolistIdForContextMenu(null);
       nextIndexTodolist.current -= 1;
+    });
+
+    const apiDeleteTodolist = useCallback(() => {
+      axios({
+        method: "DELETE",
+        data: {
+          removeId: todolistIdForContextMenu,
+        },
+        withCredentials: true,
+        url: "http://localhost:4000/home/todolist", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
+      }).then((res) => console.log(res));
     });
 
     // Handle ClickAway
@@ -176,12 +188,19 @@ const TodoListWindow = forwardRef(
         toggle: false,
         todos: [],
       };
+      apiAddTodolist();
       setSelectedId(newTodolist._id);
       setSelectedIndex(nextIndexTodolist.current);
       setTodolists(todolists.concat(newTodolist));
       nextIndexTodolist.current += 1;
     };
-
+    const apiAddTodolist = useCallback(() => {
+      axios({
+        method: "POST",
+        withCredentials: true,
+        url: "http://localhost:4000/home/todolist", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
+      }).then((res) => console.log(res));
+    });
     //Todo Methods
     const handleKeyDownTodo = (e) => {
       const type = e.type;

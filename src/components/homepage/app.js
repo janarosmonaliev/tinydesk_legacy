@@ -145,6 +145,7 @@ const App = () => {
   };
 
   const saveSetBackground = () => {
+    console.log("new Background pic is set");
     setInitialBackground(background);
   };
 
