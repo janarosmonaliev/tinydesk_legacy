@@ -35,7 +35,7 @@ const SignupPage = () => {
         city: city,
       },
       withCredentials: true,
-      url: "https://commandt-backend.herokuapp.com/signup", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
+      url: "http://localhost:4000/signup", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
     }).then((res) => console.log(res));
   };
   const handleOnChangeCountry = (e) => {
@@ -55,13 +55,14 @@ const SignupPage = () => {
           </h5>
           <Card variant="outlined">
             <CardContent>
-              <form id="signup-page-form">
+              <form id="signup-page-form" autoComplete="off">
                 <TextField
                   id="sign-page-form-name"
                   fullWidth
                   label="Full name"
                   type="name"
                   onChange={(e) => setFullName(e.target.value)}
+                  autoComplete
                 />
                 <TextField
                   id="sign-page-form-username"
