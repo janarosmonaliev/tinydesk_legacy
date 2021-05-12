@@ -124,7 +124,7 @@ const App = () => {
     axios({
       method: "get",
       withCredentials: true,
-      url: "http://localhost:4000/home",
+      url: "https://test-backend-command.herokuapp.com",
     }).then((res) => {
       console.log(res.data);
       setUserEmail(res.data.email);
