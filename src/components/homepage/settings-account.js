@@ -45,7 +45,7 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
       await axios({
         method: "GET",
         withCredentials: true,
-        url: "http://localhost:4000/home",
+        url: "https://commandt-backend.herokuapp.com/home",
       }).then((res) => {
         setEmail(res.data.email);
         setUsername(res.data.username);

@@ -16,13 +16,12 @@ import cities from "../../cities";
 const SignupPage = () => {
   // Using states to store the values put on the form fields by the user
 
-  const[fullName, setFullName] = useState("");
-  const[username, setUsername] = useState("");
-  const[email, setEmail] = useState("");
-  const[password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [country, setCountry] = useState("");
   const [city, setCity] = useState({});
-
 
   // The function that fires when the user clicks to submit the form
   const register = () => {
@@ -36,7 +35,7 @@ const SignupPage = () => {
         city: city,
       },
       withCredentials: true,
-      url: "http://localhost:4000/signup", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
+      url: "https://commandt-backend.herokuapp.com/signup", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
     }).then((res) => console.log(res));
   };
   const handleOnChangeCountry = (e) => {

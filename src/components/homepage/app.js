@@ -120,7 +120,7 @@ const App = () => {
       await axios({
         method: "GET",
         withCredentials: true,
-        url: "http://localhost:4000/home",
+        url: "https://commandt-backend.herokuapp.com/home",
       }).then((res) => {
         setFolders(res.data.folders);
         setBackground(res.data.backgroundImg);
