@@ -80,7 +80,7 @@ const SortableBookmark = SortableElement(({ value }) => (
       thumbnail={value.thumbnail}
       title={value.title}
       url={value.url}
-      id={value.id}
+      _id={value._id}
       color={value.color}
     />
   </Grid>
@@ -134,7 +134,6 @@ const AddNewBookmarkButton = () => {
     setOpen(true);
     //Since Select (material ui's component)'s default value is set to opened folder
     //When user click to open the addBookmark modal, this will select folder for user automatically.
-    setFolder(selectedFolderId);
   };
   const handleClose = () => {
     setURL("https://www.");
@@ -160,16 +159,10 @@ const AddNewBookmarkButton = () => {
   const handleSubmit = () => {
     //Editing Mode
     if (edit) {
-      console.log(url);
-      console.log(title);
-      console.log(color);
-      const folderIndex = folders.findIndex((f) => f.id === selectedFolderId);
+      const folderIndex = folders.findIndex((f) => f._id === selectedFolderId);
       const bookmarkIndex = folders[folderIndex].bookmarks.findIndex(
-        (bm) => bm.id === contextMenuBookmarkId
+        (bm) => bm._id === contextMenuBookmarkId
       );
-      console.log(folderIndex);
-      console.log(bookmarkIndex);
-      console.log(contextMenuBookmarkId);
       setFolders(
         produce((draft) => {
           draft[folderIndex].bookmarks[bookmarkIndex].url = url;
@@ -181,20 +174,20 @@ const AddNewBookmarkButton = () => {
       setContextMenuBookmarkId("");
       setEdit(false);
     } else {
-      const folderIndex = folders.findIndex((f) => f.id === folder);
-      const newBookMark = {
+      const folderIndex = folders.findIndex((f) => f._id === folder);
+      const newBookmark = {
         title: title,
         url: url,
         thumbnail: "",
         color: color,
-        id: nextId(),
+        _id: nextId(),
       };
       //this part is changed
       //Find folder's index based on folder's id
 
       setFolders(
         produce(folders, (draft) => {
-          draft[folderIndex].bookmarks.push(newBookMark);
+          draft[folderIndex].bookmarks.push(newBookmark);
         })
       );
     }
@@ -331,7 +324,7 @@ const AddNewBookmarkButton = () => {
                     {folders.map((f) => (
                       //MenuItem value is changed from f.title => f.id;
                       //This will make handleChange's "event.target.value" to have folder's id, not title.
-                      <MenuItem value={f.id}>{f.title}</MenuItem>
+                      <MenuItem value={f._id}>{f.title}</MenuItem>
                     ))}
                   </Select>
                 </FormControl>
@@ -392,9 +385,9 @@ const BookmarksWrapper = () => {
   //Decide Context menu's position
   const [mousePos, setMousePos] = useState(initialMousPos);
 
-  const handleContextMenu = (e, id) => {
-    if (id != null) {
-      setContextMenuBookmarkId(id);
+  const handleContextMenu = (e, _id) => {
+    if (_id != null) {
+      setContextMenuBookmarkId(_id);
     }
     e.preventDefault();
     //If contextmenu is already opened, just close it
@@ -416,12 +409,11 @@ const BookmarksWrapper = () => {
 
     setOpen(true);
     const folderIndex = folders.findIndex(
-      (folder) => folder.id === selectedFolderId
+      (folder) => folder._id === selectedFolderId
     );
     const bookmarkIndex = folders[folderIndex].bookmarks.findIndex(
-      (bm) => bm.id === contextMenuBookmarkId
+      (bm) => bm._id === contextMenuBookmarkId
     );
-    console.log(contextMenuBookmarkId);
     const selectedBookmark = folders[folderIndex].bookmarks[bookmarkIndex];
     setURL(selectedBookmark.url);
     setTitle(selectedBookmark.title);
@@ -449,7 +441,7 @@ const BookmarksWrapper = () => {
   };
   const onSortEnd = ({ oldIndex, newIndex }, e) => {
     const folderIndex = folders.findIndex(
-      (folder) => folder.id === selectedFolderId
+      (folder) => folder._id === selectedFolderId
     );
 
     //If bookmark is moved to folder
@@ -460,7 +452,7 @@ const BookmarksWrapper = () => {
       }
       const destinationFolderIndex = folders.findIndex(
         // == because they can have different type
-        (f) => f.id == e.target.id
+        (f) => f._id == e.target.id
       );
       const movingBookmark = folders[folderIndex].bookmarks[oldIndex];
 
@@ -469,7 +461,7 @@ const BookmarksWrapper = () => {
         produce((draft) => {
           draft[folderIndex].bookmarks.splice(
             draft[folderIndex].bookmarks.findIndex(
-              (bm) => bm.id === movingBookmark.id
+              (bm) => bm._id === movingBookmark._id
             ),
             1
           );

@@ -38,9 +38,9 @@ const TodoListWindow = forwardRef(
       null
     );
 
-    const [selectedIndex, setSelectedIndex] = useState(0);
+    const [selectedIndex, setSelectedIndex] = useState(-1);
     const [selectedId, setSelectedId] = useState(
-      todolists.length === 0 ? -1 : todolists[0].id
+      todolists.length === 0 ? -1 : todolists[0]._id
     );
 
     const todoRef = useRef(null);
@@ -71,15 +71,15 @@ const TodoListWindow = forwardRef(
     }));
 
     //Todolist methods
-    const handleSelectList = (e, id) => {
-      setSelectedId(id);
-      setSelectedIndex(todolists.findIndex((todolist) => todolist.id === id));
+    const handleSelectList = (e, _id) => {
+      setSelectedId(_id);
+      setSelectedIndex(todolists.findIndex((todolist) => todolist._id === _id));
     };
 
     //Open ContextMenu on todolist & save its todolist id
-    const handleContextMenu = (e, id) => {
-      if (id != null) {
-        setTodolistIdForContextMenu(id);
+    const handleContextMenu = (e, _id) => {
+      if (_id != null) {
+        setTodolistIdForContextMenu(_id);
       }
       e.preventDefault();
       //If contextmenu is already opened, just close it
@@ -111,16 +111,18 @@ const TodoListWindow = forwardRef(
       setMousePos(initialMousPos);
 
       setTodolists(
-        todolists.filter((todolist) => todolist.id !== todolistIdForContextMenu)
+        todolists.filter(
+          (todolist) => todolist._id !== todolistIdForContextMenu
+        )
       );
 
       if (todolists.length != 1) {
         //Reset to first todolist
-        if (todolistIdForContextMenu == todolists[0].id) {
-          setSelectedId(todolists[1].id);
+        if (todolistIdForContextMenu == todolists[0]._id) {
+          setSelectedId(todolists[1]._id);
           setSelectedIndex(1);
         } else {
-          setSelectedId(todolists[0].id);
+          setSelectedId(todolists[0]._id);
           setSelectedIndex(0);
         }
       } else {
@@ -166,14 +168,15 @@ const TodoListWindow = forwardRef(
       );
     };
 
+    //POST
     const onClickAddTodoList = () => {
       const newTodolist = {
         title: "",
-        id: nextId(),
+        _id: nextId(),
         toggle: false,
         todos: [],
       };
-      setSelectedId(newTodolist.id);
+      setSelectedId(newTodolist._id);
       setSelectedIndex(nextIndexTodolist.current);
       setTodolists(todolists.concat(newTodolist));
       nextIndexTodolist.current += 1;
@@ -205,7 +208,7 @@ const TodoListWindow = forwardRef(
           title: "",
           isCompleted: false,
           toggle: false,
-          id: nextId(),
+          _id: nextId(),
         };
         setTodolists(
           produce((draft) => {
@@ -216,9 +219,9 @@ const TodoListWindow = forwardRef(
     };
 
     //Start todo editing mode
-    const handleDoubleClickTodo = (id) => {
+    const handleDoubleClickTodo = (_id) => {
       const index = todolists[selectedIndex].todos.findIndex(
-        (todo) => todo.id === id
+        (todo) => todo._id === _id
       );
       setTodolists(
         produce((draft) => {
@@ -227,9 +230,9 @@ const TodoListWindow = forwardRef(
       );
     };
 
-    const handleChangeTodo = (e, id) => {
+    const handleChangeTodo = (e, _id) => {
       const index = todolists[selectedIndex].todos.findIndex(
-        (todo) => todo.id === id
+        (todo) => todo._id === _id
       );
       const { name, value } = e.target;
       setTodolists(
@@ -239,9 +242,9 @@ const TodoListWindow = forwardRef(
       );
     };
 
-    const checkBoxToggle = (e, id) => {
+    const checkBoxToggle = (e, _id) => {
       const index = todolists[selectedIndex].todos.findIndex(
-        (todo) => todo.id === id
+        (todo) => todo._id === _id
       );
       setTodolists(
         produce((draft) => {
@@ -316,11 +319,11 @@ const TodoListWindow = forwardRef(
                       <>
                         <ListItem
                           button
-                          selected={selectedId === todolist.id}
-                          onClick={(e) => handleSelectList(e, todolist.id)}
+                          selected={selectedId === todolist._id}
+                          onClick={(e) => handleSelectList(e, todolist._id)}
                           onDoubleClick={handleDoubleClickTodolist}
                           onContextMenu={(e) =>
-                            handleContextMenu(e, todolist.id)
+                            handleContextMenu(e, todolist._id)
                           }
                         >
                           <ListItemText primary={todolist.title} />
@@ -389,19 +392,21 @@ const TodoListWindow = forwardRef(
                     >
                       <Grid item xs={1}>
                         <Checkbox
-                          name={todo.id}
+                          name={todo._id}
                           color="primary"
                           icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
                           checkedIcon={<CheckBoxIcon fontSize="small" />}
                           checked={todo.isCompleted}
-                          onChange={(e) => checkBoxToggle(e, todo.id)}
+                          onChange={(e) => checkBoxToggle(e, todo._id)}
                         />
                       </Grid>
                       <Grid item xs={11} id="todo-wrapper">
                         {todo.toggle ? (
                           <ListItemText
                             primary={todo.title}
-                            onDoubleClick={() => handleDoubleClickTodo(todo.id)}
+                            onDoubleClick={() =>
+                              handleDoubleClickTodo(todo._id)
+                            }
                           ></ListItemText>
                         ) : (
                           <ClickAwayListener onClickAway={handleTodoClickAway}>
@@ -409,7 +414,7 @@ const TodoListWindow = forwardRef(
                               <TextField
                                 style={{ width: "80%" }}
                                 value={todo.title}
-                                onChange={(e) => handleChangeTodo(e, todo.id)}
+                                onChange={(e) => handleChangeTodo(e, todo._id)}
                                 onKeyDown={handleKeyDownTodo}
                                 autoFocus
                                 ref={todoRef}

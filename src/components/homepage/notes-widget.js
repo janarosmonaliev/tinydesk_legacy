@@ -2,7 +2,7 @@ import React, { useContext, useRef, useState, useEffect } from "react";
 import NotesWindow from "./notes-window";
 import styled from "styled-components";
 import { UserContext } from "./context/UserContext";
-
+import axios from "axios";
 const Note = styled.div`
   padding: 5px 5px 2px 10px;
   overflow: hidden;
@@ -13,39 +13,58 @@ const Note = styled.div`
 `;
 
 const NotesWidget = (props) => {
+  // const initialNote = [
+  //   {
+  //     title: "CSE 416",
+  //     id: 0,
+  //     content:
+  //       "Introduces the basic concepts and modern tools and techniques of <br/> software engineering. Emphasizes the development of reliable and maintainable software via system requirements and specifications, software design methodologies including object-oriented design, implementation, integration, and testing; software project management; life-cycle documentation; software maintenance; and consideration of human factor issues.",
+  //     toggle: true,
+  //   },
+  //   {
+  //     title: "Homeplus Grocery List",
+  //     id: 1,
+  //     content: "Apple, cereal, banana, ramen, tissues",
+  //     toggle: true,
+  //   },
+  //   {
+  //     title: "SBU Visit Document",
+  //     id: 2,
+  //     content: "Action needs to be done. ",
+  //     toggle: true,
+  //   },
+  // ];
   const notesWindowRef = useRef();
   const { jiggle } = useContext(UserContext);
+  const [notes, setNotes] = useState([]);
+  const [previewNotes, setPreviewNotes] = useState([]);
+
+  useEffect(() => {
+    const getNotes = async () => {
+      await axios({
+        method: "GET",
+        withCredentials: true,
+        url: "http://localhost:4000/home",
+      }).then((res) => {
+        //toggle:
+        for (var i = 0; i < res.data.notes.length; i++) {
+          res.data.notes[i]["toggle"] = true;
+        }
+
+        setNotes(res.data.notes);
+        setPreviewNotes(res.data.notes.slice(0, 4));
+      });
+    };
+    getNotes();
+  }, []);
+
   const handleClick = () => {
     notesWindowRef.current.clickOpen();
   };
 
   //Populated from here to optimize the previews
   const [open, setOpen] = useState(false);
-  const [previewNotes, setPreviewNotes] = useState([]);
-  const [notes, setNotes] = useState([
-    {
-      title: "CSE 416",
-      id: 0,
-      content:
-        "Introduces the basic concepts and modern tools and techniques of <br/> software engineering. Emphasizes the development of reliable and maintainable software via system requirements and specifications, software design methodologies including object-oriented design, implementation, integration, and testing; software project management; life-cycle documentation; software maintenance; and consideration of human factor issues.",
-      titleToggle: true,
-      contentToggle: true,
-    },
-    {
-      title: "Homeplus Grocery List",
-      id: 1,
-      content: "Apple, cereal, banana, ramen, tissues",
-      titleToggle: true,
-      contentToggle: true,
-    },
-    {
-      title: "SBU Visit Document",
-      id: 2,
-      content: "Action needs to be done. ",
-      titleToggle: true,
-      contentToggle: true,
-    },
-  ]);
+
   useEffect(() => {
     setPreviewNotes(notes.slice(0, 4));
   }, [open]);

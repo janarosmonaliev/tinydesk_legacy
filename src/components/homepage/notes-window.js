@@ -111,11 +111,9 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
   const handleDoubleClickTitle = () => {
     setNotes(
       produce(notes, (draft) => {
-        draft[selectedIndex].titleToggle = false;
+        draft[selectedIndex].toggle = false;
       })
     );
-
-    console.log("handle double click title");
   };
 
   //Handle Changes for note's title / content
@@ -125,7 +123,6 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
         draft[selectedIndex].title = e.target.value;
       })
     );
-    console.log("handle title change");
   };
 
   const handleChangeContent = (e) => {
@@ -134,7 +131,6 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
         draft[selectedIndex].content = e.target.value;
       })
     );
-    console.log("handle change content");
   };
 
   //Handle Add Notes
@@ -143,8 +139,7 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
       title: "",
       id: nextId(),
       content: "",
-      titleToggle: false,
-      contentToggle: false,
+      toggle: false,
     };
     setSelectedId(newNote.id);
     setSelectedIndex(nextIndexNote.current);
@@ -164,19 +159,16 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
     if (notes.length == 0) {
       return;
     }
-    const titleTextfieldIndex = notes.findIndex((note) => !note.titleToggle);
+    const titleTextfieldIndex = notes.findIndex((note) => !note.toggle);
     setNotes(
       produce(notes, (draft) => {
-        console.log(draft);
         draft[titleTextfieldIndex].title =
           draft[titleTextfieldIndex].title === ""
             ? "New Note"
             : draft[titleTextfieldIndex].title;
-        draft[titleTextfieldIndex].titleToggle = true;
+        draft[titleTextfieldIndex].toggle = true;
       })
     );
-
-    console.log("handleKeyDown Notes Title function");
     myRef.current.focus();
   };
 
@@ -245,7 +237,7 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
             <List component="nav" aria-label="to-do lists">
               {notes.map((note) => (
                 <>
-                  {note.titleToggle ? (
+                  {note.toggle ? (
                     <>
                       <ListItem
                         button

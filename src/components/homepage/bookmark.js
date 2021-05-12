@@ -15,7 +15,6 @@ import {
 import { styled } from "@material-ui/core/styles";
 import { Menu, MenuItem } from "@material-ui/core/";
 import produce from "immer";
-import { SettingsInputComponentOutlined } from "@material-ui/icons";
 import { BookmarkContext } from "./context/BookmarkContext";
 
 const DialogActionButton = styled(DialogActions)({
@@ -47,12 +46,12 @@ const Bookmark = (props) => {
   };
   const handleRemoveBookmark = () => {
     const folderIndex = folders.findIndex(
-      (folder) => folder.id === selectedFolderId
+      (folder) => folder._id === selectedFolderId
     );
     setFolders(
       produce((draft) => {
         draft[folderIndex].bookmarks.splice(
-          draft[folderIndex].bookmarks.findIndex((bm) => bm.id === props.id),
+          draft[folderIndex].bookmarks.findIndex((bm) => bm._id === props._id),
           1
         );
       })
@@ -83,7 +82,7 @@ const Bookmark = (props) => {
             : "bookmark-wrapper hoverable"
         }
         onClick={() => handleClick(props.url)}
-        onContextMenu={(e) => handleContextMenu(e, props.id)}
+        onContextMenu={(e) => handleContextMenu(e, props._id)}
       >
         <img
           src={props.thumbnail}
