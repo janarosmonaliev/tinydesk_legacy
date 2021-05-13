@@ -160,7 +160,7 @@ const TodoListWindow = forwardRef(
               ? "New List"
               : draft[textFieldIndex].title;
           draft[textFieldIndex].toggle = true;
-          apiUpdateTodolist(
+          //apiUpdateTodolist(
             draft[textFieldIndex].title,
             draft[textFieldIndex]._id
           );
@@ -168,19 +168,19 @@ const TodoListWindow = forwardRef(
       );
     };
 
-    const apiUpdateTodolist = useCallback((title, _id) => {
-      axios({
-        method: "PUT",
-        data: {
-          title: title,
-          _id: _id,
-        },
-        withCredentials: true,
-        url: "http://localhost:4000/home/todolist", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
-      }).then((res) => {
-        console.log(res.data);
-      });
-    });
+    // const apiUpdateTodolist = useCallback((title, _id) => {
+    //   axios({
+    //     method: "PUT",
+    //     data: {
+    //       title: title,
+    //       _id: _id,
+    //     },
+    //     withCredentials: true,
+    //     url: "http://localhost:4000/home/todolist", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
+    //   }).then((res) => {
+    //     console.log(res.data);
+    //   });
+    // });
 
     //onClcik handler
     const handleTodolistClickAway = (e) => {
@@ -203,12 +203,14 @@ const TodoListWindow = forwardRef(
 
     //POST
     const [newId, setNewId] = useState("");
+
     const onClickAddTodoList = () => {
-      apiAddTodolist();
+      //const newnew = apiAddTodolist();
       //localAddTodolist();
+      apiAddTodolist();
       const newTodolist = {
         title: "",
-        _id: newId,
+        _id: nextId(),
         toggle: false,
         todos: [],
       };
@@ -220,7 +222,7 @@ const TodoListWindow = forwardRef(
       //setNewId("");
     };
 
-    const apiAddTodolist = () => {
+    const apiAddTodolist = useCallback(() => {
       axios({
         method: "POST",
         data: {
@@ -233,7 +235,7 @@ const TodoListWindow = forwardRef(
         setNewId(res.data);
         //return res.data;
       });
-    };
+    });
 
     //Todo Methods
     const handleKeyDownTodo = (e) => {
