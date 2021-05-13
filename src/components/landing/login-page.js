@@ -4,6 +4,7 @@ import { Grid, Card, CardContent, Button } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import Logo from "../../images/commandt-logo-sm.svg";
 import axios from "axios";
+import * as auth from "../../api/auth";
 
 const LoginPage = () => {
   // state variables since I haven't read how to use ref objects yet
@@ -11,26 +12,6 @@ const LoginPage = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const login = () => {
-    axios({
-      method: "POST",
-      data: {
-        email: email,
-        password: password,
-      },
-      withCredentials: true,
-      //url: "https://test-backend-command.herokuapp.com", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
-      url: "http://localhost:4000/login",
-    }).then((res) => {
-      console.log(res);
-      if (res.data == "Successfully Authenticated") {
-        navigate("/home");
-      } else {
-        alert("Please check your email or password");
-      }
-    });
-  };
 
   // Comment for Yejin --> These lines:
   // const getUser = () => {
@@ -40,6 +21,10 @@ const LoginPage = () => {
   //     url: "http://localhost:4000/home", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
   //   }).then((res) => console.log(res));
   // };
+  const login = () => {
+    const data = { email: email, password: password };
+    auth.login(data);
+  };
   return (
     <Grid item xs={12} md={6} lg={6}>
       <Grid container justify="center">

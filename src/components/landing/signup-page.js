@@ -12,6 +12,7 @@ import Logo from "../../images/commandt-logo-sm.svg";
 import axios from "axios";
 import { Autocomplete } from "@material-ui/lab";
 import cities from "../../cities";
+import * as auth from "../../api/auth";
 
 const SignupPage = () => {
   // Using states to store the values put on the form fields by the user
@@ -25,18 +26,14 @@ const SignupPage = () => {
 
   // The function that fires when the user clicks to submit the form
   const register = () => {
-    axios({
-      method: "POST",
-      data: {
-        name: fullName,
-        username: username,
-        email: email,
-        password: password,
-        city: city,
-      },
-      withCredentials: true,
-      url: "http://localhost:4000/signup", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
-    }).then((res) => console.log(res));
+    const data = {
+      name: fullName,
+      username: username,
+      email: email,
+      password: password,
+      city: city,
+    };
+    auth.register(data);
   };
   const handleOnChangeCountry = (e) => {
     setCountry(e.target.value);
