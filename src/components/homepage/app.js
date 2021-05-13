@@ -122,8 +122,9 @@ const App = () => {
         withCredentials: true,
         url: "http://localhost:4000/home",
       }).then((res) => {
+        console.log(res.data);
         setFolders(res.data.folders);
-        setBackground(res.data.backgroundImg);
+        setBackground(res.data.backgroundImg.url);
         setUnicorn(res.data.keepUnicorn);
         // setUserId(res.data._id);
         setLocation(res.data.location);
