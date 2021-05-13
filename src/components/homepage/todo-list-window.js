@@ -154,15 +154,33 @@ const TodoListWindow = forwardRef(
       const textFieldIndex = todolists.findIndex((tl) => !tl.toggle);
       setTodolists(
         produce((draft) => {
+          console.log("Selected field's id: ", draft[textFieldIndex]._id);
           draft[textFieldIndex].title =
             draft[textFieldIndex].title === ""
               ? "New List"
               : draft[textFieldIndex].title;
           draft[textFieldIndex].toggle = true;
-          apiAddTodolist(draft[textFieldIndex].title);
+          apiUpdateTodolist(
+            draft[textFieldIndex].title,
+            draft[textFieldIndex]._id
+          );
         })
       );
     };
+
+    const apiUpdateTodolist = useCallback((title, _id) => {
+      axios({
+        method: "PUT",
+        data: {
+          title: title,
+          _id: _id,
+        },
+        withCredentials: true,
+        url: "http://localhost:4000/home/todolist", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
+      }).then((res) => {
+        console.log(res.data);
+      });
+    });
 
     //onClcik handler
     const handleTodolistClickAway = (e) => {
@@ -184,29 +202,39 @@ const TodoListWindow = forwardRef(
     };
 
     //POST
+    const [newId, setNewId] = useState("");
     const onClickAddTodoList = () => {
+      apiAddTodolist();
+      //localAddTodolist();
       const newTodolist = {
         title: "",
-        _id: nextId(),
+        _id: newId,
         toggle: false,
         todos: [],
       };
-      //apiAddTodolist();
       setSelectedId(newTodolist._id);
       setSelectedIndex(nextIndexTodolist.current);
       setTodolists(todolists.concat(newTodolist));
       nextIndexTodolist.current += 1;
+      console.log("new Id: ", newId);
+      //setNewId("");
     };
-    const apiAddTodolist = useCallback((title) => {
+
+    const apiAddTodolist = () => {
       axios({
         method: "POST",
         data: {
-          title: title,
+          title: "",
         },
         withCredentials: true,
         url: "http://localhost:4000/home/todolist", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
-      }).then((res) => console.log(res));
-    });
+      }).then((res) => {
+        console.log(res.data);
+        setNewId(res.data);
+        //return res.data;
+      });
+    };
+
     //Todo Methods
     const handleKeyDownTodo = (e) => {
       const type = e.type;
