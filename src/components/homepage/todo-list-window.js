@@ -25,7 +25,8 @@ import { Menu, MenuItem } from "@material-ui/core/";
 const TodoListWindow = forwardRef(
   ({ todolists, setTodolists, open, setOpen }, ref) => {
     //Keep track what todolist's next index should be
-    const nextIndexTodolist = useRef(todolists.length);
+    const nextIndexTodolist = useRef();
+    nextIndexTodolist.current = todolists.length;
     //Context menu's initial position
     const initialMousPos = {
       mouseX: null,
