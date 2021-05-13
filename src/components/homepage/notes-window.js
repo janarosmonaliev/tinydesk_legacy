@@ -33,17 +33,18 @@ import axios from "axios";
 
 const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
   const [scroll, setScroll] = useState("paper");
+  const nextIndexNote = useRef();
   //index in the Notes list
   const [selectedIndex, setSelectedIndex] = useState(0);
   //id of Notes in the list
   const [selectedId, setSelectedId] = useState(
-    notes.length === 0 ? -1 : notes[0].id
+    notes.length === 0 ? -1 : notes[0]._id
   );
   //local data for notes
   const myRef = useRef(null);
   //keep track of notes list index
+  nextIndexNote.current = notes.length;
 
-  const nextIndexNote = useRef(notes.length);
   //Context menu's initial position (= small popup after right-click)
   const initialMousPos = {
     mouseX: null,
@@ -64,9 +65,9 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
   };
 
   //to handle context menu
-  const handleContextMenu = (e, id) => {
-    if (id != null) {
-      setNotesIdForContextMenu(id);
+  const handleContextMenu = (e, _id) => {
+    if (_id != null) {
+      setNotesIdForContextMenu(_id);
     }
     e.preventDefault();
     //If contextmenu is already opened, just close it
@@ -86,16 +87,17 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
 
   const handleContextMenuDeleteNotes = useCallback(() => {
     setMousePos(initialMousPos);
-    setNotes(notes.filter((note) => note.id !== notesIdForContextMenu));
+    setNotes(notes.filter((note) => note._id !== notesIdForContextMenu));
     if (notes.length != 1) {
       //Reset to first todolist
-      if (notesIdForContextMenu == notes[0].id) {
-        setSelectedId(notes[1].id);
+      if (notesIdForContextMenu == notes[0]._id) {
+        setSelectedId(notes[1]._id);
       } else {
-        setSelectedId(notes[0].id);
+        setSelectedId(notes[0]._id);
       }
       setSelectedIndex(0);
     } else {
+      console.log("hello");
       setSelectedId(-1);
     }
     setNotesIdForContextMenu(null);
@@ -103,9 +105,9 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
   });
 
   //Handle displaying note
-  const handleSelectList = (e, id) => {
-    setSelectedId(id);
-    setSelectedIndex(notes.findIndex((note) => note.id === id));
+  const handleSelectList = (e, _id) => {
+    setSelectedId(_id);
+    setSelectedIndex(notes.findIndex((note) => note._id === _id));
   };
 
   //user can double click the title and change it
@@ -119,6 +121,7 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
 
   //Handle Changes for note's title / content
   const handleTitleChange = (e) => {
+    console.log(selectedIndex);
     setNotes(
       produce(notes, (draft) => {
         draft[selectedIndex].title = e.target.value;
@@ -138,12 +141,12 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
   const onClickAddNotes = () => {
     const newNote = {
       title: "",
-      id: nextId(),
+      _id: nextId(),
       content: "",
       toggle: false,
     };
-
-    setSelectedId(newNote.id);
+    console.log(nextIndexNote);
+    setSelectedId(newNote._id);
     setSelectedIndex(nextIndexNote.current);
     setNotes(notes.concat(newNote));
 
@@ -180,7 +183,6 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
         draft[titleTextfieldIndex].toggle = true;
       })
     );
-    myRef.current.focus();
   };
 
   const outerstyles = {
@@ -252,10 +254,10 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
                     <>
                       <ListItem
                         button
-                        selected={selectedId === note.id}
-                        onClick={(e) => handleSelectList(e, note.id)}
+                        selected={selectedId === note._id}
+                        onClick={(e) => handleSelectList(e, note._id)}
                         onDoubleClick={handleDoubleClickTitle}
-                        onContextMenu={(e) => handleContextMenu(e, note.id)}
+                        onContextMenu={(e) => handleContextMenu(e, note._id)}
                       >
                         <ListItemText primary={note.title}></ListItemText>
                       </ListItem>
