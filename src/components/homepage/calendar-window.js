@@ -59,12 +59,6 @@ const CalendarWindow = forwardRef((props, ref) => {
           events={events}
           defaultView={Views.MONTH}
           defaultDate={new Date()}
-          views={{
-            month: true,
-            week: true,
-            day: true,
-            agenda: false,
-          }}
           onSelectEvent={(event) => alert(event.title)}
           style={{ height: "70vh" }}
           onSelectSlot={handleSelect}

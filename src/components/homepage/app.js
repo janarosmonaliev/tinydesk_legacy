@@ -135,10 +135,6 @@ const App = () => {
     getUserData();
   }, []);
 
-  // const [background, setBackground] = useState(
-  //   "https://images.unsplash.com/photo-1481414981591-5732874c7193?crop=entropy&cs=srgb&fm=jpg&ixid=MnwyMjAyNzR8MHwxfHNlYXJjaHw1fHxvcmFuZ2V8ZW58MHwwfHx8MTYxODU1NjAxNQ&ixlib=rb-1.2.1&q=85"
-  // );
-
   const cancelSetBackground = () => {
     console.log("cancelling");
     setBackground(initialBackground);
@@ -149,7 +145,7 @@ const App = () => {
   };
 
   const unsplashImage = {
-    backgroundImage: `url(${background.url})`,
+    backgroundImage: `url(${background})`,
   };
 
   useEffect(() => {
@@ -218,7 +214,6 @@ const App = () => {
               <NavigationBar
                 handlePassBgUrl={(url) => setBackground(url)}
                 saveChanges={saveSetBackground}
-                xwe
                 cancelChanges={cancelSetBackground}
               ></NavigationBar>
               <GridWrapper></GridWrapper>
