@@ -6,6 +6,9 @@ import React, {
   useCallback,
   useEffect,
 } from "react";
+import ReactDOM from "react-dom";
+import { Editor, EditorState } from "draft-js";
+import "draft-js/dist/Draft.css";
 import {
   Dialog,
   DialogTitle,
@@ -210,6 +213,15 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
   const handleFocus = (e) => {
     myRef.current.focus();
   };
+
+  // Notes with styling
+  function MyEditor() {
+    const [editorState, setEditorState] = useState(() =>
+      EditorState.createEmpty()
+    );
+
+    return <Editor editorState={editorState} onChange={setEditorState} />;
+  }
 
   return (
     <Dialog
