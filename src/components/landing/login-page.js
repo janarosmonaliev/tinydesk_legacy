@@ -13,14 +13,6 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // Comment for Yejin --> These lines:
-  // const getUser = () => {
-  //   axios({
-  //     method: "GET",
-  //     withCredentials: true,
-  //     url: "http://localhost:4000/home", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
-  //   }).then((res) => console.log(res));
-  // };
   const login = () => {
     const data = { email: email, password: password };
     auth.login(data);

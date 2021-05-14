@@ -105,7 +105,7 @@ const SortableList = SortableContainer(({ items }) => {
         ))}
 
         <Grid item xs={4} md={3} lg={2} zeroMinWidth>
-          <AddNewBookmarkButton></AddNewBookmarkButton>
+          <AddNewBookmarkButton key="add-bookmark-button"></AddNewBookmarkButton>
         </Grid>
       </Grid>
     </>
@@ -324,7 +324,9 @@ const AddNewBookmarkButton = () => {
                     {folders.map((f) => (
                       //MenuItem value is changed from f.title => f.id;
                       //This will make handleChange's "event.target.value" to have folder's id, not title.
-                      <MenuItem value={f._id}>{f.title}</MenuItem>
+                      <MenuItem key={`${f._id}-menu`} value={f._id}>
+                        {f.title}
+                      </MenuItem>
                     ))}
                   </Select>
                 </FormControl>

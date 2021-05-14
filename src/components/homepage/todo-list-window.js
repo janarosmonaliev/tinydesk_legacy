@@ -315,7 +315,7 @@ const TodoListWindow = forwardRef(
             >
               <List component="nav" aria-label="to-do lists">
                 {todolists.map((todolist) => (
-                  <>
+                  <div key={todolist._id}>
                     {todolist.toggle ? (
                       <>
                         <ListItem
@@ -372,7 +372,7 @@ const TodoListWindow = forwardRef(
                         <Divider light />
                       </>
                     )}
-                  </>
+                  </div>
                 ))}
               </List>
             </Grid>

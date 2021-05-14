@@ -163,7 +163,7 @@ const ToDoListWidget = () => {
           </div>
           <div className="todo-list-widget-content">
             {previewTodos.map((todo) => (
-              <small>
+              <small key={todo._id}>
                 <CheckBoxOutlineBlankIcon fontSize="small" />
                 <div className="todo-text">{todo.title}</div>
               </small>

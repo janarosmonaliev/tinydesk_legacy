@@ -30,7 +30,6 @@ const FoldersWrapper = () => {
     setFolders,
     setSelectedFolderId,
     selectedFolderId,
-    setJiggle,
   } = useContext(UserContext);
 
   const [openDelete, setOpenDelete] = useState(false);
@@ -178,7 +177,7 @@ const FoldersWrapper = () => {
     <>
       <div className="folders-wrapper">
         {folders.map((folder) => (
-          <>
+          <div key={folder._id}>
             <Grid
               item
               xs
@@ -199,7 +198,7 @@ const FoldersWrapper = () => {
 
               <Folder folder={folder} />
             </Grid>
-          </>
+          </div>
         ))}
 
         <AddFolder />
@@ -208,6 +207,7 @@ const FoldersWrapper = () => {
         onClose={handleCloseDelete}
         open={openDelete}
         aria-labelledby="remove-folder-dialog"
+        key="hello432"
         fullWidth
         maxWidth="xs"
       >

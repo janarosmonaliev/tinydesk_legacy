@@ -40,25 +40,48 @@ const WidgetsWrapper = () => {
     switch (widget.name) {
       case "weather":
         return (
-          <Grid item xs={12} className="widget-wrapper">
+          <Grid
+            item
+            xs={12}
+            className="widget-wrapper"
+            key="weather-widget-grid"
+          >
             <WeatherWidget />
           </Grid>
         );
       case "todolist":
         return (
-          <Grid item xs={12} lg={6} className="widget-wrapper">
+          <Grid
+            item
+            xs={12}
+            lg={6}
+            className="widget-wrapper"
+            key="todolist-widget-grid"
+          >
             <TodoListWidget />
           </Grid>
         );
       case "note":
         return (
-          <Grid item xs={12} lg={6} className="widget-wrapper">
+          <Grid
+            item
+            xs={12}
+            lg={6}
+            className="widget-wrapper"
+            key="note-widget-grid"
+          >
             <NotesWidget />
           </Grid>
         );
       case "calendar": {
         return (
-          <Grid item xs={12} lg={12} className="widget-wrapper">
+          <Grid
+            item
+            xs={12}
+            lg={12}
+            className="widget-wrapper"
+            key="calendar-widget-grid"
+          >
             <CalendarWidget />
           </Grid>
         );

@@ -13,27 +13,6 @@ const Note = styled.div`
 `;
 
 const NotesWidget = (props) => {
-  // const initialNote = [
-  //   {
-  //     title: "CSE 416",
-  //     id: 0,
-  //     content:
-  //       "Introduces the basic concepts and modern tools and techniques of <br/> software engineering. Emphasizes the development of reliable and maintainable software via system requirements and specifications, software design methodologies including object-oriented design, implementation, integration, and testing; software project management; life-cycle documentation; software maintenance; and consideration of human factor issues.",
-  //     toggle: true,
-  //   },
-  //   {
-  //     title: "Homeplus Grocery List",
-  //     id: 1,
-  //     content: "Apple, cereal, banana, ramen, tissues",
-  //     toggle: true,
-  //   },
-  //   {
-  //     title: "SBU Visit Document",
-  //     id: 2,
-  //     content: "Action needs to be done. ",
-  //     toggle: true,
-  //   },
-  // ];
   const notesWindowRef = useRef();
   const { jiggle } = useContext(UserContext);
   const [notes, setNotes] = useState([]);
@@ -47,10 +26,7 @@ const NotesWidget = (props) => {
         url: "http://localhost:4000/home",
       }).then((res) => {
         //toggle:
-        for (var i = 0; i < res.data.notes.length; i++) {
-          res.data.notes[i]["toggle"] = true;
-        }
-
+        res.data.notes.forEach((note) => (note["toggle"] = true));
         setNotes(res.data.notes);
         setPreviewNotes(res.data.notes.slice(0, 4));
       });
@@ -83,7 +59,7 @@ const NotesWidget = (props) => {
           </div>
           <div className="notes-widget-content">
             {previewNotes.map((note) => (
-              <small>
+              <small key={note._id}>
                 <div className="note-text">{note.title}</div>
               </small>
             ))}

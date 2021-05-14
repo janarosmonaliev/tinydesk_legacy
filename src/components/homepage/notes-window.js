@@ -239,7 +239,7 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
           <Grid item xs={4} onContextMenu={handleContextMenu}>
             <List component="nav" aria-label="to-do lists">
               {notes.map((note) => (
-                <>
+                <div key={note._id}>
                   {note.toggle ? (
                     <>
                       <ListItem
@@ -289,7 +289,7 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
                       <Divider light />
                     </>
                   )}
-                </>
+                </div>
               ))}
             </List>
           </Grid>
