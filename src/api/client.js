@@ -4,6 +4,6 @@ const client = axios.create({
   withCredentials: true,
 });
 
-client.defaults.baseURL = "http://localhost:4000";
+client.defaults.baseURL = "https://test-project-416.herokuapp.com/";
 
 export default client;
