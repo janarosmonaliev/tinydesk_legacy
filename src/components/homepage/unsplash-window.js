@@ -3,7 +3,6 @@ import React, {
   useImperativeHandle,
   useState,
   useRef,
-  useEffect,
 } from "react";
 import {
   Dialog,

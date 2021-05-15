@@ -4,15 +4,14 @@ import React, {
   useState,
   useRef,
   useCallback,
-  useEffect,
 } from "react";
 import {
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
-  DialogContentText,
   ClickAwayListener,
+  makeStyles,
 } from "@material-ui/core";
 import { SvgIcon, IconButton, Button } from "@material-ui/core";
 import { X, XCircle, Plus } from "react-feather";
@@ -25,20 +24,111 @@ import {
   MenuItem,
   TextField,
   ListItemText,
-  Paper,
 } from "@material-ui/core";
 import nextId from "react-id-generator";
 import produce from "immer";
+import { SortableContainer, SortableElement } from "react-sortable-hoc";
+import arrayMove from "array-move";
+import { useForm, Controller } from "react-hook-form";
+
+const useStyles = makeStyles({
+  outerStyles: {
+    width: "100%",
+    height: "1%",
+    overflow: "auto",
+    position: "relative",
+  },
+  innerStyle: {
+    width: "100%",
+    height: "1%",
+  },
+});
+const SortableNotelistItem = SortableElement(
+  ({ value, mousePos, ...props }) => (
+    <div style={{ zIndex: 9999 }}>
+      {value.toggle ? (
+        <>
+          <ListItem
+            button
+            selected={props.selectedId === value._id}
+            onClick={(e) => props.handleSelectList(e, value._id)}
+            onDoubleClick={props.handleDoubleClickTitle}
+            onContextMenu={(e) => props.handleContextMenu(e, value._id)}
+          >
+            <ListItemText primary={value.title}></ListItemText>
+          </ListItem>
+          <Menu
+            keepMounted
+            open={mousePos.mouseY !== null}
+            onClose={props.handleContextMenuClose}
+            anchorReference="anchorPosition"
+            anchorPosition={
+              mousePos.mouseY !== null && mousePos.mouseX !== null
+                ? { top: mousePos.mouseY, left: mousePos.mouseX }
+                : undefined
+            }
+          >
+            <MenuItem
+              onClick={props.handleContextMenuDeleteNotes}
+              style={{ color: "#EB5757" }}
+            >
+              <XCircle /> &nbsp; Delete
+            </MenuItem>
+          </Menu>
+          <Divider light />
+        </>
+      ) : (
+        <>
+          <ListItem>
+            <form onSubmit={props.onEnterNotesList}>
+              <ClickAwayListener onClickAway={props.handleNotesListClickAway}>
+                <TextField
+                  value={value.title}
+                  onChange={props.handleTitleChange}
+                  autoFocus
+                />
+              </ClickAwayListener>
+            </form>
+          </ListItem>
+          <Divider light />
+        </>
+      )}
+    </div>
+  )
+);
+const SortableNotelist = SortableContainer((props) => {
+  return (
+    <div>
+      {props.items.map((value, index) => (
+        <SortableNotelistItem
+          value={value}
+          index={index}
+          key={`note-sort-${index}`}
+          selectedId={props.selectedId}
+          handleSelectList={props.handleSelectList}
+          handleDoubleClickTitle={props.handleDoubleClickTitle}
+          handleContextMenu={props.handleContextMenu}
+          mousePos={props.mousePos}
+          handleContextMenuClose={props.handleContextMenuClose}
+          handleContextMenuDeleteNotes={props.handleContextMenuDeleteNotes}
+          onEnterNotesList={props.onEnterNotesList}
+          handleNotesListClickAway={props.handleNotesListClickAway}
+          handleTitleChange={props.handleTitleChange}
+        />
+      ))}
+    </div>
+  );
+});
 
 const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
-  const [scroll, setScroll] = useState("paper");
+  const classes = useStyles();
   const nextIndexNote = useRef();
+  const { handleSubmit, control } = useForm();
   //index in the Notes list
   const [selectedIndex, setSelectedIndex] = useState(0);
   //id of Notes in the list
-  const [selectedId, setSelectedId] = useState(
-    notes.length === 0 ? -1 : notes[0]._id
-  );
+  const [selectedId, setSelectedId] = useState(-1);
+
   //local data for notes
   const myRef = useRef(null);
   //keep track of notes list index
@@ -53,14 +143,16 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
   const [mousePos, setMousePos] = useState(initialMousPos);
   //Keep track which todolist user right-clicks
   const [notesIdForContextMenu, setNotesIdForContextMenu] = useState(null);
-
   //Open / Close Modal
   const handleClickOpen = () => {
     setOpen(true);
-    setScroll("paper");
+    setSelectedId(notes.length === 0 ? -1 : notes[0]._id);
   };
   const handleClose = () => {
     setOpen(false);
+  };
+  const onSubmit = (e) => {
+    e.preventDefault();
   };
 
   //to handle context menu
@@ -87,16 +179,15 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
   const handleContextMenuDeleteNotes = useCallback(() => {
     setMousePos(initialMousPos);
     setNotes(notes.filter((note) => note._id !== notesIdForContextMenu));
-    if (notes.length != 1) {
+    if (notes.length !== 1) {
       //Reset to first todolist
-      if (notesIdForContextMenu == notes[0]._id) {
+      if (notesIdForContextMenu === notes[0]._id) {
         setSelectedId(notes[1]._id);
       } else {
         setSelectedId(notes[0]._id);
       }
       setSelectedIndex(0);
     } else {
-      console.log("hello");
       setSelectedId(-1);
     }
     setNotesIdForContextMenu(null);
@@ -120,7 +211,6 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
 
   //Handle Changes for note's title / content
   const handleTitleChange = (e) => {
-    console.log(selectedIndex);
     setNotes(
       produce(notes, (draft) => {
         draft[selectedIndex].title = e.target.value;
@@ -144,7 +234,7 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
       content: "",
       toggle: false,
     };
-    console.log(nextIndexNote);
+
     setSelectedId(newNote._id);
     setSelectedIndex(nextIndexNote.current);
     setNotes(notes.concat(newNote));
@@ -160,42 +250,19 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
     closeNoteTextfield();
   };
   const closeNoteTextfield = () => {
-    if (notes.length == 0) {
+    if (notes.length === 0) {
       return;
     }
     const titleTextfieldIndex = notes.findIndex((note) => !note.toggle);
     setNotes(
       produce(notes, (draft) => {
-        draft[titleTextfieldIndex].title =
-          draft[titleTextfieldIndex].title === ""
-            ? "New Note"
-            : draft[titleTextfieldIndex].title;
+        const title = draft[titleTextfieldIndex].title;
+        draft[titleTextfieldIndex].title = title === "" ? "New Note" : title;
         draft[titleTextfieldIndex].toggle = true;
       })
     );
   };
 
-  const outerstyles = {
-    width: "100%",
-    height: "1%",
-    overflow: "auto",
-    position: "relative",
-  };
-  const innerstyle = {
-    width: "100%",
-    height: "1%",
-  };
-  const textareaSize = {
-    width: "100%",
-    outline: "none",
-    minHeight: "20px",
-    padding: "0",
-    boxShadow: "none",
-    display: "block",
-    border: "2px solid black",
-    overflow: "hidden", // Removes scrollbar
-    transition: "height 0.2s ease",
-  };
   //use for parent to access
   useImperativeHandle(ref, () => ({
     clickOpen: () => {
@@ -204,6 +271,13 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
   }));
   const handleFocus = (e) => {
     myRef.current.focus();
+    myRef.current.selectionStart = myRef.current.value.length;
+    myRef.current.selectionEnd = myRef.current.value.length;
+  };
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    setSelectedId(notes[newIndex]);
+    setNotes(arrayMove(notes, oldIndex, newIndex));
+    setSelectedIndex(newIndex);
   };
 
   return (
@@ -238,59 +312,22 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
         >
           <Grid item xs={4} onContextMenu={handleContextMenu}>
             <List component="nav" aria-label="to-do lists">
-              {notes.map((note) => (
-                <div key={note._id}>
-                  {note.toggle ? (
-                    <>
-                      <ListItem
-                        button
-                        selected={selectedId === note._id}
-                        onClick={(e) => handleSelectList(e, note._id)}
-                        onDoubleClick={handleDoubleClickTitle}
-                        onContextMenu={(e) => handleContextMenu(e, note._id)}
-                      >
-                        <ListItemText primary={note.title}></ListItemText>
-                      </ListItem>
-                      <Menu
-                        keepMounted
-                        open={mousePos.mouseY !== null}
-                        onClose={handleContextMenuClose}
-                        anchorReference="anchorPosition"
-                        anchorPosition={
-                          mousePos.mouseY !== null && mousePos.mouseX !== null
-                            ? { top: mousePos.mouseY, left: mousePos.mouseX }
-                            : undefined
-                        }
-                      >
-                        <MenuItem
-                          onClick={handleContextMenuDeleteNotes}
-                          style={{ color: "#EB5757" }}
-                        >
-                          <XCircle /> &nbsp; Delete
-                        </MenuItem>
-                      </Menu>
-                      <Divider light />
-                    </>
-                  ) : (
-                    <>
-                      <ListItem>
-                        <form onSubmit={onEnterNotesList}>
-                          <ClickAwayListener
-                            onClickAway={handleNotesListClickAway}
-                          >
-                            <TextField
-                              value={note.title}
-                              onChange={handleTitleChange}
-                              autoFocus
-                            />
-                          </ClickAwayListener>
-                        </form>
-                      </ListItem>
-                      <Divider light />
-                    </>
-                  )}
-                </div>
-              ))}
+              <SortableNotelist
+                items={notes}
+                selectedId={selectedId}
+                handleSelectList={handleSelectList}
+                handleDoubleClickTitle={handleDoubleClickTitle}
+                handleContextMenu={handleContextMenu}
+                mousePos={mousePos}
+                handleContextMenuClose={handleContextMenuClose}
+                handleContextMenuDeleteNotes={handleContextMenuDeleteNotes}
+                onEnterNotesList={onEnterNotesList}
+                handleNotesListClickAway={handleNotesListClickAway}
+                handleTitleChange={handleTitleChange}
+                distance={5}
+                axis="y"
+                onSortEnd={onSortEnd}
+              />
             </List>
           </Grid>
 
@@ -300,7 +337,7 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
             <Grid item container direction="column" spacing={2}>
               <Grid item>
                 <h5>
-                  <b>{selectedId == -1 ? "" : notes[selectedIndex].title}</b>
+                  <b>{selectedId === -1 ? "" : notes[selectedIndex].title}</b>
                 </h5>
                 <br></br>
                 <div className="notes-text-style-bar">
@@ -321,20 +358,27 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
                 <br></br>
                 <Divider />
                 <Grid item>
-                  {selectedId != -1 ? (
+                  {selectedId !== -1 ? (
                     <>
-                      <div style={outerstyles}>
-                        <TextField
-                          label=""
-                          fullWidth
-                          multiline
-                          InputProps={{ disableUnderline: true }}
-                          //rowsMax={100}
-                          style={innerstyle}
-                          value={notes[selectedIndex].content}
-                          onChange={handleChangeContent}
-                          inputRef={myRef}
-                        />
+                      <div className={classes.outerStyles}>
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                          <Controller
+                            render={({ field }) => (
+                              <TextField
+                                {...field}
+                                className={classes.innerStyle}
+                                fullWidth
+                                multiline
+                                InputProps={{ disableUnderline: true }}
+                                value={notes[selectedIndex].content}
+                                onChange={handleChangeContent}
+                                inputRef={myRef}
+                              />
+                            )}
+                            name="TextField"
+                            control={control}
+                          />
+                        </form>
                       </div>
                     </>
                   ) : (

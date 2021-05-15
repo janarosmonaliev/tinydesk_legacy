@@ -1,15 +1,10 @@
 import { Grid } from "@material-ui/core";
-import React, { useCallback, useContext, useState } from "react";
+import React, { useState } from "react";
 import WeatherWidget from "./weather-widget";
 import NotesWidget from "./notes-widget";
 import TodoListWidget from "./todo-list-widget";
 import CalendarWidget from "./calendar-widget";
-import { UserContext } from "./context/UserContext";
-import { SortableContainer, SortableElement } from "react-sortable-hoc";
-import arrayMove from "array-move";
 import nextId from "react-id-generator";
-import Calendar from "react-calendar";
-
 const WidgetsWrapper = () => {
   const initialWidget = {
     widgets: [

@@ -6,7 +6,7 @@ import GridWrapper from "./grid-wrapper";
 import FoldersWrapper from "./folders-wrapper";
 import { UserContext } from "./context/UserContext";
 import axios from "axios";
-
+import * as fetch from "../../api/fetch";
 const theme = createMuiTheme({
   typography: {
     fontFamily: ['"Inter"', "sans-serif"].join(","),
@@ -106,6 +106,9 @@ const App = () => {
   const [unicorn, setUnicorn] = useState(false);
   const [location, setLocation] = useState({});
   const [folders, setFolders] = useState(null);
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+
   // const [userId, setUserId] = useState();
   const [displayedBookmarks, setDisplayedBookmarks] = useState([]);
   const [selectedFolderId, setSelectedFolderId] = useState("");
@@ -115,25 +118,19 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const getUserData = async () => {
-      setLoading(true);
-      await axios({
-        method: "GET",
-        withCredentials: true,
-        url: "http://localhost:4000/home",
-      }).then((res) => {
-        console.log(res.data);
-        setFolders(res.data.folders);
-        setBackground(res.data.backgroundImg.url);
-        setUnicorn(res.data.keepUnicorn);
-        // setUserId(res.data._id);
-        setLocation(res.data.location);
-        setDisplayedBookmarks(res.data.folders[0].bookmarks);
-        setSelectedFolderId(res.data.folders[0]._id);
-      });
-      setLoading(false);
+    setLoading(true);
+    const setter = {
+      setFolders,
+      setBackground,
+      setUnicorn,
+      setEmail,
+      setUsername,
+      setLocation,
+      setDisplayedBookmarks,
+      setSelectedFolderId,
+      setLoading,
     };
-    getUserData();
+    fetch.getUserData(setter);
   }, []);
 
   const cancelSetBackground = () => {
@@ -153,6 +150,7 @@ const App = () => {
     if (!folders || selectedFolderId === "") {
       return;
     }
+
     setDisplayedBookmarks(
       folders.filter((folder) => folder._id === selectedFolderId)[0].bookmarks
     );
@@ -196,6 +194,8 @@ const App = () => {
     setDisplayedBookmarks,
     unicorn,
     setUnicorn,
+    email,
+    username,
   };
 
   return (

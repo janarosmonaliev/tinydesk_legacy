@@ -16,12 +16,8 @@ import { styled } from "@material-ui/core/styles";
 import { Menu, MenuItem } from "@material-ui/core/";
 import produce from "immer";
 import { BookmarkContext } from "./context/BookmarkContext";
+import DialogActionButton from "../common/DialogActionButton";
 
-const DialogActionButton = styled(DialogActions)({
-  justifyContent: "left",
-  marginLeft: "16px",
-  marginBottom: "20px",
-});
 const Bookmark = (props) => {
   const { jiggle, setFolders, selectedFolderId, folders } = useContext(
     UserContext

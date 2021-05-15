@@ -2,15 +2,7 @@ import React, { useContext, useRef, useState, useEffect } from "react";
 import NotesWindow from "./notes-window";
 import styled from "styled-components";
 import { UserContext } from "./context/UserContext";
-import axios from "axios";
-const Note = styled.div`
-  padding: 5px 5px 2px 10px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 12px;
-  text-align: left;
-`;
+import * as fetch from "../../api/fetch";
 
 const NotesWidget = (props) => {
   const notesWindowRef = useRef();
@@ -19,19 +11,7 @@ const NotesWidget = (props) => {
   const [previewNotes, setPreviewNotes] = useState([]);
 
   useEffect(() => {
-    const getNotes = async () => {
-      await axios({
-        method: "GET",
-        withCredentials: true,
-        url: "http://localhost:4000/home",
-      }).then((res) => {
-        //toggle:
-        res.data.notes.forEach((note) => (note["toggle"] = true));
-        setNotes(res.data.notes);
-        setPreviewNotes(res.data.notes.slice(0, 4));
-      });
-    };
-    getNotes();
+    fetch.getNotes(setNotes, setPreviewNotes);
   }, []);
 
   const handleClick = () => {

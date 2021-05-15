@@ -553,7 +553,8 @@ small,
   cursor: pointer;
   margin: 0 $space-03 0 0;
   outline: 0;
-  display: inline-block;
+  // display: inline-block;
+  display: inline-flex;
   position: relative;
   align-items: center;
   justify-content: center;
@@ -796,4 +797,8 @@ small,
   50% {
     transform: translate(-0.5px, 0.5px) rotate(-1deg);
   }
+}
+
+.login-filter {
+  background-color: rgb(255, 255, 255, 0.8);
 }

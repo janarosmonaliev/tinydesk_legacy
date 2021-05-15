@@ -1,9 +1,9 @@
-import React, { useContext, useRef, useState, useMemo, useEffect } from "react";
+import React, { useContext, useRef, useState, useEffect } from "react";
 import TodoListWindow from "./todo-list-window";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import { UserContext } from "./context/UserContext";
-import nextId from "react-id-generator";
-import axios from "axios";
+
+import * as fetch from "../../api/fetch";
 const ToDoListWidget = () => {
   //Todo list attributes = todolistid : Objectid, index: int ; title: String
   //Todo attributes = title: String, isCompleted: Bool, todoId: ObjectId, index: int
@@ -88,40 +88,12 @@ const ToDoListWidget = () => {
   // };
 
   const [todolists, setTodolists] = useState([]);
-  useEffect(() => {
-    const getTodolists = async () => {
-      await axios({
-        method: "GET",
-        withCredentials: true,
-        url: "http://localhost:4000/home",
-      }).then((res) => {
-        //toggle && preview
-        for (var i = 0; i < res.data.todolists.length; i++) {
-          res.data.todolists[i]["toggle"] = true;
-          for (var j = 0; j < res.data.todolists[i].todos.length; j++) {
-            res.data.todolists[i].todos[j]["toggle"] = true;
-          }
-        }
-        setTodolists(res.data.todolists);
 
-        var ret = [];
-        var index = 0;
-        for (var i = 0; i < res.data.todolists.length; i++) {
-          for (var j = 0; j < res.data.todolists[i].todos.length; j++) {
-            ret.push(res.data.todolists[i].todos[j]);
-            index += 1;
-            if (index == 4) {
-              setPreviewTodos(ret);
-              return;
-            }
-          }
-        }
-        setPreviewTodos(ret);
-      });
-    };
-    getTodolists();
-  }, []);
   const [previewTodos, setPreviewTodos] = useState([]);
+
+  useEffect(() => {
+    fetch.getTodolists(setTodolists, setPreviewTodos);
+  }, []);
   //Open and close modal
   //Located here to use useEffect on change open to optimize the calculation
   const [open, setOpen] = useState(false);
@@ -134,19 +106,9 @@ const ToDoListWidget = () => {
   };
 
   useEffect(() => {
-    var ret = [];
-    var index = 0;
-    for (var i = 0; i < todolists.length; i++) {
-      for (var j = 0; j < todolists[i].todos.length; j++) {
-        ret.push(todolists[i].todos[j]);
-        index += 1;
-        if (index == 4) {
-          setPreviewTodos(ret);
-          return;
-        }
-      }
+    if (todolists.length !== 0) {
+      setPreviewTodos(todolists[0].todos.slice(0, 4));
     }
-    setPreviewTodos(ret);
   }, [open]);
   return (
     <>

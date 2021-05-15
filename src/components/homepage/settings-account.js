@@ -2,15 +2,10 @@ import React, {
   useState,
   forwardRef,
   useImperativeHandle,
-  useCallback,
-  useRef,
-  useEffect,
   useContext,
 } from "react";
 import SvgIcon from "@material-ui/core/SvgIcon";
-import { Typography } from "@material-ui/core";
-import { MenuItem } from "@material-ui/core";
-import { Divide, X } from "react-feather";
+import { X } from "react-feather";
 import {
   Dialog,
   DialogTitle,
@@ -31,28 +26,17 @@ import Divider from "@material-ui/core/Divider";
 import cities from "../../cities";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { UserContext } from "./context/UserContext";
-import axios from "axios";
 
 const AccountSettingsTwo = forwardRef((props, ref) => {
-  const { location, setLocation, unicorn, setUnicorn } = useContext(
-    UserContext
-  );
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
+  const {
+    location,
+    setLocation,
+    unicorn,
+    setUnicorn,
+    email,
+    username,
+  } = useContext(UserContext);
 
-  useEffect(() => {
-    const getUserSettingData = async () => {
-      await axios({
-        method: "GET",
-        withCredentials: true,
-        url: "http://localhost:4000/home",
-      }).then((res) => {
-        setEmail(res.data.email);
-        setUsername(res.data.username);
-      });
-    };
-    getUserSettingData();
-  });
   const [open, setOpen] = useState(false);
 
   const [unicornConfig, setUnicornConfig] = useState(unicorn);
@@ -172,7 +156,6 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
                           {...params}
                           label="City"
                           variant="standard"
-                          defaultValue={location.name}
                           onSelect={cityHandleChange}
                         />
                       )}
