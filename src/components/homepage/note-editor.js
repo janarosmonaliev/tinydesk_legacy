@@ -1,5 +1,11 @@
 import React from "react";
-import { Editor, EditorState, RichUtils, getDefaultKeyBinding } from "draft-js";
+import {
+  Editor,
+  EditorState,
+  RichUtils,
+  getDefaultKeyBinding,
+  convertToRaw,
+} from "draft-js";
 import "draft-js/dist/Draft.css";
 import "../../styles/rich-editor.css";
 
@@ -11,6 +17,7 @@ function RichEditor(props) {
 
   const focus = () => {
     if (editor.current) editor.current.focus();
+    // console.log(convertToRaw(editorState.getCurrentContent()));
   };
 
   const handleKeyCommand = useCallback(
