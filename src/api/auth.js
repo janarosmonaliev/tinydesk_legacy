@@ -5,15 +5,20 @@ import client from "./client";
 
 export const login = (data, setError, setFilter) => {
   setFilter(true);
-  client.post("/login", data).then((res) => {
-    console.log(res);
-    if (res.data == "Successfully Authenticated") {
-      navigate("/home");
-    } else {
-      setError(true);
-      setFilter(false);
-    }
-  });
+  client
+    .post("/login", data)
+    .then((res) => {
+      console.log(res);
+      if (res.data == "Successfully Authenticated") {
+        navigate("/home");
+      } else {
+        setError(true);
+        setFilter(false);
+      }
+    })
+    .catch((error) => {
+      console.log(error.response);
+    });
 };
 
 export const register = (data, setError, setDisabled) => {
