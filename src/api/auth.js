@@ -34,7 +34,7 @@ export const register = (data, setError, setDisabled) => {
 };
 
 const directHome = () => {
-  client.get("home").then((res) => {
+  client.get("/home").then((res) => {
     console.log(res);
   });
 };
