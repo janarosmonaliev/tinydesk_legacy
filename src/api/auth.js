@@ -1,4 +1,3 @@
-import { AlternateEmailRounded } from "@material-ui/icons";
 import { navigate } from "gatsby-link";
 
 import client from "./client";
@@ -9,7 +8,8 @@ export const login = (data, setError, setFilter) => {
     .post("/login", data)
     .then((res) => {
       console.log(res);
-      if (res.data == "Successfully Authenticated") {
+      if (res.message == "Successfully Authenticated") {
+        // res.data
         navigate("/home");
       } else {
         setError(true);
