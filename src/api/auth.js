@@ -17,12 +17,13 @@ export const login = (data, setError, setFilter) => {
       }
     })
     .catch((error) => {
-      console.log(error.response);
+      console.log(error);
     });
 };
 
 export const register = (data, setError, setDisabled) => {
   client.post("/signup", data).then((res) => {
+    console.log(res);
     if (res.data === "user Already Exists") {
       setError(true);
       setDisabled(false);
