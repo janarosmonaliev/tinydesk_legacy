@@ -34,7 +34,16 @@ export const register = (data, setError, setDisabled) => {
 };
 
 const directHome = () => {
-  client.get("/home").then((res) => {
+  const headers = new Headers();
+  headers.append("Content-Type", "application/json");
+  headers.append("Accept", "application/json");
+  return fetch("https://test-project-416.herokuapp.com/home", {
+    method: "GET",
+    mode: "cors",
+    // redirect: 'follow',
+    credentials: "include",
+    headers: headers,
+  }).then((res) => {
     console.log(res);
   });
 };
