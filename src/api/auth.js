@@ -9,8 +9,7 @@ export const login = (data, setError, setFilter) => {
     .then((res) => {
       console.log(res);
       if (res.data == "Successfully Authenticated") {
-        // res.data
-        navigate("/home");
+        directHome();
       } else {
         setError(true);
         setFilter(false);
@@ -31,5 +30,11 @@ export const register = (data, setError, setDisabled) => {
       alert("New account is successfully created!");
       navigate("/");
     }
+  });
+};
+
+const directHome = () => {
+  client.get("home").then((res) => {
+    console.log(res);
   });
 };
