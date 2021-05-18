@@ -1,6 +1,4 @@
 import React from "react";
-import { Link } from "gatsby";
-import { Router } from "@reach/router";
 import SEO from "../components/seo";
 
 import Layout from "../components/landing/layout";

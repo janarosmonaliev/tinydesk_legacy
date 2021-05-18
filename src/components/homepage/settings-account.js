@@ -2,15 +2,10 @@ import React, {
   useState,
   forwardRef,
   useImperativeHandle,
-  useCallback,
-  useRef,
-  useEffect,
   useContext,
 } from "react";
 import SvgIcon from "@material-ui/core/SvgIcon";
-import { Typography } from "@material-ui/core";
-import { MenuItem } from "@material-ui/core";
-import { Divide, X } from "react-feather";
+import { X } from "react-feather";
 import {
   Dialog,
   DialogTitle,
@@ -33,9 +28,15 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import { UserContext } from "./context/UserContext";
 
 const AccountSettingsTwo = forwardRef((props, ref) => {
-  const { location, setLocation, unicorn, setUnicorn } = useContext(
-    UserContext
-  );
+  const {
+    location,
+    setLocation,
+    unicorn,
+    setUnicorn,
+    email,
+    username,
+  } = useContext(UserContext);
+
   const [open, setOpen] = useState(false);
 
   const [unicornConfig, setUnicornConfig] = useState(unicorn);
@@ -121,7 +122,7 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
                   </TableCell>
                   <TableCell align="center">
                     <p>
-                      <u>jnyshin</u>
+                      <u>{username}</u>
                     </p>
                   </TableCell>
                 </TableRow>
@@ -131,7 +132,7 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
                   </TableCell>
                   <TableCell align="center">
                     <p>
-                      <u>yejin.shin@stonybrook.edu</u>
+                      <u>{email}</u>
                     </p>
                   </TableCell>
                 </TableRow>
@@ -155,7 +156,6 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
                           {...params}
                           label="City"
                           variant="standard"
-                          defaultValue={location.name}
                           onSelect={cityHandleChange}
                         />
                       )}

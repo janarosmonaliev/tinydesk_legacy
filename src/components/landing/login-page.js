@@ -1,44 +1,38 @@
 import React, { useState } from "react";
 import { navigate } from "gatsby";
-import { Grid, Card, CardContent, Button } from "@material-ui/core";
+import { Grid, Card, CardContent, Button, makeStyles } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import Logo from "../../images/commandt-logo-sm.svg";
-import axios from "axios";
-
+import * as auth from "../../api/auth";
+const useStyles = makeStyles({
+  errorMessage: {
+    color: "red",
+  },
+});
 const LoginPage = () => {
   // state variables since I haven't read how to use ref objects yet
   // should aim to use the ref objects that Janar put in here
-
+  const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const login = () => {
-    axios({
-      method: "POST",
-      data: {
-        email: email,
-        password: password,
-      },
-      withCredentials: true,
-      url: "https://commandt-backend.herokuapp.com/login", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
-    }).then((res) => {
-      console.log(res);
-      if (res.data == "Successfully Authenticated") {
-        navigate("/home");
-      } else {
-        alert("Please check your email or password");
-      }
-    });
+  const [error, setError] = useState(false);
+  const [filter, setFilter] = useState(false);
+  const handleChangeEmail = (e) => {
+    if (error) {
+      setError(false);
+    }
+    setEmail(e.target.value);
   };
-
-  // Comment for Yejin --> These lines:
-  // const getUser = () => {
-  //   axios({
-  //     method: "GET",
-  //     withCredentials: true,
-  //     url: "http://localhost:4000/home", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
-  //   }).then((res) => console.log(res));
-  // };
+  const handleChangePw = (e) => {
+    if (error) {
+      setError(false);
+    }
+    setPassword(e.target.value);
+  };
+  const login = () => {
+    const data = { email: email, password: password };
+    auth.login(data, setError, setFilter);
+  };
   return (
     <Grid item xs={12} md={6} lg={6}>
       <Grid container justify="center">
@@ -51,15 +45,18 @@ const LoginPage = () => {
           <h5 className="landing-text-gray">
             Already have an account? Log in with your email below.
           </h5>
+
           <Card variant="outlined">
             <CardContent>
-              <form id="login-page-form">
+              <form id="login-page-form" autoComplete="off">
                 <TextField
                   id="login-page-form-email"
                   fullWidth
                   label="Email"
                   type="email"
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={handleChangeEmail}
+                  error={error}
+                  disabled={filter}
                 />
                 <TextField
                   id="login-page-form-password"
@@ -67,16 +64,26 @@ const LoginPage = () => {
                   label="Password"
                   type="password"
                   autoComplete="current-password"
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={handleChangePw}
+                  error={error}
+                  disabled={filter}
                 />
               </form>
 
+              {error ? (
+                <div className={classes.errorMessage}>
+                  Please check your email or password
+                </div>
+              ) : (
+                <></>
+              )}
               <Button
                 variant="contained"
                 color="primary"
                 disableElevation
                 disableTouchRipple
                 onClick={login}
+                disabled={filter}
               >
                 Log in
               </Button>

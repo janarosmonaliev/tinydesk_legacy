@@ -2,50 +2,25 @@ import React, { useContext, useRef, useState, useEffect } from "react";
 import NotesWindow from "./notes-window";
 import styled from "styled-components";
 import { UserContext } from "./context/UserContext";
-
-const Note = styled.div`
-  padding: 5px 5px 2px 10px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 12px;
-  text-align: left;
-`;
+import * as fetch from "../../api/fetch";
 
 const NotesWidget = (props) => {
   const notesWindowRef = useRef();
   const { jiggle } = useContext(UserContext);
+  const [notes, setNotes] = useState([]);
+  const [previewNotes, setPreviewNotes] = useState([]);
+
+  useEffect(() => {
+    fetch.getNotes(setNotes, setPreviewNotes);
+  }, []);
+
   const handleClick = () => {
     notesWindowRef.current.clickOpen();
   };
 
   //Populated from here to optimize the previews
   const [open, setOpen] = useState(false);
-  const [previewNotes, setPreviewNotes] = useState([]);
-  const [notes, setNotes] = useState([
-    {
-      title: "CSE 416",
-      id: 0,
-      content:
-        "Introduces the basic concepts and modern tools and techniques of <br/> software engineering. Emphasizes the development of reliable and maintainable software via system requirements and specifications, software design methodologies including object-oriented design, implementation, integration, and testing; software project management; life-cycle documentation; software maintenance; and consideration of human factor issues.",
-      titleToggle: true,
-      contentToggle: true,
-    },
-    {
-      title: "Homeplus Grocery List",
-      id: 1,
-      content: "Apple, cereal, banana, ramen, tissues",
-      titleToggle: true,
-      contentToggle: true,
-    },
-    {
-      title: "SBU Visit Document",
-      id: 2,
-      content: "Action needs to be done. ",
-      titleToggle: true,
-      contentToggle: true,
-    },
-  ]);
+
   useEffect(() => {
     setPreviewNotes(notes.slice(0, 4));
   }, [open]);
@@ -64,7 +39,7 @@ const NotesWidget = (props) => {
           </div>
           <div className="notes-widget-content">
             {previewNotes.map((note) => (
-              <small>
+              <small key={note._id}>
                 <div className="note-text">{note.title}</div>
               </small>
             ))}

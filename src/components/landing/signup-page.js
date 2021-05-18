@@ -7,41 +7,51 @@ import {
   TextField,
   Button,
   MenuItem,
+  makeStyles,
 } from "@material-ui/core";
 import Logo from "../../images/commandt-logo-sm.svg";
-import axios from "axios";
 import { Autocomplete } from "@material-ui/lab";
 import cities from "../../cities";
+import * as auth from "../../api/auth";
+const useStyles = makeStyles({
+  errorMessage: {
+    color: "red",
+  },
+});
 
 const SignupPage = () => {
   // Using states to store the values put on the form fields by the user
-
-  const[fullName, setFullName] = useState("");
-  const[username, setUsername] = useState("");
-  const[email, setEmail] = useState("");
-  const[password, setPassword] = useState("");
+  const classes = useStyles();
+  const [fullName, setFullName] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [country, setCountry] = useState("");
   const [city, setCity] = useState({});
-
-
+  const [error, setError] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   // The function that fires when the user clicks to submit the form
   const register = () => {
-    axios({
-      method: "POST",
-      data: {
-        name: fullName,
-        username: username,
-        email: email,
-        password: password,
-        city: city,
-      },
-      withCredentials: true,
-      url: "http://localhost:4000/signup", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
-    }).then((res) => console.log(res));
+    setError(false);
+    setDisabled(true);
+    const data = {
+      name: fullName,
+      username: username,
+      email: email,
+      password: password,
+      city: city,
+    };
+    auth.register(data, setError, setDisabled);
   };
   const handleOnChangeCountry = (e) => {
     setCountry(e.target.value);
+    const ele = autoC.current.getElementsByClassName(
+      "MuiAutocomplete-clearIndicator"
+    )[0];
+    if (ele) ele.click();
   };
+  const autoC = useRef(null);
+
   return (
     <Grid item xs={12} md={6} lg={6}>
       <Grid container justify="center">
@@ -56,13 +66,15 @@ const SignupPage = () => {
           </h5>
           <Card variant="outlined">
             <CardContent>
-              <form id="signup-page-form">
+              <form id="signup-page-form" autoComplete="off">
                 <TextField
                   id="sign-page-form-name"
                   fullWidth
                   label="Full name"
                   type="name"
                   onChange={(e) => setFullName(e.target.value)}
+                  autoComplete
+                  disabled={disabled}
                 />
                 <TextField
                   id="sign-page-form-username"
@@ -70,6 +82,7 @@ const SignupPage = () => {
                   label="Username"
                   type="text"
                   onChange={(e) => setUsername(e.target.value)}
+                  disabled={disabled}
                 />
                 <TextField
                   id="sign-page-form-email"
@@ -77,6 +90,7 @@ const SignupPage = () => {
                   label="Email"
                   type="email"
                   onChange={(e) => setEmail(e.target.value)}
+                  disabled={disabled}
                 />
                 <TextField
                   id="sign-page-form-password"
@@ -85,6 +99,7 @@ const SignupPage = () => {
                   type="password"
                   autoComplete="current-password"
                   onChange={(e) => setPassword(e.target.value)}
+                  disabled={disabled}
                 />
 
                 <TextField
@@ -93,6 +108,8 @@ const SignupPage = () => {
                   fullWidth
                   label="Country"
                   onChange={(e) => handleOnChangeCountry(e)}
+                  defaultValue=""
+                  disabled={disabled}
                 >
                   <MenuItem key="usa" value="usa">
                     United State
@@ -105,22 +122,27 @@ const SignupPage = () => {
                   onChange={(e, newValue) => {
                     setCity(newValue);
                   }}
-                  id="city-by-country"
                   options={cities[country]}
                   getOptionLabel={(option) => option.name}
-                  disabled={cities[country] == null}
+                  ref={autoC}
+                  disabled={cities[country] == null || disabled}
                   renderInput={(params) => (
                     <TextField {...params} label="Cities" variant="standard" />
                   )}
                 ></Autocomplete>
               </form>
-
+              {error ? (
+                <div className={classes.errorMessage}>User already exists!</div>
+              ) : (
+                <></>
+              )}
               <Button
                 variant="contained"
                 color="primary"
                 disableElevation
                 disableTouchRipple
                 onClick={register}
+                disabled={disabled}
               >
                 Create an account
               </Button>

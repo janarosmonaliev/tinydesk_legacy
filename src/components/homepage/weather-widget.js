@@ -170,7 +170,7 @@ const WeatherWidget = () => {
         );
         setWeathers(response.data);
       } catch (e) {
-        console.log(e);
+        console.error("Error:" + e);
       }
       setLoading(false);
     };
@@ -226,6 +226,7 @@ const WeatherWidget = () => {
             direction="column"
             justify="space-between"
             alignItems="center"
+            key={`hourly-update-${i}`}
           >
             {getHourlyUpdate(weathers.hourly[i].weather[0].main)}
             <SubTitle>
