@@ -121,7 +121,6 @@ const SortableNotelist = SortableContainer((props) => {
   );
 });
 
-
 const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
   const classes = useStyles();
   const nextIndexNote = useRef();
@@ -343,7 +342,7 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
 
             {selectedId != -1 ? (
               <>
-                <div style={outerstyles}>{<RichEditor />}</div>
+                <div className={classes.outerStyles}>{<RichEditor />}</div>
               </>
             ) : (
               <></>
