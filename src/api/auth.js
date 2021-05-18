@@ -1,3 +1,4 @@
+import { ContactSupportOutlined } from "@material-ui/icons";
 import { navigate } from "gatsby-link";
 
 import client from "./client";
@@ -9,7 +10,8 @@ export const login = (data, setError, setFilter) => {
     .then((res) => {
       console.log(res);
       if (res.data == "Successfully Authenticated") {
-        directHome();
+        console.log("pass");
+        navigate("/home");
       } else {
         setError(true);
         setFilter(false);
@@ -30,11 +32,5 @@ export const register = (data, setError, setDisabled) => {
       alert("New account is successfully created!");
       navigate("/");
     }
-  });
-};
-
-const directHome = () => {
-  client.get("/home").then((res) => {
-    console.log(res);
   });
 };
