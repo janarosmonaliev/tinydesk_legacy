@@ -1,11 +1,8 @@
 import React, { forwardRef, useState, useImperativeHandle } from "react";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-} from "@material-ui/core";
+import { Dialog, DialogTitle, DialogContent } from "@material-ui/core";
 import { Calendar, Views, momentLocalizer } from "react-big-calendar";
+import { IconButton, SvgIcon } from "@material-ui/core";
+import { X } from "react-feather";
 import moment from "moment";
 import eventData from "./events";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -49,7 +46,19 @@ const CalendarWindow = forwardRef((props, ref) => {
       onClose={handleClose}
       aria-labelledby="calendar-window"
     >
-      <DialogTitle id="calendar-window">Calendar</DialogTitle>
+      <DialogTitle id="calendar-window">
+        <h5 className="dialog-title">Calendar</h5>
+        <IconButton
+          aria-label="close"
+          onClick={handleClose}
+          size="small"
+          className="button-dialog-close"
+        >
+          <SvgIcon>
+            <X />
+          </SvgIcon>
+        </IconButton>
+      </DialogTitle>
       <DialogContent>
         {/* <DialogContentText>
         </DialogContentText> */}

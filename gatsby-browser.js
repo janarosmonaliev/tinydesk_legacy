@@ -7,5 +7,5 @@
 // You can delete this file if you're not using it
 
 // Sass file location
-import "./src/style.scss";
+import "./src/styles/style.scss";
 // import "react-big-calendar/lib/sass/styles.scss";

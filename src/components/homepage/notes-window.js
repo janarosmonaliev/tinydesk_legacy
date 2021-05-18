@@ -30,6 +30,7 @@ import produce from "immer";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
 import { useForm, Controller } from "react-hook-form";
+import RichEditor from "./note-editor";
 
 const useStyles = makeStyles({
   outerStyles: {
@@ -119,6 +120,7 @@ const SortableNotelist = SortableContainer((props) => {
     </div>
   );
 });
+
 
 const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
   const classes = useStyles();
@@ -282,6 +284,7 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
 
   return (
     <Dialog
+      fullWidth
       maxWidth="md"
       open={open}
       onClose={handleClose}
@@ -331,62 +334,20 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
             </List>
           </Grid>
 
-          <Divider orientation="vertical" flexItem={true} />
+          <Divider orientation="vertical" flexItem />
 
-          <Grid item xs={8} md container spacing={3} onClick={handleFocus}>
-            <Grid item container direction="column" spacing={2}>
-              <Grid item>
-                <h5>
-                  <b>{selectedId === -1 ? "" : notes[selectedIndex].title}</b>
-                </h5>
-                <br></br>
-                <div className="notes-text-style-bar">
-                  <Button>H1</Button>
-                  <Button>H2</Button>
-                  <Button>H3</Button>
-                  <Button>H4</Button>
-                  <Button>H5</Button>
-                  <Button>H6</Button>
-                  <Button>Blockquote</Button>
-                  <Button>UL</Button>
-                  <Button>OL</Button>
-                  <Button>Codeblock</Button>
-                  <Button>Italic</Button>
-                  <Button>Underline</Button>
-                  <Button>Bold</Button>
-                </div>
-                <br></br>
-                <Divider />
-                <Grid item>
-                  {selectedId !== -1 ? (
-                    <>
-                      <div className={classes.outerStyles}>
-                        <form onSubmit={handleSubmit(onSubmit)}>
-                          <Controller
-                            render={({ field }) => (
-                              <TextField
-                                {...field}
-                                className={classes.innerStyle}
-                                fullWidth
-                                multiline
-                                InputProps={{ disableUnderline: true }}
-                                value={notes[selectedIndex].content}
-                                onChange={handleChangeContent}
-                                inputRef={myRef}
-                              />
-                            )}
-                            name="TextField"
-                            control={control}
-                          />
-                        </form>
-                      </div>
-                    </>
-                  ) : (
-                    <></>
-                  )}
-                </Grid>
-              </Grid>
-            </Grid>
+          <Grid item xs>
+            <h5>
+              <b>{selectedId == -1 ? "" : notes[selectedIndex].title}</b>
+            </h5>
+
+            {selectedId != -1 ? (
+              <>
+                <div style={outerstyles}>{<RichEditor />}</div>
+              </>
+            ) : (
+              <></>
+            )}
           </Grid>
         </Grid>
       </DialogContent>
