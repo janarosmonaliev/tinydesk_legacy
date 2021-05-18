@@ -8,7 +8,7 @@ export const login = (data, setError, setFilter) => {
     .post("/login", data)
     .then((res) => {
       console.log(res);
-      if (res.data.userId != null) {
+      if (res.data == "Successfully Authenticated") {
         directHome();
       } else {
         setError(true);
