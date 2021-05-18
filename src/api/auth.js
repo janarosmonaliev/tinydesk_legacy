@@ -9,7 +9,7 @@ export const login = (data, setError, setFilter) => {
     .then((res) => {
       console.log(res);
       if (res.data.userId != null) {
-        directHome(res.data.userId);
+        directHome();
       } else {
         setError(true);
         setFilter(false);
@@ -33,11 +33,8 @@ export const register = (data, setError, setDisabled) => {
   });
 };
 
-const directHome = (id) => {
-  const headers = new Headers();
-  headers.append("Content-Type", "application/json");
-  headers.append("Accept", "application/json");
-  client.get("/home", id).then((res) => {
+const directHome = () => {
+  client.get("/home").then((res) => {
     console.log(res);
   });
 };
