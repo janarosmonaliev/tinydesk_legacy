@@ -11,7 +11,6 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  DialogContentText,
   ClickAwayListener,
 } from "@material-ui/core";
 import { SvgIcon, IconButton, Button } from "@material-ui/core";
@@ -25,10 +24,10 @@ import {
   MenuItem,
   TextField,
   ListItemText,
-  Paper,
 } from "@material-ui/core";
 import nextId from "react-id-generator";
 import produce from "immer";
+import RichEditor from "./note-editor";
 
 const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
   const [scroll, setScroll] = useState("paper");
@@ -182,7 +181,8 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
 
   const outerstyles = {
     width: "100%",
-    height: "1%",
+    cursor: "text",
+    minHeight: "1%",
     overflow: "auto",
     position: "relative",
   };
@@ -213,6 +213,7 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
 
   return (
     <Dialog
+      fullWidth
       maxWidth="md"
       open={open}
       onClose={handleClose}
@@ -299,55 +300,20 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
             </List>
           </Grid>
 
-          <Divider orientation="vertical" flexItem={true} />
+          <Divider orientation="vertical" flexItem />
 
-          <Grid item xs={8} md container spacing={3} onClick={handleFocus}>
-            <Grid item container direction="column" spacing={2}>
-              <Grid item>
-                <h5>
-                  <b>{selectedId == -1 ? "" : notes[selectedIndex].title}</b>
-                </h5>
-                <br></br>
-                <div className="notes-text-style-bar">
-                  <Button>H1</Button>
-                  <Button>H2</Button>
-                  <Button>H3</Button>
-                  <Button>H4</Button>
-                  <Button>H5</Button>
-                  <Button>H6</Button>
-                  <Button>Blockquote</Button>
-                  <Button>UL</Button>
-                  <Button>OL</Button>
-                  <Button>Codeblock</Button>
-                  <Button>Italic</Button>
-                  <Button>Underline</Button>
-                  <Button>Bold</Button>
-                </div>
-                <br></br>
-                <Divider />
-                <Grid item>
-                  {selectedId != -1 ? (
-                    <>
-                      <div style={outerstyles}>
-                        <TextField
-                          label=""
-                          fullWidth
-                          multiline
-                          InputProps={{ disableUnderline: true }}
-                          //rowsMax={100}
-                          style={innerstyle}
-                          value={notes[selectedIndex].content}
-                          onChange={handleChangeContent}
-                          inputRef={myRef}
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    <></>
-                  )}
-                </Grid>
-              </Grid>
-            </Grid>
+          <Grid item xs>
+            <h5>
+              <b>{selectedId == -1 ? "" : notes[selectedIndex].title}</b>
+            </h5>
+
+            {selectedId != -1 ? (
+              <>
+                <div style={outerstyles}>{<RichEditor />}</div>
+              </>
+            ) : (
+              <></>
+            )}
           </Grid>
         </Grid>
       </DialogContent>

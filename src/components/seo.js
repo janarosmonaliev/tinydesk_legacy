@@ -31,6 +31,10 @@ function SEO({ description, lang, meta, title }) {
       titleTemplate={defaultTitle ? `%s | ${defaultTitle}` : null}
       meta={[
         {
+          name: `charset`,
+          content: `utf-8`,
+        },
+        {
           name: `viewport`,
           content: site.siteMetadata.viewport,
         },
