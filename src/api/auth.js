@@ -8,8 +8,8 @@ export const login = (data, setError, setFilter) => {
     .post("/login", data)
     .then((res) => {
       console.log(res);
-      if (res.data == "Successfully Authenticated") {
-        directHome();
+      if (res.data.userId != null) {
+        directHome(res.data.userId);
       } else {
         setError(true);
         setFilter(false);
@@ -33,17 +33,11 @@ export const register = (data, setError, setDisabled) => {
   });
 };
 
-const directHome = () => {
+const directHome = (id) => {
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
   headers.append("Accept", "application/json");
-  return fetch("https://test-project-416.herokuapp.com/home", {
-    method: "GET",
-    mode: "cors",
-    // redirect: 'follow',
-    credentials: "include",
-    headers: headers,
-  }).then((res) => {
+  client.get("/home", id).then((res) => {
     console.log(res);
   });
 };
