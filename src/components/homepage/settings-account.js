@@ -26,6 +26,7 @@ import Divider from "@material-ui/core/Divider";
 import cities from "../../cities";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { UserContext } from "./context/UserContext";
+import * as logout from "../../api/auth";
 
 const AccountSettingsTwo = forwardRef((props, ref) => {
   const {
@@ -53,6 +54,8 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
   // };
   // const [selectedCountry, setSelectedCountry] = useState("")
   const [cityValue, setCityValue] = useState(location.name);
+  const [error, setError] = useState(false);
+  const [filter, setFilter] = useState(false);
 
   const city = cities.korea;
   const cityHandleChange = (e) => {
@@ -84,6 +87,11 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
     }
     setUnicorn(unicornConfig);
   };
+
+  const logoutFunction = () => {
+    const data = {};
+    logout.logout(data, setError);
+  }
 
   return (
     <>
@@ -194,6 +202,7 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
               <Button
                 variant="outlined"
                 style={{ color: "#eb5757", border: "1px solid #eb5757" }}
+                onClick={logoutFunction}
               >
                 Log Out
               </Button>
