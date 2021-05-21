@@ -23,9 +23,16 @@ const AddFolder = () => {
       _id: nextId(),
       bookmarks: [],
     };
+    apiAddFolder(title);
     setFolders(folders.concat(newFolder));
     setSelectedFolderId(newFolder._id);
   });
+
+  const apiAddFolder = () => {
+    const data = {};
+    apiFolder.apiAddFolder(data, setError, setFilter);
+  };
+
   const [open, setOpen] = useState(false);
   const [folderTitle, setFolderTitle] = useState("");
   const [isEmpty, setIsEmpty] = useState(false);
