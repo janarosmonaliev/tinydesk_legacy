@@ -23,6 +23,11 @@ import nextId from "react-id-generator";
 import { Menu, MenuItem } from "@material-ui/core/";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
+import {
+  apiAddTodolist,
+  apiDeleteTodolist,
+  apiChangeTitle,
+} from "../../api/todolistapi";
 
 //SORTABLE TODOs
 const SortableTodoItem = SortableElement(({ value, ...props }) => (
@@ -275,7 +280,7 @@ const TodoListWindow = forwardRef(
           (todolist) => todolist._id !== todolistIdForContextMenu
         )
       );
-
+      apiDeleteTodolist(todolistIdForContextMenu);
       if (todolists.length !== 1) {
         //Reset to first todolist
         if (todolistIdForContextMenu === todolists[0]._id) {
@@ -307,6 +312,7 @@ const TodoListWindow = forwardRef(
               ? "New List"
               : draft[textFieldIndex].title;
           draft[textFieldIndex].toggle = true;
+          apiChangeTitle(draft[textFieldIndex].title);
         })
       );
     };
@@ -337,6 +343,7 @@ const TodoListWindow = forwardRef(
         toggle: false,
         todos: [],
       };
+      apiAddTodolist();
       setSelectedId(newTodolist._id);
       setSelectedIndex(nextIndexTodolist.current);
       setTodolists(todolists.concat(newTodolist));

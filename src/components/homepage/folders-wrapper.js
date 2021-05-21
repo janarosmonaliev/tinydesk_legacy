@@ -17,6 +17,7 @@ import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import AddFolder from "./add-folder";
 import DialogActionButton from "../common/DialogActionButton";
 import arrayMove from "array-move";
+import { apiDeleteFolder } from "../../api/folderapi";
 
 const SortableFolder = SortableElement(({ value, sortIndex }) => (
   <Folder folder={value} index={sortIndex} />
@@ -68,6 +69,7 @@ const FoldersWrapper = () => {
       setSelectedFolderId(folders[0]._id);
     }
     setFolders(folders.filter((folder) => folder._id !== folderId));
+    apiDeleteFolder(folderId);
     setOpenDelete(false);
     setFolderId(-1);
   };
