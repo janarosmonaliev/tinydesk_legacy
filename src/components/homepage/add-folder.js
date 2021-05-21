@@ -12,6 +12,7 @@ import {
 } from "@material-ui/core";
 import { UserContext } from "./context/UserContext";
 import DialogActionButton from "../common/DialogActionButton";
+import * as apiFolder from "../../api/folderapi";
 
 const AddFolder = () => {
   const { folders, setFolders, setSelectedFolderId } = useContext(UserContext);
