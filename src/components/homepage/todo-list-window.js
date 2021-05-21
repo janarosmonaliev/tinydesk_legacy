@@ -23,7 +23,11 @@ import nextId from "react-id-generator";
 import { Menu, MenuItem } from "@material-ui/core/";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
-import { apiAddTodolist, apiDeleteTodolist } from "../../api/todolistapi";
+import {
+  apiAddTodolist,
+  apiDeleteTodolist,
+  apiChangeTitle,
+} from "../../api/todolistapi";
 
 //SORTABLE TODOs
 const SortableTodoItem = SortableElement(({ value, ...props }) => (
@@ -308,6 +312,7 @@ const TodoListWindow = forwardRef(
               ? "New List"
               : draft[textFieldIndex].title;
           draft[textFieldIndex].toggle = true;
+          apiChangeTitle(draft[textFieldIndex].title);
         })
       );
     };

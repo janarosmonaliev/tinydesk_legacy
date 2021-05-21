@@ -3,9 +3,9 @@ import { navigate } from "gatsby-link";
 
 import client from "./client";
 
-export const apiAddTodolist = (data) => {
+export const apiAddTodolist = () => {
   client
-    .post("/home/todolist/", data)
+    .post("/home/todolist/")
     .then((res) => {
       console.log(res);
     })
@@ -16,7 +16,18 @@ export const apiAddTodolist = (data) => {
 
 export const apiDeleteTodolist = (data) => {
   client
-    .delete("/home/folder/", data)
+    .delete("/home/todolist/", { removeId: data })
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+export const apiChangeTitle = (data) => {
+  client
+    .put("/home/todolist", { title: data })
     .then((res) => {
       console.log(res);
     })
