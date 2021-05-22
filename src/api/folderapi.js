@@ -14,9 +14,10 @@ export const apiAddFolder = (data) => {
     });
 };
 
-export const apiDeleteFolder = (data) => {
+export const apiDeleteFolder = (payload) => {
+  console.log("check right id ", payload.remove);
   client
-    .delete("/home/folder/", data)
+    .delete("/home/folder/", { data: payload })
     .then((res) => {
       console.log(res);
     })
