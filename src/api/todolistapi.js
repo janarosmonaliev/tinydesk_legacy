@@ -28,7 +28,7 @@ export const apiDeleteTodolist = (payload) => {
 
 export const apiChangeTitle = (data) => {
   client
-    .put("/home/todolists/", { title: data })
+    .put("/home/todolists/", data)
     .then((res) => {
       console.log(res);
     })

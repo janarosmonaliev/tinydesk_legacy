@@ -313,10 +313,17 @@ const TodoListWindow = forwardRef(
               ? "New List"
               : draft[textFieldIndex].title;
           draft[textFieldIndex].toggle = true;
-          //apiChangeTitle(draft[textFieldIndex].title);
+          apiChangeTitle(draft[textFieldIndex]);
         })
       );
     };
+
+    const apiChangeTitle = useCallback((todolist) => {
+      console.log("change title of new todolist with id: ", todolist._id);
+      const data = { title: todolist.title };
+      todolistapi.apiChangeTitle(data);
+    });
+
     //onClcik handler
     const handleTodolistClickAway = (e) => {
       handleCloseTextfield(e);
