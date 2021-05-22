@@ -23,11 +23,7 @@ import nextId from "react-id-generator";
 import { Menu, MenuItem } from "@material-ui/core/";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
-import {
-  apiAddTodolist,
-  apiDeleteTodolist,
-  apiChangeTitle,
-} from "../../api/todolistapi";
+import * as todolistapi from "../../api/todolistapi";
 
 //SORTABLE TODOs
 const SortableTodoItem = SortableElement(({ value, ...props }) => (
@@ -298,6 +294,11 @@ const TodoListWindow = forwardRef(
       setTodolistIdForContextMenu(null);
       nextIndexTodolist.current -= 1;
     });
+    const apiDeleteTodolist = useCallback((id) => {
+      const payload = { removeId: id };
+      console.log("deleting todolist's id front ", id);
+      todolistapi.apiDeleteTodolist(payload);
+    });
 
     // Handle ClickAway
     const handleCloseTextfield = (e) => {
@@ -312,7 +313,7 @@ const TodoListWindow = forwardRef(
               ? "New List"
               : draft[textFieldIndex].title;
           draft[textFieldIndex].toggle = true;
-          apiChangeTitle(draft[textFieldIndex].title);
+          //apiChangeTitle(draft[textFieldIndex].title);
         })
       );
     };
@@ -349,7 +350,10 @@ const TodoListWindow = forwardRef(
       setTodolists(todolists.concat(newTodolist));
       nextIndexTodolist.current += 1;
     };
-
+    const apiAddTodolist = useCallback(() => {
+      const idFromDB = todolistapi.apiAddTodolist();
+      console.log(idFromDB);
+    });
     //Todo Methods
     const handleKeyDownTodo = (e) => {
       const type = e.type;

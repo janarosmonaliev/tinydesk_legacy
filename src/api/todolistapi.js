@@ -5,18 +5,19 @@ import client from "./client";
 
 export const apiAddTodolist = () => {
   client
-    .post("/home/todolist/")
+    .post("/home/todolists/")
     .then((res) => {
       console.log(res);
+      return res.data;
     })
     .catch((error) => {
       console.log(error);
     });
 };
 
-export const apiDeleteTodolist = (data) => {
+export const apiDeleteTodolist = (payload) => {
   client
-    .delete("/home/todolist/", { removeId: data })
+    .delete("/home/todolists/", { data: payload })
     .then((res) => {
       console.log(res);
     })
@@ -27,7 +28,7 @@ export const apiDeleteTodolist = (data) => {
 
 export const apiChangeTitle = (data) => {
   client
-    .put("/home/todolist", { title: data })
+    .put("/home/todolists/", { title: data })
     .then((res) => {
       console.log(res);
     })
