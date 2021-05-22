@@ -7,6 +7,7 @@ import FoldersWrapper from "./folders-wrapper";
 import { UserContext } from "./context/UserContext";
 import axios from "axios";
 import * as fetch from "../../api/fetch";
+import * as apiBackground from "../../api/backgroundapi";
 const theme = createMuiTheme({
   typography: {
     fontFamily: ['"Inter"', "sans-serif"].join(","),
@@ -140,6 +141,13 @@ const App = () => {
 
   const saveSetBackground = () => {
     setInitialBackground(background);
+    apiChangeBackground(background);
+  };
+
+  const apiChangeBackground = (image) => {
+    console.log("set background image with url ", image);
+    const data = { url: image };
+    apiBackground.apiChangeBackground(data);
   };
 
   const unsplashImage = {
