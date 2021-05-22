@@ -5,7 +5,6 @@ import NavigationBar from "./navbar";
 import GridWrapper from "./grid-wrapper";
 import FoldersWrapper from "./folders-wrapper";
 import { UserContext } from "./context/UserContext";
-import axios from "axios";
 import * as fetch from "../../api/fetch";
 const theme = createMuiTheme({
   typography: {

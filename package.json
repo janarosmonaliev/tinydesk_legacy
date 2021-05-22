@@ -5,14 +5,18 @@
   "version": "0.0.1",
   "author": "Team KGB",
   "dependencies": {
+    "@date-io/date-fns": "^1.3.13",
     "@loadable/component": "^5.15.0",
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.58",
+    "@material-ui/pickers": "^3.3.10",
     "array-move": "^3.0.1",
     "axios": "^0.21.1",
+    "bootstrap": "^4.6.0",
     "classnames": "^2.3.1",
     "clsx": "^1.1.1",
+    "date-fns": "^2.21.3",
     "dayjs": "^1.10.4",
     "draft-js": "^0.11.7",
     "gatsby": "^2.32.8",
@@ -40,7 +44,8 @@
     "react-swipeable-views": "^0.13.9",
     "sass": "^1.32.13",
     "styled-components": "^5.3.0",
-    "unsplash-js": "^7.0.11"
+    "unsplash-js": "^7.0.11",
+    "validator": "^13.6.0"
   },
   "devDependencies": {
     "prettier": "2.2.1"

@@ -7,4 +7,11 @@ export default [
     start: new Date(2021, 4, 13),
     end: new Date(2021, 4, 13),
   },
+  {
+    id: 1,
+    title: "CSE416 ",
+    allDay: true,
+    start: new Date(2021, 4, 20),
+    end: new Date(2021, 4, 20),
+  },
 ];
