@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { navigate } from "gatsby";
-import { Grid, Card, CardContent, Button, makeStyles } from "@material-ui/core";
+import {
+  Grid,
+  Card,
+  CardContent,
+  Button,
+  makeStyles,
+  LinearProgress,
+} from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import Logo from "../../images/commandt-logo-sm.svg";
 import * as auth from "../../api/auth";
@@ -8,6 +15,7 @@ const useStyles = makeStyles({
   errorMessage: {
     color: "red",
   },
+  progressBar: {},
 });
 const LoginPage = () => {
   // state variables since I haven't read how to use ref objects yet
@@ -88,6 +96,7 @@ const LoginPage = () => {
                 Log in
               </Button>
             </CardContent>
+            {filter ? <LinearProgress /> : <></>}
           </Card>
 
           <Button

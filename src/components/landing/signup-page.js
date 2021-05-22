@@ -13,6 +13,7 @@ import Logo from "../../images/commandt-logo-sm.svg";
 import { Autocomplete } from "@material-ui/lab";
 import cities from "../../cities";
 import * as auth from "../../api/auth";
+import validator from "validator";
 const useStyles = makeStyles({
   errorMessage: {
     color: "red",
@@ -30,8 +31,13 @@ const SignupPage = () => {
   const [city, setCity] = useState({});
   const [error, setError] = useState(false);
   const [disabled, setDisabled] = useState(false);
+  const [emailError, setEmailError] = useState(false);
   // The function that fires when the user clicks to submit the form
   const register = () => {
+    if (!validator.isEmail(email)) {
+      setEmailError(true);
+      return;
+    }
     setError(false);
     setDisabled(true);
     const data = {
@@ -87,6 +93,7 @@ const SignupPage = () => {
                 <TextField
                   id="sign-page-form-email"
                   fullWidth
+                  error={emailError}
                   label="Email"
                   type="email"
                   onChange={(e) => setEmail(e.target.value)}
