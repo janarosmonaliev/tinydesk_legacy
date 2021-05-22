@@ -28,9 +28,9 @@ const AddFolder = () => {
     setSelectedFolderId(newFolder._id);
   });
 
-  const apiAddFolder = () => {
-    const data = {};
-    apiFolder.apiAddFolder(data, setError, setFilter);
+  const apiAddFolder = (title) => {
+    const data = { title: title };
+    apiFolder.apiAddFolder(data);
   };
 
   const [open, setOpen] = useState(false);
