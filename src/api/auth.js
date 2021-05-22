@@ -34,3 +34,17 @@ export const register = (data, setError, setDisabled) => {
     }
   });
 };
+
+export const logout = (data, setError) => {
+  client.get("/logout", data).then((res) => {
+    console.log(res);
+    if (res.data == "Successful logout") {
+      console.log("logging out");
+      navigate("/");
+    } else {
+      setError(true);
+    }
+  }).catch((error) => {
+    console.log(error);
+  });
+};

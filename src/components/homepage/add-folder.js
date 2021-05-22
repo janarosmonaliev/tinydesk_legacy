@@ -12,6 +12,7 @@ import {
 } from "@material-ui/core";
 import { UserContext } from "./context/UserContext";
 import DialogActionButton from "../common/DialogActionButton";
+import * as apiFolder from "../../api/folderapi";
 
 const AddFolder = () => {
   const { folders, setFolders, setSelectedFolderId } = useContext(UserContext);
@@ -22,9 +23,16 @@ const AddFolder = () => {
       _id: nextId(),
       bookmarks: [],
     };
+    apiAddFolder(title);
     setFolders(folders.concat(newFolder));
     setSelectedFolderId(newFolder._id);
   });
+
+  const apiAddFolder = (title) => {
+    const data = { title: title };
+    apiFolder.apiAddFolder(data);
+  };
+
   const [open, setOpen] = useState(false);
   const [folderTitle, setFolderTitle] = useState("");
   const [isEmpty, setIsEmpty] = useState(false);
