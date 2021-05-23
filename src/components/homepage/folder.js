@@ -1,5 +1,5 @@
 import { ClickAwayListener, Input, makeStyles } from "@material-ui/core";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useCallback } from "react";
 import { UserContext } from "./context/UserContext";
 import { useForm, Controller } from "react-hook-form";
 import produce from "immer";
@@ -36,9 +36,15 @@ const Folder = ({ folder, index }) => {
     setFolders(
       produce((draft) => {
         draft[index].title = title;
+        apiChangeFolderTitle(draft[index]);
       })
     );
   };
+
+  const apiChangeFolderTitle = useCallback((modFolder) => {
+    const data = { _id: modFolder._id, title: modFolder.title };
+    apiFolder.apiChangeFolderTitle(data);
+  });
   const onChange = (e) => {
     setTitle(e.target.value);
   };

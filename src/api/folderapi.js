@@ -40,3 +40,10 @@ export const apiChangeFolderPosition = (data) => {
       console.log(error);
     });
 };
+
+export const apiChangeFolderTitle = (data) => {
+  client
+    .put("/home/folder", data)
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err));
+};
