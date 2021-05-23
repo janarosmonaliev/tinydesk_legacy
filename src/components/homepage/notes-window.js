@@ -31,6 +31,7 @@ import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
 import { useForm, Controller } from "react-hook-form";
 import RichEditor from "./note-editor";
+import * as noteapi from "../../api/noteapi";
 
 const useStyles = makeStyles({
   outerStyles: {
@@ -239,9 +240,20 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
     setSelectedId(newNote._id);
     setSelectedIndex(nextIndexNote.current);
     setNotes(notes.concat(newNote));
-
+    apiAddNote(newNote);
     nextIndexNote.current += 1;
   };
+
+  async function apiAddNote(newNote) {
+    try {
+      let result = await noteapi.apiAddNote();
+      console.log("id from backend ", result);
+      newNote._id = result;
+      console.log("id changed to", newNote._id);
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   const onEnterNotesList = (e) => {
     e.preventDefault();
