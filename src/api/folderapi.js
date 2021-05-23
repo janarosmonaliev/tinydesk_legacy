@@ -25,3 +25,14 @@ export const apiDeleteFolder = (payload) => {
       console.log(error);
     });
 };
+
+export const apiChangeFolderPosition = (data) => {
+  client
+    .put("/home/folder/order", data)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
