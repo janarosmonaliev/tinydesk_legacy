@@ -4,14 +4,18 @@ import { navigate } from "gatsby-link";
 import client from "./client";
 
 export const apiAddFolder = (data) => {
-  client
-    .post("/home/folder/", data)
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  const promise = new Promise((resolve) => {
+    client
+      .post("/home/folder/", data)
+      .then((res) => {
+        console.log(res);
+        resolve(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
+  return promise;
 };
 
 export const apiDeleteFolder = (payload) => {

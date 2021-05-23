@@ -355,10 +355,6 @@ const TodoListWindow = forwardRef(
       setSelectedIndex(nextIndexTodolist.current);
       setTodolists(todolists.concat(newTodolist));
       nextIndexTodolist.current += 1;
-      // apiAddTodolist().then((objectId) => {
-      //   console.log(objectId);
-      //   newTodolist._id = objectId;
-      // });
       apiAddTodolist(newTodolist);
     };
 
