@@ -473,8 +473,14 @@ const TodoListWindow = forwardRef(
 
     const onSortEndTodolist = ({ oldIndex, newIndex }) => {
       setTodolists(arrayMove(todolists, oldIndex, newIndex));
+      apiChangeTodolistPosition(todolists[oldIndex]._id, newIndex);
       setSelectedId(todolists[newIndex]._id);
       setSelectedIndex(newIndex);
+    };
+
+    const apiChangeTodolistPosition = (todolistId, newIndex) => {
+      const data = { _id: todolistId, newIndex: newIndex };
+      todolistapi.apiChangeTodolistPosition(data);
     };
     return (
       <Dialog

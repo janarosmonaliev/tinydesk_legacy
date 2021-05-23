@@ -36,3 +36,14 @@ export const apiChangeTitle = (data) => {
       console.log(error);
     });
 };
+
+export const apiChangeTodolistPosition = (data) => {
+  client
+    .put("/home/todolists/order", data)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
