@@ -4,15 +4,18 @@ import { navigate } from "gatsby-link";
 import client from "./client";
 
 export const apiAddTodolist = () => {
-  client
-    .post("/home/todolists/")
-    .then((res) => {
-      console.log(res);
-      return res.data;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  const promise = new Promise((resolve) => {
+    client
+      .post("/home/todolists/")
+      .then((res) => {
+        console.log(res);
+        resolve(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
+  return promise;
 };
 
 export const apiDeleteTodolist = (payload) => {

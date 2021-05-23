@@ -320,7 +320,7 @@ const TodoListWindow = forwardRef(
 
     const apiChangeTitle = useCallback((todolist) => {
       console.log("change title of new todolist with id: ", todolist._id);
-      const data = { title: todolist.title };
+      const data = { _id: todolist._id, title: todolist.title };
       todolistapi.apiChangeTitle(data);
     });
 
@@ -351,16 +351,40 @@ const TodoListWindow = forwardRef(
         toggle: false,
         todos: [],
       };
-      apiAddTodolist();
       setSelectedId(newTodolist._id);
       setSelectedIndex(nextIndexTodolist.current);
       setTodolists(todolists.concat(newTodolist));
       nextIndexTodolist.current += 1;
+      // apiAddTodolist().then((objectId) => {
+      //   console.log(objectId);
+      //   newTodolist._id = objectId;
+      // });
+      apiAddTodolist(newTodolist);
     };
-    const apiAddTodolist = useCallback(() => {
-      const idFromDB = todolistapi.apiAddTodolist();
-      console.log(idFromDB);
-    });
+
+    async function apiAddTodolist(newTodolist) {
+      // const promise = new Promise((resolve, reject) => {
+      //   const objectId = todolistapi.apiAddTodolist();
+      //   if (objectId === undefined) {
+      //     const e = new Error("backend process is not done");
+      //     reject(e);
+      //   }
+      //   console.log("id from backend ", objectId);
+      //   resolve(objectId);
+      // });
+      // return promise;
+
+      // console.log("id from backend ", objectId);
+      // return objectId;
+      try {
+        let result = await todolistapi.apiAddTodolist();
+        console.log("id from backend ", result);
+        newTodolist._id = result;
+        console.log("id changed to", newTodolist._id);
+      } catch (e) {
+        console.log(e);
+      }
+    }
     //Todo Methods
     const handleKeyDownTodo = (e) => {
       const type = e.type;
