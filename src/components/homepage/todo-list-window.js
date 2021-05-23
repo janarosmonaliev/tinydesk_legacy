@@ -23,11 +23,7 @@ import nextId from "react-id-generator";
 import { Menu, MenuItem } from "@material-ui/core/";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
-import {
-  apiAddTodolist,
-  apiDeleteTodolist,
-  apiChangeTitle,
-} from "../../api/todolistapi";
+import * as todolistapi from "../../api/todolistapi";
 
 //SORTABLE TODOs
 const SortableTodoItem = SortableElement(({ value, ...props }) => (
@@ -298,6 +294,11 @@ const TodoListWindow = forwardRef(
       setTodolistIdForContextMenu(null);
       nextIndexTodolist.current -= 1;
     });
+    const apiDeleteTodolist = useCallback((id) => {
+      const payload = { removeId: id };
+      console.log("deleting todolist's id front ", id);
+      todolistapi.apiDeleteTodolist(payload);
+    });
 
     // Handle ClickAway
     const handleCloseTextfield = (e) => {
@@ -312,10 +313,17 @@ const TodoListWindow = forwardRef(
               ? "New List"
               : draft[textFieldIndex].title;
           draft[textFieldIndex].toggle = true;
-          apiChangeTitle(draft[textFieldIndex].title);
+          apiChangeTitle(draft[textFieldIndex]);
         })
       );
     };
+
+    const apiChangeTitle = useCallback((todolist) => {
+      console.log("change title of new todolist with id: ", todolist._id);
+      const data = { _id: todolist._id, title: todolist.title };
+      todolistapi.apiChangeTitle(data);
+    });
+
     //onClcik handler
     const handleTodolistClickAway = (e) => {
       handleCloseTextfield(e);
@@ -343,13 +351,23 @@ const TodoListWindow = forwardRef(
         toggle: false,
         todos: [],
       };
-      apiAddTodolist();
       setSelectedId(newTodolist._id);
       setSelectedIndex(nextIndexTodolist.current);
       setTodolists(todolists.concat(newTodolist));
       nextIndexTodolist.current += 1;
+      apiAddTodolist(newTodolist);
     };
 
+    async function apiAddTodolist(newTodolist) {
+      try {
+        let result = await todolistapi.apiAddTodolist();
+        console.log("id from backend ", result);
+        newTodolist._id = result;
+        console.log("id changed to", newTodolist._id);
+      } catch (e) {
+        console.log(e);
+      }
+    }
     //Todo Methods
     const handleKeyDownTodo = (e) => {
       const type = e.type;
@@ -462,8 +480,14 @@ const TodoListWindow = forwardRef(
 
     const onSortEndTodolist = ({ oldIndex, newIndex }) => {
       setTodolists(arrayMove(todolists, oldIndex, newIndex));
+      apiChangeTodolistPosition(todolists[oldIndex]._id, newIndex);
       setSelectedId(todolists[newIndex]._id);
       setSelectedIndex(newIndex);
+    };
+
+    const apiChangeTodolistPosition = (todolistId, newIndex) => {
+      const data = { _id: todolistId, newIndex: newIndex };
+      todolistapi.apiChangeTodolistPosition(data);
     };
     return (
       <Dialog

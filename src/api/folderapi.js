@@ -4,8 +4,24 @@ import { navigate } from "gatsby-link";
 import client from "./client";
 
 export const apiAddFolder = (data) => {
+  const promise = new Promise((resolve) => {
+    client
+      .post("/home/folder/", data)
+      .then((res) => {
+        console.log(res);
+        resolve(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
+  return promise;
+};
+
+export const apiDeleteFolder = (payload) => {
+  console.log("check right id ", payload.remove);
   client
-    .post("/home/folder/", data)
+    .delete("/home/folder/", { data: payload })
     .then((res) => {
       console.log(res);
     })
@@ -14,13 +30,20 @@ export const apiAddFolder = (data) => {
     });
 };
 
-export const apiDeleteFolder = (data) => {
+export const apiChangeFolderPosition = (data) => {
   client
-    .delete("/home/folder/", data)
+    .put("/home/folder/order", data)
     .then((res) => {
       console.log(res);
     })
     .catch((error) => {
       console.log(error);
     });
+};
+
+export const apiChangeFolderTitle = (data) => {
+  client
+    .put("/home/folder", data)
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err));
 };

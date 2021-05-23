@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useCallback } from "react";
 import Folder from "./folder";
 import Grid from "@material-ui/core/Grid";
 import RemoveCircleOutlinedIcon from "@material-ui/icons/RemoveCircleOutlined";
@@ -17,7 +17,7 @@ import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import AddFolder from "./add-folder";
 import DialogActionButton from "../common/DialogActionButton";
 import arrayMove from "array-move";
-import { apiDeleteFolder } from "../../api/folderapi";
+import * as apiFolder from "../../api/folderapi";
 
 const SortableFolder = SortableElement(({ value, sortIndex }) => (
   <Folder folder={value} index={sortIndex} />
@@ -74,9 +74,23 @@ const FoldersWrapper = () => {
     setFolderId(-1);
   };
 
+  const apiDeleteFolder = useCallback((folderId) => {
+    console.log("the folder's id to delete is ", folderId, typeof folderId);
+    const payload = { remove: folderId };
+    //const data = { data: payload };
+    apiFolder.apiDeleteFolder(payload);
+  });
+
   const onSortEnd = ({ oldIndex, newIndex }) => {
     setFolders(arrayMove(folders, oldIndex, newIndex));
+    apiChangeFolderPosition(folders[oldIndex]._id, newIndex);
   };
+
+  const apiChangeFolderPosition = (folderId, newIndex) => {
+    const data = { _id: folderId, newIndex: newIndex };
+    apiFolder.apiChangeFolderPosition(data);
+  };
+
   return (
     <>
       <div className="folders-wrapper">
