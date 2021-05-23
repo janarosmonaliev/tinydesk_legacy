@@ -363,19 +363,6 @@ const TodoListWindow = forwardRef(
     };
 
     async function apiAddTodolist(newTodolist) {
-      // const promise = new Promise((resolve, reject) => {
-      //   const objectId = todolistapi.apiAddTodolist();
-      //   if (objectId === undefined) {
-      //     const e = new Error("backend process is not done");
-      //     reject(e);
-      //   }
-      //   console.log("id from backend ", objectId);
-      //   resolve(objectId);
-      // });
-      // return promise;
-
-      // console.log("id from backend ", objectId);
-      // return objectId;
       try {
         let result = await todolistapi.apiAddTodolist();
         console.log("id from backend ", result);
