@@ -32,6 +32,7 @@ const Folder = ({ folder, index }) => {
     setToggle(false);
   };
   const handleClickAway = () => {
+    console.log("HELLO");
     setToggle(true);
     setFolders(
       produce((draft) => {
@@ -50,26 +51,26 @@ const Folder = ({ folder, index }) => {
   };
 
   return (
-    <ClickAwayListener onClickAway={handleClickAway}>
-      <div
-        className={
-          jiggle
-            ? "folder-wrapper not-hoverable"
-            : folder._id === selectedFolderId
-            ? "folder-wrapper hoverable clicked"
-            : "folder-wrapper hoverable"
-        }
-      >
-        {toggle ? (
-          <div
-            className="folder-title"
-            id={folder._id}
-            onClick={() => handleClick(folder._id)}
-            onDoubleClick={handleDoubleClick}
-          >
-            {folder.title}
-          </div>
-        ) : (
+    <div
+      className={
+        jiggle
+          ? "folder-wrapper not-hoverable"
+          : folder._id === selectedFolderId
+          ? "folder-wrapper hoverable clicked"
+          : "folder-wrapper hoverable"
+      }
+    >
+      {toggle ? (
+        <div
+          className="folder-title"
+          id={folder._id}
+          onClick={() => handleClick(folder._id)}
+          onDoubleClick={handleDoubleClick}
+        >
+          {folder.title}
+        </div>
+      ) : (
+        <ClickAwayListener onClickAway={handleClickAway}>
           <div className="folder-title">
             <form onSubmit={handleSubmit(handleClickAway)}>
               <Controller
@@ -88,9 +89,9 @@ const Folder = ({ folder, index }) => {
               />
             </form>
           </div>
-        )}
-      </div>
-    </ClickAwayListener>
+        </ClickAwayListener>
+      )}
+    </div>
   );
 };
 export default React.memo(Folder);
