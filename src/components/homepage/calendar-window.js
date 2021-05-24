@@ -31,6 +31,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import nextId from "react-id-generator";
 import produce from "immer";
+import * as calendarapi from "../../api/calendarapi";
 moment.updateLocale("en", {
   week: {
     dow: 1,
@@ -101,7 +102,13 @@ const CalendarWindow = forwardRef((props, ref) => {
     setEvents(events.filter((e) => e._id !== event._id));
     setEvent(initialEvent);
     handleClosePopover();
+    apiDeleteEvent(event._id);
   };
+  const apiDeleteEvent = useCallback((id) => {
+    const payload = { removeId: id };
+    console.log("deleting event's id front ", id);
+    calendarapi.apiDeleteEvent(payload);
+  });
   //Clicking Outside the popover will cancel the editing
   //This is intentional
   //Only the submit (enter) will successfully edit
@@ -111,10 +118,17 @@ const CalendarWindow = forwardRef((props, ref) => {
     setEvents(
       produce((draft) => {
         draft[index].title = titleRef.current.value;
+        apiChangeEventTitle(draft[index]);
       })
     );
     handleClosePopover();
   };
+
+  const apiChangeEventTitle = useCallback((event) => {
+    const data = { _id: event._id, title: event.title };
+    console.log("change title of this event ", event._id);
+    calendarapi.apiChangeEventTitle(data);
+  });
 
   //Event Handler
   const handleSelect = ({ start, end }) => {
@@ -138,7 +152,27 @@ const CalendarWindow = forwardRef((props, ref) => {
       setEvents([...events, { _id, title, allDay, start, end }]);
     }
     setOpenAdd(false);
+    const newEvent = {
+      title: title,
+      allDay: allDay,
+      start: start,
+      end: end,
+      _id: _id,
+    };
+    apiAddNewEvent(newEvent);
   };
+
+  async function apiAddNewEvent(newEvent) {
+    try {
+      let result = await calendarapi.apiAddEvent(newEvent);
+      console.log("id from backend ", result);
+      newEvent._id = result;
+      console.log("id changed to", newEvent._id);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   const handleStartDateChange = (date) => {
     setStart(date);
   };
@@ -155,6 +189,7 @@ const CalendarWindow = forwardRef((props, ref) => {
     setEvents(
       produce((draft) => {
         draft[index].start = date;
+        apiChangeEventDate("start", draft[index]);
       })
     );
   };
@@ -168,9 +203,17 @@ const CalendarWindow = forwardRef((props, ref) => {
     setEvents(
       produce((draft) => {
         draft[index].end = date;
+        apiChangeEventDate("end", draft[index]);
       })
     );
   };
+
+  const apiChangeEventDate = useCallback((when, event) => {
+    console.log("change title of event with id: ", event._id);
+    const data = { _id: event._id, date: event.date, when: when };
+    calendarapi.apiChangeEventDate(data);
+  });
+
   return (
     <div>
       <Dialog
