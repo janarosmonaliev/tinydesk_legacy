@@ -36,7 +36,8 @@ import * as noteapi from "../../api/noteapi";
 const useStyles = makeStyles({
   outerStyles: {
     width: "100%",
-    height: "1%",
+    cursor: "text",
+    minHeight: "1%",
     overflow: "auto",
     position: "relative",
   },
@@ -292,7 +293,6 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
     setNotes(arrayMove(notes, oldIndex, newIndex));
     setSelectedIndex(newIndex);
   };
-
   return (
     <Dialog
       fullWidth
@@ -352,12 +352,10 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
               <b>{selectedId == -1 ? "" : notes[selectedIndex].title}</b>
             </h5>
 
-            {selectedId != -1 ? (
-              <>
-                <div className={classes.outerStyles}>{<RichEditor />}</div>
-              </>
-            ) : (
+            {selectedId === -1 ? (
               <></>
+            ) : (
+              <div className={classes.outerStyles}>{<RichEditor />}</div>
             )}
           </Grid>
         </Grid>
