@@ -3,6 +3,11 @@ import client from "./client";
 
 export const getUserData = (setter) => {
   client.get("/home").then((res) => {
+    if (res.data == "no uid") {
+      navigate("/login");
+      return;
+    }
+    console.log("HELLO");
     setter.setFolders(res.data.folders);
     setter.setBackground(res.data.backgroundImg.url);
     setter.setUnicorn(res.data.keepUnicorn);
