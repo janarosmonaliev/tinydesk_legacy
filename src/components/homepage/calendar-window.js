@@ -83,7 +83,7 @@ const CalendarWindow = forwardRef((props, ref) => {
 
   //Popver Edit
   const [anchorEl, setAnchorEl] = useState(null);
-
+  // const [editEvent, setEditEvent] = useState(initialEvent)
   const handleClosePopover = () => {
     setAnchorEl(null);
   };
@@ -91,9 +91,10 @@ const CalendarWindow = forwardRef((props, ref) => {
   const id = openPopover ? "event-popover" : undefined;
 
   const handleSelectEvent = (event, e) => {
-    setAnchorEl(e.currentTarget);
-
     setEvent(event);
+
+    setAnchorEl(e.currentTarget);
+    // setEditEvent()
   };
   const handleDelete = () => {
     setEvents(events.filter((e) => e.id !== event.id));
@@ -126,6 +127,7 @@ const CalendarWindow = forwardRef((props, ref) => {
   const [openAdd, setOpenAdd] = useState(false);
   const [start, setStart] = useState(new Date());
   const [end, setEnd] = useState(new Date());
+
   const addNewEvent = (e) => {
     e.preventDefault();
     const title = newTitleRef.current.value;
@@ -151,7 +153,7 @@ const CalendarWindow = forwardRef((props, ref) => {
     const index = events.findIndex((e) => e.id === event.id);
     setEvents(
       produce((draft) => {
-        draft[index].start = moment(date);
+        draft[index].start = date;
       })
     );
   };
@@ -164,7 +166,7 @@ const CalendarWindow = forwardRef((props, ref) => {
     const index = events.findIndex((e) => e.id === event.id);
     setEvents(
       produce((draft) => {
-        draft[index].end = moment(date);
+        draft[index].end = date;
       })
     );
   };
@@ -237,6 +239,7 @@ const CalendarWindow = forwardRef((props, ref) => {
                     id="start-date-picker-inline"
                     label="Start"
                     value={event.start}
+                    // value={event.start}
                     onChange={(date) =>
                       handleStartDateChangeOnEdit(date, event)
                     }
@@ -254,6 +257,7 @@ const CalendarWindow = forwardRef((props, ref) => {
                     id="end-date-picker-inline"
                     label="End"
                     value={event.end}
+                    // value={event.end}
                     onChange={(date) => handleEndDateChangeOnEdit(date, event)}
                     KeyboardButtonProps={{
                       "aria-label": "change date",
