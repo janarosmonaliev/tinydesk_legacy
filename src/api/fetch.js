@@ -1,3 +1,4 @@
+import { navigate } from "gatsby-link";
 import client from "./client";
 
 export const getUserData = (setter) => {
