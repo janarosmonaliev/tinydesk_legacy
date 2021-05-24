@@ -1,8 +1,6 @@
 import React, { useContext, useRef, useState, useEffect } from "react";
 import NotesWindow from "./notes-window";
-import styled from "styled-components";
 import { UserContext } from "./context/UserContext";
-import * as fetch from "../../api/fetch";
 
 const NotesWidget = (props) => {
   const notesWindowRef = useRef();

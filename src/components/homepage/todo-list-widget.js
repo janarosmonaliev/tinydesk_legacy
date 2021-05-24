@@ -3,7 +3,6 @@ import TodoListWindow from "./todo-list-window";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import { UserContext } from "./context/UserContext";
 
-import * as fetch from "../../api/fetch";
 const ToDoListWidget = () => {
   //Todo list attributes = todolistid : Objectid, index: int ; title: String
   //Todo attributes = title: String, isCompleted: Bool, todoId: ObjectId, index: int
