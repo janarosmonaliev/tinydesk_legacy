@@ -3,6 +3,7 @@ import React, {
   forwardRef,
   useImperativeHandle,
   useContext,
+  useCallback,
 } from "react";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import { X } from "react-feather";
@@ -27,6 +28,7 @@ import cities from "../../cities";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { UserContext } from "./context/UserContext";
 import * as logout from "../../api/auth";
+import * as accountApi from "../../api/accountapi";
 
 const AccountSettingsTwo = forwardRef((props, ref) => {
   const {
@@ -64,6 +66,7 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
 
   const handleChange = (event) => {
     setUnicornConfig(event.target.checked);
+    console.log(event.target.checked, typeof event.target.checked);
   };
 
   useImperativeHandle(ref, () => ({
@@ -86,12 +89,24 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
       return;
     }
     setUnicorn(unicornConfig);
+    apiChangeUserInfo();
   };
+
+  const apiChangeUserInfo = useCallback(() => {
+    console.log(
+      "change location with : ",
+      cityValue,
+      "keep unicorn? :",
+      unicornConfig
+    );
+    const data = { city: cityValue, keepUnicorn: unicornConfig };
+    accountApi.apiChangeUserInfo(data);
+  });
 
   const logoutFunction = () => {
     const data = {};
     logout.logout(data, setError);
-  }
+  };
 
   return (
     <>
