@@ -6,13 +6,9 @@ import * as fetch from "../../api/fetch";
 
 const NotesWidget = (props) => {
   const notesWindowRef = useRef();
-  const { jiggle } = useContext(UserContext);
-  const [notes, setNotes] = useState([]);
-  const [previewNotes, setPreviewNotes] = useState([]);
+  const { jiggle, notes, setNotes } = useContext(UserContext);
 
-  useEffect(() => {
-    fetch.getNotes(setNotes, setPreviewNotes);
-  }, []);
+  const [previewNotes, setPreviewNotes] = useState([]);
 
   const handleClick = () => {
     notesWindowRef.current.clickOpen();

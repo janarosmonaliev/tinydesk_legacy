@@ -65,6 +65,7 @@ const CalendarWindow = forwardRef((props, ref) => {
     title: "",
     start: new Date(),
   };
+  //Should default eventData populated from the app that got from the backend
   const [events, setEvents] = useState(eventData);
   const [event, setEvent] = useState(initialEvent);
   //Window State & Func
@@ -97,7 +98,7 @@ const CalendarWindow = forwardRef((props, ref) => {
     // setEditEvent()
   };
   const handleDelete = () => {
-    setEvents(events.filter((e) => e.id !== event.id));
+    setEvents(events.filter((e) => e._id !== event._id));
     setEvent(initialEvent);
     handleClosePopover();
   };
@@ -106,7 +107,7 @@ const CalendarWindow = forwardRef((props, ref) => {
   //Only the submit (enter) will successfully edit
   const handleSubmit = (e) => {
     e.preventDefault();
-    const index = events.findIndex((e) => e.id === event.id);
+    const index = events.findIndex((e) => e._id === event._id);
     setEvents(
       produce((draft) => {
         draft[index].title = titleRef.current.value;
@@ -132,9 +133,9 @@ const CalendarWindow = forwardRef((props, ref) => {
     e.preventDefault();
     const title = newTitleRef.current.value;
     const allDay = false;
-    const id = nextId();
+    const _id = nextId();
     if (title) {
-      setEvents([...events, { id, title, allDay, start, end }]);
+      setEvents([...events, { _id, title, allDay, start, end }]);
     }
     setOpenAdd(false);
   };
@@ -150,7 +151,7 @@ const CalendarWindow = forwardRef((props, ref) => {
     if (startDate.isAfter(endDate)) {
       return;
     }
-    const index = events.findIndex((e) => e.id === event.id);
+    const index = events.findIndex((e) => e._id === event._id);
     setEvents(
       produce((draft) => {
         draft[index].start = date;
@@ -163,7 +164,7 @@ const CalendarWindow = forwardRef((props, ref) => {
     if (endDate.isBefore(startDate)) {
       return;
     }
-    const index = events.findIndex((e) => e.id === event.id);
+    const index = events.findIndex((e) => e._id === event._id);
     setEvents(
       produce((draft) => {
         draft[index].end = date;
