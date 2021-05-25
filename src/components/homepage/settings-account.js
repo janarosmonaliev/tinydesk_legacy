@@ -92,10 +92,10 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
     apiChangeUserInfo(newCity);
   };
 
-  const apiChangeUserInfo = useCallback(() => {
+  const apiChangeUserInfo = useCallback((newCity) => {
     console.log(
-      "change location with : ",
-      newCity.name,
+      "change location to : ",
+      newCity,
       "keep unicorn? :",
       unicornConfig
     );
