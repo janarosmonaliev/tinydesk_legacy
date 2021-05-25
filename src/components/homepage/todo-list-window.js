@@ -361,7 +361,7 @@ const TodoListWindow = forwardRef(
     async function apiAddTodolist(newTodolist) {
       try {
         let result = await todolistapi.apiAddTodolist();
-        console.log("id from backend ", result);
+        console.log("id from backend ", result, typeof result);
         newTodolist._id = result;
         console.log("id changed to", newTodolist._id);
       } catch (e) {
