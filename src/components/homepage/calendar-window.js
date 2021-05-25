@@ -3,6 +3,7 @@ import React, {
   useState,
   useImperativeHandle,
   useRef,
+  useCallback,
 } from "react";
 import {
   Dialog,
@@ -148,23 +149,25 @@ const CalendarWindow = forwardRef((props, ref) => {
     const title = newTitleRef.current.value;
     const allDay = false;
     const _id = nextId();
+
     if (title) {
-      setEvents([...events, { _id, title, allDay, start, end }]);
+      const newEvent = {
+        title: title,
+        allDay: allDay,
+        start: start,
+        end: end,
+        _id: _id,
+      };
+      //setEvents([...events, { _id, title, allDay, start, end }]);
+      setEvents([...events, newEvent]);
+      apiAddNewEvent(newEvent);
     }
     setOpenAdd(false);
-    const newEvent = {
-      title: title,
-      allDay: allDay,
-      start: start,
-      end: end,
-      _id: _id,
-    };
-    apiAddNewEvent(newEvent);
   };
 
   async function apiAddNewEvent(newEvent) {
     try {
-      let result = await calendarapi.apiAddEvent(newEvent);
+      let result = await calendarapi.apiAddNewEvent(newEvent);
       console.log("id from backend ", result);
       newEvent._id = result;
       console.log("id changed to", newEvent._id);
@@ -177,11 +180,12 @@ const CalendarWindow = forwardRef((props, ref) => {
     setStart(date);
   };
   const handleEndDateChange = (date) => {
-    setEnd(date);
+    setEnd(date, typeof date);
   };
   const handleStartDateChangeOnEdit = (date, event) => {
     const startDate = moment(date);
     const endDate = moment(event.end);
+    console.log(date);
     if (startDate.isAfter(endDate)) {
       return;
     }
@@ -209,8 +213,13 @@ const CalendarWindow = forwardRef((props, ref) => {
   };
 
   const apiChangeEventDate = useCallback((when, event) => {
-    console.log("change title of event with id: ", event._id);
-    const data = { _id: event._id, date: event.date, when: when };
+    console.log("change date of event with id: ", event._id);
+    const data = { _id: event._id, date: "", when: when };
+    if (when === "start") {
+      data.date = event.start;
+    } else if (when === "end") {
+      data.date = event.end;
+    }
     calendarapi.apiChangeEventDate(data);
   });
 
