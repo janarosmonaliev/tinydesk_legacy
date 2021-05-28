@@ -12,7 +12,6 @@ export const getUserData = (setter) => {
       setter.setEmail(res.data.email);
       setter.setUsername(res.data.username);
       setter.setLocation(res.data.location);
-      setter.setDisplayedBookmarks(res.data.folders[0].bookmarks);
       setter.setSelectedFolderId(res.data.folders[0]._id);
       if (res.data.todolists.length != 0) {
         res.data.todolists.forEach((tl) => {
