@@ -345,24 +345,36 @@ const TodoListWindow = forwardRef(
 
     //POST
     const onClickAddTodoList = () => {
+      //make a local todolist variable to show in screen ASAP
+      //user clicks "add a new list" button
       const newTodolist = {
         title: "",
         _id: nextId(),
         toggle: false,
         todos: [],
       };
+      const newlist = [...todolists];
       setSelectedId(newTodolist._id);
       setSelectedIndex(nextIndexTodolist.current);
       setTodolists(todolists.concat(newTodolist));
       nextIndexTodolist.current += 1;
-      apiAddTodolist(newTodolist);
+      apiAddTodolist(newlist);
     };
 
-    async function apiAddTodolist(newTodolist) {
+    async function apiAddTodolist(newlist) {
+      console.log(newlist);
       try {
         let result = await todolistapi.apiAddTodolist();
         console.log("id from backend ", result, typeof result);
-        newTodolist._id = result;
+        const newTodolist = {
+          title: "",
+          _id: result,
+          toggle: false,
+          todos: [],
+        };
+        setTodolists([...newlist, newTodolist]);
+        setSelectedId(newTodolist._id);
+        //setSelectedIndex(nextIndexTodolist.current);
         console.log("id changed to", newTodolist._id);
       } catch (e) {
         console.log(e);
