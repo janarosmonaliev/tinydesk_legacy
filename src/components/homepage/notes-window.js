@@ -227,6 +227,7 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
         draft[selectedIndex].content = e.target.value;
       })
     );
+    console.log(e.target.value);
   };
 
   //Handle Add Notes
@@ -234,27 +235,16 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
     const newNote = {
       title: "",
       _id: nextId(),
-      content: "",
+      content: {},
       toggle: false,
     };
 
     setSelectedId(newNote._id);
     setSelectedIndex(nextIndexNote.current);
     setNotes(notes.concat(newNote));
-    apiAddNote(newNote);
+    //apiAddNote(newNote);
     nextIndexNote.current += 1;
   };
-
-  async function apiAddNote(newNote) {
-    try {
-      let result = await noteapi.apiAddNote();
-      console.log("id from backend ", result);
-      newNote._id = result;
-      console.log("id changed to", newNote._id);
-    } catch (e) {
-      console.log(e);
-    }
-  }
 
   const onEnterNotesList = (e) => {
     e.preventDefault();
@@ -273,9 +263,39 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
         const title = draft[titleTextfieldIndex].title;
         draft[titleTextfieldIndex].title = title === "" ? "New Note" : title;
         draft[titleTextfieldIndex].toggle = true;
+        if (draft[titleTextfieldIndex]._id.length < 10) {
+          //make a copy of current todolists
+          let newlist = [...notes];
+          console.log(newlist);
+          //and remove the recently added variable
+          newlist.pop();
+          //call apiAddTodolist
+          apiAddNote(draft[titleTextfieldIndex].title, newlist);
+        } else {
+          //apiChangeTitle(draft[titleTextfieldIndex]);
+        }
       })
     );
   };
+
+  async function apiAddNote(title, newlist) {
+    const data = { title: title };
+    try {
+      let result = await noteapi.apiAddNote(data);
+      console.log("id from backend ", result);
+      const newNote = {
+        title: title,
+        _id: result,
+        content: {},
+        toggle: true,
+      };
+      console.log("note added wih id", newNote._id);
+      setNotes([...newlist, newNote]);
+      setSelectedId(result);
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   //use for parent to access
   useImperativeHandle(ref, () => ({

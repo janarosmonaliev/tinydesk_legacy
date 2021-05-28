@@ -63,7 +63,6 @@ const useStyles = makeStyles((theme) => ({
 
 const CalendarWindow = forwardRef((props, ref) => {
   const { events, setEvents } = useContext(UserContext);
-  console.log(events);
   const classes = useStyles();
   const newTitleRef = useRef(null);
   const titleRef = useRef(null);
