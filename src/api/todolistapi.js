@@ -3,10 +3,10 @@ import { navigate } from "gatsby-link";
 
 import client from "./client";
 
-export const apiAddTodolist = () => {
+export const apiAddTodolist = (data) => {
   const promise = new Promise((resolve) => {
     client
-      .post("/home/todolists/")
+      .post("/home/todolists/", data)
       .then((res) => {
         console.log(res);
         resolve(res.data);
