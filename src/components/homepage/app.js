@@ -110,6 +110,7 @@ const App = () => {
   const [username, setUsername] = useState("");
   const [todolists, setTodolists] = useState([]);
   const [notes, setNotes] = useState([]);
+  const [events, setEvents] = useState([]);
   // const [userId, setUserId] = useState();
   const [selectedFolderId, setSelectedFolderId] = useState("");
 
@@ -130,6 +131,7 @@ const App = () => {
       setLoading,
       setTodolists,
       setNotes,
+      setEvents,
     };
     fetch.getUserData(setter);
   }, []);
@@ -196,6 +198,8 @@ const App = () => {
     setTodolists,
     notes,
     setNotes,
+    events,
+    setEvents,
   };
 
   return (
