@@ -113,6 +113,7 @@ const App = () => {
   const [events, setEvents] = useState([]);
   // const [userId, setUserId] = useState();
   const [selectedFolderId, setSelectedFolderId] = useState("");
+  const [selectedFolderIndex, setSelectedFolderIndex] = useState(0);
 
   useMemo(() => {
     setInitialBackground(background);
@@ -198,8 +199,8 @@ const App = () => {
     setTodolists,
     notes,
     setNotes,
-    events,
-    setEvents,
+    selectedFolderIndex,
+    setSelectedFolderIndex,
   };
 
   return (
