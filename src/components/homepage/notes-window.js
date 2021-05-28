@@ -31,11 +31,13 @@ import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
 import { useForm, Controller } from "react-hook-form";
 import RichEditor from "./note-editor";
+import * as noteapi from "../../api/noteapi";
 
 const useStyles = makeStyles({
   outerStyles: {
     width: "100%",
-    height: "1%",
+    cursor: "text",
+    minHeight: "1%",
     overflow: "auto",
     position: "relative",
   },
@@ -239,9 +241,20 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
     setSelectedId(newNote._id);
     setSelectedIndex(nextIndexNote.current);
     setNotes(notes.concat(newNote));
-
+    apiAddNote(newNote);
     nextIndexNote.current += 1;
   };
+
+  async function apiAddNote(newNote) {
+    try {
+      let result = await noteapi.apiAddNote();
+      console.log("id from backend ", result);
+      newNote._id = result;
+      console.log("id changed to", newNote._id);
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   const onEnterNotesList = (e) => {
     e.preventDefault();
@@ -280,7 +293,6 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
     setNotes(arrayMove(notes, oldIndex, newIndex));
     setSelectedIndex(newIndex);
   };
-
   return (
     <Dialog
       fullWidth
@@ -340,12 +352,10 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
               <b>{selectedId == -1 ? "" : notes[selectedIndex].title}</b>
             </h5>
 
-            {selectedId != -1 ? (
-              <>
-                <div className={classes.outerStyles}>{<RichEditor />}</div>
-              </>
-            ) : (
+            {selectedId === -1 ? (
               <></>
+            ) : (
+              <div className={classes.outerStyles}>{<RichEditor />}</div>
             )}
           </Grid>
         </Grid>

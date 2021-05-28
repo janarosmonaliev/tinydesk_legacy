@@ -3,6 +3,7 @@ import React, {
   useState,
   useImperativeHandle,
   useRef,
+  useCallback,
 } from "react";
 import {
   Dialog,
@@ -31,6 +32,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import nextId from "react-id-generator";
 import produce from "immer";
+import * as calendarapi from "../../api/calendarapi";
 moment.updateLocale("en", {
   week: {
     dow: 1,
@@ -65,6 +67,7 @@ const CalendarWindow = forwardRef((props, ref) => {
     title: "",
     start: new Date(),
   };
+  //Should default eventData populated from the app that got from the backend
   const [events, setEvents] = useState(eventData);
   const [event, setEvent] = useState(initialEvent);
   //Window State & Func
@@ -83,7 +86,7 @@ const CalendarWindow = forwardRef((props, ref) => {
 
   //Popver Edit
   const [anchorEl, setAnchorEl] = useState(null);
-
+  // const [editEvent, setEditEvent] = useState(initialEvent)
   const handleClosePopover = () => {
     setAnchorEl(null);
   };
@@ -91,28 +94,42 @@ const CalendarWindow = forwardRef((props, ref) => {
   const id = openPopover ? "event-popover" : undefined;
 
   const handleSelectEvent = (event, e) => {
-    setAnchorEl(e.currentTarget);
-
     setEvent(event);
+
+    setAnchorEl(e.currentTarget);
+    // setEditEvent()
   };
   const handleDelete = () => {
-    setEvents(events.filter((e) => e.id !== event.id));
+    setEvents(events.filter((e) => e._id !== event._id));
     setEvent(initialEvent);
     handleClosePopover();
+    apiDeleteEvent(event._id);
   };
+  const apiDeleteEvent = useCallback((id) => {
+    const payload = { removeId: id };
+    console.log("deleting event's id front ", id);
+    calendarapi.apiDeleteEvent(payload);
+  });
   //Clicking Outside the popover will cancel the editing
   //This is intentional
   //Only the submit (enter) will successfully edit
   const handleSubmit = (e) => {
     e.preventDefault();
-    const index = events.findIndex((e) => e.id === event.id);
+    const index = events.findIndex((e) => e._id === event._id);
     setEvents(
       produce((draft) => {
         draft[index].title = titleRef.current.value;
+        apiChangeEventTitle(draft[index]);
       })
     );
     handleClosePopover();
   };
+
+  const apiChangeEventTitle = useCallback((event) => {
+    const data = { _id: event._id, title: event.title };
+    console.log("change title of this event ", event._id);
+    calendarapi.apiChangeEventTitle(data);
+  });
 
   //Event Handler
   const handleSelect = ({ start, end }) => {
@@ -126,32 +143,57 @@ const CalendarWindow = forwardRef((props, ref) => {
   const [openAdd, setOpenAdd] = useState(false);
   const [start, setStart] = useState(new Date());
   const [end, setEnd] = useState(new Date());
+
   const addNewEvent = (e) => {
     e.preventDefault();
     const title = newTitleRef.current.value;
     const allDay = false;
-    const id = nextId();
+    const _id = nextId();
+
     if (title) {
-      setEvents([...events, { id, title, allDay, start, end }]);
+      const newEvent = {
+        title: title,
+        allDay: allDay,
+        start: start,
+        end: end,
+        _id: _id,
+      };
+      //setEvents([...events, { _id, title, allDay, start, end }]);
+      setEvents([...events, newEvent]);
+      apiAddNewEvent(newEvent);
     }
     setOpenAdd(false);
   };
+
+  async function apiAddNewEvent(newEvent) {
+    try {
+      let result = await calendarapi.apiAddNewEvent(newEvent);
+      console.log("id from backend ", result);
+      newEvent._id = result;
+      console.log("id changed to", newEvent._id);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   const handleStartDateChange = (date) => {
     setStart(date);
   };
   const handleEndDateChange = (date) => {
-    setEnd(date);
+    setEnd(date, typeof date);
   };
   const handleStartDateChangeOnEdit = (date, event) => {
     const startDate = moment(date);
     const endDate = moment(event.end);
+    console.log(date);
     if (startDate.isAfter(endDate)) {
       return;
     }
-    const index = events.findIndex((e) => e.id === event.id);
+    const index = events.findIndex((e) => e._id === event._id);
     setEvents(
       produce((draft) => {
-        draft[index].start = moment(date);
+        draft[index].start = date;
+        apiChangeEventDate("start", draft[index]);
       })
     );
   };
@@ -161,13 +203,26 @@ const CalendarWindow = forwardRef((props, ref) => {
     if (endDate.isBefore(startDate)) {
       return;
     }
-    const index = events.findIndex((e) => e.id === event.id);
+    const index = events.findIndex((e) => e._id === event._id);
     setEvents(
       produce((draft) => {
-        draft[index].end = moment(date);
+        draft[index].end = date;
+        apiChangeEventDate("end", draft[index]);
       })
     );
   };
+
+  const apiChangeEventDate = useCallback((when, event) => {
+    console.log("change date of event with id: ", event._id);
+    const data = { _id: event._id, date: "", when: when };
+    if (when === "start") {
+      data.date = event.start;
+    } else if (when === "end") {
+      data.date = event.end;
+    }
+    calendarapi.apiChangeEventDate(data);
+  });
+
   return (
     <div>
       <Dialog
@@ -237,6 +292,7 @@ const CalendarWindow = forwardRef((props, ref) => {
                     id="start-date-picker-inline"
                     label="Start"
                     value={event.start}
+                    // value={event.start}
                     onChange={(date) =>
                       handleStartDateChangeOnEdit(date, event)
                     }
@@ -254,6 +310,7 @@ const CalendarWindow = forwardRef((props, ref) => {
                     id="end-date-picker-inline"
                     label="End"
                     value={event.end}
+                    // value={event.end}
                     onChange={(date) => handleEndDateChangeOnEdit(date, event)}
                     KeyboardButtonProps={{
                       "aria-label": "change date",

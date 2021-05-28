@@ -108,7 +108,8 @@ const App = () => {
   const [folders, setFolders] = useState(null);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
-
+  const [todolists, setTodolists] = useState([]);
+  const [notes, setNotes] = useState([]);
   // const [userId, setUserId] = useState();
   const [displayedBookmarks, setDisplayedBookmarks] = useState([]);
   const [selectedFolderId, setSelectedFolderId] = useState("");
@@ -129,6 +130,8 @@ const App = () => {
       setDisplayedBookmarks,
       setSelectedFolderId,
       setLoading,
+      setTodolists,
+      setNotes,
     };
     fetch.getUserData(setter);
   }, []);
@@ -203,6 +206,10 @@ const App = () => {
     setUnicorn,
     email,
     username,
+    todolists,
+    setTodolists,
+    notes,
+    setNotes,
   };
 
   return (
