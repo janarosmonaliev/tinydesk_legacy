@@ -40,6 +40,8 @@ const AddFolder = () => {
         bookmarks: [],
       };
       setFolders([...newlist, newFolder]);
+      console.log("IN API ADD FOLDER");
+      console.log(newFolder._id);
       setSelectedFolderId(newFolder._id);
       console.log("id changed to", newFolder._id);
     } catch (e) {
