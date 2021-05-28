@@ -4,6 +4,7 @@ import React, {
   useImperativeHandle,
   useRef,
   useCallback,
+  useContext,
 } from "react";
 import {
   Dialog,
@@ -33,6 +34,8 @@ import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import nextId from "react-id-generator";
 import produce from "immer";
 import * as calendarapi from "../../api/calendarapi";
+import { UserContext } from "./context/UserContext";
+
 moment.updateLocale("en", {
   week: {
     dow: 1,
@@ -59,6 +62,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CalendarWindow = forwardRef((props, ref) => {
+  const { events, setEvents } = useContext(UserContext);
+  console.log(events);
   const classes = useStyles();
   const newTitleRef = useRef(null);
   const titleRef = useRef(null);
@@ -68,7 +73,7 @@ const CalendarWindow = forwardRef((props, ref) => {
     start: new Date(),
   };
   //Should default eventData populated from the app that got from the backend
-  const [events, setEvents] = useState(eventData);
+  //const [events, setEvents] = useState(eventData);
   const [event, setEvent] = useState(initialEvent);
   //Window State & Func
   useImperativeHandle(ref, () => ({
@@ -159,18 +164,26 @@ const CalendarWindow = forwardRef((props, ref) => {
         _id: _id,
       };
       //setEvents([...events, { _id, title, allDay, start, end }]);
+      const newlist = [...events];
       setEvents([...events, newEvent]);
-      apiAddNewEvent(newEvent);
+      apiAddNewEvent(newlist, newEvent);
     }
     setOpenAdd(false);
   };
 
-  async function apiAddNewEvent(newEvent) {
+  async function apiAddNewEvent(newlist, newEvent) {
     try {
       let result = await calendarapi.apiAddNewEvent(newEvent);
       console.log("id from backend ", result);
-      newEvent._id = result;
-      console.log("id changed to", newEvent._id);
+      const newEventTwo = {
+        title: newEvent.title,
+        allDay: newEvent.allDay,
+        start: newEvent.start,
+        end: newEvent.end,
+        _id: result,
+      };
+      setEvents([...newlist, newEventTwo]);
+      console.log("id changed to", newEventTwo._id);
     } catch (e) {
       console.log(e);
     }

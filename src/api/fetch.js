@@ -13,6 +13,7 @@ export const getUserData = (setter) => {
       setter.setUsername(res.data.username);
       setter.setLocation(res.data.location);
       setter.setSelectedFolderId(res.data.folders[0]._id);
+      setter.setEvents(res.data.events);
       if (res.data.todolists.length != 0) {
         res.data.todolists.forEach((tl) => {
           tl["toggle"] = true;
