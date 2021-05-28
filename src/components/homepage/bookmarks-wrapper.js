@@ -47,11 +47,14 @@ const SortableList = SortableContainer(({ items }) => {
 });
 
 const BookmarksWrapper = () => {
-  const { jiggle, setFolders, folders, selectedFolderId } = useContext(
-    UserContext
-  );
+  const {
+    jiggle,
+    setFolders,
+    folders,
+    selectedFolderId,
+    selectedFolderIndex,
+  } = useContext(UserContext);
 
-  const [selectedFolderIndex, setSelectedFolderIndex] = useState(0);
   const [contextMenuBookmarkId, setContextMenuBookmarkId] = useState("");
   const [edit, setEdit] = useState(false);
 
@@ -68,11 +71,6 @@ const BookmarksWrapper = () => {
   //Decide Context menu's position
   const [mousePos, setMousePos] = useState(initialMousPos);
 
-  useEffect(() => {
-    setSelectedFolderIndex(
-      folders.findIndex((f) => f._id === selectedFolderId)
-    );
-  }, [selectedFolderId]);
   const handleContextMenu = (e, _id) => {
     if (_id != null) {
       setContextMenuBookmarkId(_id);

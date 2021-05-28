@@ -15,7 +15,12 @@ import DialogActionButton from "../common/DialogActionButton";
 import * as apiFolder from "../../api/folderapi";
 
 const AddFolder = () => {
-  const { folders, setFolders, setSelectedFolderId } = useContext(UserContext);
+  const {
+    folders,
+    setFolders,
+    setSelectedFolderId,
+    setSelectedFolderIndex,
+  } = useContext(UserContext);
 
   const onInsert = useCallback((title) => {
     const newFolder = {
@@ -25,7 +30,9 @@ const AddFolder = () => {
     };
     const newlist = [...folders];
     setFolders(folders.concat(newFolder));
+    setSelectedFolderIndex(folders.length);
     setSelectedFolderId(newFolder._id);
+
     apiAddFolder(newlist, title);
   });
 

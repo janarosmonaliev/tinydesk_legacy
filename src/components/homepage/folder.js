@@ -18,6 +18,7 @@ const Folder = ({ folder, index }) => {
     jiggle,
     selectedFolderId,
     setSelectedFolderId,
+    setSelectedFolderIndex,
     folders,
     setFolders,
   } = useContext(UserContext);
@@ -27,6 +28,7 @@ const Folder = ({ folder, index }) => {
 
   const handleClick = (_id) => {
     setSelectedFolderId(_id);
+    setSelectedFolderIndex(folders.findIndex((f) => f._id === _id));
   };
   const handleDoubleClick = () => {
     setToggle(false);
