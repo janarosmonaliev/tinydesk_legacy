@@ -23,27 +23,25 @@ const AddFolder = () => {
       _id: nextId(),
       bookmarks: [],
     };
-
+    const newlist = [...folders];
     setFolders(folders.concat(newFolder));
     setSelectedFolderId(newFolder._id);
-    apiAddFolder(newFolder);
+    apiAddFolder(newlist, title);
   });
 
-  async function apiAddFolder(newF) {
-    const data = { title: newF.title };
-    console.log(Object.getOwnPropertyDescriptor(newF, "_id"));
+  async function apiAddFolder(newlist, title) {
+    const data = { title: title };
     try {
       const result = await apiFolder.apiAddFolder(data);
-      //Object.defineProperty(newFolder, "_id", { writable: true });
       console.log("id from backend ", result);
-      console.log("type of result ", typeof result);
-      // Object.defineProperty(newFolder, "_id", {
-      //   set: function (result) {
-      //     this._id = result;
-      //   },
-      // });
-      newF._id = result;
-      console.log("id changed to", newF._id);
+      const newFolder = {
+        title: title,
+        _id: result,
+        bookmarks: [],
+      };
+      setFolders([...newlist, newFolder]);
+      setSelectedFolderId(newFolder._id);
+      console.log("id changed to", newFolder._id);
     } catch (e) {
       console.log(e);
     }
