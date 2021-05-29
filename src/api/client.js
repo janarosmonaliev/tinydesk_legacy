@@ -1,10 +1,10 @@
 import axios from "axios";
 
 const client = axios.create({
-    withCredentials: true,
+  withCredentials: true,
 });
 
 client.defaults.baseURL = "https://commandt-backend.herokuapp.com/";
-// client.defaults.baseURL = "http://localhost:4000";
+//client.defaults.baseURL = "http://localhost:4000";
 
 export default client;

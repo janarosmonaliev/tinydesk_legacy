@@ -199,6 +199,8 @@ const App = () => {
     setTodolists,
     notes,
     setNotes,
+    events,
+    setEvents,
     selectedFolderIndex,
     setSelectedFolderIndex,
   };
