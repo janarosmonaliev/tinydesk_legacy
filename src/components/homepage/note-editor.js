@@ -5,6 +5,7 @@ import {
   RichUtils,
   getDefaultKeyBinding,
   convertToRaw,
+  convertFromRaw,
 } from "draft-js";
 import "draft-js/dist/Draft.css";
 import "../../styles/rich-editor.css";
@@ -12,24 +13,24 @@ import "../../styles/rich-editor.css";
 const { useState, useRef, useCallback } = React;
 
 function RichEditor(props) {
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const editor = useRef(null);
 
   const focus = () => {
     if (editor.current) editor.current.focus();
-    // console.log(convertToRaw(editorState.getCurrentContent()));
+    // setEditorState(EditorState.createWithContent(props.content));
+    // console.log(editorState.getCurrentContent());
   };
 
   const handleKeyCommand = useCallback(
     (command, editorState) => {
       const newState = RichUtils.handleKeyCommand(editorState, command);
       if (newState) {
-        setEditorState(newState);
+        props.setRichEditorState(newState);
         return "handled";
       }
       return "not-handled";
     },
-    [editorState, setEditorState]
+    [props.richEditorState, props.setRichEditorState]
   );
 
   const mapKeyToEditorCommand = useCallback(
@@ -38,23 +39,23 @@ function RichEditor(props) {
         case 9: // TAB
           const newEditorState = RichUtils.onTab(
             e,
-            editorState,
+            props.richEditorState,
             4 /* maxDepth */
           );
-          if (newEditorState !== editorState) {
-            setEditorState(newEditorState);
+          if (newEditorState !== props.richEditorState) {
+            props.setRichEditorState(newEditorState);
           }
           return null;
       }
       return getDefaultKeyBinding(e);
     },
-    [editorState, setEditorState]
+    [props.richEditorState, props.setRichEditorState]
   );
 
   // If the user changes block type before entering any text, we can
   // either style the placeholder or hide it. Let's just hide it now.
   let className = "RichEditor-editor";
-  var contentState = editorState.getCurrentContent();
+  var contentState = props.richEditorState.getCurrentContent();
   if (!contentState.hasText()) {
     if (contentState.getBlockMap().first().getType() !== "unstyled") {
       className += " RichEditor-hidePlaceholder";
@@ -64,33 +65,37 @@ function RichEditor(props) {
   return (
     <div className="RichEditor-root">
       <BlockStyleControls
-        editorState={editorState}
+        editorState={props.richEditorState}
         onToggle={(blockType) => {
-          const newState = RichUtils.toggleBlockType(editorState, blockType);
-          setEditorState(newState);
+          const newState = RichUtils.toggleBlockType(
+            props.richEditorState,
+            blockType
+          );
+          props.setRichEditorState(newState);
         }}
       />
       <InlineStyleControls
-        editorState={editorState}
+        editorState={props.richEditorState}
         onToggle={(inlineStyle) => {
           const newState = RichUtils.toggleInlineStyle(
-            editorState,
+            props.richEditorState,
             inlineStyle
           );
-          setEditorState(newState);
+          props.setRichEditorState(newState);
         }}
       />
       <div className={className} onClick={focus}>
         <Editor
           blockStyleFn={getBlockStyle}
           customStyleMap={styleMap}
-          editorState={editorState}
+          editorState={props.richEditorState}
           handleKeyCommand={handleKeyCommand}
           keyBindingFn={mapKeyToEditorCommand}
-          onChange={setEditorState}
+          onChange={props.setRichEditorState}
           placeholder="Tell a story..."
           ref={editor}
           spellCheck={true}
+          // readOnlyx
         />
       </div>
     </div>

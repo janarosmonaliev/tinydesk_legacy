@@ -32,7 +32,7 @@ import arrayMove from "array-move";
 import { useForm, Controller } from "react-hook-form";
 import RichEditor from "./note-editor";
 import * as noteapi from "../../api/noteapi";
-
+import { EditorState, ContentState } from "draft-js";
 const useStyles = makeStyles({
   outerStyles: {
     width: "100%",
@@ -132,8 +132,6 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
   //id of Notes in the list
   const [selectedId, setSelectedId] = useState(-1);
 
-  //local data for notes
-  const myRef = useRef(null);
   //keep track of notes list index
   nextIndexNote.current = notes.length;
 
@@ -200,7 +198,10 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
   //Handle displaying note
   const handleSelectList = (e, _id) => {
     setSelectedId(_id);
-    setSelectedIndex(notes.findIndex((note) => note._id === _id));
+    let index = notes.findIndex((note) => note._id === _id);
+    setSelectedIndex(index);
+    const content = EditorState.createWithContent(notes[index].content);
+    setEditorState(content);
   };
 
   //user can double click the title and change it
@@ -221,27 +222,30 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
     );
   };
 
-  const handleChangeContent = (e) => {
+  // TODO Connect with Editor
+  const handleChangeContent = (content) => {
     setNotes(
       produce(notes, (draft) => {
-        draft[selectedIndex].content = e.target.value;
+        draft[selectedIndex].content = content;
       })
     );
   };
 
   //Handle Add Notes
   const onClickAddNotes = () => {
+    const editorStateEmpty = EditorState.createEmpty();
     const newNote = {
       title: "",
       _id: nextId(),
-      content: "",
+      content: editorStateEmpty.getCurrentContent(),
       toggle: false,
     };
 
     setSelectedId(newNote._id);
     setSelectedIndex(nextIndexNote.current);
     setNotes(notes.concat(newNote));
-    apiAddNote(newNote);
+    setEditorState(editorStateEmpty);
+    // apiAddNote(newNote);
     nextIndexNote.current += 1;
   };
 
@@ -283,15 +287,18 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
       handleClickOpen();
     },
   }));
-  const handleFocus = (e) => {
-    myRef.current.focus();
-    myRef.current.selectionStart = myRef.current.value.length;
-    myRef.current.selectionEnd = myRef.current.value.length;
-  };
   const onSortEnd = ({ oldIndex, newIndex }) => {
     setSelectedId(notes[newIndex]);
     setNotes(arrayMove(notes, oldIndex, newIndex));
     setSelectedIndex(newIndex);
+  };
+
+  // TODO Create a state for EditorState
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+
+  const handleSetEditorState = (s) => {
+    setEditorState(s);
+    handleChangeContent(s.getCurrentContent());
   };
   return (
     <Dialog
@@ -355,7 +362,14 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
             {selectedId === -1 ? (
               <></>
             ) : (
-              <div className={classes.outerStyles}>{<RichEditor />}</div>
+              <div className={classes.outerStyles}>
+                {
+                  <RichEditor
+                    richEditorState={editorState}
+                    setRichEditorState={handleSetEditorState}
+                  />
+                }
+              </div>
             )}
           </Grid>
         </Grid>
