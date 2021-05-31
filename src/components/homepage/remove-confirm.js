@@ -11,7 +11,8 @@ import {
 
 import { X } from "react-feather";
 import DialogActionButton from "../common/DialogActionButton";
-import React from "react";
+import React, { useState } from "react";
+import * as accountapi from "../../api/accountapi";
 const useStyles = makeStyles({
   redBtn: {
     color: "#eb5757",
@@ -21,9 +22,17 @@ const useStyles = makeStyles({
 });
 const RemoveConfirm = ({ removeConfirm, setRemoveConfirm }) => {
   const classes = useStyles();
+  const [error, setError] = useState(false);
+
   const handleClose = () => {
     setRemoveConfirm(false);
   };
+
+  const apiDeleteAccount = () => {
+    console.log("delete account");
+    accountapi.apiDeleteAccount(setError);
+  };
+
   return (
     <Dialog
       onClose={handleClose}
@@ -65,8 +74,7 @@ const RemoveConfirm = ({ removeConfirm, setRemoveConfirm }) => {
           variant="outlined"
           disableElevation
           disableTouchRipple
-          //   onClick={handleClose}
-
+          onClick={apiDeleteAccount}
           className={classes.redBtn}
         >
           Confirm
