@@ -241,7 +241,6 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
         draft[selectedIndex].content = content;
       })
     );
-    // console.log(e.target.value);
   };
 
   //Handle Add Notes

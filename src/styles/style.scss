@@ -522,13 +522,20 @@ small,
   // overflow: hidden;
 }
 .folders-wrapper {
-  position: absolute;
+  position: fixed;
   display: flex;
   top: auto;
   bottom: 0;
   padding-top: $space-03;
   padding-bottom: $space-04;
   white-space: nowrap;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+.folders-bar-wrapper {
+  max-width: 85vw;
   overflow-x: auto;
   &::-webkit-scrollbar {
     display: none;
