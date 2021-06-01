@@ -27,8 +27,6 @@ import { Calendar, Views, momentLocalizer } from "react-big-calendar";
 import { IconButton, SvgIcon, Popover } from "@material-ui/core";
 import { Trash2, X } from "react-feather";
 import moment from "moment";
-import eventData from "./events";
-
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import nextId from "react-id-generator";
