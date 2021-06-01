@@ -14,6 +14,10 @@ const useStyles = makeStyles({
   },
 });
 
+const loginWithGoogle = () => {
+  window.open("http://localhost:4000/google", "_self");
+}
+
 const WelcomePage = () => {
   const classes = useStyles();
   return (
@@ -60,6 +64,7 @@ const WelcomePage = () => {
                 disableElevation
                 disableTouchRipple
                 className={classes.buttonSignInGoogle}
+                onClick={loginWithGoogle}
               >
                 Sign in with Google
               </Button>

@@ -35,6 +35,14 @@ export const register = (data, setError, setDisabled) => {
   });
 };
 
+export const loginWithGoogle = () => {
+  client.get("/google").then((res) => {
+    console.log(res);
+  }).catch((error) => {
+    console.log(error);
+  });
+};
+
 export const logout = (data, setError) => {
   client.get("/logout", data).then((res) => {
     console.log(res);
