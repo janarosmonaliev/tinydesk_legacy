@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { navigate } from "gatsby";
 import {
   Grid,
@@ -8,18 +8,52 @@ import {
   Button,
   MenuItem,
   makeStyles,
+  Dialog,
+  DialogTitle,
+  SvgIcon,
+  IconButton,
+  DialogContent,
+  Divider,
+  Tabs,
+  Tab,
+  Box,
 } from "@material-ui/core";
+import { X } from "react-feather";
 import Logo from "../../images/commandt-logo-sm.svg";
 import { Autocomplete } from "@material-ui/lab";
 import cities from "../../cities";
 import * as auth from "../../api/auth";
 import validator from "validator";
+import PrivacyPolicyKor from "./privacy-policy-kor";
+import PrivacyPolicyEng from "./privacy-policy-eng";
+import SwipeableViews from "react-swipeable-views";
 const useStyles = makeStyles({
   errorMessage: {
     color: "red",
   },
 });
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
 
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box p={3}>{children}</Box>}
+    </div>
+  );
+}
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
 const SignupPage = () => {
   // Using states to store the values put on the form fields by the user
   const classes = useStyles();
@@ -32,6 +66,16 @@ const SignupPage = () => {
   const [error, setError] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [emailError, setEmailError] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  //Tabs index
+  const [value, setValue] = React.useState(0);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+  const handleChangeIndex = (index) => {
+    setValue(index);
+  };
   // The function that fires when the user clicks to submit the form
   const register = () => {
     if (!validator.isEmail(email)) {
@@ -55,6 +99,9 @@ const SignupPage = () => {
       "MuiAutocomplete-clearIndicator"
     )[0];
     if (ele) ele.click();
+  };
+  const handleClose = () => {
+    setOpen(false);
   };
   const autoC = useRef(null);
 
@@ -155,17 +202,78 @@ const SignupPage = () => {
               </Button>
             </CardContent>
           </Card>
-
-          <Button
-            disableElevation
-            disableTouchRipple
-            onClick={() => {
-              navigate("/");
-            }}
-            className="landing-text-gray"
+          <Grid container justify="space-between" alignItems="center">
+            <Grid item xs>
+              <Button
+                disableElevation
+                disableTouchRipple
+                onClick={() => {
+                  navigate("/");
+                }}
+                className="landing-text-gray"
+              >
+                &larr; Back
+              </Button>
+            </Grid>
+            <Grid item container xs justify="flex-end">
+              <Button
+                disableElevation
+                disableTouchRipple
+                onClick={() => {
+                  setOpen(true);
+                }}
+                className="landing-text-gray"
+              >
+                Privacy Policy
+              </Button>
+            </Grid>
+          </Grid>
+          <Dialog
+            fullWidth
+            maxWidth="lg"
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="privacy-policy-dialog"
           >
-            &larr; Back
-          </Button>
+            <DialogTitle id="privacy-policy-dialog">
+              <h5 className="dialog-title">Privacy Policy</h5>
+
+              <IconButton
+                aria-label="close"
+                onClick={handleClose}
+                size="small"
+                className="button-dialog-close"
+              >
+                <SvgIcon>
+                  <X />
+                </SvgIcon>
+              </IconButton>
+            </DialogTitle>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="simple tabs example"
+              centered
+            >
+              <Tab label="Eng" {...a11yProps(0)} />
+              <Tab label="Kor" {...a11yProps(1)} />
+            </Tabs>
+            <Divider />
+            <DialogContent>
+              <SwipeableViews
+                index={value}
+                onChangeIndex={handleChangeIndex}
+                animateTransitions={false}
+              >
+                <TabPanel value={value} index={0}>
+                  <PrivacyPolicyEng />
+                </TabPanel>
+                <TabPanel value={value} index={1}>
+                  <PrivacyPolicyKor />
+                </TabPanel>
+              </SwipeableViews>
+            </DialogContent>
+          </Dialog>
         </Grid>
       </Grid>
     </Grid>

@@ -4,6 +4,7 @@ import React, {
   useImperativeHandle,
   useRef,
   useCallback,
+  useContext,
 } from "react";
 import {
   Dialog,
@@ -26,13 +27,13 @@ import { Calendar, Views, momentLocalizer } from "react-big-calendar";
 import { IconButton, SvgIcon, Popover } from "@material-ui/core";
 import { Trash2, X } from "react-feather";
 import moment from "moment";
-import eventData from "./events";
-
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import nextId from "react-id-generator";
 import produce from "immer";
 import * as calendarapi from "../../api/calendarapi";
+import { UserContext } from "./context/UserContext";
+
 moment.updateLocale("en", {
   week: {
     dow: 1,
@@ -59,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CalendarWindow = forwardRef((props, ref) => {
+  const { events, setEvents } = useContext(UserContext);
   const classes = useStyles();
   const newTitleRef = useRef(null);
   const titleRef = useRef(null);
@@ -68,7 +70,7 @@ const CalendarWindow = forwardRef((props, ref) => {
     start: new Date(),
   };
   //Should default eventData populated from the app that got from the backend
-  const [events, setEvents] = useState(eventData);
+  //const [events, setEvents] = useState(eventData);
   const [event, setEvent] = useState(initialEvent);
   //Window State & Func
   useImperativeHandle(ref, () => ({
@@ -134,6 +136,7 @@ const CalendarWindow = forwardRef((props, ref) => {
   //Event Handler
   const handleSelect = ({ start, end }) => {
     //Open another dialog
+
     setOpenAdd(true);
     setStart(start);
     setEnd(end);
@@ -146,31 +149,50 @@ const CalendarWindow = forwardRef((props, ref) => {
 
   const addNewEvent = (e) => {
     e.preventDefault();
+    console.log(start);
+    console.log(end);
     const title = newTitleRef.current.value;
     const allDay = false;
     const _id = nextId();
+    const days = moment(end).diff(moment(start), "days");
 
     if (title) {
-      const newEvent = {
+      var newEvent = {
         title: title,
         allDay: allDay,
         start: start,
         end: end,
         _id: _id,
       };
+      if (days >= 1) {
+        newEvent = {
+          ...newEvent,
+          end: new Date(moment(end).add(86399, "seconds").format()),
+        };
+      }
+
       //setEvents([...events, { _id, title, allDay, start, end }]);
+
+      const newlist = [...events];
       setEvents([...events, newEvent]);
-      apiAddNewEvent(newEvent);
+      apiAddNewEvent(newlist, newEvent);
     }
     setOpenAdd(false);
   };
 
-  async function apiAddNewEvent(newEvent) {
+  async function apiAddNewEvent(newlist, newEvent) {
     try {
       let result = await calendarapi.apiAddNewEvent(newEvent);
       console.log("id from backend ", result);
-      newEvent._id = result;
-      console.log("id changed to", newEvent._id);
+      const newEventTwo = {
+        title: newEvent.title,
+        allDay: newEvent.allDay,
+        start: newEvent.start,
+        end: newEvent.end,
+        _id: result,
+      };
+      setEvents([...newlist, newEventTwo]);
+      console.log("id changed to", newEventTwo._id);
     } catch (e) {
       console.log(e);
     }

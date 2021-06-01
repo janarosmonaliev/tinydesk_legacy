@@ -110,9 +110,10 @@ const App = () => {
   const [username, setUsername] = useState("");
   const [todolists, setTodolists] = useState([]);
   const [notes, setNotes] = useState([]);
+  const [events, setEvents] = useState([]);
   // const [userId, setUserId] = useState();
-  const [displayedBookmarks, setDisplayedBookmarks] = useState([]);
   const [selectedFolderId, setSelectedFolderId] = useState("");
+  const [selectedFolderIndex, setSelectedFolderIndex] = useState(0);
 
   useMemo(() => {
     setInitialBackground(background);
@@ -127,11 +128,11 @@ const App = () => {
       setEmail,
       setUsername,
       setLocation,
-      setDisplayedBookmarks,
       setSelectedFolderId,
       setLoading,
       setTodolists,
       setNotes,
+      setEvents,
     };
     fetch.getUserData(setter);
   }, []);
@@ -155,16 +156,6 @@ const App = () => {
   const unsplashImage = {
     backgroundImage: `url(${background})`,
   };
-
-  useEffect(() => {
-    if (!folders || selectedFolderId === "") {
-      return;
-    }
-
-    setDisplayedBookmarks(
-      folders.filter((folder) => folder._id === selectedFolderId)[0].bookmarks
-    );
-  }, [selectedFolderId, folders]);
 
   const handleStopJiggle = (e) => {
     const nodeName = e.target.nodeName;
@@ -200,8 +191,6 @@ const App = () => {
     setSelectedFolderId,
     folders,
     setFolders,
-    displayedBookmarks,
-    setDisplayedBookmarks,
     unicorn,
     setUnicorn,
     email,
@@ -210,6 +199,10 @@ const App = () => {
     setTodolists,
     notes,
     setNotes,
+    events,
+    setEvents,
+    selectedFolderIndex,
+    setSelectedFolderIndex,
   };
 
   return (

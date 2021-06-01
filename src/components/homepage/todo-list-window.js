@@ -287,7 +287,7 @@ const TodoListWindow = forwardRef(
           setSelectedIndex(0);
         }
       } else {
-        console.log("HELLO");
+        console.log("DELETED");
         setSelectedId(-1);
         setSelectedIndex(-1);
       }
@@ -313,10 +313,41 @@ const TodoListWindow = forwardRef(
               ? "New List"
               : draft[textFieldIndex].title;
           draft[textFieldIndex].toggle = true;
-          apiChangeTitle(draft[textFieldIndex]);
+          if (draft[textFieldIndex]._id.length < 10) {
+            //make a copy of current todolists
+            let newlist = [...todolists];
+            console.log(newlist);
+            //and remove the recently added variable
+            newlist.pop();
+            //call apiAddTodolist
+            apiAddTodolist(draft[textFieldIndex].title, newlist);
+          } else {
+            apiChangeTitle(draft[textFieldIndex]);
+          }
         })
       );
     };
+
+    async function apiAddTodolist(newTitle, newlist) {
+      //console.log(newlist);
+      const data = { title: newTitle };
+      try {
+        let result = await todolistapi.apiAddTodolist(data);
+        console.log("id from backend ", result, typeof result);
+        console.log("title of new todolist: ", newTitle);
+        const newTodolist = {
+          title: newTitle,
+          _id: result,
+          toggle: true,
+          todos: [],
+        };
+        setTodolists([...newlist, newTodolist]);
+        setSelectedId(newTodolist._id);
+        //setSelectedIndex(nextIndexTodolist.current);
+      } catch (e) {
+        console.log(e);
+      }
+    }
 
     const apiChangeTitle = useCallback((todolist) => {
       console.log("change title of new todolist with id: ", todolist._id);
@@ -345,29 +376,22 @@ const TodoListWindow = forwardRef(
 
     //POST
     const onClickAddTodoList = () => {
+      //make a local todolist variable to show in screen ASAP
+      //user clicks "add a new list" button
       const newTodolist = {
         title: "",
         _id: nextId(),
         toggle: false,
         todos: [],
       };
+      //const newlist = [...todolists];
       setSelectedId(newTodolist._id);
       setSelectedIndex(nextIndexTodolist.current);
       setTodolists(todolists.concat(newTodolist));
       nextIndexTodolist.current += 1;
-      apiAddTodolist(newTodolist);
+      //apiAddTodolist(newlist);
     };
 
-    async function apiAddTodolist(newTodolist) {
-      try {
-        let result = await todolistapi.apiAddTodolist();
-        console.log("id from backend ", result);
-        newTodolist._id = result;
-        console.log("id changed to", newTodolist._id);
-      } catch (e) {
-        console.log(e);
-      }
-    }
     //Todo Methods
     const handleKeyDownTodo = (e) => {
       const type = e.type;

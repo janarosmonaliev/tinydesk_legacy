@@ -1,5 +1,5 @@
 import { Grid } from "@material-ui/core";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Bookmark from "./bookmark";
 import produce from "immer";
 import { UserContext } from "./context/UserContext";
@@ -49,12 +49,11 @@ const SortableList = SortableContainer(({ items }) => {
 const BookmarksWrapper = () => {
   const {
     jiggle,
-    displayedBookmarks,
     setFolders,
     folders,
     selectedFolderId,
+    selectedFolderIndex,
   } = useContext(UserContext);
-  // const [dragBookmarkIndex, setDragBookmarkIndex] = useState(-1);
 
   const [contextMenuBookmarkId, setContextMenuBookmarkId] = useState("");
   const [edit, setEdit] = useState(false);
@@ -163,7 +162,11 @@ const BookmarksWrapper = () => {
     }
     //If rearranging bookmarks order
     else {
-      const arr = arrayMove(displayedBookmarks, oldIndex, newIndex);
+      const arr = arrayMove(
+        folders[selectedFolderIndex].bookmarks,
+        oldIndex,
+        newIndex
+      );
 
       setFolders(
         produce((draft) => {
@@ -172,7 +175,6 @@ const BookmarksWrapper = () => {
       );
     }
   };
-
   return (
     <BookmarkContext.Provider value={bookmarkContext}>
       {jiggle ? (
@@ -184,8 +186,8 @@ const BookmarksWrapper = () => {
             justify="flex-start"
             alignItems="flex-start"
           >
-            {displayedBookmarks &&
-              displayedBookmarks.map((bookmark, index) => (
+            {folders[selectedFolderIndex].bookmarks &&
+              folders[selectedFolderIndex].bookmarks.map((bookmark, index) => (
                 <Grid
                   item
                   xs={4}
@@ -211,7 +213,7 @@ const BookmarksWrapper = () => {
         </>
       ) : (
         <SortableList
-          items={displayedBookmarks}
+          items={folders[selectedFolderIndex].bookmarks}
           onSortEnd={onSortEnd}
           axis="xy"
           distance={5}

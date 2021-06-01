@@ -14,6 +14,7 @@ import {
   IconButton,
   TextField,
   Button,
+  makeStyles,
 } from "@material-ui/core/";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -29,8 +30,27 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import { UserContext } from "./context/UserContext";
 import * as logout from "../../api/auth";
 import * as accountApi from "../../api/accountapi";
+import RemoveConfirm from "./remove-confirm";
+
+const useStyles = makeStyles({
+  redOutlinedBtn: {
+    color: "#eb5757",
+    border: "1px solid #eb5757",
+  },
+  redContainedBtn: {
+    backgroundColor: "#eb5757",
+    color: "white",
+  },
+  tableRow: {
+    height: "1rem",
+  },
+  switch: {
+    color: "#eb5757",
+  },
+});
 
 const AccountSettingsTwo = forwardRef((props, ref) => {
+  const classes = useStyles();
   const {
     location,
     setLocation,
@@ -41,7 +61,7 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
   } = useContext(UserContext);
 
   const [open, setOpen] = useState(false);
-
+  const [removeConfirm, setRemoveConfirm] = useState(false);
   const [unicornConfig, setUnicornConfig] = useState(unicorn);
   const handleClickOpen = () => {
     setOpen(true);
@@ -89,17 +109,17 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
       return;
     }
     setUnicorn(unicornConfig);
-    apiChangeUserInfo();
+    apiChangeUserInfo(newCity);
   };
 
-  const apiChangeUserInfo = useCallback(() => {
+  const apiChangeUserInfo = useCallback((newCity) => {
     console.log(
-      "change location with : ",
-      cityValue,
+      "change location to : ",
+      newCity,
       "keep unicorn? :",
       unicornConfig
     );
-    const data = { city: cityValue, keepUnicorn: unicornConfig };
+    const data = { city: newCity, keepUnicorn: unicornConfig };
     accountApi.apiChangeUserInfo(data);
   });
 
@@ -139,7 +159,7 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
           >
             <Table>
               <TableBody>
-                <TableRow style={{ height: "1rem" }}>
+                <TableRow className={classes.tableRow}>
                   <TableCell align="left">
                     <p>Username: </p>
                   </TableCell>
@@ -149,7 +169,7 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
                     </p>
                   </TableCell>
                 </TableRow>
-                <TableRow style={{ height: "1rem" }}>
+                <TableRow className={classes.tableRow}>
                   <TableCell align="left">
                     <p>Email:</p>
                   </TableCell>
@@ -159,7 +179,7 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
                     </p>
                   </TableCell>
                 </TableRow>
-                <TableRow style={{ height: "1rem" }}>
+                <TableRow className={classes.tableRow}>
                   <TableCell align="left">
                     <p>Location:</p>
                   </TableCell>
@@ -185,7 +205,7 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
                     />
                   </TableCell>
                 </TableRow>
-                <TableRow style={{ height: "1rem" }}>
+                <TableRow className={classes.tableRow}>
                   <TableCell align="left">
                     <p>Keep Unicorn:</p>
                   </TableCell>
@@ -193,7 +213,7 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
                     <Switch
                       checked={unicornConfig}
                       onChange={handleChange}
-                      style={{ color: "#eb5757" }}
+                      className={classes.switch}
                     />
                   </TableCell>
                 </TableRow>
@@ -216,7 +236,7 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
             <Grid item xs={12} container direction="column">
               <Button
                 variant="outlined"
-                style={{ color: "#eb5757", border: "1px solid #eb5757" }}
+                className={classes.redOutlinedBtn}
                 onClick={logoutFunction}
               >
                 Log Out
@@ -225,8 +245,9 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
             <Grid item xs={12} container direction="column">
               <Button
                 variant="contained"
-                style={{ backgroundColor: "#eb5757", color: "white" }}
+                className={classes.redContainedBtn}
                 disableElevation
+                onClick={() => setRemoveConfirm(true)}
               >
                 Remove Account
               </Button>
@@ -234,6 +255,10 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
           </Grid>
         </DialogContent>
       </Dialog>
+      <RemoveConfirm
+        removeConfirm={removeConfirm}
+        setRemoveConfirm={setRemoveConfirm}
+      />
     </>
   );
 });
