@@ -27,8 +27,6 @@ import { Calendar, Views, momentLocalizer } from "react-big-calendar";
 import { IconButton, SvgIcon, Popover } from "@material-ui/core";
 import { Trash2, X } from "react-feather";
 import moment from "moment";
-import eventData from "./events";
-
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import nextId from "react-id-generator";
@@ -138,6 +136,7 @@ const CalendarWindow = forwardRef((props, ref) => {
   //Event Handler
   const handleSelect = ({ start, end }) => {
     //Open another dialog
+
     setOpenAdd(true);
     setStart(start);
     setEnd(end);
@@ -150,19 +149,30 @@ const CalendarWindow = forwardRef((props, ref) => {
 
   const addNewEvent = (e) => {
     e.preventDefault();
+    console.log(start);
+    console.log(end);
     const title = newTitleRef.current.value;
     const allDay = false;
     const _id = nextId();
+    const days = moment(end).diff(moment(start), "days");
 
     if (title) {
-      const newEvent = {
+      var newEvent = {
         title: title,
         allDay: allDay,
         start: start,
         end: end,
         _id: _id,
       };
+      if (days >= 1) {
+        newEvent = {
+          ...newEvent,
+          end: new Date(moment(end).add(86399, "seconds").format()),
+        };
+      }
+
       //setEvents([...events, { _id, title, allDay, start, end }]);
+
       const newlist = [...events];
       setEvents([...events, newEvent]);
       apiAddNewEvent(newlist, newEvent);
