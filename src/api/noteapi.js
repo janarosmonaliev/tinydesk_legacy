@@ -3,10 +3,10 @@ import { navigate } from "gatsby-link";
 
 import client from "./client";
 
-export const apiAddNote = () => {
+export const apiAddNote = (data) => {
   const promise = new Promise((resolve) => {
     client
-      .post("/home/notes/")
+      .post("/home/notes/", data)
       .then((res) => {
         console.log(res);
         resolve(res.data);

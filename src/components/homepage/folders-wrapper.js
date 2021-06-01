@@ -44,6 +44,7 @@ const FoldersWrapper = () => {
     setFolders,
     setSelectedFolderId,
     selectedFolderId,
+    setSelectedFolderIndex,
   } = useContext(UserContext);
 
   const [openDelete, setOpenDelete] = useState(false);
@@ -65,8 +66,12 @@ const FoldersWrapper = () => {
     //special handling when removing first folder
     if (folderId === folders[0]._id) {
       setSelectedFolderId(folders[1]._id);
+      const index = folders.findIndex((f) => f._id === folders[1]._id);
+      setSelectedFolderIndex(index);
     } else if (folderId === selectedFolderId) {
+      const index = folders.findIndex((f) => f._id === folders[0]._id);
       setSelectedFolderId(folders[0]._id);
+      setSelectedFolderIndex(index);
     }
     setFolders(folders.filter((folder) => folder._id !== folderId));
     apiDeleteFolder(folderId);
@@ -84,6 +89,7 @@ const FoldersWrapper = () => {
   const onSortEnd = ({ oldIndex, newIndex }) => {
     setFolders(arrayMove(folders, oldIndex, newIndex));
     apiChangeFolderPosition(folders[oldIndex]._id, newIndex);
+    setSelectedFolderIndex(newIndex);
   };
 
   const apiChangeFolderPosition = (folderId, newIndex) => {
