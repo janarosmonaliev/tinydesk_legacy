@@ -15,7 +15,8 @@ const useStyles = makeStyles({
 });
 
 const loginWithGoogle = () => {
-  window.open("https://commandt-backend.herokuapp.com/google", "_self");
+  // window.open("https://commandt-backend.herokuapp.com/google", "_self");
+  window.open("http://localhost:4000/google", "_self");
 }
 
 const WelcomePage = () => {
