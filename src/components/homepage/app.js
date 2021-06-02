@@ -115,10 +115,6 @@ const App = () => {
   const [selectedFolderId, setSelectedFolderId] = useState("");
   const [selectedFolderIndex, setSelectedFolderIndex] = useState(0);
 
-  useMemo(() => {
-    setInitialBackground(background);
-  }, []);
-
   useEffect(() => {
     setLoading(true);
     const setter = {
@@ -133,6 +129,7 @@ const App = () => {
       setTodolists,
       setNotes,
       setEvents,
+      setInitialBackground,
     };
     fetch.getUserData(setter);
   }, []);
@@ -180,6 +177,7 @@ const App = () => {
   if (!folders) {
     return;
   }
+
   const userContext = {
     location,
     setLocation,
