@@ -11,6 +11,8 @@ import {
   DialogContent,
   TextField,
   ClickAwayListener,
+  Typography,
+  makeStyles,
 } from "@material-ui/core";
 import { SvgIcon, IconButton, DialogActions, Button } from "@material-ui/core";
 import { Grid, List, ListItem, Divider, ListItemText } from "@material-ui/core";
@@ -26,6 +28,19 @@ import arrayMove from "array-move";
 import * as todolistapi from "../../api/todolistapi";
 import * as todoapi from "../../api/todoapi";
 
+const useStyles = makeStyles({
+  guideTodo: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    color: "gray",
+    textAlign: "center",
+    fontSize: "20px",
+    // alignItems: "center",
+    // width: "100%",
+    // height: "100%",
+  },
+});
 //SORTABLE TODOs
 const SortableTodoItem = SortableElement(({ value, ...props }) => (
   <Grid
@@ -70,9 +85,18 @@ const SortableTodoItem = SortableElement(({ value, ...props }) => (
 ));
 const SortableTodos = SortableContainer(
   ({ items, selectedIndex, ...props }) => {
+    const classes = useStyles();
     return (
       <Grid item xs={8} onClick={props.handleKeyDownTodo}>
         <h5>{selectedIndex !== -1 ? items[selectedIndex].title : ""}</h5>
+        {items[selectedIndex].todos.length === 0 ? (
+          <Typography className={classes.guideTodo}>
+            Click Here to add Todo
+          </Typography>
+        ) : (
+          <></>
+        )}
+
         {selectedIndex !== -1 ? (
           items[selectedIndex].todos.map((value, index) => (
             <SortableTodoItem
@@ -642,7 +666,9 @@ const TodoListWindow = forwardRef(
                 />
               </List>
             </Grid>
+
             <Divider orientation="vertical" flexItem />
+
             <SortableTodos
               items={todolists}
               selectedIndex={selectedIndex}
@@ -659,7 +685,6 @@ const TodoListWindow = forwardRef(
             />
           </Grid>
         </DialogContent>
-
         <DialogActions>
           <Button
             startIcon={<Plus />}
