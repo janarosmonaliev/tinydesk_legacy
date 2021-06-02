@@ -103,6 +103,7 @@ const UnsplashWindow = forwardRef((props, ref) => {
         aria-labelledby="unsplash-dialog"
         scroll="paper"
         classes={{ paper: "unsplash-window" }}
+        onBackdropClick={cancelChanges}
       >
         <DialogTitle id="unsplash-dialog">
           <h5 className="dialog-title">Edit background</h5>
