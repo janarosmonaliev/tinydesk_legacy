@@ -24,6 +24,7 @@ import { Menu, MenuItem } from "@material-ui/core/";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
 import * as todolistapi from "../../api/todolistapi";
+import * as todoapi from "../../api/todoapi";
 
 //SORTABLE TODOs
 const SortableTodoItem = SortableElement(({ value, ...props }) => (
@@ -475,7 +476,12 @@ const TodoListWindow = forwardRef(
     const handleTodoClickAway = (e) => {
       handleCloseTodoTextfield(e);
     };
+    //Add todo in db at here
     const handleCloseTodoTextfield = (e) => {
+      const index = todolists[selectedIndex].todos.findIndex(
+        (todo) => todo.toggle === false
+      );
+      //console.log(index);
       setTodolists(
         produce((draft) => {
           draft[selectedIndex].todos.map((todo) =>
@@ -486,9 +492,60 @@ const TodoListWindow = forwardRef(
               (todo.title =
                 todo.title === "" ? (todo.title = "New Todo") : todo.title)
           );
+          if (draft[selectedIndex].todos[index]._id.length < 10) {
+            //make a copy of current todos
+            let newlist = [...draft[selectedIndex].todos];
+
+            //and remove the recently added variable
+            newlist.pop();
+            //call apiAddTodolist
+            apiAddTodo(
+              draft[selectedIndex].todos[index].title,
+              draft[selectedIndex]._id,
+              selectedIndex,
+              index
+            );
+          } else {
+            // apiUpdateTodo(
+            //   draft[selectedIndex].todos[index].title,
+            //   draft[selectedIndex].todos[index]._id
+            // );
+          }
         })
       );
     };
+
+    async function apiAddTodo(newTitle, todolistId, selectedIndex, todoIndex) {
+      //console.log(newlist);
+      const data = { title: newTitle, _id: todolistId };
+      try {
+        let result = await todoapi.apiAddTodo(data);
+        console.log("id from backend ", result, typeof result);
+        console.log("title of new todolist: ", newTitle);
+        const newTodo = {
+          title: newTitle,
+          isCompleted: false,
+          toggle: false,
+          _id: result,
+        };
+        const thatTodolist = todolists[selectedIndex];
+        console.log(thatTodolist);
+        const thatTodos = thatTodolist.todos;
+        console.log(thatTodos);
+        thatTodos.pop();
+        console.log(thatTodos);
+        thatTodolist.todos = [...thatTodos, newTodo];
+        console.log(thatTodolist.todos);
+        const tmpTodolists = [...todolists];
+        tmpTodolists[selectedIndex] = thatTodolist;
+        setTodolists([...tmpTodolists]);
+        console.log(todolists);
+        setSelectedId(newTodo._id);
+        //setSelectedIndex(nextIndexTodolist.current);
+      } catch (e) {
+        console.log(e);
+      }
+    }
     const onSortEndTodo = ({ oldIndex, newIndex }) => {
       setTodolists(
         produce((draft) => {
