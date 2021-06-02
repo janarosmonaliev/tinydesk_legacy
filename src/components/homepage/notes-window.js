@@ -334,7 +334,7 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
 
   const apiChangeNotePosition = (noteId, newIndex) => {
     const data = { _id: noteId, newIndex: newIndex };
-    noteapi.apiChangeTodolistPosition(data);
+    noteapi.apiChangeNotePosition(data);
   };
 
   // TODO Create a state for EditorState

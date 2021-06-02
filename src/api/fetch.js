@@ -7,7 +7,7 @@ export const getUserData = (setter) => {
       navigate("/login");
     } else {
       setter.setFolders(res.data.folders);
-      setter.setBackground(res.data.backgroundImg.url);
+      setter.setBackground(res.data.backgroundImg);
       setter.setUnicorn(res.data.keepUnicorn);
       setter.setEmail(res.data.email);
       setter.setUsername(res.data.username);
