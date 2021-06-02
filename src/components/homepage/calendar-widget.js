@@ -51,7 +51,6 @@ const CalendarWidget = () => {
   const daysShift = new Array(shift).fill(" ");
   let daysOfTheMonth = Array.from({ length: daysInMonth }, (_, i) => i + 1);
   daysOfTheMonth = [...daysShift, ...daysOfTheMonth];
-
   const calendarWindowRef = useRef();
   const handleClick = () => {
     calendarWindowRef.current.openCalendar();
@@ -63,20 +62,23 @@ const CalendarWidget = () => {
           <Grid container spacing={0} alignItems="center">
             <Grid item xs={8} md={6}>
               <ol className={classes.calendarDaysGrid}>
-                {daysOfTheWeek.map((day) => (
-                  <li>{day}</li>
+                {daysOfTheWeek.map((day, index) => (
+                  <li key={`day-of-the-month-${day + index}`}>{day}</li>
                 ))}
               </ol>
               <ol className={classes.calendarDaysGrid}>
-                {daysOfTheMonth.map((day) => {
+                {daysOfTheMonth.map((day, index) => {
                   if (day === currentDay) {
                     return (
-                      <li className={classes.currentDay}>
+                      <li
+                        key={`day-of-the-month-current`}
+                        className={classes.currentDay}
+                      >
                         <span>{day}</span>
                       </li>
                     );
                   } else {
-                    return <li>{day}</li>;
+                    return <li key={`day-${day + index}`}>{day}</li>;
                   }
                 })}
               </ol>

@@ -15,6 +15,7 @@ const useStyles = makeStyles({
   },
 });
 
+<<<<<<< HEAD
 
 // Route
 const googleSignUp = () => {
@@ -30,6 +31,12 @@ const googleSignUp = () => {
     // }
   });
 };
+=======
+const loginWithGoogle = () => {
+  // window.open("https://commandt-backend.herokuapp.com/google", "_self");
+  window.open("http://localhost:4000/google", "_self");
+}
+>>>>>>> master
 
 const WelcomePage = () => {
   const classes = useStyles();
@@ -77,7 +84,11 @@ const WelcomePage = () => {
                 disableElevation
                 disableTouchRipple
                 className={classes.buttonSignInGoogle}
+<<<<<<< HEAD
                 onClick={googleSignUp}
+=======
+                onClick={loginWithGoogle}
+>>>>>>> master
               >
                 Sign in with Google
               </Button>

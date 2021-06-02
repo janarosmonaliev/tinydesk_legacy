@@ -1,26 +1,40 @@
-import React, { useCallback, useState, useRef, useContext } from "react";
+import React, { useState, useContext, useCallback } from "react";
 import Folder from "./folder";
 import Grid from "@material-ui/core/Grid";
 import RemoveCircleOutlinedIcon from "@material-ui/icons/RemoveCircleOutlined";
-import { FolderPlus, X } from "react-feather";
+import { X } from "react-feather";
 import {
   Dialog,
   DialogTitle,
   DialogContent,
-  TextField,
   Button,
   IconButton,
-  DialogActions,
   Divider,
 } from "@material-ui/core";
-import { styled } from "@material-ui/core/styles";
-import nextId from "react-id-generator";
-import { UserContext } from "./context/UserContext";
 
-const DialogActionButton = styled(DialogActions)({
-  justifyContent: "left",
-  marginLeft: "16px",
-  marginBottom: "20px",
+import { UserContext } from "./context/UserContext";
+import { SortableContainer, SortableElement } from "react-sortable-hoc";
+import AddFolder from "./add-folder";
+import DialogActionButton from "../common/DialogActionButton";
+import arrayMove from "array-move";
+import * as apiFolder from "../../api/folderapi";
+
+const SortableFolder = SortableElement(({ value, sortIndex }) => (
+  <Folder folder={value} index={sortIndex} />
+));
+const SortableFolders = SortableContainer(({ items }) => {
+  return (
+    <div>
+      {items.map((value, index) => (
+        <SortableFolder
+          key={value._id}
+          value={value}
+          index={index}
+          sortIndex={index}
+        />
+      ))}
+    </div>
+  );
 });
 
 const FoldersWrapper = () => {
@@ -30,7 +44,7 @@ const FoldersWrapper = () => {
     setFolders,
     setSelectedFolderId,
     selectedFolderId,
-    setJiggle,
+    setSelectedFolderIndex,
   } = useContext(UserContext);
 
   const [openDelete, setOpenDelete] = useState(false);
@@ -49,165 +63,82 @@ const FoldersWrapper = () => {
       alert("You must have at least one folder");
       return;
     }
-
     //special handling when removing first folder
     if (folderId === folders[0]._id) {
       setSelectedFolderId(folders[1]._id);
+      const index = folders.findIndex((f) => f._id === folders[1]._id);
+      setSelectedFolderIndex(index);
+    } else if (folderId === selectedFolderId) {
+      const index = folders.findIndex((f) => f._id === folders[0]._id);
+      setSelectedFolderId(folders[0]._id);
+      setSelectedFolderIndex(index);
     }
     setFolders(folders.filter((folder) => folder._id !== folderId));
-
-    if (selectedFolderId == folderId) {
-      setSelectedFolderId(folders[0]._id);
-    }
-
+    apiDeleteFolder(folderId);
     setOpenDelete(false);
     setFolderId(-1);
   };
 
-  const AddFolder = () => {
-    const onInsert = useCallback((title) => {
-      const newFolder = {
-        title: title,
-        _id: nextId(),
-        bookmarks: [],
-      };
-      setFolders(folders.concat(newFolder));
-    });
-    const [open, setOpen] = useState(false);
-    const [folderTitle, setFolderTitle] = useState("");
-    const [isEmpty, setIsEmpty] = useState(false);
+  const apiDeleteFolder = useCallback((folderId) => {
+    console.log("the folder's id to delete is ", folderId, typeof folderId);
+    const payload = { remove: folderId };
+    //const data = { data: payload };
+    apiFolder.apiDeleteFolder(payload);
+  });
 
-    const handleClickOpen = () => {
-      setOpen(true);
-    };
-    const handleClose = () => {
-      setOpen(false);
-    };
-    const handleChange = (event) => {
-      if (isEmpty) {
-        setIsEmpty(false);
-      }
-      setFolderTitle(event.target.value);
-    };
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    setFolders(arrayMove(folders, oldIndex, newIndex));
+    apiChangeFolderPosition(folders[oldIndex]._id, newIndex);
+    setSelectedFolderIndex(newIndex);
+  };
 
-    //preventDefault let you prevent entering with /? query string at the end
-    const handleAdd = useCallback(
-      (e) => {
-        e.preventDefault();
-        if (folderTitle === "") {
-          setIsEmpty(true);
-          return;
-        }
-        onInsert(folderTitle);
-        setFolderTitle("");
-        setOpen(false);
-        setIsEmpty(false);
-      },
-      [onInsert, folderTitle]
-    );
-
-    return (
-      <>
-        <div className="folder-wrapper" onClick={() => handleClickOpen()}>
-          <div className="add-folder">
-            <FolderPlus size={20} color={"#4f4f4f"} />
-          </div>
-        </div>
-
-        <Dialog
-          onClose={handleClose}
-          open={open}
-          aria-labelledby="add-folder-dialog"
-          fullWidth
-          maxWidth="xs"
-        >
-          <DialogTitle id="add-folder-dialog">
-            <h5 className="dialog-title">Add a new folder</h5>
-            <IconButton
-              aria-label="close"
-              onClick={handleClose}
-              size="small"
-              className="button-dialog-close"
-            >
-              <X />
-            </IconButton>
-          </DialogTitle>
-          <DialogContent>
-            <form className="test" onSubmit={handleAdd}>
-              <TextField
-                required
-                id="add-folder-name"
-                label="Folder name"
-                error={isEmpty}
-                fullWidth
-                autoFocus
-                autoComplete="off"
-                value={folderTitle}
-                onChange={handleChange}
-              />
-            </form>
-          </DialogContent>
-          <DialogActionButton>
-            <Button
-              variant="contained"
-              color="primary"
-              disableElevation
-              disableTouchRipple
-              onClick={handleAdd}
-              className="button-100"
-            >
-              Save
-            </Button>
-            <Button
-              variant="outlined"
-              color="secondary"
-              disableElevation
-              disableTouchRipple
-              onClick={handleClose}
-              className="button-100"
-            >
-              Cancel
-            </Button>
-          </DialogActionButton>
-        </Dialog>
-      </>
-    );
+  const apiChangeFolderPosition = (folderId, newIndex) => {
+    const data = { _id: folderId, newIndex: newIndex };
+    apiFolder.apiChangeFolderPosition(data);
   };
 
   return (
     <>
       <div className="folders-wrapper">
-        {folders.map((folder) => (
-          <>
-            <Grid
-              item
-              xs
-              container
-              className={jiggle ? "folders-jiggle" : ""}
-              justify="flex-end"
-            >
-              {jiggle ? (
-                <RemoveCircleOutlinedIcon
-                  color="error"
-                  fontSize="small"
-                  className="delete-icon folder"
-                  onClick={() => handleOpenDelete(folder._id)}
-                />
-              ) : (
-                <></>
-              )}
-
-              <Folder folder={folder} />
-            </Grid>
-          </>
-        ))}
-
+        <div className="folders-bar-wrapper">
+          {jiggle ? (
+            <>
+              {folders.map((folder, index) => (
+                <div key={folder._id}>
+                  <Grid
+                    item
+                    xs
+                    container
+                    className={jiggle ? "folders-jiggle" : ""}
+                    justify="flex-end"
+                  >
+                    <RemoveCircleOutlinedIcon
+                      color="error"
+                      fontSize="small"
+                      className="delete-icon folder"
+                      onClick={() => handleOpenDelete(folder._id)}
+                    />
+                    <Folder folder={folder} index={index} />
+                  </Grid>
+                </div>
+              ))}
+            </>
+          ) : (
+            <SortableFolders
+              items={folders}
+              onSortEnd={onSortEnd}
+              axis="x"
+              distance={5}
+            />
+          )}
+        </div>
         <AddFolder />
       </div>
       <Dialog
         onClose={handleCloseDelete}
         open={openDelete}
         aria-labelledby="remove-folder-dialog"
+        key="hello432"
         fullWidth
         maxWidth="xs"
       >

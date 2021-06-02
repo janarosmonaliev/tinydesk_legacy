@@ -21,11 +21,168 @@ import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import produce from "immer";
 import nextId from "react-id-generator";
 import { Menu, MenuItem } from "@material-ui/core/";
+import { SortableContainer, SortableElement } from "react-sortable-hoc";
+import arrayMove from "array-move";
+import * as todolistapi from "../../api/todolistapi";
+import * as todoapi from "../../api/todoapi";
+
+//SORTABLE TODOs
+const SortableTodoItem = SortableElement(({ value, ...props }) => (
+  <Grid
+    container
+    alignItems="center"
+    className="todo-list-todo-grid"
+    style={{ zIndex: 9999 }}
+    id="todos-keep-click-away"
+  >
+    <Grid item xs={1}>
+      <Checkbox
+        name={value._id}
+        color="primary"
+        icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+        checkedIcon={<CheckBoxIcon fontSize="small" />}
+        checked={value.isCompleted || false}
+        onChange={(e) => props.checkBoxToggle(e, value._id)}
+      />
+    </Grid>
+    <Grid item xs={11} id="todo-wrapper">
+      {value.toggle ? (
+        <ListItemText
+          primary={value.title}
+          onDoubleClick={() => props.handleDoubleClickTodo(value._id)}
+        ></ListItemText>
+      ) : (
+        <ClickAwayListener onClickAway={props.handleTodoClickAway}>
+          <form onSubmit={props.onEnterTodo}>
+            <TextField
+              style={{ width: "80%" }}
+              value={value.title}
+              onChange={(e) => props.handleChangeTodo(e, value._id)}
+              onKeyDown={props.handleKeyDownTodo}
+              autoFocus
+              ref={props.todoRef}
+            />
+          </form>
+        </ClickAwayListener>
+      )}
+    </Grid>
+  </Grid>
+));
+const SortableTodos = SortableContainer(
+  ({ items, selectedIndex, ...props }) => {
+    return (
+      <Grid item xs={8} onClick={props.handleKeyDownTodo}>
+        <h5>{selectedIndex !== -1 ? items[selectedIndex].title : ""}</h5>
+        {selectedIndex !== -1 ? (
+          items[selectedIndex].todos.map((value, index) => (
+            <SortableTodoItem
+              value={value}
+              index={index}
+              key={`sort-todo-item-${index}`}
+              checkBoxToggle={props.checkBoxToggle}
+              handleDoubleClickTodo={props.handleDoubleClickTodo}
+              handleTodoClickAway={props.handleTodoClickAway}
+              onEnterTodo={props.onEnterTodo}
+              handleChangeTodo={props.handleChangeTodo}
+              handleKeyDownTodo={props.handleKeyDownTodo}
+              todoRef={props.todoRef}
+            />
+          ))
+        ) : (
+          <></>
+        )}
+      </Grid>
+    );
+  }
+);
+
+//SORTABEL TODOLISTs
+const SortableTodolistItem = SortableElement(
+  ({ value, selectedIndex, mousePos, sortIndex, ...props }) => (
+    <div style={{ zIndex: 9999 }}>
+      {value.toggle ? (
+        <div>
+          <ListItem
+            button
+            selected={selectedIndex === sortIndex}
+            onClick={(e) => props.handleSelectList(e, value._id)}
+            onDoubleClick={props.handleDoubleClickTodolist}
+            onContextMenu={(e) => props.handleContextMenu(e, value._id)}
+          >
+            <ListItemText primary={value.title} />
+          </ListItem>
+          <Menu
+            keepMounted
+            open={mousePos.mouseY !== null}
+            onClose={props.handleContextMenuClose}
+            anchorReference="anchorPosition"
+            anchorPosition={
+              mousePos.mouseY !== null && mousePos.mouseX !== null
+                ? { top: mousePos.mouseY, left: mousePos.mouseX }
+                : undefined
+            }
+          >
+            <MenuItem
+              onClick={props.handleContextMenuDeleteTodoList}
+              style={{ color: "#EB5757" }}
+            >
+              <XCircle /> &nbsp; Delete
+            </MenuItem>
+          </Menu>
+        </div>
+      ) : (
+        <ListItem>
+          <ClickAwayListener onClickAway={props.handleTodolistClickAway}>
+            <form
+              onSubmit={props.onEnterTodolist}
+              noValidate
+              autoComplete="off"
+            >
+              <TextField
+                value={value.title}
+                onChange={props.handleChange}
+                autoFocus
+              />
+            </form>
+          </ClickAwayListener>
+        </ListItem>
+      )}
+      <Divider light />
+    </div>
+  )
+);
+const SortableTodolists = SortableContainer(({ items, ...props }) => {
+  return (
+    <div>
+      {items.map((value, index) => (
+        <SortableTodolistItem
+          key={`sort-todolist-${index}`}
+          value={value}
+          index={index}
+          selectedIndex={props.selectedIndex}
+          mousePos={props.mousePos}
+          handleSelectList={props.handleSelectList}
+          handleDoubleClickTodolist={props.handleDoubleClickTodolist}
+          handleContextMenu={props.handleContextMenu}
+          handleContextMenuClose={props.handleContextMenuClose}
+          handleContextMenuDeleteTodoList={
+            props.handleContextMenuDeleteTodoList
+          }
+          handleTodolistClickAway={props.handleTodolistClickAway}
+          onEnterTodolist={props.onEnterTodolist}
+          handleChange={props.handleChange}
+          sortIndex={index}
+        />
+      ))}
+    </div>
+  );
+});
 
 const TodoListWindow = forwardRef(
   ({ todolists, setTodolists, open, setOpen }, ref) => {
     //Keep track what todolist's next index should be
-    const nextIndexTodolist = useRef(todolists.length);
+    const nextIndexTodolist = useRef();
+    nextIndexTodolist.current = todolists.length;
     //Context menu's initial position
     const initialMousPos = {
       mouseX: null,
@@ -39,15 +196,20 @@ const TodoListWindow = forwardRef(
     );
 
     const [selectedIndex, setSelectedIndex] = useState(-1);
-    const [selectedId, setSelectedId] = useState(
-      todolists.length === 0 ? -1 : todolists[0]._id
-    );
-
+    const [selectedId, setSelectedId] = useState(-1);
+    const [sort, setSort] = useState(false);
     const todoRef = useRef(null);
 
     //Open / Close Modal
     const handleClickOpen = () => {
+      if (!todolists) {
+        return;
+      }
       setOpen(true);
+      if (todolists.length !== 0) {
+        setSelectedId(todolists[0]._id);
+        setSelectedIndex(0);
+      }
     };
     const handleClose = () => {
       setOpen(false);
@@ -60,9 +222,47 @@ const TodoListWindow = forwardRef(
           todos: todolist.todos.filter((todo) => !todo.isCompleted),
         })
       );
+      const listOfCompletedTodos = []
+      todolists.map((todolist) =>
+      listOfCompletedTodos.push({
+        ...todolist,
+        todos: todolist.todos.filter((todo) => todo.isCompleted),
+      })
+    );
+      if(listOfCompletedTodos.length != 0){
+        for(var i = 0; i < listOfCompletedTodos.length; i++){
+          for(var k = 0; k < listOfCompletedTodos[i].todos.length; k++){
+            apiDeleteTodo(listOfCompletedTodos[i]._id, listOfCompletedTodos[i].todos[k]._id);
+          } 
+        }
+      }
+    
       setTodolists(newArr);
     };
 
+    const apiDeleteTodo = useCallback((id1, id2) => {
+      const payload = { _id: id1, removeId: id2 };
+      console.log("deleting todo's id front ", id2);
+      todoapi.apiDeleteTodo(payload);
+    });
+
+    const apiAddTodo = useCallback((title, id) => {
+      const payload = { _id: id, title:title };
+      console.log("adding todo id front ", id);
+      todoapi.apiAddTodo(payload);
+    });
+
+    const apiUpdateTodo = useCallback((title, id) => {
+      const payload = { _id: id, title: title };
+      console.log("deleting todolist's id front ", id);
+      todoapi.apiUpdateTodo(payload);
+    });
+
+    const apiChangeTodoPosition = useCallback((tdli, tdi, ni) => {
+      const payload = { _id: tdli, removeId: tdi, newIndex: ni };
+      console.log("deleting todo's id front ", tdi);
+      todoapi.apiChangeTodoPosition(payload);
+    });
     // For the parent to access the child (Widget -> Window)
     useImperativeHandle(ref, () => ({
       clickOpen: () => {
@@ -115,10 +315,10 @@ const TodoListWindow = forwardRef(
           (todolist) => todolist._id !== todolistIdForContextMenu
         )
       );
-
-      if (todolists.length != 1) {
+      apiDeleteTodolist(todolistIdForContextMenu);
+      if (todolists.length !== 1) {
         //Reset to first todolist
-        if (todolistIdForContextMenu == todolists[0]._id) {
+        if (todolistIdForContextMenu === todolists[0]._id) {
           setSelectedId(todolists[1]._id);
           setSelectedIndex(1);
         } else {
@@ -126,16 +326,24 @@ const TodoListWindow = forwardRef(
           setSelectedIndex(0);
         }
       } else {
+        console.log("DELETED");
         setSelectedId(-1);
         setSelectedIndex(-1);
       }
       setTodolistIdForContextMenu(null);
       nextIndexTodolist.current -= 1;
     });
+    const apiDeleteTodolist = useCallback((id) => {
+      const payload = { removeId: id };
+      console.log("deleting todolist's id front ", id);
+      todolistapi.apiDeleteTodolist(payload);
+    });
 
     // Handle ClickAway
+
+    //add tododlist
     const handleCloseTextfield = (e) => {
-      if (todolists.length == 0) {
+      if (todolists.length === 0) {
         return;
       }
       const textFieldIndex = todolists.findIndex((tl) => !tl.toggle);
@@ -146,9 +354,48 @@ const TodoListWindow = forwardRef(
               ? "New List"
               : draft[textFieldIndex].title;
           draft[textFieldIndex].toggle = true;
+          if (draft[textFieldIndex]._id.length < 10) {
+            //make a copy of current todolists
+            let newlist = [...todolists];
+            console.log(newlist);
+            //and remove the recently added variable
+            newlist.pop();
+            //call apiAddTodolist
+            apiAddTodolist(draft[textFieldIndex].title, newlist);
+          } else {
+            apiChangeTitle(draft[textFieldIndex]);
+          }
         })
       );
     };
+
+    async function apiAddTodolist(newTitle, newlist) {
+      //console.log(newlist);
+      const data = { title: newTitle };
+      try {
+        let result = await todolistapi.apiAddTodolist(data);
+        console.log("id from backend ", result, typeof result);
+        console.log("title of new todolist: ", newTitle);
+        const newTodolist = {
+          title: newTitle,
+          _id: result,
+          toggle: true,
+          todos: [],
+        };
+        setTodolists([...newlist, newTodolist]);
+        setSelectedId(newTodolist._id);
+        //setSelectedIndex(nextIndexTodolist.current);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    const apiChangeTitle = useCallback((todolist) => {
+      console.log("change title of new todolist with id: ", todolist._id);
+      const data = { _id: todolist._id, title: todolist.title };
+      todolistapi.apiChangeTitle(data);
+    });
+
     //onClcik handler
     const handleTodolistClickAway = (e) => {
       handleCloseTextfield(e);
@@ -160,7 +407,7 @@ const TodoListWindow = forwardRef(
     };
 
     const handleChange = (e) => {
-      const { name, value } = e.target;
+      const { value } = e.target;
       setTodolists(
         produce((draft) => {
           draft[selectedIndex].title = value;
@@ -170,12 +417,15 @@ const TodoListWindow = forwardRef(
 
     //POST
     const onClickAddTodoList = () => {
+      //make a local todolist variable to show in screen ASAP
+      //user clicks "add a new list" button
       const newTodolist = {
         title: "",
         _id: nextId(),
         toggle: false,
         todos: [],
       };
+      //const newlist = [...todolists];
       setSelectedId(newTodolist._id);
       setSelectedIndex(nextIndexTodolist.current);
       setTodolists(todolists.concat(newTodolist));
@@ -199,10 +449,16 @@ const TodoListWindow = forwardRef(
         nodeName === "SPAN" ||
         //If clicking title
         nodeName === "H5" ||
-        selectedId === -1
+        selectedId === -1 ||
+        sort
       ) {
+        if (sort) {
+          setSort(false);
+        }
         return;
       }
+
+      // here
       if (type === "click" && todoRef.current == null) {
         const newTodo = {
           title: "",
@@ -212,7 +468,19 @@ const TodoListWindow = forwardRef(
         };
         setTodolists(
           produce((draft) => {
+            console.log(selectedIndex);
             draft[selectedIndex].todos.push(newTodo);
+            // if (newTodo._id.length < 10) {
+            //   //make a copy of current todolists
+            //   let newlist = [...draft[selectedIndex].todos];
+            //   console.log(newlist);
+            //   //and remove the recently added variable
+            //   newlist.pop();
+            //   //call apiAddTodolist
+            //   apiAddTodolist(draft[selectedIndex].todos.title, newlist);
+            // } else {
+            //   apiChangeTitle(draft[selectedIndex].todos);
+            // }
           })
         );
       }
@@ -234,7 +502,7 @@ const TodoListWindow = forwardRef(
       const index = todolists[selectedIndex].todos.findIndex(
         (todo) => todo._id === _id
       );
-      const { name, value } = e.target;
+      const { value } = e.target;
       setTodolists(
         produce((draft) => {
           draft[selectedIndex].todos[index].title = value;
@@ -261,19 +529,60 @@ const TodoListWindow = forwardRef(
     const handleTodoClickAway = (e) => {
       handleCloseTodoTextfield(e);
     };
+    //add todo
     const handleCloseTodoTextfield = (e) => {
+      const index = todolists[selectedIndex].todos.findIndex(todo => todo.toggle === false);
+      console.log(index);
       setTodolists(
         produce((draft) => {
           draft[selectedIndex].todos.map((todo) =>
             !todo.toggle ? (todo.toggle = true) : todo.toggle
           );
-          draft[selectedIndex].todos.map((todo) =>
-            todo.title === "" ? (todo.title = "New Todo") : todo.title
+          draft[selectedIndex].todos.map(
+            (todo) =>
+              (todo.title =
+                todo.title === "" ? (todo.title = "New Todo") : todo.title)
           );
+          if (draft[selectedIndex].todos[index]._id.length < 10) {
+            //make a copy of current todos
+            let newlist = [...draft[selectedIndex].todos];
+         
+            //and remove the recently added variable
+            newlist.pop();
+            //call apiAddTodolist
+            apiAddTodo(draft[selectedIndex].todos[index].title, draft[selectedIndex]._id);
+          } else {
+            apiUpdateTodo(draft[selectedIndex].todos[index].title, draft[selectedIndex].todos[index]._id);
+          }
         })
       );
     };
+    //
+    const onSortEndTodo = ({ oldIndex, newIndex }) => {
+      setTodolists(
+        produce((draft) => {
+          draft[selectedIndex].todos = arrayMove(
+            draft[selectedIndex].todos,
+            oldIndex,
+            newIndex
+          );
+        })
+      );
+      apiChangeTodoPosition(todolists[selectedIndex]._id, todolists[selectedIndex].todos[oldIndex]._id, newIndex);
+      setSort(true);
+    };
 
+    const onSortEndTodolist = ({ oldIndex, newIndex }) => {
+      setTodolists(arrayMove(todolists, oldIndex, newIndex));
+      apiChangeTodolistPosition(todolists[oldIndex]._id, newIndex);
+      setSelectedId(todolists[newIndex]._id);
+      setSelectedIndex(newIndex);
+    };
+
+    const apiChangeTodolistPosition = (todolistId, newIndex) => {
+      const data = { _id: todolistId, newIndex: newIndex };
+      todolistapi.apiChangeTodolistPosition(data);
+    };
     return (
       <Dialog
         fullWidth
@@ -310,126 +619,44 @@ const TodoListWindow = forwardRef(
               item
               xs={3}
               onContextMenu={handleContextMenu}
-              classNames="sortable-todolist-item"
+              className="sortable-todolist-item"
             >
               <List component="nav" aria-label="to-do lists">
-                {todolists.map((todolist) => (
-                  <>
-                    {todolist.toggle ? (
-                      <>
-                        <ListItem
-                          button
-                          selected={selectedId === todolist._id}
-                          onClick={(e) => handleSelectList(e, todolist._id)}
-                          onDoubleClick={handleDoubleClickTodolist}
-                          onContextMenu={(e) =>
-                            handleContextMenu(e, todolist._id)
-                          }
-                        >
-                          <ListItemText primary={todolist.title} />
-                        </ListItem>
-                        <Menu
-                          keepMounted
-                          open={mousePos.mouseY !== null}
-                          onClose={handleContextMenuClose}
-                          anchorReference="anchorPosition"
-                          anchorPosition={
-                            mousePos.mouseY !== null && mousePos.mouseX !== null
-                              ? { top: mousePos.mouseY, left: mousePos.mouseX }
-                              : undefined
-                          }
-                        >
-                          <MenuItem
-                            onClick={handleContextMenuDeleteTodoList}
-                            style={{ color: "#EB5757" }}
-                          >
-                            <XCircle /> &nbsp; Delete
-                          </MenuItem>
-                        </Menu>
-                        <Divider light />
-                      </>
-                    ) : (
-                      <>
-                        <ListItem>
-                          <ClickAwayListener
-                            onClickAway={handleTodolistClickAway}
-                          >
-                            <form
-                              onSubmit={onEnterTodolist}
-                              noValidate
-                              autoComplete="off"
-                            >
-                              <TextField
-                                value={todolist.title}
-                                onChange={handleChange}
-                                autoFocus
-                              />
-                            </form>
-                          </ClickAwayListener>
-                        </ListItem>
-
-                        <Divider light />
-                      </>
-                    )}
-                  </>
-                ))}
+                <SortableTodolists
+                  items={todolists}
+                  selectedIndex={selectedIndex}
+                  mousePos={mousePos}
+                  handleSelectList={handleSelectList}
+                  handleDoubleClickTodolist={handleDoubleClickTodolist}
+                  handleContextMenu={handleContextMenu}
+                  handleContextMenuClose={handleContextMenuClose}
+                  handleContextMenuDeleteTodoList={
+                    handleContextMenuDeleteTodoList
+                  }
+                  handleTodolistClickAway={handleTodolistClickAway}
+                  onEnterTodolist={onEnterTodolist}
+                  handleChange={handleChange}
+                  axis="y"
+                  distance={5}
+                  onSortEnd={onSortEndTodolist}
+                />
               </List>
             </Grid>
-
             <Divider orientation="vertical" flexItem />
-            <Grid item xs={8} onClick={handleKeyDownTodo}>
-              <h5>
-                {selectedIndex != -1 ? todolists[selectedIndex].title : ""}
-              </h5>
-              {selectedIndex != -1 ? (
-                todolists[selectedIndex].todos.map((todo) => (
-                  <>
-                    <Grid
-                      container
-                      alignItems="center"
-                      id="todos-keep-click-away"
-                      className="todo-list-todo-grid"
-                    >
-                      <Grid item xs={1}>
-                        <Checkbox
-                          name={todo._id}
-                          color="primary"
-                          icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                          checkedIcon={<CheckBoxIcon fontSize="small" />}
-                          checked={todo.isCompleted}
-                          onChange={(e) => checkBoxToggle(e, todo._id)}
-                        />
-                      </Grid>
-                      <Grid item xs={11} id="todo-wrapper">
-                        {todo.toggle ? (
-                          <ListItemText
-                            primary={todo.title}
-                            onDoubleClick={() =>
-                              handleDoubleClickTodo(todo._id)
-                            }
-                          ></ListItemText>
-                        ) : (
-                          <ClickAwayListener onClickAway={handleTodoClickAway}>
-                            <form onSubmit={onEnterTodo}>
-                              <TextField
-                                style={{ width: "80%" }}
-                                value={todo.title}
-                                onChange={(e) => handleChangeTodo(e, todo._id)}
-                                onKeyDown={handleKeyDownTodo}
-                                autoFocus
-                                ref={todoRef}
-                              />
-                            </form>
-                          </ClickAwayListener>
-                        )}
-                      </Grid>
-                    </Grid>
-                  </>
-                ))
-              ) : (
-                <></>
-              )}
-            </Grid>
+            <SortableTodos
+              items={todolists}
+              selectedIndex={selectedIndex}
+              handleKeyDownTodo={handleKeyDownTodo}
+              checkBoxToggle={checkBoxToggle}
+              handleDoubleClickTodo={handleDoubleClickTodo}
+              handleTodoClickAway={handleTodoClickAway}
+              onEnterTodo={onEnterTodo}
+              handleChangeTodo={handleChangeTodo}
+              todoRef={todoRef}
+              distance={5}
+              axis="y"
+              onSortEnd={onSortEndTodo}
+            />
           </Grid>
         </DialogContent>
 

@@ -226,6 +226,7 @@ const WeatherWidget = () => {
             direction="column"
             justify="space-between"
             alignItems="center"
+            key={`hourly-update-${i}`}
           >
             {getHourlyUpdate(weathers.hourly[i].weather[0].main)}
             <SubTitle>

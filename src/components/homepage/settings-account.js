@@ -2,15 +2,11 @@ import React, {
   useState,
   forwardRef,
   useImperativeHandle,
-  useCallback,
-  useRef,
-  useEffect,
   useContext,
+  useCallback,
 } from "react";
 import SvgIcon from "@material-ui/core/SvgIcon";
-import { Typography } from "@material-ui/core";
-import { MenuItem } from "@material-ui/core";
-import { Divide, X } from "react-feather";
+import { X } from "react-feather";
 import {
   Dialog,
   DialogTitle,
@@ -18,6 +14,7 @@ import {
   IconButton,
   TextField,
   Button,
+  makeStyles,
 } from "@material-ui/core/";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -31,30 +28,40 @@ import Divider from "@material-ui/core/Divider";
 import cities from "../../cities";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { UserContext } from "./context/UserContext";
-import axios from "axios";
+import * as logout from "../../api/auth";
+import * as accountApi from "../../api/accountapi";
+import RemoveConfirm from "./remove-confirm";
+
+const useStyles = makeStyles({
+  redOutlinedBtn: {
+    color: "#eb5757",
+    border: "1px solid #eb5757",
+  },
+  redContainedBtn: {
+    backgroundColor: "#eb5757",
+    color: "white",
+  },
+  tableRow: {
+    height: "1rem",
+  },
+  switch: {
+    color: "#eb5757",
+  },
+});
 
 const AccountSettingsTwo = forwardRef((props, ref) => {
-  const { location, setLocation, unicorn, setUnicorn } = useContext(
-    UserContext
-  );
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
+  const classes = useStyles();
+  const {
+    location,
+    setLocation,
+    unicorn,
+    setUnicorn,
+    email,
+    username,
+  } = useContext(UserContext);
 
-  useEffect(() => {
-    const getUserSettingData = async () => {
-      await axios({
-        method: "GET",
-        withCredentials: true,
-        url: "http://localhost:4000/home",
-      }).then((res) => {
-        setEmail(res.data.email);
-        setUsername(res.data.username);
-      });
-    };
-    getUserSettingData();
-  });
   const [open, setOpen] = useState(false);
-
+  const [removeConfirm, setRemoveConfirm] = useState(false);
   const [unicornConfig, setUnicornConfig] = useState(unicorn);
   const handleClickOpen = () => {
     setOpen(true);
@@ -69,6 +76,8 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
   // };
   // const [selectedCountry, setSelectedCountry] = useState("")
   const [cityValue, setCityValue] = useState(location.name);
+  const [error, setError] = useState(false);
+  const [filter, setFilter] = useState(false);
 
   const city = cities.korea;
   const cityHandleChange = (e) => {
@@ -77,6 +86,7 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
 
   const handleChange = (event) => {
     setUnicornConfig(event.target.checked);
+    console.log(event.target.checked, typeof event.target.checked);
   };
 
   useImperativeHandle(ref, () => ({
@@ -99,6 +109,23 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
       return;
     }
     setUnicorn(unicornConfig);
+    apiChangeUserInfo(newCity);
+  };
+
+  const apiChangeUserInfo = useCallback((newCity) => {
+    console.log(
+      "change location to : ",
+      newCity,
+      "keep unicorn? :",
+      unicornConfig
+    );
+    const data = { city: newCity, keepUnicorn: unicornConfig };
+    accountApi.apiChangeUserInfo(data);
+  });
+
+  const logoutFunction = () => {
+    const data = {};
+    logout.logout(data, setError);
   };
 
   return (
@@ -132,7 +159,7 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
           >
             <Table>
               <TableBody>
-                <TableRow style={{ height: "1rem" }}>
+                <TableRow className={classes.tableRow}>
                   <TableCell align="left">
                     <p>Username: </p>
                   </TableCell>
@@ -142,7 +169,7 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
                     </p>
                   </TableCell>
                 </TableRow>
-                <TableRow style={{ height: "1rem" }}>
+                <TableRow className={classes.tableRow}>
                   <TableCell align="left">
                     <p>Email:</p>
                   </TableCell>
@@ -152,7 +179,7 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
                     </p>
                   </TableCell>
                 </TableRow>
-                <TableRow style={{ height: "1rem" }}>
+                <TableRow className={classes.tableRow}>
                   <TableCell align="left">
                     <p>Location:</p>
                   </TableCell>
@@ -172,14 +199,13 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
                           {...params}
                           label="City"
                           variant="standard"
-                          defaultValue={location.name}
                           onSelect={cityHandleChange}
                         />
                       )}
                     />
                   </TableCell>
                 </TableRow>
-                <TableRow style={{ height: "1rem" }}>
+                <TableRow className={classes.tableRow}>
                   <TableCell align="left">
                     <p>Keep Unicorn:</p>
                   </TableCell>
@@ -187,7 +213,7 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
                     <Switch
                       checked={unicornConfig}
                       onChange={handleChange}
-                      style={{ color: "#eb5757" }}
+                      className={classes.switch}
                     />
                   </TableCell>
                 </TableRow>
@@ -210,7 +236,8 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
             <Grid item xs={12} container direction="column">
               <Button
                 variant="outlined"
-                style={{ color: "#eb5757", border: "1px solid #eb5757" }}
+                className={classes.redOutlinedBtn}
+                onClick={logoutFunction}
               >
                 Log Out
               </Button>
@@ -218,8 +245,9 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
             <Grid item xs={12} container direction="column">
               <Button
                 variant="contained"
-                style={{ backgroundColor: "#eb5757", color: "white" }}
+                className={classes.redContainedBtn}
                 disableElevation
+                onClick={() => setRemoveConfirm(true)}
               >
                 Remove Account
               </Button>
@@ -227,6 +255,10 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
           </Grid>
         </DialogContent>
       </Dialog>
+      <RemoveConfirm
+        removeConfirm={removeConfirm}
+        setRemoveConfirm={setRemoveConfirm}
+      />
     </>
   );
 });

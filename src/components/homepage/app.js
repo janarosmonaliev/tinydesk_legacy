@@ -5,8 +5,8 @@ import NavigationBar from "./navbar";
 import GridWrapper from "./grid-wrapper";
 import FoldersWrapper from "./folders-wrapper";
 import { UserContext } from "./context/UserContext";
-import axios from "axios";
-
+import * as fetch from "../../api/fetch";
+import * as apiBackground from "../../api/backgroundapi";
 const theme = createMuiTheme({
   typography: {
     fontFamily: ['"Inter"', "sans-serif"].join(","),
@@ -148,38 +148,36 @@ const App = () => {
   const [unicorn, setUnicorn] = useState(false);
   const [location, setLocation] = useState({});
   const [folders, setFolders] = useState(null);
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [todolists, setTodolists] = useState([]);
+  const [notes, setNotes] = useState([]);
+  const [events, setEvents] = useState([]);
   // const [userId, setUserId] = useState();
-  const [displayedBookmarks, setDisplayedBookmarks] = useState([]);
   const [selectedFolderId, setSelectedFolderId] = useState("");
+  const [selectedFolderIndex, setSelectedFolderIndex] = useState(0);
 
   useMemo(() => {
     setInitialBackground(background);
   }, []);
 
   useEffect(() => {
-    const getUserData = async () => {
-      setLoading(true);
-      await axios({
-        method: "GET",
-        withCredentials: true,
-        url: "http://localhost:4000/home",
-      }).then((res) => {
-        setFolders(res.data.folders);
-        setBackground(res.data.backgroundImg);
-        setUnicorn(res.data.keepUnicorn);
-        // setUserId(res.data._id);
-        setLocation(res.data.location);
-        setDisplayedBookmarks(res.data.folders[0].bookmarks);
-        setSelectedFolderId(res.data.folders[0]._id);
-      });
-      setLoading(false);
+    setLoading(true);
+    const setter = {
+      setFolders,
+      setBackground,
+      setUnicorn,
+      setEmail,
+      setUsername,
+      setLocation,
+      setSelectedFolderId,
+      setLoading,
+      setTodolists,
+      setNotes,
+      setEvents,
     };
-    getUserData();
+    fetch.getUserData(setter);
   }, []);
-
-  // const [background, setBackground] = useState(
-  //   "https://images.unsplash.com/photo-1481414981591-5732874c7193?crop=entropy&cs=srgb&fm=jpg&ixid=MnwyMjAyNzR8MHwxfHNlYXJjaHw1fHxvcmFuZ2V8ZW58MHwwfHx8MTYxODU1NjAxNQ&ixlib=rb-1.2.1&q=85"
-  // );
 
   const cancelSetBackground = () => {
     console.log("cancelling");
@@ -188,20 +186,18 @@ const App = () => {
 
   const saveSetBackground = () => {
     setInitialBackground(background);
+    apiChangeBackground(background);
+  };
+
+  const apiChangeBackground = (image) => {
+    console.log("set background image with url ", image);
+    const data = { url: image };
+    apiBackground.apiChangeBackground(data);
   };
 
   const unsplashImage = {
-    backgroundImage: `url(${background.url})`,
+    backgroundImage: `url(${background})`,
   };
-
-  useEffect(() => {
-    if (!folders || selectedFolderId === "") {
-      return;
-    }
-    setDisplayedBookmarks(
-      folders.filter((folder) => folder._id === selectedFolderId)[0].bookmarks
-    );
-  }, [selectedFolderId, folders]);
 
   const handleStopJiggle = (e) => {
     const nodeName = e.target.nodeName;
@@ -237,10 +233,18 @@ const App = () => {
     setSelectedFolderId,
     folders,
     setFolders,
-    displayedBookmarks,
-    setDisplayedBookmarks,
     unicorn,
     setUnicorn,
+    email,
+    username,
+    todolists,
+    setTodolists,
+    notes,
+    setNotes,
+    events,
+    setEvents,
+    selectedFolderIndex,
+    setSelectedFolderIndex,
   };
 
   return (
@@ -260,7 +264,6 @@ const App = () => {
               <NavigationBar
                 handlePassBgUrl={(url) => setBackground(url)}
                 saveChanges={saveSetBackground}
-                xwe
                 cancelChanges={cancelSetBackground}
               ></NavigationBar>
               <GridWrapper></GridWrapper>
