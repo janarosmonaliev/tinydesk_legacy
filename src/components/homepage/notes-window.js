@@ -29,10 +29,9 @@ import nextId from "react-id-generator";
 import produce from "immer";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
-import { useForm, Controller } from "react-hook-form";
 import RichEditor from "./note-editor";
-import * as noteapi from "../../api/noteapi";
-import { EditorState, ContentState } from "draft-js";
+import * as noteApi from "../../api/noteapi";
+import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 const useStyles = makeStyles({
   outerStyles: {
     width: "100%",
@@ -126,7 +125,6 @@ const SortableNotelist = SortableContainer((props) => {
 const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
   const classes = useStyles();
   const nextIndexNote = useRef();
-  const { handleSubmit, control } = useForm();
   //index in the Notes list
   const [selectedIndex, setSelectedIndex] = useState(0);
   //id of Notes in the list
@@ -144,18 +142,22 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
   const [mousePos, setMousePos] = useState(initialMousPos);
   //Keep track which todolist user right-clicks
   const [notesIdForContextMenu, setNotesIdForContextMenu] = useState(null);
+  // Note's content state
+  const [editorState, setEditorState] = useState(null);
   //Open / Close Modal
   const handleClickOpen = () => {
+    setEditorState(
+      notes[0].length === 0
+        ? EditorState.createEmpty()
+        : EditorState.createWithContent(notes[0].content)
+    );
     setOpen(true);
     setSelectedId(notes.length === 0 ? -1 : notes[0]._id);
   };
   const handleClose = () => {
     setOpen(false);
+    console.log(notes);
   };
-  const onSubmit = (e) => {
-    e.preventDefault();
-  };
-
   //to handle context menu
   const handleContextMenu = (e, _id) => {
     if (_id != null) {
@@ -191,17 +193,31 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
     } else {
       setSelectedId(-1);
     }
+    noteApi.apiDeleteNote({ removeId: notesIdForContextMenu });
     setNotesIdForContextMenu(null);
     nextIndexNote.current -= 1;
   });
 
   //Handle displaying note
   const handleSelectList = (e, _id) => {
+    if (notes[selectedIndex].isUpdated) {
+      console.log(editorState.getCurrentContent());
+      setNotes(
+        produce((draft) => {
+          draft[selectedIndex].isUpdate = false;
+          draft[selectedIndex].content = editorState.getCurrentContent();
+        })
+      );
+      noteApi.apiUpdateNote({
+        _id: selectedId,
+        content: JSON.stringify(convertToRaw(editorState.getCurrentContent())),
+      });
+    }
+
     setSelectedId(_id);
     let index = notes.findIndex((note) => note._id === _id);
     setSelectedIndex(index);
-    const content = EditorState.createWithContent(notes[index].content);
-    setEditorState(content);
+    setEditorState(EditorState.createWithContent(notes[index].content));
   };
 
   //user can double click the title and change it
@@ -226,7 +242,9 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
   const handleChangeContent = (content) => {
     setNotes(
       produce(notes, (draft) => {
-        draft[selectedIndex].content = content;
+        draft[selectedIndex].isUpdated = draft[selectedIndex].isUpdated
+          ? draft[selectedIndex].isUpdated
+          : true;
       })
     );
   };
@@ -244,8 +262,8 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
     setSelectedId(newNote._id);
     setSelectedIndex(nextIndexNote.current);
     setNotes(notes.concat(newNote));
-    setEditorState(editorStateEmpty);
-    // apiAddNote(newNote);
+    setEditorState(EditorState.createWithContent(newNote.content));
+
     nextIndexNote.current += 1;
   };
 
@@ -260,6 +278,7 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
     if (notes.length === 0) {
       return;
     }
+
     const titleTextfieldIndex = notes.findIndex((note) => !note.toggle);
     setNotes(
       produce(notes, (draft) => {
@@ -273,23 +292,35 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
           //and remove the recently added variable
           newlist.pop();
           //call apiAddTodolist
-          apiAddNote(draft[titleTextfieldIndex].title, newlist);
+          apiAddNote(
+            draft[titleTextfieldIndex].title,
+            draft[titleTextfieldIndex].content,
+            newlist
+          );
         } else {
-          //apiChangeTitle(draft[titleTextfieldIndex]);
+          noteApi.apiChangeNoteTitle({
+            _id: draft[titleTextfieldIndex]._id,
+            title: draft[titleTextfieldIndex].title,
+          });
         }
       })
     );
   };
 
-  async function apiAddNote(title, newlist) {
-    const data = { title: title };
+  async function apiAddNote(title, content, newlist) {
+    console.log(content);
+    const data = {
+      title: title,
+      content: JSON.stringify(convertToRaw(content)),
+    };
+    console.log(data);
     try {
-      let result = await noteapi.apiAddNote(data);
+      let result = await noteApi.apiAddNote(data);
       console.log("id from backend ", result);
       const newNote = {
         title: title,
         _id: result,
-        content: {},
+        content: content,
         toggle: true,
       };
       console.log("note added wih id", newNote._id);
@@ -313,10 +344,13 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
     setSelectedId(notes[newIndex]);
     setNotes(arrayMove(notes, oldIndex, newIndex));
     setSelectedIndex(newIndex);
+    noteApi.apiChangeNotePosition({
+      _id: notes[oldIndex]._id,
+      newIndex: newIndex,
+    });
   };
 
   // TODO Create a state for EditorState
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
   const handleSetEditorState = (s) => {
     setEditorState(s);
@@ -389,6 +423,7 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
                   <RichEditor
                     richEditorState={editorState}
                     setRichEditorState={handleSetEditorState}
+                    // contentState={contentState}
                   />
                 }
               </div>

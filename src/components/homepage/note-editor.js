@@ -96,6 +96,7 @@ function RichEditor(props) {
           ref={editor}
           spellCheck={true}
           // readOnlyx
+          // contentState={props.contentState}
         />
       </div>
     </div>
