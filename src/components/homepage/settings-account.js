@@ -76,7 +76,6 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
   // };
   // const [selectedCountry, setSelectedCountry] = useState("")
   const [cityValue, setCityValue] = useState(location.name);
-  const [error, setError] = useState(false);
   const [filter, setFilter] = useState(false);
 
   const city = cities.korea;
@@ -124,8 +123,7 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
   });
 
   const logoutFunction = () => {
-    const data = {};
-    logout.logout(data, setError);
+    logout.logout();
   };
 
   return (

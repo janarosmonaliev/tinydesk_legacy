@@ -1,6 +1,6 @@
 import { Grid } from "@material-ui/core";
 import clsx from "clsx";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Plus, X, Minus } from "react-feather";
 import { SvgIcon, IconButton, TextField, Button } from "@material-ui/core";
 import { Dialog, DialogTitle, DialogContent } from "@material-ui/core";
@@ -17,7 +17,18 @@ import produce from "immer";
 import { UserContext } from "./context/UserContext";
 import { BookmarkContext } from "./context/BookmarkContext";
 import DialogActionButton from "../common/DialogActionButton";
+import * as bookmarkApi from "../../api/bookmarkapi";
 
+//default images
+const thumbnails = [
+  "https://res.cloudinary.com/commandt/image/upload/v1622724485/6_swmitf.png",
+  "https://res.cloudinary.com/commandt/image/upload/v1622724486/1_gbw5js.png",
+  "https://res.cloudinary.com/commandt/image/upload/v1622724485/2_dzq3ab.png",
+  "https://res.cloudinary.com/commandt/image/upload/v1622724485/7_kjri0t.png",
+  "https://res.cloudinary.com/commandt/image/upload/v1622724485/4_k8qnmd.png",
+  "https://res.cloudinary.com/commandt/image/upload/v1622724485/3_nwf6nx.png",
+  "https://res.cloudinary.com/commandt/image/upload/v1622724485/5_fdgne3.png",
+];
 const useStyles = makeStyles({
   icon: {
     borderRadius: "50%",
@@ -83,9 +94,22 @@ const AddBookmark = () => {
   } = useContext(BookmarkContext);
 
   const [folderMenuId, setFolderMenuId] = useState("");
-
+  const [apiCall, setApiCall] = useState("");
+  const [apiFolderIndex, setApiFolderIndex] = useState(-1);
+  const [apiBookmarkIndex, setApiBookmarkIndex] = useState(-1);
+  const [addId, setAddId] = useState("");
+  useEffect(() => {
+    if (apiCall === "") {
+      return;
+    } else if (apiCall === "add") {
+      apiAddBookmark();
+    } else if (apiCall === "edit") {
+      apiUpdateBookmark();
+    }
+  }, [apiCall]);
   const handleClickOpen = () => {
     setOpen(true);
+
     //Since Select (material ui's component)'s default value is set to opened folder
     //When user click to open the addBookmark modal, this will select folder for user automatically.
     setFolderMenuId(selectedFolderId);
@@ -125,14 +149,17 @@ const AddBookmark = () => {
         })
       );
 
-      setContextMenuBookmarkId("");
       setEdit(false);
+      setApiBookmarkIndex(bookmarkIndex);
+      setApiCall("edit");
+      setApiFolderIndex(folderIndex);
     } else {
       const folderIndex = folders.findIndex((f) => f._id === folderMenuId);
+      const rand = Math.floor(Math.random() * 7);
       const newBookmark = {
         title: title,
         url: url,
-        thumbnail: "",
+        thumbnail: thumbnails[rand],
         color: color,
         _id: nextId(),
       };
@@ -144,13 +171,73 @@ const AddBookmark = () => {
           draft[folderIndex].bookmarks.push(newBookmark);
         })
       );
+      setApiCall("add");
+      setApiFolderIndex(folderIndex);
+      setAddId(newBookmark._id);
+    }
+    setOpen(false);
+  };
+  async function apiAddBookmark() {
+    if (apiFolderIndex === -1) {
+      return;
     }
 
+    const index = folders[apiFolderIndex].bookmarks.findIndex(
+      (bookmark) => bookmark._id === addId
+    );
+    let newBookmarks = [...folders[apiFolderIndex].bookmarks];
+    if (newBookmarks[index]._id.length < 10) {
+      const bm = newBookmarks.pop();
+      console.log(newBookmarks);
+      //_id is folder id
+      const data = {
+        title: bm.title,
+        url: bm.url,
+        color: bm.color,
+        thumbnail: bm.thumbnail,
+        _id: selectedFolderId,
+      };
+      const result = await bookmarkApi.apiAddBookmark(data);
+
+      console.log("id from backend for new bookmark ", result, typeof result);
+      const newBookmark = {
+        title: bm.title,
+        _id: result.newId,
+        url: bm.url,
+        color: bm.color,
+        thumbnail: result.thumbnail,
+      };
+
+      setFolders(
+        produce((draft) => {
+          draft[apiFolderIndex].bookmarks = [...newBookmarks, newBookmark];
+        })
+      );
+    }
+    setApiCall("");
+    setApiFolderIndex(-1);
+    setAddId("");
+  }
+  const apiUpdateBookmark = () => {
+    if (contextMenuBookmarkId.length < 10) {
+      return;
+    }
+
+    const data = {
+      _id: contextMenuBookmarkId,
+      title: title,
+      url: url,
+      color: color,
+      thumbnail: folders[apiFolderIndex].bookmarks[apiBookmarkIndex].thumbnail,
+    };
+    bookmarkApi.apiUpdateBookmark(data);
+    setApiBookmarkIndex(-1);
+    setApiCall("");
+    setApiFolderIndex(-1);
+    setContextMenuBookmarkId("");
     setURL("https://www.");
     setTitle("");
-    //Default color is changed to clear.
     setColor("clear");
-    setOpen(false);
   };
 
   return (

@@ -17,6 +17,7 @@ import { Menu, MenuItem } from "@material-ui/core/";
 import produce from "immer";
 import { BookmarkContext } from "./context/BookmarkContext";
 import DialogActionButton from "../common/DialogActionButton";
+import * as bookmarkApi from "../../api/bookmarkapi";
 
 const useStyles = makeStyles({
   bookmarkTitle: {
@@ -61,7 +62,13 @@ const Bookmark = (props) => {
         );
       })
     );
+    apiDeleteBookmark(folderIndex);
     setOpen(false);
+  };
+  const apiDeleteBookmark = (folderIndex) => {
+    const payload = { _id: folderIndex, removeId: props._id };
+    console.log("deleting bookmark's id front ", props._id);
+    bookmarkApi.apiDeleteBookmark(payload);
   };
 
   return (
