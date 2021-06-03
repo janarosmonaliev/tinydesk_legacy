@@ -152,14 +152,14 @@ const CalendarWindow = forwardRef((props, ref) => {
     console.log(start);
     console.log(end);
     const title = newTitleRef.current.value;
-    const allDay = false;
+
     const _id = nextId();
     const days = moment(end).diff(moment(start), "days");
 
     if (title) {
       var newEvent = {
         title: title,
-        allDay: allDay,
+        allDay: days >= 1 ? true : false,
         start: start,
         end: end,
         _id: _id,
