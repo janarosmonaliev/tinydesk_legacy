@@ -78,6 +78,19 @@ const SignupPage = () => {
   };
   // The function that fires when the user clicks to submit the form
   const register = () => {
+<<<<<<< HEAD
+    axios({
+      method: "POST",
+      data: {
+        name: fullName,
+        username: username,
+        email: email,
+        password: password,
+        city: city,
+      },
+      url: "http://localhost:4000/signup", // <-------- We have to change this before Milestone 3 deadline to use the Heroku backend
+    }).then((res) => console.log(res));
+=======
     if (!validator.isEmail(email)) {
       setEmailError(true);
       return;
@@ -92,6 +105,7 @@ const SignupPage = () => {
       city: city,
     };
     auth.register(data, setError, setDisabled);
+>>>>>>> master
   };
   const handleOnChangeCountry = (e) => {
     setCountry(e.target.value);

@@ -32,7 +32,7 @@ import arrayMove from "array-move";
 import { useForm, Controller } from "react-hook-form";
 import RichEditor from "./note-editor";
 import * as noteapi from "../../api/noteapi";
-import { EditorState, ContentState, convertToRaw } from "draft-js";
+import { EditorState, ContentState } from "draft-js";
 const useStyles = makeStyles({
   outerStyles: {
     width: "100%",
@@ -315,7 +315,7 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
 
   const apiUpdateNote = useCallback((note) => {
     console.log("change title of new note with id: ", note._id);
-    const data = { _id: note._id, title: note.title, content: convertToRaw(note.content) };
+    const data = { _id: note._id, title: note.title, content: note.content };
     noteapi.apiUpdateNote(data);
   });
 
