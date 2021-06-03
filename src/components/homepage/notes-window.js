@@ -32,7 +32,7 @@ import arrayMove from "array-move";
 import { useForm, Controller } from "react-hook-form";
 import RichEditor from "./note-editor";
 import * as noteapi from "../../api/noteapi";
-import { EditorState, ContentState, convertToRaw } from "draft-js";
+import { EditorState, ContentState } from "draft-js";
 const useStyles = makeStyles({
   outerStyles: {
     width: "100%",
@@ -177,34 +177,22 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
     setMousePos(initialMousPos);
   };
 
-  // Delete a note
   const handleContextMenuDeleteNotes = useCallback(() => {
     setMousePos(initialMousPos);
     setNotes(notes.filter((note) => note._id !== notesIdForContextMenu));
-    apiDeleteNote(notesIdForContextMenu);
     if (notes.length !== 1) {
-      //Reset to first note
+      //Reset to first todolist
       if (notesIdForContextMenu === notes[0]._id) {
         setSelectedId(notes[1]._id);
-        setSelectedIndex(1);
       } else {
         setSelectedId(notes[0]._id);
-        setSelectedIndex(0);
       }
       setSelectedIndex(0);
     } else {
-      console.log("DELETED");
       setSelectedId(-1);
-      setSelectedIndex(-1);
     }
     setNotesIdForContextMenu(null);
     nextIndexNote.current -= 1;
-  });
-
-  const apiDeleteNote = useCallback((id) => {
-    const payload = { removeId: id };
-    console.log("deleting note's id front ", id);
-    noteapi.apiDeleteNote(payload);
   });
 
   //Handle displaying note
@@ -257,6 +245,7 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
     setSelectedIndex(nextIndexNote.current);
     setNotes(notes.concat(newNote));
     setEditorState(editorStateEmpty);
+    // apiAddNote(newNote);
     nextIndexNote.current += 1;
   };
 
@@ -278,15 +267,15 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
         draft[titleTextfieldIndex].title = title === "" ? "New Note" : title;
         draft[titleTextfieldIndex].toggle = true;
         if (draft[titleTextfieldIndex]._id.length < 10) {
-          //make a copy of current notes
+          //make a copy of current todolists
           let newlist = [...notes];
           console.log(newlist);
           //and remove the recently added variable
           newlist.pop();
-          //call apiAddNote
+          //call apiAddTodolist
           apiAddNote(draft[titleTextfieldIndex].title, newlist);
         } else {
-          apiUpdateNote(draft[titleTextfieldIndex]);
+          //apiChangeTitle(draft[titleTextfieldIndex]);
         }
       })
     );
@@ -311,14 +300,6 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
     }
   }
 
-  const apiUpdateNote = useCallback((note) => {
-    console.log("change title of new note with id: ", note._id);
-    const data = { _id: note._id, title: note.title, content: convertToRaw(note.content) };
-    noteapi.apiUpdateNote(data);
-  });
-
- 
-
   //use for parent to access
   useImperativeHandle(ref, () => ({
     clickOpen: () => {
@@ -328,13 +309,7 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
   const onSortEnd = ({ oldIndex, newIndex }) => {
     setSelectedId(notes[newIndex]);
     setNotes(arrayMove(notes, oldIndex, newIndex));
-    apiChangeNotePosition(notes[oldIndex]._id, newIndex);
     setSelectedIndex(newIndex);
-  };
-
-  const apiChangeNotePosition = (noteId, newIndex) => {
-    const data = { _id: noteId, newIndex: newIndex };
-    noteapi.apiChangeNotePosition(data);
   };
 
   // TODO Create a state for EditorState

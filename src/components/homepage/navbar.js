@@ -5,7 +5,6 @@ import SettingsButton from "./settings-button";
 import SearchBar from "./search-bar";
 import { UserContext } from "./context/UserContext";
 
-
 const NavigationBar = (props) => {
   const { unicorn } = useContext(UserContext);
   return (

@@ -95,47 +95,9 @@ const theme = createMuiTheme({
   },
 });
 const App = () => {
-  // const [theEmail, setTheEmail] = useState(null);
-  // const [theUserName, setTheUserName] = useState(null);
-  // useEffect(() => {
-  //   axios({
-  //     method: "get",
-  //     withCredentials: true,
-  //     url: "http://localhost:4000/home",
-  //   }).then((res) => {
-  //     console.log(res.data);
-  //     setTheEmail(res.data.email);
-  //     setTheUserName(res.data.username);
-  //   });
-  // }, []);
-
-  const [userEmail, setUserEmail] = useState();
-  const [username, setUsername] = useState();
-  const [userFolders, setUserFolders] = useState();
-  const [userTodolists, setUserTodolists] = useState();
-  const [userNotes, setUserNotes] = useState();
-  const [userBackground, setUserBackground] = useState();
-  const [userUnicorn, setUserUnicorn] = useState();
-  const [userId, setUserId] = useState();
-  const [userLocation, setUserLocation] = useState();
-  useEffect(() => {
-    axios({
-      method: "get",
-      url: "http://localhost:4000/home",
-    }).then((res) => {
-      console.log(res.data);
-      setUserEmail(res.data.email);
-      setUsername(res.data.username);
-      setUserFolders(res.data.folders);
-      setUserTodolists(res.data.todolists);
-      setUserNotes(res.data.notes);
-      setUserBackground(res.data.backgroundImg);
-      setUserUnicorn(res.data.keepUnicorn);
-      setUserId(res.data._id);
-      setUserLocation(res.data.location);
-    });
-  }, []);
-
+  //Static States
+  const [jiggle, setJiggle] = useState(false);
+  const [filter, setFilter] = useState(false);
   const [initialBackground, setInitialBackground] = useState();
   const [loading, setLoading] = useState(false);
 

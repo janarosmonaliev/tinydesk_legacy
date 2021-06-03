@@ -26,7 +26,6 @@ import { Menu, MenuItem } from "@material-ui/core/";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
 import * as todolistapi from "../../api/todolistapi";
-import * as todoapi from "../../api/todoapi";
 
 const useStyles = makeStyles({
   guideTodo: {
@@ -246,47 +245,9 @@ const TodoListWindow = forwardRef(
           todos: todolist.todos.filter((todo) => !todo.isCompleted),
         })
       );
-      const listOfCompletedTodos = []
-      todolists.map((todolist) =>
-      listOfCompletedTodos.push({
-        ...todolist,
-        todos: todolist.todos.filter((todo) => todo.isCompleted),
-      })
-    );
-      if(listOfCompletedTodos.length != 0){
-        for(var i = 0; i < listOfCompletedTodos.length; i++){
-          for(var k = 0; k < listOfCompletedTodos[i].todos.length; k++){
-            apiDeleteTodo(listOfCompletedTodos[i]._id, listOfCompletedTodos[i].todos[k]._id);
-          } 
-        }
-      }
-    
       setTodolists(newArr);
     };
 
-    const apiDeleteTodo = useCallback((id1, id2) => {
-      const payload = { _id: id1, removeId: id2 };
-      console.log("deleting todo's id front ", id2);
-      todoapi.apiDeleteTodo(payload);
-    });
-
-    const apiAddTodo = useCallback((title, id) => {
-      const payload = { _id: id, title:title };
-      console.log("adding todo id front ", id);
-      todoapi.apiAddTodo(payload);
-    });
-
-    const apiUpdateTodo = useCallback((title, id) => {
-      const payload = { _id: id, title: title };
-      console.log("deleting todolist's id front ", id);
-      todoapi.apiUpdateTodo(payload);
-    });
-
-    const apiChangeTodoPosition = useCallback((tdli, tdi, ni) => {
-      const payload = { _id: tdli, removeId: tdi, newIndex: ni };
-      console.log("deleting todo's id front ", tdi);
-      todoapi.apiChangeTodoPosition(payload);
-    });
     // For the parent to access the child (Widget -> Window)
     useImperativeHandle(ref, () => ({
       clickOpen: () => {
@@ -364,8 +325,6 @@ const TodoListWindow = forwardRef(
     });
 
     // Handle ClickAway
-
-    //add tododlist
     const handleCloseTextfield = (e) => {
       if (todolists.length === 0) {
         return;
@@ -454,6 +413,7 @@ const TodoListWindow = forwardRef(
       setSelectedIndex(nextIndexTodolist.current);
       setTodolists(todolists.concat(newTodolist));
       nextIndexTodolist.current += 1;
+      //apiAddTodolist(newlist);
     };
 
     //Todo Methods
@@ -481,8 +441,6 @@ const TodoListWindow = forwardRef(
         }
         return;
       }
-
-      // here
       if (type === "click" && todoRef.current == null) {
         const newTodo = {
           title: "",
@@ -492,19 +450,7 @@ const TodoListWindow = forwardRef(
         };
         setTodolists(
           produce((draft) => {
-            console.log(selectedIndex);
             draft[selectedIndex].todos.push(newTodo);
-            // if (newTodo._id.length < 10) {
-            //   //make a copy of current todolists
-            //   let newlist = [...draft[selectedIndex].todos];
-            //   console.log(newlist);
-            //   //and remove the recently added variable
-            //   newlist.pop();
-            //   //call apiAddTodolist
-            //   apiAddTodolist(draft[selectedIndex].todos.title, newlist);
-            // } else {
-            //   apiChangeTitle(draft[selectedIndex].todos);
-            // }
           })
         );
       }
@@ -553,10 +499,7 @@ const TodoListWindow = forwardRef(
     const handleTodoClickAway = (e) => {
       handleCloseTodoTextfield(e);
     };
-    //add todo
     const handleCloseTodoTextfield = (e) => {
-      const index = todolists[selectedIndex].todos.findIndex(todo => todo.toggle === false);
-      console.log(index);
       setTodolists(
         produce((draft) => {
           draft[selectedIndex].todos.map((todo) =>
@@ -567,21 +510,9 @@ const TodoListWindow = forwardRef(
               (todo.title =
                 todo.title === "" ? (todo.title = "New Todo") : todo.title)
           );
-          if (draft[selectedIndex].todos[index]._id.length < 10) {
-            //make a copy of current todos
-            let newlist = [...draft[selectedIndex].todos];
-         
-            //and remove the recently added variable
-            newlist.pop();
-            //call apiAddTodolist
-            apiAddTodo(draft[selectedIndex].todos[index].title, draft[selectedIndex]._id);
-          } else {
-            apiUpdateTodo(draft[selectedIndex].todos[index].title, draft[selectedIndex].todos[index]._id);
-          }
         })
       );
     };
-    //
     const onSortEndTodo = ({ oldIndex, newIndex }) => {
       setTodolists(
         produce((draft) => {
@@ -592,7 +523,6 @@ const TodoListWindow = forwardRef(
           );
         })
       );
-      apiChangeTodoPosition(todolists[selectedIndex]._id, todolists[selectedIndex].todos[oldIndex]._id, newIndex);
       setSort(true);
     };
 
