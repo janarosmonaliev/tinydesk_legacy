@@ -307,6 +307,9 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
     },
   }));
   const onSortEnd = ({ oldIndex, newIndex }) => {
+    if (oldIndex === newIndex) {
+      return;
+    }
     setSelectedId(notes[newIndex]);
     setNotes(arrayMove(notes, oldIndex, newIndex));
     setSelectedIndex(newIndex);

@@ -588,6 +588,9 @@ const TodoListWindow = forwardRef(
     });
 
     const onSortEndTodo = ({ oldIndex, newIndex }) => {
+      if (oldIndex === newIndex) {
+        return;
+      }
       setTodolists(
         produce((draft) => {
           draft[selectedIndex].todos = arrayMove(
@@ -607,11 +610,14 @@ const TodoListWindow = forwardRef(
 
     const apiChangeTodoPosition = useCallback((tdli, tdi, ni) => {
       const payload = { _id: tdli, removeId: tdi, newIndex: ni };
-      console.log("deleting todo's id front ", tdi);
+      console.log("changing todo's position front ", tdi);
       todoapi.apiChangeTodoPosition(payload);
     });
 
     const onSortEndTodolist = ({ oldIndex, newIndex }) => {
+      if (oldIndex === newIndex) {
+        return;
+      }
       setTodolists(arrayMove(todolists, oldIndex, newIndex));
       apiChangeTodolistPosition(todolists[oldIndex]._id, newIndex);
       setSelectedId(todolists[newIndex]._id);

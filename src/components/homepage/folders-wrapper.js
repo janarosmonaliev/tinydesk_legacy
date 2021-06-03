@@ -87,6 +87,9 @@ const FoldersWrapper = () => {
   });
 
   const onSortEnd = ({ oldIndex, newIndex }) => {
+    if (oldIndex === newIndex) {
+      return;
+    }
     setFolders(arrayMove(folders, oldIndex, newIndex));
     apiChangeFolderPosition(folders[oldIndex]._id, newIndex);
     setSelectedFolderIndex(newIndex);

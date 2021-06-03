@@ -47,3 +47,14 @@ export const apiChangeBookmarkPosition = (data) => {
       console.log(error);
     });
 };
+
+export const apiMoveBookmarkToDifferentFolder = (data) => {
+  client
+    .post("/home/bookmarks/move", data)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};
