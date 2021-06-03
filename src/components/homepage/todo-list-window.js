@@ -26,7 +26,7 @@ import { Menu, MenuItem } from "@material-ui/core/";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
 import * as todolistapi from "../../api/todolistapi";
-
+import * as todoapi from "../../api/todoapi";
 const useStyles = makeStyles({
   guideTodo: {
     position: "absolute",
@@ -436,7 +436,7 @@ const TodoListWindow = forwardRef(
       const nodeName = e.target.nodeName;
       const targetType = e.target.type;
       const targetId = e.target.id;
-
+      console.log(type, nodeName, targetType, targetId);
       if (
         //If it is toggling checkbox
         (type === "click" && targetType === "checkbox") ||
@@ -514,6 +514,9 @@ const TodoListWindow = forwardRef(
       handleCloseTodoTextfield(e);
     };
     const handleCloseTodoTextfield = (e) => {
+      const index = todolists[selectedIndex].todos.findIndex(
+        (todo) => todo.toggle === false
+      );
       setTodolists(
         produce((draft) => {
           draft[selectedIndex].todos.map((todo) =>
