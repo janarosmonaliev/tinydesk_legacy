@@ -17,8 +17,6 @@ import produce from "immer";
 import { UserContext } from "./context/UserContext";
 import { BookmarkContext } from "./context/BookmarkContext";
 import DialogActionButton from "../common/DialogActionButton";
-import folder from "./folder";
-import * as bookmarkapi from "../../api/bookmarkapi";
 
 const useStyles = makeStyles({
   icon: {
@@ -143,50 +141,9 @@ const AddBookmark = () => {
 
       setFolders(
         produce(folders, (draft) => {
-          const beforePush = [...draft[folderIndex].bookmarks];
           draft[folderIndex].bookmarks.push(newBookmark);
-          apiAddBookmark(
-            folderIndex,
-            newBookmark,
-            draft[folderIndex]._id,
-            beforePush
-          );
         })
       );
-    }
-
-    async function apiAddBookmark(
-      folderIndex,
-      newBookmark,
-      folderId,
-      thatBookmarks
-    ) {
-      const data = {
-        title: newBookmark.title,
-        _id: folderId,
-        url: newBookmark.url,
-        color: newBookmark.color,
-        thumbnail: newBookmark.thumbnail,
-      };
-      try {
-        const result = await bookmarkapi.apiAddBookmark(data);
-        console.log("id from backend ", result);
-        const newBk = {
-          title: newBookmark.title,
-          url: newBookmark.url,
-          thumbnail: newBookmark.thumbnail,
-          color: newBookmark.color,
-          _id: result,
-        };
-        const thatFolder = folders[folderIndex];
-        thatFolder.bookmarks = [...thatBookmarks, newBk];
-        const tmpFolders = [...folders];
-        tmpFolders[folderIndex] = thatFolder;
-        setFolders([...tmpFolders]);
-        console.log(folders);
-      } catch (e) {
-        console.log(e);
-      }
     }
 
     setURL("https://www.");
