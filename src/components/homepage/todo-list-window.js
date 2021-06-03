@@ -436,7 +436,6 @@ const TodoListWindow = forwardRef(
       const nodeName = e.target.nodeName;
       const targetType = e.target.type;
       const targetId = e.target.id;
-      console.log(type, nodeName, targetType, targetId);
       if (
         //If it is toggling checkbox
         (type === "click" && targetType === "checkbox") ||
