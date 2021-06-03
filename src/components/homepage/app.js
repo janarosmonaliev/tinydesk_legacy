@@ -100,7 +100,6 @@ const App = () => {
   const [filter, setFilter] = useState(false);
   const [initialBackground, setInitialBackground] = useState();
   const [loading, setLoading] = useState(false);
-
   //Dynamic States
   const [background, setBackground] = useState("");
   const [unicorn, setUnicorn] = useState(false);
@@ -133,27 +132,22 @@ const App = () => {
     };
     fetch.getUserData(setter);
   }, []);
-
   const cancelSetBackground = () => {
     console.log("cancelling");
     setBackground(initialBackground);
   };
-
   const saveSetBackground = () => {
     setInitialBackground(background);
     apiChangeBackground(background);
   };
-
   const apiChangeBackground = (image) => {
     console.log("set background image with url ", image);
     const data = { url: image };
     apiBackground.apiChangeBackground(data);
   };
-
   const unsplashImage = {
     backgroundImage: `url(${background})`,
   };
-
   const handleStopJiggle = (e) => {
     const nodeName = e.target.nodeName;
     const targetType = e.target.type;
@@ -170,7 +164,6 @@ const App = () => {
       setFilter(false);
     }
   };
-
   if (loading) {
     return;
   }
@@ -202,7 +195,6 @@ const App = () => {
     selectedFolderIndex,
     setSelectedFolderIndex,
   };
-
   return (
     <UserContext.Provider value={userContext}>
       <ThemeProvider theme={theme}>
@@ -231,5 +223,4 @@ const App = () => {
     </UserContext.Provider>
   );
 };
-
 export default React.memo(App);
