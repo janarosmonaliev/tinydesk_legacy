@@ -1,6 +1,7 @@
 import { navigate } from "gatsby-link";
 import client from "./client";
 import moment from "moment";
+import { convertFromRaw } from "draft-js";
 export const getUserData = (setter) => {
   client.get("/home").then((res) => {
     if (res.data == "no uid") {
@@ -29,7 +30,13 @@ export const getUserData = (setter) => {
         });
         setter.setTodolists(res.data.todolists);
       }
-      res.data.notes.forEach((note) => (note["toggle"] = true));
+      if (res.data.notes.length != 0) {
+        res.data.notes.forEach((note) => {
+          note["toggle"] = true;
+          note["isUpdated"] = false;
+          note.content = convertFromRaw(JSON.parse(note.content));
+        });
+      }
       setter.setNotes(res.data.notes);
 
       setter.setLoading(false);
