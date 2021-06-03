@@ -8,6 +8,7 @@ export const getUserData = (setter) => {
     } else {
       setter.setFolders(res.data.folders);
       setter.setBackground(res.data.backgroundImg.url);
+      setter.setInitialBackground(res.data.backgroundImg.url);
       setter.setUnicorn(res.data.keepUnicorn);
       setter.setEmail(res.data.email);
       setter.setUsername(res.data.username);

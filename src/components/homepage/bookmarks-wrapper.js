@@ -201,7 +201,7 @@ const BookmarksWrapper = () => {
                     thumbnail={bookmark.thumbnail}
                     title={bookmark.title}
                     url={bookmark.url}
-                    id={bookmark.id}
+                    _id={bookmark._id}
                     color={bookmark.color}
                   />
                 </Grid>
