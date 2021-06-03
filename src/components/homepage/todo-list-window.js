@@ -253,27 +253,15 @@ const TodoListWindow = forwardRef(
           todos: todolist.todos.filter((todo) => todo.isCompleted),
         })
       );
-      if (listOfCompletedTodos.length != 0) {
-        for (var i = 0; i < listOfCompletedTodos.length; i++) {
-          for (var k = 0; k < listOfCompletedTodos[i].todos.length; k++) {
-            apiDeleteTodo(
-              listOfCompletedTodos[i]._id,
-              listOfCompletedTodos[i].todos[k]._id
-            );
-          }
-        }
-      }
-
+      console.log(listOfCompletedTodos);
+      apiDeleteTodo(listOfCompletedTodos);
       setTodolists(newArr);
     };
 
-    //APIS
-    const apiDeleteTodo = useCallback((id1, id2) => {
-      const payload = { _id: id1, removeId: id2 };
-      console.log("deleting todo's id front ", id2);
+    const apiDeleteTodo = useCallback((idOfCompletedTodos) => {
+      const payload = { removelist: idOfCompletedTodos };
       todoapi.apiDeleteTodo(payload);
     });
-
     // For the parent to access the child (Widget -> Window)
     useImperativeHandle(ref, () => ({
       clickOpen: () => {
