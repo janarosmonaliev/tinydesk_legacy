@@ -28,7 +28,6 @@ import { IconButton, SvgIcon, Popover } from "@material-ui/core";
 import { Trash2, X } from "react-feather";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import nextId from "react-id-generator";
 import produce from "immer";
 import * as calendarapi from "../../api/calendarapi";
@@ -64,7 +63,6 @@ const CalendarWindow = forwardRef((props, ref) => {
   const classes = useStyles();
   const newTitleRef = useRef(null);
   const titleRef = useRef(null);
-  const newRef = useRef(null);
   const initialEvent = {
     title: "",
     start: new Date(),
