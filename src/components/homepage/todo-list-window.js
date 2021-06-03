@@ -26,7 +26,6 @@ import { Menu, MenuItem } from "@material-ui/core/";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
 import * as todolistapi from "../../api/todolistapi";
-import * as todoapi from "../../api/todoapi";
 
 const useStyles = makeStyles({
   guideTodo: {
@@ -262,6 +261,7 @@ const TodoListWindow = forwardRef(
       const payload = { removelist: idOfCompletedTodos };
       todoapi.apiDeleteTodo(payload);
     });
+
     // For the parent to access the child (Widget -> Window)
     useImperativeHandle(ref, () => ({
       clickOpen: () => {
@@ -339,8 +339,6 @@ const TodoListWindow = forwardRef(
     });
 
     // Handle ClickAway
-
-    //add tododlist
     const handleCloseTextfield = (e) => {
       if (todolists.length === 0) {
         return;
@@ -429,6 +427,7 @@ const TodoListWindow = forwardRef(
       setSelectedIndex(nextIndexTodolist.current);
       setTodolists(todolists.concat(newTodolist));
       nextIndexTodolist.current += 1;
+      //apiAddTodolist(newlist);
     };
 
     //Todo Methods
@@ -456,8 +455,6 @@ const TodoListWindow = forwardRef(
         }
         return;
       }
-
-      // here
       if (type === "click" && todoRef.current == null) {
         const newTodo = {
           title: "",
@@ -467,7 +464,6 @@ const TodoListWindow = forwardRef(
         };
         setTodolists(
           produce((draft) => {
-            console.log(selectedIndex);
             draft[selectedIndex].todos.push(newTodo);
           })
         );
@@ -517,12 +513,7 @@ const TodoListWindow = forwardRef(
     const handleTodoClickAway = (e) => {
       handleCloseTodoTextfield(e);
     };
-    //Add todo in db at here
     const handleCloseTodoTextfield = (e) => {
-      const index = todolists[selectedIndex].todos.findIndex(
-        (todo) => todo.toggle === false
-      );
-      //console.log(index);
       setTodolists(
         produce((draft) => {
           draft[selectedIndex].todos.map((todo) =>
@@ -533,72 +524,9 @@ const TodoListWindow = forwardRef(
               (todo.title =
                 todo.title === "" ? (todo.title = "New Todo") : todo.title)
           );
-          if (draft[selectedIndex].todos[index]._id.length < 10) {
-            //make a copy of current todos
-
-            //and remove the recently added variable
-
-            //call apiAddTodolist
-            apiAddTodo(
-              draft[selectedIndex].todos[index].title,
-              draft[selectedIndex]._id,
-              selectedIndex
-            );
-          } else {
-            apiUpdateTodo(
-              draft[selectedIndex].todos[index].title,
-              draft[selectedIndex].todos[index]._id
-            );
-          }
         })
       );
     };
-
-    async function apiAddTodo(newTitle, todolistId, selectedIndex) {
-      //console.log(newlist);
-      const data = { title: newTitle, _id: todolistId };
-      try {
-        let result = await todoapi.apiAddTodo(data);
-        console.log("id from backend ", result, typeof result);
-        const newTodo = {
-          title: newTitle,
-          isCompleted: false,
-          toggle: true,
-          _id: result,
-        };
-        console.log(newTodo);
-        const theTodolist = [...todolists];
-        console.log(theTodolist);
-        const thatTodolist = theTodolist[selectedIndex];
-        console.log(thatTodolist);
-        let tmp = thatTodolist.todos;
-        const thatTodos = [...tmp];
-        console.log(thatTodos);
-        thatTodos.pop();
-        console.log(thatTodos);
-        thatTodos.push(newTodo);
-        const newnewnew = {
-          title: thatTodolist.title,
-          _id: thatTodolist._id,
-          toggle: true,
-          todos: thatTodos,
-        };
-        console.log("check right todo added", newnewnew);
-        theTodolist.splice(selectedIndex, 1, newnewnew);
-        console.log(theTodolist);
-        setTodolists([...theTodolist]);
-        setSelectedId(newTodo._id);
-      } catch (e) {
-        console.log(e);
-      }
-    }
-
-    const apiUpdateTodo = useCallback((title, id) => {
-      const payload = { _id: id, title: title };
-      console.log("change todo's title to ", title);
-      todoapi.apiUpdateTodo(payload);
-    });
-
     const onSortEndTodo = ({ oldIndex, newIndex }) => {
       setTodolists(
         produce((draft) => {
@@ -609,19 +537,8 @@ const TodoListWindow = forwardRef(
           );
         })
       );
-      apiChangeTodoPosition(
-        todolists[selectedIndex]._id,
-        todolists[selectedIndex].todos[oldIndex]._id,
-        newIndex
-      );
       setSort(true);
     };
-
-    const apiChangeTodoPosition = useCallback((tdli, tdi, ni) => {
-      const payload = { _id: tdli, removeId: tdi, newIndex: ni };
-      console.log("deleting todo's id front ", tdi);
-      todoapi.apiChangeTodoPosition(payload);
-    });
 
     const onSortEndTodolist = ({ oldIndex, newIndex }) => {
       setTodolists(arrayMove(todolists, oldIndex, newIndex));
