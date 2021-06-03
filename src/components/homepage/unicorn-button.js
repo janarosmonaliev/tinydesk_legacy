@@ -12,10 +12,11 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import SwipeableViews from "react-swipeable-views";
 import Divider from "@material-ui/core/Divider";
-import UnicornSafari from "../../images/unicorn-safari.png";
+import ChromeExtension from "../../images/chrome-extension.png";
 import UnicornChrome from "../../images/unicorn-chrome.png";
 import UnicornFirefox from "../../images/unicorn-firefox.png";
 import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core";
 
 // Tabs
 function TabPanel(props) {
@@ -39,9 +40,21 @@ function a11yProps(index) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
+const useStyles = makeStyles({
+  link: {
+    cursor: "pointer",
+  },
+});
 
 const UnicornButton = (props) => {
+  const classes = useStyles();
   //Dialog
+  const handleClickExtension = () => {
+    // TODO Add noopener and noreferrer tags
+    window
+      .open("https://chrome.google.com/webstore/category/extensions", "_blank")
+      .focus();
+  };
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -120,7 +133,7 @@ const UnicornButton = (props) => {
             aria-label="simple tabs example"
             centered
           >
-            <Tab label="Safari" {...a11yProps(0)} />
+            <Tab label="Extension" {...a11yProps(0)} />
             <Tab label="Chrome" {...a11yProps(1)} />
             <Tab label="Firefox" {...a11yProps(2)} />
           </Tabs>
@@ -134,22 +147,21 @@ const UnicornButton = (props) => {
           >
             <TabPanel value={value} index={0}>
               <Typography variant="h6">
-                <b>How to set Command T as Homepage for Safari</b>
+                <b>How to add Command T Extension</b>
               </Typography>
               <br />
               <Typography>
-                1. Go to Safari "Preferences" OR Press (⌘ + ,)
+                1. Go to{" "}
+                <b onClick={handleClickExtension} className={classes.link}>
+                  https://chrome.google.com/webstore/category/extensions
+                </b>
               </Typography>
               <br />
-              <Typography>2. Go to "General" tab</Typography>
+              <Typography>2. Search for "CommandT"</Typography>
+              <br />
+              <Typography>3. Click "Add to Chrome"</Typography>
               <br />
               <Typography>
-                3. Set Both "New windows open with" and "New tabs open with" as
-                Homepage
-              </Typography>
-              <br />
-              <Typography>
-                4. On "Homepage" field, copy and paste the URL
                 <br />
                 <div
                   style={{
@@ -159,10 +171,10 @@ const UnicornButton = (props) => {
                 >
                   <textarea
                     ref={textAreaRef}
-                    value="https://commandt.com"
+                    value="https://commandt.herokuapp.com"
                     className="hide"
                   />
-                  https://commandt.com
+                  https://commandt.herokuapp.com
                   <Button onClick={copyToClipboard}>
                     <Copy size={20} strokeWidth={3} />
                   </Button>
@@ -179,7 +191,7 @@ const UnicornButton = (props) => {
               <br />
 
               <img
-                src={UnicornSafari}
+                src={ChromeExtension}
                 style={{
                   borderRadius: "20px",
                   width: "100%",
@@ -226,10 +238,10 @@ const UnicornButton = (props) => {
                 >
                   <textarea
                     ref={textAreaRef}
-                    value="https://commandt.com"
+                    value="https://commandt.herokuapp.com"
                     className="hide"
                   />
-                  https://commandt.com
+                  https://commandt.herokuapp.com
                   <Button onClick={copyToClipboard}>
                     <Copy size={20} strokeWidth={3} />
                   </Button>
@@ -289,10 +301,10 @@ const UnicornButton = (props) => {
                 >
                   <textarea
                     ref={textAreaRef}
-                    value="https://commandt.com"
+                    value="https://commandt.herokuapp.com"
                     className="hide"
                   />
-                  https://commandt.com
+                  https://commandt.herokuapp.com
                   <Button onClick={copyToClipboard}>
                     <Copy size={20} strokeWidth={3} />
                   </Button>

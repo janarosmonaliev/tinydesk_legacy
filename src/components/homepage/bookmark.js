@@ -3,22 +3,31 @@ import RemoveCircleOutlinedIcon from "@material-ui/icons/RemoveCircleOutlined";
 import Grid from "@material-ui/core/Grid";
 import { UserContext } from "./context/UserContext";
 import { X, Edit } from "react-feather";
+
 import {
   Dialog,
   DialogTitle,
   DialogContent,
   Button,
   IconButton,
-  DialogActions,
   Divider,
+  makeStyles,
 } from "@material-ui/core";
-import { styled } from "@material-ui/core/styles";
 import { Menu, MenuItem } from "@material-ui/core/";
 import produce from "immer";
 import { BookmarkContext } from "./context/BookmarkContext";
 import DialogActionButton from "../common/DialogActionButton";
 
+const useStyles = makeStyles({
+  bookmarkTitle: {
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    width: "100px",
+    whiteSpace: "nowrap",
+  },
+});
 const Bookmark = (props) => {
+  const classes = useStyles();
   const { jiggle, setFolders, selectedFolderId, folders } = useContext(
     UserContext
   );
@@ -87,7 +96,9 @@ const Bookmark = (props) => {
           className={`bookmark-border ${props.color}`}
         ></img>
 
-        <small>{props.title}</small>
+        <small className={props.title.length > 25 ? classes.bookmarkTitle : ""}>
+          {props.title}
+        </small>
       </div>
       <Menu
         keepMounted
