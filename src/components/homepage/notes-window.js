@@ -153,10 +153,22 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
     );
     setOpen(true);
     setSelectedId(notes.length === 0 ? -1 : notes[0]._id);
+    setSelectedIndex(notes.length === 0 ? -1 : 0);
   };
   const handleClose = () => {
+    if (notes[selectedIndex].isUpdated) {
+      setNotes(
+        produce((draft) => {
+          draft[selectedIndex].isUpdate = false;
+          draft[selectedIndex].content = editorState.getCurrentContent();
+        })
+      );
+      noteApi.apiUpdateNote({
+        _id: selectedId,
+        content: JSON.stringify(convertToRaw(editorState.getCurrentContent())),
+      });
+    }
     setOpen(false);
-    console.log(notes);
   };
   //to handle context menu
   const handleContextMenu = (e, _id) => {
