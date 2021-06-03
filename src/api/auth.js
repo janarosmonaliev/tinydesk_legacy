@@ -36,23 +36,29 @@ export const register = (data, setError, setDisabled) => {
 };
 
 export const loginWithGoogle = () => {
-  client.get("/google").then((res) => {
-    console.log(res);
-  }).catch((error) => {
-    console.log(error);
-  });
+  client
+    .get("/google")
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
-export const logout = (data, setError) => {
-  client.get("/logout", data).then((res) => {
-    console.log(res);
-    if (res.data == "Successful logout") {
-      console.log("logging out");
-      navigate("/");
-    } else {
-      setError(true);
-    }
-  }).catch((error) => {
-    console.log(error);
-  });
+export const logout = () => {
+  client
+    .get("/logout")
+    .then((res) => {
+      console.log(res);
+      if (res.data == "Successful logout") {
+        console.log("logging out");
+        navigate("/");
+      } else {
+        alert("Something is wrong!");
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
