@@ -96,7 +96,7 @@ const Bookmark = (props) => {
           className={`bookmark-border ${props.color}`}
         ></img>
 
-        <small className={props.title.length > 30 ? classes.bookmarkTitle : ""}>
+        <small className={props.title.length > 25 ? classes.bookmarkTitle : ""}>
           {props.title}
         </small>
       </div>
