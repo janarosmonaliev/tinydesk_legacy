@@ -1,12 +1,9 @@
-import { ContactSupportOutlined } from "@material-ui/icons";
-import { navigate } from "gatsby-link";
-
 import client from "./client";
 
-export const apiAddNote = (data) => {
+export const apiAddBookmark = (data) => {
   const promise = new Promise((resolve) => {
     client
-      .post("/home/notes/", data)
+      .post("/home/bookmarks/", data)
       .then((res) => {
         console.log(res);
         resolve(res.data);
@@ -18,9 +15,9 @@ export const apiAddNote = (data) => {
   return promise;
 };
 
-export const apiUpdateNote = (data) => {
+export const apiDeleteBookmark = (payload) => {
   client
-    .put("/home/notes/", data)
+    .delete("/home/bookmarks/", { data: payload })
     .then((res) => {
       console.log(res);
     })
@@ -29,9 +26,9 @@ export const apiUpdateNote = (data) => {
     });
 };
 
-export const apiDeleteNote = (payload) => {
+export const apiUpdateBookmark = (data) => {
   client
-    .delete("/home/notes/", { data: payload })
+    .put("/home/bookmarks/", data)
     .then((res) => {
       console.log(res);
     })
@@ -40,9 +37,9 @@ export const apiDeleteNote = (payload) => {
     });
 };
 
-export const apiChangeNotePosition = (data) => {
+export const apiChangeBookmarkPosition = (data) => {
   client
-    .put("/home/notes/order", data)
+    .put("/home/bookmarks/order", data)
     .then((res) => {
       console.log(res);
     })
