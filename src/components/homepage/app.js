@@ -95,54 +95,11 @@ const theme = createMuiTheme({
   },
 });
 const App = () => {
-  // const [theEmail, setTheEmail] = useState(null);
-  // const [theUserName, setTheUserName] = useState(null);
-  // useEffect(() => {
-  //   axios({
-  //     method: "get",
-  //     withCredentials: true,
-  //     url: "http://localhost:4000/home",
-  //   }).then((res) => {
-  //     console.log(res.data);
-  //     setTheEmail(res.data.email);
-  //     setTheUserName(res.data.username);
-  //   });
-  // }, []);
-
-  const [userEmail, setUserEmail] = useState();
-  const [username, setUsername] = useState();
-  const [userFolders, setUserFolders] = useState();
-  const [userTodolists, setUserTodolists] = useState();
-  const [userNotes, setUserNotes] = useState();
-  const [userBackground, setUserBackground] = useState();
-  const [userUnicorn, setUserUnicorn] = useState();
-  const [userId, setUserId] = useState();
-  const [userLocation, setUserLocation] = useState();
-  useEffect(() => {
-    axios({
-      method: "get",
-      url: "http://localhost:4000/home",
-    }).then((res) => {
-      console.log(res.data);
-      setUserEmail(res.data.email);
-      setUsername(res.data.username);
-      setUserFolders(res.data.folders);
-      setUserTodolists(res.data.todolists);
-      setUserNotes(res.data.notes);
-      setUserBackground(res.data.backgroundImg);
-      setUserUnicorn(res.data.keepUnicorn);
-      setUserId(res.data._id);
-      setUserLocation(res.data.location);
-    });
-  }, []);
-
-  const [background, setBackground] = useState(
-    "https://images.unsplash.com/photo-1481414981591-5732874c7193?crop=entropy&cs=srgb&fm=jpg&ixid=MnwyMjAyNzR8MHwxfHNlYXJjaHw1fHxvcmFuZ2V8ZW58MHwwfHx8MTYxODU1NjAxNQ&ixlib=rb-1.2.1&q=85"
-  );
-
+  //Static States
+  const [jiggle, setJiggle] = useState(false);
+  const [filter, setFilter] = useState(false);
   const [initialBackground, setInitialBackground] = useState();
   const [loading, setLoading] = useState(false);
-
   //Dynamic States
   const [background, setBackground] = useState("");
   const [unicorn, setUnicorn] = useState(false);
@@ -175,27 +132,22 @@ const App = () => {
     };
     fetch.getUserData(setter);
   }, []);
-
   const cancelSetBackground = () => {
     console.log("cancelling");
     setBackground(initialBackground);
   };
-
   const saveSetBackground = () => {
     setInitialBackground(background);
     apiChangeBackground(background);
   };
-
   const apiChangeBackground = (image) => {
     console.log("set background image with url ", image);
     const data = { url: image };
     apiBackground.apiChangeBackground(data);
   };
-
   const unsplashImage = {
     backgroundImage: `url(${background})`,
   };
-
   const handleStopJiggle = (e) => {
     const nodeName = e.target.nodeName;
     const targetType = e.target.type;
@@ -212,7 +164,6 @@ const App = () => {
       setFilter(false);
     }
   };
-
   if (loading) {
     return;
   }
@@ -244,7 +195,6 @@ const App = () => {
     selectedFolderIndex,
     setSelectedFolderIndex,
   };
-
   return (
     <UserContext.Provider value={userContext}>
       <ThemeProvider theme={theme}>
@@ -273,5 +223,4 @@ const App = () => {
     </UserContext.Provider>
   );
 };
-
 export default React.memo(App);
