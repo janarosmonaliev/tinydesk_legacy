@@ -159,7 +159,7 @@ const CalendarWindow = forwardRef((props, ref) => {
     if (title) {
       var newEvent = {
         title: title,
-        allDay: days >= 1 ? true : false,
+        allDay: true,
         start: start,
         end: end,
         _id: _id,
