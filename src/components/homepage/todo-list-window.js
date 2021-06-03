@@ -524,9 +524,67 @@ const TodoListWindow = forwardRef(
               (todo.title =
                 todo.title === "" ? (todo.title = "New Todo") : todo.title)
           );
+          if (draft[selectedIndex].todos[index]._id.length < 10) {
+            apiAddTodo(
+              draft[selectedIndex].todos[index].title,
+              draft[selectedIndex]._id,
+              selectedIndex
+            );
+          } else {
+            apiUpdateTodo(
+              draft[selectedIndex].todos[index].title,
+              draft[selectedIndex].todos[index]._id
+            );
+          }
         })
       );
     };
+
+    async function apiAddTodo(newTitle, todolistId, selectedIndex) {
+      //console.log(newlist);
+      const data = { title: newTitle, _id: todolistId };
+      try {
+        let result = await todoapi.apiAddTodo(data);
+        console.log("id from backend ", result, typeof result);
+        const newTodo = {
+          title: newTitle,
+          isCompleted: false,
+          toggle: true,
+          _id: result,
+        };
+        console.log(newTodo);
+        const theTodolist = [...todolists];
+        console.log(theTodolist);
+        const thatTodolist = theTodolist[selectedIndex];
+        console.log(thatTodolist);
+        let tmp = thatTodolist.todos;
+        const thatTodos = [...tmp];
+        console.log(thatTodos);
+        thatTodos.pop();
+        console.log(thatTodos);
+        thatTodos.push(newTodo);
+        const newnewnew = {
+          title: thatTodolist.title,
+          _id: thatTodolist._id,
+          toggle: true,
+          todos: thatTodos,
+        };
+        console.log("check right todo added", newnewnew);
+        theTodolist.splice(selectedIndex, 1, newnewnew);
+        console.log(theTodolist);
+        setTodolists([...theTodolist]);
+        setSelectedId(newTodo._id);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    const apiUpdateTodo = useCallback((title, id) => {
+      const payload = { _id: id, title: title };
+      console.log("change todo's title to ", title);
+      todoapi.apiUpdateTodo(payload);
+    });
+
     const onSortEndTodo = ({ oldIndex, newIndex }) => {
       setTodolists(
         produce((draft) => {
@@ -537,8 +595,19 @@ const TodoListWindow = forwardRef(
           );
         })
       );
+      apiChangeTodoPosition(
+        todolists[selectedIndex]._id,
+        todolists[selectedIndex].todos[oldIndex]._id,
+        newIndex
+      );
       setSort(true);
     };
+
+    const apiChangeTodoPosition = useCallback((tdli, tdi, ni) => {
+      const payload = { _id: tdli, removeId: tdi, newIndex: ni };
+      console.log("deleting todo's id front ", tdi);
+      todoapi.apiChangeTodoPosition(payload);
+    });
 
     const onSortEndTodolist = ({ oldIndex, newIndex }) => {
       setTodolists(arrayMove(todolists, oldIndex, newIndex));
