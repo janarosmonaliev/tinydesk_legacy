@@ -28,7 +28,6 @@ import { IconButton, SvgIcon, Popover } from "@material-ui/core";
 import { Trash2, X } from "react-feather";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import nextId from "react-id-generator";
 import produce from "immer";
 import * as calendarapi from "../../api/calendarapi";
@@ -64,13 +63,10 @@ const CalendarWindow = forwardRef((props, ref) => {
   const classes = useStyles();
   const newTitleRef = useRef(null);
   const titleRef = useRef(null);
-  const newRef = useRef(null);
   const initialEvent = {
     title: "",
     start: new Date(),
   };
-  //Should default eventData populated from the app that got from the backend
-  //const [events, setEvents] = useState(eventData);
   const [event, setEvent] = useState(initialEvent);
   //Window State & Func
   useImperativeHandle(ref, () => ({
@@ -149,26 +145,22 @@ const CalendarWindow = forwardRef((props, ref) => {
 
   const addNewEvent = (e) => {
     e.preventDefault();
-    console.log(start);
-    console.log(end);
     const title = newTitleRef.current.value;
-    const allDay = false;
+
     const _id = nextId();
-    const days = moment(end).diff(moment(start), "days");
+    const hours = moment(end).diff(moment(start), "hours");
+    console.log(hours);
 
     if (title) {
       var newEvent = {
         title: title,
-        allDay: allDay,
-        start: start,
-        end: end,
+        allDay: hours < 24 ? false : true,
+        start: moment(start).toDate(),
+        end: moment(end).toDate(),
         _id: _id,
       };
-      if (days >= 1) {
-        newEvent = {
-          ...newEvent,
-          end: new Date(moment(end).add(86399, "seconds").format()),
-        };
+      if (hours >= 24) {
+        newEvent.end = moment(end).add(86399, "seconds").toDate();
       }
 
       //setEvents([...events, { _id, title, allDay, start, end }]);
@@ -187,8 +179,8 @@ const CalendarWindow = forwardRef((props, ref) => {
       const newEventTwo = {
         title: newEvent.title,
         allDay: newEvent.allDay,
-        start: newEvent.start,
-        end: newEvent.end,
+        start: moment(newEvent.start).toDate(),
+        end: moment(newEvent.end).toDate(),
         _id: result,
       };
       setEvents([...newlist, newEventTwo]);

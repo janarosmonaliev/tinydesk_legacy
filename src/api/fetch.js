@@ -1,6 +1,7 @@
 import { navigate } from "gatsby-link";
 import client from "./client";
-
+import moment from "moment";
+import { convertFromRaw } from "draft-js";
 export const getUserData = (setter) => {
   client.get("/home").then((res) => {
     if (res.data == "no uid") {
@@ -14,19 +15,28 @@ export const getUserData = (setter) => {
       setter.setUsername(res.data.username);
       setter.setLocation(res.data.location);
       setter.setSelectedFolderId(res.data.folders[0]._id);
+      res.data.events.forEach((event) => {
+        event.start = moment(event.start).toDate();
+        event.end = moment(event.end).toDate();
+      });
       setter.setEvents(res.data.events);
+
       if (res.data.todolists.length != 0) {
         res.data.todolists.forEach((tl) => {
           tl["toggle"] = true;
-          tl["isUpdated"] = false;
           tl.todos.forEach((todo) => {
             todo["toggle"] = true;
-            todo["isUpdated"] = false;
           });
         });
         setter.setTodolists(res.data.todolists);
       }
-      res.data.notes.forEach((note) => (note["toggle"] = true));
+      if (res.data.notes.length != 0) {
+        res.data.notes.forEach((note) => {
+          note["toggle"] = true;
+          note["isUpdated"] = false;
+          note.content = convertFromRaw(JSON.parse(note.content));
+        });
+      }
       setter.setNotes(res.data.notes);
 
       setter.setLoading(false);

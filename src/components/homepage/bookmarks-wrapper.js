@@ -7,7 +7,7 @@ import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
 import { BookmarkContext } from "./context/BookmarkContext";
 import AddBookmark from "./add-bookmark";
-
+import * as bookmarkApi from "../../api/bookmarkapi";
 const SortableBookmark = SortableElement(({ value }) => (
   <Grid item xs={4} md={3} lg={2} zeroMinWidth>
     <Bookmark
@@ -62,7 +62,7 @@ const BookmarksWrapper = () => {
   const [open, setOpen] = useState(false);
   const [url, setURL] = useState("https://www.");
   const [title, setTitle] = useState("");
-  const [color, setColor] = useState("");
+  const [color, setColor] = useState("clear");
   //Context menu's initial position
   const initialMousPos = {
     mouseX: null,
@@ -159,9 +159,18 @@ const BookmarksWrapper = () => {
           draft[destinationFolderIndex].bookmarks.push(movingBookmark);
         })
       );
+      const data = {
+        oldFolderId: folders[folderIndex]._id,
+        newFolderId: folders[destinationFolderIndex]._id,
+        bookmarkId: movingBookmark._id,
+      };
+      apiMoveBookmarkToDifferentFolder(data);
     }
     //If rearranging bookmarks order
     else {
+      if (oldIndex === newIndex) {
+        return;
+      }
       const arr = arrayMove(
         folders[selectedFolderIndex].bookmarks,
         oldIndex,
@@ -173,7 +182,23 @@ const BookmarksWrapper = () => {
           draft[folderIndex].bookmarks = arr;
         })
       );
+      apiChangeBookmarkPosition(oldIndex, newIndex);
     }
+  };
+  const apiChangeBookmarkPosition = (oldIndex, newIndex) => {
+    const data = {
+      _id: folders[selectedFolderIndex]._id,
+      removeId: folders[selectedFolderIndex].bookmarks[oldIndex]._id,
+      newIndex: newIndex,
+    };
+    console.log(
+      "changing bookmark's position with id ",
+      folders[selectedFolderIndex].bookmarks[oldIndex]._id
+    );
+    bookmarkApi.apiChangeBookmarkPosition(data);
+  };
+  const apiMoveBookmarkToDifferentFolder = (data) => {
+    bookmarkApi.apiMoveBookmarkToDifferentFolder(data);
   };
   return (
     <BookmarkContext.Provider value={bookmarkContext}>

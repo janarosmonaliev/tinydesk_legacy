@@ -26,7 +26,7 @@ import { Menu, MenuItem } from "@material-ui/core/";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
 import * as todolistapi from "../../api/todolistapi";
-
+import * as todoapi from "../../api/todoapi";
 const useStyles = makeStyles({
   guideTodo: {
     position: "absolute",
@@ -436,7 +436,6 @@ const TodoListWindow = forwardRef(
       const nodeName = e.target.nodeName;
       const targetType = e.target.type;
       const targetId = e.target.id;
-
       if (
         //If it is toggling checkbox
         (type === "click" && targetType === "checkbox") ||
@@ -514,6 +513,9 @@ const TodoListWindow = forwardRef(
       handleCloseTodoTextfield(e);
     };
     const handleCloseTodoTextfield = (e) => {
+      const index = todolists[selectedIndex].todos.findIndex(
+        (todo) => todo.toggle === false
+      );
       setTodolists(
         produce((draft) => {
           draft[selectedIndex].todos.map((todo) =>
@@ -586,6 +588,9 @@ const TodoListWindow = forwardRef(
     });
 
     const onSortEndTodo = ({ oldIndex, newIndex }) => {
+      if (oldIndex === newIndex) {
+        return;
+      }
       setTodolists(
         produce((draft) => {
           draft[selectedIndex].todos = arrayMove(
@@ -605,11 +610,14 @@ const TodoListWindow = forwardRef(
 
     const apiChangeTodoPosition = useCallback((tdli, tdi, ni) => {
       const payload = { _id: tdli, removeId: tdi, newIndex: ni };
-      console.log("deleting todo's id front ", tdi);
+      console.log("changing todo's position front ", tdi);
       todoapi.apiChangeTodoPosition(payload);
     });
 
     const onSortEndTodolist = ({ oldIndex, newIndex }) => {
+      if (oldIndex === newIndex) {
+        return;
+      }
       setTodolists(arrayMove(todolists, oldIndex, newIndex));
       apiChangeTodolistPosition(todolists[oldIndex]._id, newIndex);
       setSelectedId(todolists[newIndex]._id);

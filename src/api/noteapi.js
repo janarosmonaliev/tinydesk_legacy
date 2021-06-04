@@ -17,6 +17,16 @@ export const apiAddNote = (data) => {
   });
   return promise;
 };
+export const apiChangeNoteTitle = (data) => {
+  client
+    .put("/home/notes/title", data)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
 
 export const apiUpdateNote = (data) => {
   client

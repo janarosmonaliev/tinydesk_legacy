@@ -87,9 +87,13 @@ const FoldersWrapper = () => {
   });
 
   const onSortEnd = ({ oldIndex, newIndex }) => {
+    if (oldIndex === newIndex) {
+      return;
+    }
     setFolders(arrayMove(folders, oldIndex, newIndex));
     apiChangeFolderPosition(folders[oldIndex]._id, newIndex);
     setSelectedFolderIndex(newIndex);
+    setSelectedFolderId(folders[oldIndex]._id);
   };
 
   const apiChangeFolderPosition = (folderId, newIndex) => {
@@ -100,38 +104,39 @@ const FoldersWrapper = () => {
   return (
     <>
       <div className="folders-wrapper">
-        <div className="folders-bar-wrapper">
-          {jiggle ? (
-            <>
-              {folders.map((folder, index) => (
-                <div key={folder._id}>
-                  <Grid
-                    item
-                    xs
-                    container
-                    className={jiggle ? "folders-jiggle" : ""}
-                    justify="flex-end"
-                  >
-                    <RemoveCircleOutlinedIcon
-                      color="error"
-                      fontSize="small"
-                      className="delete-icon folder"
-                      onClick={() => handleOpenDelete(folder._id)}
-                    />
-                    <Folder folder={folder} index={index} />
-                  </Grid>
-                </div>
-              ))}
-            </>
-          ) : (
+        {jiggle ? (
+          <>
+            {folders.map((folder, index) => (
+              <div key={folder._id}>
+                <Grid
+                  item
+                  xs
+                  container
+                  className={jiggle ? "folders-jiggle" : ""}
+                  justify="flex-end"
+                >
+                  <RemoveCircleOutlinedIcon
+                    color="error"
+                    fontSize="small"
+                    className="delete-icon folder"
+                    onClick={() => handleOpenDelete(folder._id)}
+                  />
+                  <Folder folder={folder} index={index} />
+                </Grid>
+              </div>
+            ))}
+          </>
+        ) : (
+          <div className="folders-bar-wrapper">
             <SortableFolders
               items={folders}
               onSortEnd={onSortEnd}
               axis="x"
               distance={5}
             />
-          )}
-        </div>
+          </div>
+        )}
+
         <AddFolder />
       </div>
       <Dialog
