@@ -147,7 +147,7 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
   //Open / Close Modal
   const handleClickOpen = () => {
     setEditorState(
-      notes[0].length === 0
+      notes.length === 0
         ? EditorState.createEmpty()
         : EditorState.createWithContent(notes[0].content)
     );
@@ -156,17 +156,10 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
     setSelectedIndex(notes.length === 0 ? -1 : 0);
   };
   const handleClose = () => {
-    if (notes[selectedIndex].isUpdated) {
-      setNotes(
-        produce((draft) => {
-          draft[selectedIndex].isUpdate = false;
-          draft[selectedIndex].content = editorState.getCurrentContent();
-        })
-      );
-      noteApi.apiUpdateNote({
-        _id: selectedId,
-        content: JSON.stringify(convertToRaw(editorState.getCurrentContent())),
-      });
+    if (notes.length === 0) {
+      setOpen(false);
+    } else if (notes[selectedIndex].isUpdated) {
+      apiUpdateNote();
     }
     setOpen(false);
   };
@@ -186,7 +179,18 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
       });
     }
   };
-
+  const apiUpdateNote = () => {
+    setNotes(
+      produce((draft) => {
+        draft[selectedIndex].isUpdated = false;
+        draft[selectedIndex].content = editorState.getCurrentContent();
+      })
+    );
+    noteApi.apiUpdateNote({
+      _id: selectedId,
+      content: JSON.stringify(convertToRaw(editorState.getCurrentContent())),
+    });
+  };
   const handleContextMenuClose = () => {
     setMousePos(initialMousPos);
   };
@@ -202,8 +206,10 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
         setSelectedId(notes[0]._id);
       }
       setSelectedIndex(0);
+      setEditorState(EditorState.createWithContent(notes[0].content));
     } else {
       setSelectedId(-1);
+      setSelectedIndex(-1);
     }
     noteApi.apiDeleteNote({ removeId: notesIdForContextMenu });
     setNotesIdForContextMenu(null);
@@ -212,22 +218,12 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
 
   //Handle displaying note
   const handleSelectList = (e, _id) => {
+    console.log(notes[selectedIndex].isUpdated);
     if (notes[selectedIndex].isUpdated) {
-      console.log(editorState.getCurrentContent());
-      setNotes(
-        produce((draft) => {
-          draft[selectedIndex].isUpdate = false;
-          draft[selectedIndex].content = editorState.getCurrentContent();
-        })
-      );
-      noteApi.apiUpdateNote({
-        _id: selectedId,
-        content: JSON.stringify(convertToRaw(editorState.getCurrentContent())),
-      });
+      apiUpdateNote();
     }
-
     setSelectedId(_id);
-    let index = notes.findIndex((note) => note._id === _id);
+    const index = notes.findIndex((note) => note._id === _id);
     setSelectedIndex(index);
     setEditorState(EditorState.createWithContent(notes[index].content));
   };
@@ -257,18 +253,25 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
         draft[selectedIndex].isUpdated = draft[selectedIndex].isUpdated
           ? draft[selectedIndex].isUpdated
           : true;
+        draft[selectedIndex].content = content;
       })
     );
   };
 
   //Handle Add Notes
   const onClickAddNotes = () => {
+    if (selectedIndex != -1) {
+      if (notes[selectedIndex].isUpdated) {
+        apiUpdateNote();
+      }
+    }
     const editorStateEmpty = EditorState.createEmpty();
     const newNote = {
       title: "",
       _id: nextId(),
       content: editorStateEmpty.getCurrentContent(),
       toggle: false,
+      isUpdated: false,
     };
 
     setSelectedId(newNote._id);
@@ -334,6 +337,7 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
         _id: result,
         content: content,
         toggle: true,
+        isUpdated: false,
       };
       console.log("note added wih id", newNote._id);
       setNotes([...newlist, newNote]);
