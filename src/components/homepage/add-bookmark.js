@@ -175,7 +175,7 @@ const AddBookmark = () => {
       setApiFolderIndex(folderIndex);
       setAddId(newBookmark._id);
     }
-    setOpen(false);
+    handleClose();
   };
   async function apiAddBookmark() {
     if (apiFolderIndex === -1) {
