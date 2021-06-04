@@ -771,7 +771,7 @@ small,
 }
 .bookmark-border {
   &.clear {
-    border: none;
+    border: 3px solid rgba(255, 255, 255, 0);
   }
   &.green {
     border: 3px solid #6fcf97;
