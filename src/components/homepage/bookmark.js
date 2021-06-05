@@ -62,11 +62,11 @@ const Bookmark = (props) => {
         );
       })
     );
-    apiDeleteBookmark(folderIndex);
+    apiDeleteBookmark();
     setOpen(false);
   };
-  const apiDeleteBookmark = (folderIndex) => {
-    const payload = { _id: folderIndex, removeId: props._id };
+  const apiDeleteBookmark = () => {
+    const payload = { _id: selectedFolderId, removeId: props._id };
     console.log("deleting bookmark's id front ", props._id);
     bookmarkApi.apiDeleteBookmark(payload);
   };
