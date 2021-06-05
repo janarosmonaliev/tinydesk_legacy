@@ -45,59 +45,40 @@ const useStyles = makeStyles({
     height: "1%",
   },
 });
-const SortableNotelistItem = SortableElement(
-  ({ value, mousePos, ...props }) => (
-    <div style={{ zIndex: 9999 }}>
-      {value.toggle ? (
-        <>
-          <ListItem
-            button
-            selected={props.selectedId === value._id}
-            onClick={(e) => props.handleSelectList(e, value._id)}
-            onDoubleClick={props.handleDoubleClickTitle}
-            onContextMenu={(e) => props.handleContextMenu(e, value._id)}
-          >
-            <ListItemText primary={value.title}></ListItemText>
-          </ListItem>
-          <Menu
-            keepMounted
-            open={mousePos.mouseY !== null}
-            onClose={props.handleContextMenuClose}
-            anchorReference="anchorPosition"
-            anchorPosition={
-              mousePos.mouseY !== null && mousePos.mouseX !== null
-                ? { top: mousePos.mouseY, left: mousePos.mouseX }
-                : undefined
-            }
-          >
-            <MenuItem
-              onClick={props.handleContextMenuDeleteNotes}
-              style={{ color: "#EB5757" }}
-            >
-              <XCircle /> &nbsp; Delete
-            </MenuItem>
-          </Menu>
-          <Divider light />
-        </>
-      ) : (
-        <>
-          <ListItem>
-            <form onSubmit={props.onEnterNotesList}>
-              <ClickAwayListener onClickAway={props.handleNotesListClickAway}>
-                <TextField
-                  value={value.title}
-                  onChange={props.handleTitleChange}
-                  autoFocus
-                />
-              </ClickAwayListener>
-            </form>
-          </ListItem>
-          <Divider light />
-        </>
-      )}
-    </div>
-  )
-);
+const SortableNotelistItem = SortableElement(({ value, ...props }) => (
+  <div style={{ zIndex: 9999 }}>
+    {value.toggle ? (
+      <>
+        <ListItem
+          button
+          selected={props.selectedId === value._id}
+          onClick={(e) => props.handleSelectList(e, value._id)}
+          onDoubleClick={props.handleDoubleClickTitle}
+          onContextMenu={(e) => props.handleContextMenu(e, value._id)}
+        >
+          <ListItemText primary={value.title}></ListItemText>
+        </ListItem>
+
+        <Divider light />
+      </>
+    ) : (
+      <>
+        <ListItem>
+          <form onSubmit={props.onEnterNotesList}>
+            <ClickAwayListener onClickAway={props.handleNotesListClickAway}>
+              <TextField
+                value={value.title}
+                onChange={props.handleTitleChange}
+                autoFocus
+              />
+            </ClickAwayListener>
+          </form>
+        </ListItem>
+        <Divider light />
+      </>
+    )}
+  </div>
+));
 const SortableNotelist = SortableContainer((props) => {
   return (
     <div>
@@ -110,9 +91,6 @@ const SortableNotelist = SortableContainer((props) => {
           handleSelectList={props.handleSelectList}
           handleDoubleClickTitle={props.handleDoubleClickTitle}
           handleContextMenu={props.handleContextMenu}
-          mousePos={props.mousePos}
-          handleContextMenuClose={props.handleContextMenuClose}
-          handleContextMenuDeleteNotes={props.handleContextMenuDeleteNotes}
           onEnterNotesList={props.onEnterNotesList}
           handleNotesListClickAway={props.handleNotesListClickAway}
           handleTitleChange={props.handleTitleChange}
@@ -411,9 +389,6 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
                 handleSelectList={handleSelectList}
                 handleDoubleClickTitle={handleDoubleClickTitle}
                 handleContextMenu={handleContextMenu}
-                mousePos={mousePos}
-                handleContextMenuClose={handleContextMenuClose}
-                handleContextMenuDeleteNotes={handleContextMenuDeleteNotes}
                 onEnterNotesList={onEnterNotesList}
                 handleNotesListClickAway={handleNotesListClickAway}
                 handleTitleChange={handleTitleChange}
@@ -428,7 +403,7 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
 
           <Grid item xs>
             <h5>
-              <b>{selectedId == -1 ? "" : notes[selectedIndex].title}</b>
+              <b>{notes.length === 0 ? "" : notes[selectedIndex].title}</b>
             </h5>
 
             {selectedId === -1 ? (
@@ -456,6 +431,24 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
           Add a new list
         </Button>
       </DialogActions>
+      <Menu
+        keepMounted
+        open={mousePos.mouseY !== null}
+        onClose={handleContextMenuClose}
+        anchorReference="anchorPosition"
+        anchorPosition={
+          mousePos.mouseY !== null && mousePos.mouseX !== null
+            ? { top: mousePos.mouseY, left: mousePos.mouseX }
+            : undefined
+        }
+      >
+        <MenuItem
+          onClick={handleContextMenuDeleteNotes}
+          style={{ color: "#EB5757" }}
+        >
+          <XCircle /> &nbsp; Delete
+        </MenuItem>
+      </Menu>
     </Dialog>
   );
 });

@@ -32,12 +32,7 @@ const Bookmark = (props) => {
   const { jiggle, setFolders, selectedFolderId, folders } = useContext(
     UserContext
   );
-  const {
-    mousePos,
-    handleContextMenu,
-    handleContextMenuClose,
-    handleContextMenuEdit,
-  } = useContext(BookmarkContext);
+  const { handleContextMenu } = useContext(BookmarkContext);
   const [open, setOpen] = useState(false);
 
   const handleClick = (url) => {
@@ -107,21 +102,7 @@ const Bookmark = (props) => {
           {props.title}
         </small>
       </div>
-      <Menu
-        keepMounted
-        open={mousePos.mouseY !== null}
-        onClose={handleContextMenuClose}
-        anchorReference="anchorPosition"
-        anchorPosition={
-          mousePos.mouseY !== null && mousePos.mouseX !== null
-            ? { top: mousePos.mouseY, left: mousePos.mouseX }
-            : undefined
-        }
-      >
-        <MenuItem onClick={handleContextMenuEdit}>
-          <Edit /> &nbsp; Edit
-        </MenuItem>
-      </Menu>
+
       <Dialog
         onClose={handleClose}
         open={open}

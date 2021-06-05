@@ -1,5 +1,6 @@
-import { Grid } from "@material-ui/core";
+import { Grid, Menu, MenuItem } from "@material-ui/core";
 import React, { useContext, useEffect, useState } from "react";
+import { Edit } from "react-feather";
 import Bookmark from "./bookmark";
 import produce from "immer";
 import { UserContext } from "./context/UserContext";
@@ -237,13 +238,30 @@ const BookmarksWrapper = () => {
           </Grid>
         </>
       ) : (
-        <SortableList
-          items={folders[selectedFolderIndex].bookmarks}
-          onSortEnd={onSortEnd}
-          axis="xy"
-          distance={5}
-          jiggle={jiggle}
-        />
+        <>
+          <SortableList
+            items={folders[selectedFolderIndex].bookmarks}
+            onSortEnd={onSortEnd}
+            axis="xy"
+            distance={5}
+            jiggle={jiggle}
+          />
+          <Menu
+            keepMounted
+            open={mousePos.mouseY !== null}
+            onClose={handleContextMenuClose}
+            anchorReference="anchorPosition"
+            anchorPosition={
+              mousePos.mouseY !== null && mousePos.mouseX !== null
+                ? { top: mousePos.mouseY, left: mousePos.mouseX }
+                : undefined
+            }
+          >
+            <MenuItem onClick={handleContextMenuEdit}>
+              <Edit /> &nbsp; Edit
+            </MenuItem>
+          </Menu>
+        </>
       )}
     </BookmarkContext.Provider>
   );
