@@ -175,7 +175,6 @@ const AddBookmark = () => {
       setApiFolderIndex(folderIndex);
       setAddId(newBookmark._id);
     }
-    handleClose();
   };
   async function apiAddBookmark() {
     if (apiFolderIndex === -1) {
@@ -217,6 +216,7 @@ const AddBookmark = () => {
     setApiCall("");
     setApiFolderIndex(-1);
     setAddId("");
+    handleClose();
   }
   const apiUpdateBookmark = () => {
     if (contextMenuBookmarkId.length < 10) {
@@ -235,9 +235,7 @@ const AddBookmark = () => {
     setApiCall("");
     setApiFolderIndex(-1);
     setContextMenuBookmarkId("");
-    setURL("https://www.");
-    setTitle("");
-    setColor("clear");
+    handleClose();
   };
 
   return (
