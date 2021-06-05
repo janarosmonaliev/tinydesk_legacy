@@ -88,7 +88,7 @@ const SortableTodos = SortableContainer(
     return (
       <Grid item xs={8} onClick={props.handleKeyDownTodo}>
         <h5>{selectedIndex !== -1 ? items[selectedIndex].title : ""}</h5>
-        {items[selectedIndex].todos.length === 0 ? (
+        {selectedIndex !== -1 && items[selectedIndex].todos.length === 0 ? (
           <Typography className={classes.guideTodo}>
             Click Here to add Todo
           </Typography>
@@ -134,24 +134,6 @@ const SortableTodolistItem = SortableElement(
           >
             <ListItemText primary={value.title} />
           </ListItem>
-          <Menu
-            keepMounted
-            open={mousePos.mouseY !== null}
-            onClose={props.handleContextMenuClose}
-            anchorReference="anchorPosition"
-            anchorPosition={
-              mousePos.mouseY !== null && mousePos.mouseX !== null
-                ? { top: mousePos.mouseY, left: mousePos.mouseX }
-                : undefined
-            }
-          >
-            <MenuItem
-              onClick={props.handleContextMenuDeleteTodoList}
-              style={{ color: "#EB5757" }}
-            >
-              <XCircle /> &nbsp; Delete
-            </MenuItem>
-          </Menu>
         </div>
       ) : (
         <ListItem>
@@ -183,14 +165,9 @@ const SortableTodolists = SortableContainer(({ items, ...props }) => {
           value={value}
           index={index}
           selectedIndex={props.selectedIndex}
-          mousePos={props.mousePos}
           handleSelectList={props.handleSelectList}
           handleDoubleClickTodolist={props.handleDoubleClickTodolist}
           handleContextMenu={props.handleContextMenu}
-          handleContextMenuClose={props.handleContextMenuClose}
-          handleContextMenuDeleteTodoList={
-            props.handleContextMenuDeleteTodoList
-          }
           handleTodolistClickAway={props.handleTodolistClickAway}
           onEnterTodolist={props.onEnterTodolist}
           handleChange={props.handleChange}
@@ -670,14 +647,9 @@ const TodoListWindow = forwardRef(
                 <SortableTodolists
                   items={todolists}
                   selectedIndex={selectedIndex}
-                  mousePos={mousePos}
                   handleSelectList={handleSelectList}
                   handleDoubleClickTodolist={handleDoubleClickTodolist}
                   handleContextMenu={handleContextMenu}
-                  handleContextMenuClose={handleContextMenuClose}
-                  handleContextMenuDeleteTodoList={
-                    handleContextMenuDeleteTodoList
-                  }
                   handleTodolistClickAway={handleTodolistClickAway}
                   onEnterTodolist={onEnterTodolist}
                   handleChange={handleChange}
@@ -715,6 +687,24 @@ const TodoListWindow = forwardRef(
             Add a new list
           </Button>
         </DialogActions>
+        <Menu
+          keepMounted
+          open={mousePos.mouseY !== null}
+          onClose={handleContextMenuClose}
+          anchorReference="anchorPosition"
+          anchorPosition={
+            mousePos.mouseY !== null && mousePos.mouseX !== null
+              ? { top: mousePos.mouseY, left: mousePos.mouseX }
+              : undefined
+          }
+        >
+          <MenuItem
+            onClick={handleContextMenuDeleteTodoList}
+            style={{ color: "#EB5757" }}
+          >
+            <XCircle /> &nbsp; Delete
+          </MenuItem>
+        </Menu>
       </Dialog>
     );
   }

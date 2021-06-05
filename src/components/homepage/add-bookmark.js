@@ -149,7 +149,7 @@ const AddBookmark = () => {
         })
       );
 
-      setEdit(false);
+      // setEdit(false);
       setApiBookmarkIndex(bookmarkIndex);
       setApiCall("edit");
       setApiFolderIndex(folderIndex);
