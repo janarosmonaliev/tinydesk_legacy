@@ -136,6 +136,7 @@ const AddBookmark = () => {
 
   const handleSubmit = () => {
     //Editing Mode
+    setOpen(false);
     if (edit) {
       const folderIndex = folders.findIndex((f) => f._id === selectedFolderId);
       const bookmarkIndex = folders[folderIndex].bookmarks.findIndex(
@@ -149,7 +150,6 @@ const AddBookmark = () => {
         })
       );
 
-      setOpen(false);
       setApiBookmarkIndex(bookmarkIndex);
       setApiCall("edit");
       setApiFolderIndex(folderIndex);
