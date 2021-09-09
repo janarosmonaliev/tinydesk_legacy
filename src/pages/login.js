@@ -6,7 +6,7 @@ import SEO from "../components/seo";
 const Login = () => (
   <>
     <SEO
-      title="Log in to CommandT"
+      title="Log in to Tiny Desk"
       description="Already have an account? Log in with your email and password."
     />
     <Layout>

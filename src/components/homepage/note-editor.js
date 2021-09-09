@@ -18,7 +18,6 @@ function RichEditor(props) {
   const focus = () => {
     if (editor.current) editor.current.focus();
     // setEditorState(EditorState.createWithContent(props.content));
-    // console.log(editorState.getCurrentContent());
   };
 
   const handleKeyCommand = useCallback(

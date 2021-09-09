@@ -40,17 +40,14 @@ const AddFolder = () => {
     const data = { title: title };
     try {
       const result = await apiFolder.apiAddFolder(data);
-      console.log("id from backend ", result);
+
       const newFolder = {
         title: title,
         _id: result,
         bookmarks: [],
       };
       setFolders([...newlist, newFolder]);
-      console.log("IN API ADD FOLDER");
-      console.log(newFolder._id);
       setSelectedFolderId(newFolder._id);
-      console.log("id changed to", newFolder._id);
     } catch (e) {
       console.log(e);
     }

@@ -229,7 +229,7 @@ const TodoListWindow = forwardRef(
           todos: todolist.todos.filter((todo) => todo.isCompleted),
         })
       );
-      console.log(listOfCompletedTodos);
+
       apiDeleteTodo(listOfCompletedTodos);
       setTodolists(newArr);
     };
@@ -302,7 +302,6 @@ const TodoListWindow = forwardRef(
           setSelectedIndex(0);
         }
       } else {
-        console.log("DELETED");
         setSelectedId(-1);
         setSelectedIndex(-1);
       }
@@ -311,7 +310,7 @@ const TodoListWindow = forwardRef(
     });
     const apiDeleteTodolist = useCallback((id) => {
       const payload = { removeId: id };
-      console.log("deleting todolist's id front ", id);
+
       todolistapi.apiDeleteTodolist(payload);
     });
 
@@ -331,7 +330,7 @@ const TodoListWindow = forwardRef(
           if (draft[textFieldIndex]._id.length < 10) {
             //make a copy of current todolists
             let newlist = [...todolists];
-            console.log(newlist);
+
             //and remove the recently added variable
             newlist.pop();
             //call apiAddTodolist
@@ -344,12 +343,10 @@ const TodoListWindow = forwardRef(
     };
 
     async function apiAddTodolist(newTitle, newlist) {
-      //console.log(newlist);
       const data = { title: newTitle };
       try {
         let result = await todolistapi.apiAddTodolist(data);
-        console.log("id from backend ", result, typeof result);
-        console.log("title of new todolist: ", newTitle);
+
         const newTodolist = {
           title: newTitle,
           _id: result,
@@ -365,7 +362,6 @@ const TodoListWindow = forwardRef(
     }
 
     const apiChangeTitle = useCallback((todolist) => {
-      console.log("change title of new todolist with id: ", todolist._id);
       const data = { _id: todolist._id, title: todolist.title };
       todolistapi.apiChangeTitle(data);
     });
@@ -520,27 +516,22 @@ const TodoListWindow = forwardRef(
     };
 
     async function apiAddTodo(newTitle, todolistId, selectedIndex) {
-      //console.log(newlist);
       const data = { title: newTitle, _id: todolistId };
       try {
         let result = await todoapi.apiAddTodo(data);
-        console.log("id from backend ", result, typeof result);
+
         const newTodo = {
           title: newTitle,
           isCompleted: false,
           toggle: true,
           _id: result,
         };
-        console.log(newTodo);
+
         const theTodolist = [...todolists];
-        console.log(theTodolist);
         const thatTodolist = theTodolist[selectedIndex];
-        console.log(thatTodolist);
         let tmp = thatTodolist.todos;
         const thatTodos = [...tmp];
-        console.log(thatTodos);
         thatTodos.pop();
-        console.log(thatTodos);
         thatTodos.push(newTodo);
         const newnewnew = {
           title: thatTodolist.title,
@@ -548,9 +539,7 @@ const TodoListWindow = forwardRef(
           toggle: true,
           todos: thatTodos,
         };
-        console.log("check right todo added", newnewnew);
         theTodolist.splice(selectedIndex, 1, newnewnew);
-        console.log(theTodolist);
         setTodolists([...theTodolist]);
         setSelectedId(newTodo._id);
       } catch (e) {
@@ -560,7 +549,6 @@ const TodoListWindow = forwardRef(
 
     const apiUpdateTodo = useCallback((title, id) => {
       const payload = { _id: id, title: title };
-      console.log("change todo's title to ", title);
       todoapi.apiUpdateTodo(payload);
     });
 
@@ -587,7 +575,6 @@ const TodoListWindow = forwardRef(
 
     const apiChangeTodoPosition = useCallback((tdli, tdi, ni) => {
       const payload = { _id: tdli, removeId: tdi, newIndex: ni };
-      console.log("changing todo's position front ", tdi);
       todoapi.apiChangeTodoPosition(payload);
     });
 

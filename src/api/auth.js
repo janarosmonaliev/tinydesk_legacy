@@ -8,9 +8,7 @@ export const login = (data, setError, setFilter) => {
   client
     .post("/login", data)
     .then((res) => {
-      console.log(res);
       if (res.data == "Successfully Authenticated") {
-        console.log("pass");
         navigate("/home");
       } else {
         setError(true);
@@ -24,7 +22,6 @@ export const login = (data, setError, setFilter) => {
 
 export const register = (data, setError, setDisabled) => {
   client.post("/signup", data).then((res) => {
-    console.log(res);
     if (res.data === "user Already Exists") {
       setError(true);
       setDisabled(false);
@@ -38,9 +35,7 @@ export const register = (data, setError, setDisabled) => {
 export const loginWithGoogle = () => {
   client
     .get("/google")
-    .then((res) => {
-      console.log(res);
-    })
+
     .catch((error) => {
       console.log(error);
     });
@@ -50,9 +45,7 @@ export const logout = () => {
   client
     .get("/logout")
     .then((res) => {
-      console.log(res);
       if (res.data == "Successful logout") {
-        console.log("logging out");
         navigate("/");
       } else {
         alert("Something is wrong!");

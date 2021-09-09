@@ -80,7 +80,6 @@ const FoldersWrapper = () => {
   };
 
   const apiDeleteFolder = useCallback((folderId) => {
-    console.log("the folder's id to delete is ", folderId, typeof folderId);
     const payload = { remove: folderId };
     //const data = { data: payload };
     apiFolder.apiDeleteFolder(payload);

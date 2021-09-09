@@ -46,8 +46,8 @@ const LoginPage = () => {
       <Grid container justify="center">
         <Grid item xs={12} md={8}>
           <div className="logotype-wrapper">
-            <img src={Logo} width="50" height="32" alt="CommandT Logo"></img>{" "}
-            <span className="landing-text-black">CommandT</span>
+            <img src={Logo} width="50" height="32" alt="Tiny Desk Logo"></img>{" "}
+            <span className="landing-text-black">Tiny Desk</span>
           </div>
           <h1 className="landing-text-black">Log in</h1>
           <h5 className="landing-text-gray">

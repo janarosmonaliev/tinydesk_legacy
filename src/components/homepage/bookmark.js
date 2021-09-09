@@ -62,7 +62,6 @@ const Bookmark = (props) => {
   };
   const apiDeleteBookmark = () => {
     const payload = { _id: selectedFolderId, removeId: props._id };
-    console.log("deleting bookmark's id front ", props._id);
     bookmarkApi.apiDeleteBookmark(payload);
   };
 

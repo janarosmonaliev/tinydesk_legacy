@@ -50,7 +50,6 @@ const UnsplashWindow = forwardRef((props, ref) => {
           console.log("error occurred: ", result.errors[0]);
         } else {
           setPhotos(result.response.results);
-          // console.log(result.response.results);
         }
       });
   };
@@ -67,7 +66,6 @@ const UnsplashWindow = forwardRef((props, ref) => {
           console.log("error occurred: ", result.errors[0]);
         } else {
           setPhotos(photos.concat(result.response.results));
-          // console.log(result.response.results);
         }
       });
   };
@@ -79,7 +77,6 @@ const UnsplashWindow = forwardRef((props, ref) => {
   };
 
   const handleClickImage = (tile) => {
-    // console.log(tile.urls.full);
     props.handleEditBg(tile.urls.full);
   };
 

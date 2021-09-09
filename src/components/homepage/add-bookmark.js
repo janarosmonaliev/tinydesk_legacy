@@ -187,7 +187,6 @@ const AddBookmark = () => {
     let newBookmarks = [...folders[apiFolderIndex].bookmarks];
     if (newBookmarks[index]._id.length < 10) {
       const bm = newBookmarks.pop();
-      console.log(newBookmarks);
       //_id is folder id
       const data = {
         title: bm.title,
@@ -198,7 +197,6 @@ const AddBookmark = () => {
       };
       const result = await bookmarkApi.apiAddBookmark(data);
 
-      console.log("id from backend for new bookmark ", result, typeof result);
       const newBookmark = {
         title: bm.title,
         _id: result.newId,

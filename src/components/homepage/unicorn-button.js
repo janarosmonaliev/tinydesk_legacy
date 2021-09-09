@@ -147,7 +147,7 @@ const UnicornButton = (props) => {
           >
             <TabPanel value={value} index={0}>
               <Typography variant="h6">
-                <b>How to add Command T Extension</b>
+                <b>How to add Tiny Desk Extension</b>
               </Typography>
               <br />
               <Typography>
@@ -157,7 +157,7 @@ const UnicornButton = (props) => {
                 </b>
               </Typography>
               <br />
-              <Typography>2. Search for "CommandT"</Typography>
+              <Typography>2. Search for "Tiny Desk"</Typography>
               <br />
               <Typography>3. Click "Add to Chrome"</Typography>
               <br />
@@ -171,10 +171,10 @@ const UnicornButton = (props) => {
                 >
                   <textarea
                     ref={textAreaRef}
-                    value="https://commandt.herokuapp.com"
+                    value="https://www.tinydesk.me"
                     className="hide"
                   />
-                  https://commandt.herokuapp.com
+                  https://www.tinydesk.me
                   <Button onClick={copyToClipboard}>
                     <Copy size={20} strokeWidth={3} />
                   </Button>
@@ -200,7 +200,7 @@ const UnicornButton = (props) => {
             </TabPanel>
             <TabPanel value={value} index={1}>
               <Typography variant="h6">
-                <b>How to set Command T as Homepage for Chrome</b>
+                <b>How to set Tiny Desk as Homepage for Chrome</b>
               </Typography>
               <br />
               <Typography>
@@ -238,10 +238,10 @@ const UnicornButton = (props) => {
                 >
                   <textarea
                     ref={textAreaRef}
-                    value="https://commandt.herokuapp.com"
+                    value="https://www.tinydesk.me"
                     className="hide"
                   />
-                  https://commandt.herokuapp.com
+                  https://www.tinydesk.me
                   <Button onClick={copyToClipboard}>
                     <Copy size={20} strokeWidth={3} />
                   </Button>
@@ -263,7 +263,7 @@ const UnicornButton = (props) => {
             </TabPanel>
             <TabPanel value={value} index={2}>
               <Typography variant="h6">
-                <b>How to set Command T as Homepage for Firefox</b>
+                <b>How to set Tiny Desk as Homepage for Firefox</b>
               </Typography>
               <br />
               <Typography>
@@ -301,10 +301,10 @@ const UnicornButton = (props) => {
                 >
                   <textarea
                     ref={textAreaRef}
-                    value="https://commandt.herokuapp.com"
+                    value="https://www.tinydesk.me"
                     className="hide"
                   />
-                  https://commandt.herokuapp.com
+                  https://www.tinydesk.me
                   <Button onClick={copyToClipboard}>
                     <Copy size={20} strokeWidth={3} />
                   </Button>

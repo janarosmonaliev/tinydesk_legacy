@@ -29,7 +29,6 @@ const RemoveConfirm = ({ removeConfirm, setRemoveConfirm }) => {
   };
 
   const apiDeleteAccount = () => {
-    console.log("delete account");
     accountapi.apiDeleteAccount(setError);
   };
 

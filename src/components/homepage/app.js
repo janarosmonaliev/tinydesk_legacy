@@ -133,7 +133,6 @@ const App = () => {
     fetch.getUserData(setter);
   }, []);
   const cancelSetBackground = () => {
-    console.log("cancelling");
     setBackground(initialBackground);
   };
   const saveSetBackground = () => {
@@ -141,7 +140,6 @@ const App = () => {
     apiChangeBackground(background);
   };
   const apiChangeBackground = (image) => {
-    console.log("set background image with url ", image);
     const data = { url: image };
     apiBackground.apiChangeBackground(data);
   };

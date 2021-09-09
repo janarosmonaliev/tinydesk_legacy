@@ -105,7 +105,7 @@ const CalendarWindow = forwardRef((props, ref) => {
   };
   const apiDeleteEvent = useCallback((id) => {
     const payload = { removeId: id };
-    console.log("deleting event's id front ", id);
+
     calendarapi.apiDeleteEvent(payload);
   });
   //Clicking Outside the popover will cancel the editing
@@ -125,7 +125,7 @@ const CalendarWindow = forwardRef((props, ref) => {
 
   const apiChangeEventTitle = useCallback((event) => {
     const data = { _id: event._id, title: event.title };
-    console.log("change title of this event ", event._id);
+
     calendarapi.apiChangeEventTitle(data);
   });
 
@@ -149,7 +149,6 @@ const CalendarWindow = forwardRef((props, ref) => {
 
     const _id = nextId();
     const hours = moment(end).diff(moment(start), "hours");
-    console.log(hours);
 
     if (title) {
       var newEvent = {
@@ -175,7 +174,7 @@ const CalendarWindow = forwardRef((props, ref) => {
   async function apiAddNewEvent(newlist, newEvent) {
     try {
       let result = await calendarapi.apiAddNewEvent(newEvent);
-      console.log("id from backend ", result);
+
       const newEventTwo = {
         title: newEvent.title,
         allDay: newEvent.allDay,
@@ -184,7 +183,6 @@ const CalendarWindow = forwardRef((props, ref) => {
         _id: result,
       };
       setEvents([...newlist, newEventTwo]);
-      console.log("id changed to", newEventTwo._id);
     } catch (e) {
       console.log(e);
     }
@@ -199,7 +197,6 @@ const CalendarWindow = forwardRef((props, ref) => {
   const handleStartDateChangeOnEdit = (date, event) => {
     const startDate = moment(date);
     const endDate = moment(event.end);
-    console.log(date);
     if (startDate.isAfter(endDate)) {
       return;
     }
@@ -227,7 +224,6 @@ const CalendarWindow = forwardRef((props, ref) => {
   };
 
   const apiChangeEventDate = useCallback((when, event) => {
-    console.log("change date of event with id: ", event._id);
     const data = { _id: event._id, date: "", when: when };
     if (when === "start") {
       data.date = event.start;

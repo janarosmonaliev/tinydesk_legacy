@@ -8,7 +8,6 @@ export const apiAddTodolist = (data) => {
     client
       .post("/home/todolists/", data)
       .then((res) => {
-        console.log(res);
         resolve(res.data);
       })
       .catch((error) => {
@@ -21,9 +20,7 @@ export const apiAddTodolist = (data) => {
 export const apiDeleteTodolist = (payload) => {
   client
     .delete("/home/todolists/", { data: payload })
-    .then((res) => {
-      console.log(res);
-    })
+
     .catch((error) => {
       console.log(error);
     });
@@ -32,9 +29,7 @@ export const apiDeleteTodolist = (payload) => {
 export const apiChangeTitle = (data) => {
   client
     .put("/home/todolists/", data)
-    .then((res) => {
-      console.log(res);
-    })
+
     .catch((error) => {
       console.log(error);
     });
@@ -43,9 +38,7 @@ export const apiChangeTitle = (data) => {
 export const apiChangeTodolistPosition = (data) => {
   client
     .put("/home/todolists/order", data)
-    .then((res) => {
-      console.log(res);
-    })
+
     .catch((error) => {
       console.log(error);
     });

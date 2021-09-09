@@ -7,7 +7,7 @@ import Layout from "../components/landing/layout";
 const SignUp = () => (
   <>
     <SEO
-      title="Sign up for CommandT"
+      title="Sign up for Tiny Desk"
       description="New here? Sign in with your Google account or create a new account."
     />
     <Layout>

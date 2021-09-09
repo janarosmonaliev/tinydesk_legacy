@@ -5,7 +5,6 @@ export const apiAddTodo = (data) => {
     client
       .post("/home/todos", data)
       .then((res) => {
-        console.log(res);
         resolve(res.data);
       })
       .catch((error) => {
@@ -16,34 +15,19 @@ export const apiAddTodo = (data) => {
 };
 
 export const apiDeleteTodo = (payload) => {
-  client
-    .delete("/home/todos", { data: payload })
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  client.delete("/home/todos", { data: payload }).catch((error) => {
+    console.log(error);
+  });
 };
 
 export const apiUpdateTodo = (data) => {
-  client
-    .put("/home/todos", data)
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  client.put("/home/todos", data).catch((error) => {
+    console.log(error);
+  });
 };
 
 export const apiChangeTodoPosition = (data) => {
-  client
-    .put("/home/todos/order", data)
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  client.put("/home/todos/order", data).catch((error) => {
+    console.log(error);
+  });
 };

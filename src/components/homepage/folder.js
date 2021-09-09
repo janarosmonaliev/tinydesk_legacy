@@ -34,7 +34,6 @@ const Folder = ({ folder, index }) => {
     setToggle(false);
   };
   const handleClickAway = () => {
-    console.log("HELLO");
     setToggle(true);
     setFolders(
       produce((draft) => {

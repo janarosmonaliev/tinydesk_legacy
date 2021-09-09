@@ -378,6 +378,7 @@ small,
 .calendar-widget-wrapper {
   display: flex;
   align-items: center;
+  cursor: pointer;
   padding: $space-01 $space-03;
   color: white;
   position: relative;
@@ -403,6 +404,7 @@ small,
 .notes-widget-wrapper {
   overflow: hidden;
   display: block;
+  cursor: pointer;
   min-height: 150px;
   background-color: $glass-color-light-focus;
   backdrop-filter: blur(8px);
@@ -474,6 +476,7 @@ small,
 .todo-list-widget-wrapper {
   overflow: hidden;
   display: block;
+  cursor: pointer;
   height: 150px;
   background-color: $glass-color-light-focus;
   backdrop-filter: blur(8px);

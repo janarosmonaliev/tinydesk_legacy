@@ -8,7 +8,6 @@ export const apiAddNote = (data) => {
     client
       .post("/home/notes/", data)
       .then((res) => {
-        console.log(res);
         resolve(res.data);
       })
       .catch((error) => {
@@ -18,45 +17,25 @@ export const apiAddNote = (data) => {
   return promise;
 };
 export const apiChangeNoteTitle = (data) => {
-  client
-    .put("/home/notes/title", data)
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  client.put("/home/notes/title", data).catch((error) => {
+    console.log(error);
+  });
 };
 
 export const apiUpdateNote = (data) => {
-  client
-    .put("/home/notes/", data)
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  client.put("/home/notes/", data).catch((error) => {
+    console.log(error);
+  });
 };
 
 export const apiDeleteNote = (payload) => {
-  client
-    .delete("/home/notes/", { data: payload })
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  client.delete("/home/notes/", { data: payload }).catch((error) => {
+    console.log(error);
+  });
 };
 
 export const apiChangeNotePosition = (data) => {
-  client
-    .put("/home/notes/order", data)
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  client.put("/home/notes/order", data).catch((error) => {
+    console.log(error);
+  });
 };

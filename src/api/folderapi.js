@@ -8,7 +8,6 @@ export const apiAddFolder = (data) => {
     client
       .post("/home/folder/", data)
       .then((res) => {
-        console.log(res);
         resolve(res.data);
       })
       .catch((error) => {
@@ -19,31 +18,17 @@ export const apiAddFolder = (data) => {
 };
 
 export const apiDeleteFolder = (payload) => {
-  console.log("check right id ", payload.remove);
-  client
-    .delete("/home/folder/", { data: payload })
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  client.delete("/home/folder/", { data: payload }).catch((error) => {
+    console.log(error);
+  });
 };
 
 export const apiChangeFolderPosition = (data) => {
-  client
-    .put("/home/folder/order", data)
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  client.put("/home/folder/order", data).catch((error) => {
+    console.log(error);
+  });
 };
 
 export const apiChangeFolderTitle = (data) => {
-  client
-    .put("/home/folder", data)
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+  client.put("/home/folder", data).catch((err) => console.log(err));
 };

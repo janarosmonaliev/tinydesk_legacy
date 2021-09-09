@@ -5,7 +5,6 @@ export const apiAddBookmark = (data) => {
     client
       .post("/home/bookmarks/", data)
       .then((res) => {
-        console.log(res);
         resolve(res.data);
       })
       .catch((error) => {
@@ -16,44 +15,27 @@ export const apiAddBookmark = (data) => {
 };
 
 export const apiDeleteBookmark = (payload) => {
-  client
-    .delete("/home/bookmarks/", { data: payload })
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  client.delete("/home/bookmarks/", { data: payload }).catch((error) => {
+    console.log(error);
+  });
 };
 
 export const apiUpdateBookmark = (data) => {
-  client
-    .put("/home/bookmarks/", data)
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  client.put("/home/bookmarks/", data).catch((error) => {
+    console.log(error);
+  });
 };
 
 export const apiChangeBookmarkPosition = (data) => {
-  client
-    .put("/home/bookmarks/order", data)
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  client.put("/home/bookmarks/order", data).catch((error) => {
+    console.log(error);
+  });
 };
 
 export const apiMoveBookmarkToDifferentFolder = (data) => {
   client
     .post("/home/bookmarks/move", data)
-    .then((res) => {
-      console.log(res);
-    })
+
     .catch((err) => {
       console.error(err);
     });

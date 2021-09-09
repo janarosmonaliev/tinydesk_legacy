@@ -192,10 +192,7 @@ const BookmarksWrapper = () => {
       removeId: folders[selectedFolderIndex].bookmarks[oldIndex]._id,
       newIndex: newIndex,
     };
-    console.log(
-      "changing bookmark's position with id ",
-      folders[selectedFolderIndex].bookmarks[oldIndex]._id
-    );
+
     bookmarkApi.apiChangeBookmarkPosition(data);
   };
   const apiMoveBookmarkToDifferentFolder = (data) => {

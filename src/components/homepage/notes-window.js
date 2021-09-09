@@ -196,7 +196,6 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
 
   //Handle displaying note
   const handleSelectList = (e, _id) => {
-    console.log(notes[selectedIndex].isUpdated);
     if (notes[selectedIndex].isUpdated) {
       apiUpdateNote();
     }
@@ -281,7 +280,7 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
         if (draft[titleTextfieldIndex]._id.length < 10) {
           //make a copy of current todolists
           let newlist = [...notes];
-          console.log(newlist);
+
           //and remove the recently added variable
           newlist.pop();
           //call apiAddTodolist
@@ -301,15 +300,14 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
   };
 
   async function apiAddNote(title, content, newlist) {
-    console.log(content);
     const data = {
       title: title,
       content: JSON.stringify(convertToRaw(content)),
     };
-    console.log(data);
+
     try {
       let result = await noteApi.apiAddNote(data);
-      console.log("id from backend ", result);
+
       const newNote = {
         title: title,
         _id: result,
@@ -317,7 +315,7 @@ const NotesWindow = forwardRef(({ notes, setNotes, open, setOpen }, ref) => {
         toggle: true,
         isUpdated: false,
       };
-      console.log("note added wih id", newNote._id);
+
       setNotes([...newlist, newNote]);
       setSelectedId(result);
     } catch (e) {

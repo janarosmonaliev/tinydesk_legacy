@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid, Card, CardContent } from "@material-ui/core";
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Logo from "../../images/commandt-logo-sm.svg";
 import { navigate } from "gatsby";
-import axios from "axios";
-
+import * as AuthApi from "../../api/auth";
 const useStyles = makeStyles({
   landingHeading: {
     marginBottom: "80px",

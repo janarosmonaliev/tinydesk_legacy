@@ -85,7 +85,6 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
 
   const handleChange = (event) => {
     setUnicornConfig(event.target.checked);
-    console.log(event.target.checked, typeof event.target.checked);
   };
 
   useImperativeHandle(ref, () => ({
@@ -112,12 +111,6 @@ const AccountSettingsTwo = forwardRef((props, ref) => {
   };
 
   const apiChangeUserInfo = useCallback((newCity) => {
-    console.log(
-      "change location to : ",
-      newCity,
-      "keep unicorn? :",
-      unicornConfig
-    );
     const data = { city: newCity, keepUnicorn: unicornConfig };
     accountApi.apiChangeUserInfo(data);
   });

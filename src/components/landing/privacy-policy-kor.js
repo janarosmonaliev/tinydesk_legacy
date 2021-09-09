@@ -7,7 +7,7 @@ const PrivacyPolicyKor = () => {
       <p>
         <p class="ls2 lh6 bs5 ts4">
           <em class="emphasis">
-            {`<CommandT>('https://commandt.herokuapp.com'이하 'CommandT')`}
+            {`<TIny Desk>('https://www.tinydesk.me'이하 'TIny Desk')`}
           </em>
           은(는) 「개인정보 보호법」 제30조에 따라 정부주체의 개인정보를
           보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기
@@ -25,7 +25,7 @@ const PrivacyPolicyKor = () => {
             <br />
             <br />
             <em class="emphasis">
-              {`<CommandT>('https://commandt.herokuapp.com'이하 'CommandT')`}
+              {`<TIny Desk>('https://www.tinydesk.me'이하 'TIny Desk')`}
             </em>
             은(는) 다음의 목적을 위하여 개인정보를 처리합니다. 처리하고 있는
             개인정보는 다음의 목적 이외의 용도로는 이용되지 않으며 이용 목적이
@@ -56,7 +56,7 @@ const PrivacyPolicyKor = () => {
         <p class="lh6 bs4">
           <strong>제2조(개인정보의 처리 및 보유 기간)</strong>
           <br />
-          <br />① <em class="emphasis">{`<CommandT>`}</em>은(는) 법령에 따른
+          <br />① <em class="emphasis">{`<TIny Desk>`}</em>은(는) 법령에 따른
           개인정보 보유·이용기간 또는 정보주체로부터 개인정보를 수집 시에
           동의받은 개인정보 보유·이용기간 내에서 개인정보를 처리·보유합니다.
           <br />
@@ -78,17 +78,17 @@ const PrivacyPolicyKor = () => {
           <br />
           <br /> ①{" "}
           <em class="emphasis">
-            {`<CommandT>은(는) 개인정보를 제1조(개인정보의 처리 목적)에서 명시한 범위 내에서만 처리하며, 정보주체의 동의, 법률의 특별한 규정 등 「개인정보 보호법」 제17조 및 제18조에 해당하는 경우에만
+            {`<TIny Desk>은(는) 개인정보를 제1조(개인정보의 처리 목적)에서 명시한 범위 내에서만 처리하며, 정보주체의 동의, 법률의 특별한 규정 등 「개인정보 보호법」 제17조 및 제18조에 해당하는 경우에만
         개인정보를 제3자에게 제공합니다.`}
           </em>
         </p>
         <p class="sub_p mgt10">
-          ② <span class="colorLightBlue">{`<CommandT>`}</span>은(는) 다음과 같이
-          개인정보를 제3자에게 제공하고 있습니다.
+          ② <span class="colorLightBlue">{`<TIny Desk>`}</span>은(는) 다음과
+          같이 개인정보를 제3자에게 제공하고 있습니다.
         </p>
         <ul class="list_indent2 mgt10">
-          <li class="tt">{`1. <CommandT>`}</li>
-          <li>개인정보를 제공받는 자 : CommandT</li>
+          <li class="tt">{`1. <TIny Desk>`}</li>
+          <li>개인정보를 제공받는 자 : TIny Desk</li>
           <li>
             제공받는 자의 개인정보 이용목적 : 이메일, 비밀번호, 로그인ID, 도시
           </li>
@@ -101,7 +101,7 @@ const PrivacyPolicyKor = () => {
           <br />
           <br /> ①{" "}
           <em class="emphasis">
-            {`<CommandT>`}
+            {`<TIny Desk>`}
             은(는) 원활한 개인정보 업무처리를 위하여 다음과 같이 개인정보
             처리업무를 위탁하고 있습니다.
           </em>
@@ -113,7 +113,7 @@ const PrivacyPolicyKor = () => {
           <li>위탁기간 : </li>
         </ul>
         <p class="sub_p mgt10">
-          ② <span class="colorLightBlue">{`<CommandT>`}</span>은(는) 위탁계약
+          ② <span class="colorLightBlue">{`<TIny Desk>`}</span>은(는) 위탁계약
           체결시 「개인정보 보호법」 제26조에 따라 위탁업무 수행목적 외 개인정보
           처리금지, 기술적․관리적 보호조치, 재위탁 제한, 수탁자에 대한
           관리․감독, 손해배상 등 책임에 관한 사항을 계약서 등 문서에 명시하고,
@@ -132,13 +132,13 @@ const PrivacyPolicyKor = () => {
         </p>
         <p class="ls2">
           <br />
-          <br />① 정보주체는 CommandT에 대해 언제든지 개인정보
+          <br />① 정보주체는 TIny Desk에 대해 언제든지 개인정보
           열람·정정·삭제·처리정지 요구 등의 권리를 행사할 수 있습니다.
         </p>
         <p class="sub_p">
-          ② 제1항에 따른 권리 행사는CommandT에 대해 「개인정보 보호법」 시행령
+          ② 제1항에 따른 권리 행사는TIny Desk에 대해 「개인정보 보호법」 시행령
           제41조제1항에 따라 서면, 전자우편, 모사전송(FAX) 등을 통하여 하실 수
-          있으며 CommandT은(는) 이에 대해 지체 없이 조치하겠습니다.
+          있으며 TIny Desk은(는) 이에 대해 지체 없이 조치하겠습니다.
         </p>
         <p class="sub_p">
           ③ 제1항에 따른 권리 행사는 정보주체의 법정대리인이나 위임을 받은 자 등
@@ -154,7 +154,7 @@ const PrivacyPolicyKor = () => {
           대상으로 명시되어 있는 경우에는 그 삭제를 요구할 수 없습니다.
         </p>
         <p class="sub_p">
-          ⑥ CommandT은(는) 정보주체 권리에 따른 열람의 요구, 정정·삭제의 요구,
+          ⑥ TIny Desk은(는) 정보주체 권리에 따른 열람의 요구, 정정·삭제의 요구,
           처리정지의 요구 시 열람 등 요구를 한 자가 본인이거나 정당한
           대리인인지를 확인합니다.
         </p>
@@ -163,7 +163,7 @@ const PrivacyPolicyKor = () => {
         <p class="lh6 bs4">
           <strong>제6조(처리하는 개인정보의 항목 작성) </strong>
           <br />
-          <br /> ① <em class="emphasis">{`<CommandT>`}</em>은(는) 다음의
+          <br /> ① <em class="emphasis">{`<TIny Desk>`}</em>은(는) 다음의
           개인정보 항목을 처리하고 있습니다.
         </p>
         <ul class="list_indent2 mgt10">
@@ -181,7 +181,7 @@ const PrivacyPolicyKor = () => {
         </p>
         <p class="ls2">
           <br />
-          {`① <CommandT> 은(는) 개인정보 보유기간의 경과, 처리목적 달성 등 개인정보가 불필요하게 되었을 때에는 지체없이 해당 개인정보를 파기합니다.`}
+          {`① <TIny Desk> 은(는) 개인정보 보유기간의 경과, 처리목적 달성 등 개인정보가 불필요하게 되었을 때에는 지체없이 해당 개인정보를 파기합니다.`}
           <br />
           <br />② 정보주체로부터 동의받은 개인정보 보유기간이 경과하거나
           처리목적이 달성되었음에도 불구하고 다른 법령에 따라 개인정보를 계속
@@ -195,7 +195,7 @@ const PrivacyPolicyKor = () => {
           <br />
           1. 파기절차
           <br />
-          {`<CommandT> 은(는) 파기 사유가 발생한 개인정보를 선정하고, <CommandT> 의 개인정보 보호책임자의 승인을 받아 개인정보를 파기합니다.`}
+          {`<TIny Desk> 은(는) 파기 사유가 발생한 개인정보를 선정하고, <TIny Desk> 의 개인정보 보호책임자의 승인을 받아 개인정보를 파기합니다.`}
           <br />
         </p>
         <p class="sub_p mgt10">2. 파기방법</p>
@@ -211,7 +211,7 @@ const PrivacyPolicyKor = () => {
             <em class="emphasis">
               <br />
               <br />
-              {` <CommandT>`}
+              {` <TIny Desk>`}
             </em>
             은(는) 개인정보의 안전성 확보를 위해 다음과 같은 조치를 취하고
             있습니다.
@@ -248,7 +248,7 @@ const PrivacyPolicyKor = () => {
         <p class="ls2">
           <br />
           <br />
-          {`① CommandT 은(는) 이용자에게 개별적인 맞춤서비스를 제공하기 위해 이용정보를 저장하고 수시로 불러오는 ‘쿠키(cookie)’를 사용합니다.
+          {`① TIny Desk 은(는) 이용자에게 개별적인 맞춤서비스를 제공하기 위해 이용정보를 저장하고 수시로 불러오는 ‘쿠키(cookie)’를 사용합니다.
     ② 쿠키는 웹사이트를 운영하는데 이용되는 서버(http)가 이용자의 컴퓨터 브라우저에게 보내는 소량의 정보이며 이용자들의 PC 컴퓨터내의 하드디스크에 저장되기도 합니다.
     가. 쿠키의 사용 목적 : 이용자가 방문한 각 서비스와 웹 사이트들에 대한 방문 및 이용형태, 인기 검색어, 보안접속 여부, 등을 파악하여 이용자에게 최적화된 정보 제공을 위해 사용됩니다.
     나. 쿠키의 설치•운영 및 거부 : 웹브라우저 상단의 도구>인터넷 옵션>개인정보 메뉴의 옵션 설정을 통해 쿠키 저장을 거부 할 수 있습니다.
@@ -259,7 +259,7 @@ const PrivacyPolicyKor = () => {
         </p>
         <p class="sub_p mgt10">
           {" "}
-          ① <span class="colorLightBlue">CommandT</span> 은(는) 개인정보 처리에
+          ① <span class="colorLightBlue">TIny Desk</span> 은(는) 개인정보 처리에
           관한 업무를 총괄해서 책임지고, 개인정보 처리와 관련한 정보주체의
           불만처리 및 피해구제 등을 위하여 아래와 같이 개인정보 보호책임자를
           지정하고 있습니다.
@@ -279,9 +279,9 @@ const PrivacyPolicyKor = () => {
           <li>연락처 :, , </li>
         </ul>
         <p class="sub_p">
-          ② 정보주체께서는 CommandT 의 서비스(또는 사업)을 이용하시면서 발생한
+          ② 정보주체께서는 TIny Desk 의 서비스(또는 사업)을 이용하시면서 발생한
           모든 개인정보 보호 관련 문의, 불만처리, 피해구제 등에 관한 사항을
-          개인정보 보호책임자 및 담당부서로 문의하실 수 있습니다. CommandT
+          개인정보 보호책임자 및 담당부서로 문의하실 수 있습니다. TIny Desk
           은(는) 정보주체의 문의에 대해 지체 없이 답변 및 처리해드릴 것입니다.
         </p>
         <br />
@@ -291,7 +291,7 @@ const PrivacyPolicyKor = () => {
           <em class="emphasis">
             <br />
             <br />
-            {`<CommandT> 은(는) 다음과 같은 목적으로 가명정보를 처리하고 있습니다.`}
+            {`<TIny Desk> 은(는) 다음과 같은 목적으로 가명정보를 처리하고 있습니다.`}
           </em>
         </p>
         <p class="sub_p"></p>
@@ -327,7 +327,7 @@ const PrivacyPolicyKor = () => {
             <br /> 정보주체는 ｢개인정보 보호법｣ 제35조에 따른 개인정보의 열람
             청구를 아래의 부서에 할 수 있습니다.
             <br />
-            {`<CommandT>은(는) 정보주체의 개인정보 열람청구가 신속하게 처리되도록 노력하겠습니다.`}
+            {`<TIny Desk>은(는) 정보주체의 개인정보 열람청구가 신속하게 처리되도록 노력하겠습니다.`}
           </strong>
         </p>
         <ul class="list_indent2 mgt10">

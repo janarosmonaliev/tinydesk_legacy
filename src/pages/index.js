@@ -6,7 +6,7 @@ import WelcomePage from "../components/landing/welcome-page";
 
 const IndexPage = () => (
   <>
-    <SEO title="Command T" />
+    <SEO title="Welcome" />
     <Layout>
       <WelcomePage />
     </Layout>
