@@ -24,8 +24,8 @@ const WelcomePage = () => {
   return (
     <Grid item xs={12} md={6} lg={6}>
       <div className="logotype-wrapper">
-        <img src={Logo} width="50" height="32" alt="CommandT Logo"></img>{" "}
-        <span className="landing-text-black">CommandT</span>
+        <img src={Logo} width="50" height="32" alt="Tiny Desk Logo"></img>
+        <span className="landing-text-black">Tiny Desk</span>
       </div>
       <h1 className={"landing-text-black" + " " + classes.landingHeading}>
         Change the way you organize your bookmarks and use your homepage
